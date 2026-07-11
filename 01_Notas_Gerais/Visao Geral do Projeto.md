@@ -3,7 +3,7 @@ tipo: conceito
 dominio: 
 status: ativa
 criado: 07/10/2026
-relacionado: [MOC Django, MOC HUB, Glossario]
+relacionado: [MOC Django, MOC HUB, Glossario, Estrutura e Convenções do Vault, Quando Registrar no Obsidian]
 ---
 
 # Visão Geral do Projeto
@@ -67,3 +67,7 @@ O código-fonte em si vive em repositórios separados.
 - [[MOC HUB]] — mapa de notas do ML Analytics HUB
 - [[Glossario]] — termos e siglas usados nos dois projetos (MLB, SKU, folha,
   fossil, etc)
+- [[Estrutura e Convenções do Vault]] — como pastas, arquivos e frontmatter
+  devem ser organizados neste vault
+- [[Quando Registrar no Obsidian]] — critério de quando e como uma nota deve
+  ser criada

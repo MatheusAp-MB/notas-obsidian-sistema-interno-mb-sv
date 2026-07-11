@@ -78,3 +78,15 @@ Ao propor uma alteração de código:
 Se houver conflito entre o que está escrito neste vault e o que está na
 memória do Claude, **este vault prevalece** — ele é a fonte determinística e
 completa; a memória é resumo, pode estar desatualizada ou compactada.
+
+## Formatação padrão ao gerar conteúdo para este vault
+
+- Nunca citar o nome real de DEV — tratar na terceira pessoa ou como "DEV".
+- Datas no frontmatter (`criado:`) sempre no formato `DD/MM/YYYY`
+  (ex: `10/07/2026`), nunca ISO (`YYYY-MM-DD`).
+- Entregar sempre como bloco de código markdown na própria conversa — nunca
+  como artefato/arquivo gerado.
+- Toda nota deve sair com frontmatter já completo (tipo, dominio, status,
+  criado, relacionado) — nunca com campos em branco pra preencher depois.
+- Notas devem ser geradas, preferencialmente, na própria conversa onde o
+  trabalho aconteceu — não recriadas de memória em uma conversa nova.
