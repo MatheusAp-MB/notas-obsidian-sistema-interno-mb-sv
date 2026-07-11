@@ -31,7 +31,11 @@ forma, em qualquer parte do vault.
 
 ```
 00_Mapa_de_Notas/          → Índice Geral e MOCs, ponto de entrada
-01_Notas_Gerais/           → Glossário, regras gerais, regras estruturais
+01_Notas_Gerais/           → Glossário e regras gerais (arquivos soltos)
+01_Notas_Gerais/Regras/    → Uma nota por regra cross-project (comportamento,
+                             comunicação) — mesmo padrão de tipo=regra usado
+                             em 02_/03_, mas aqui é transversal a todos os
+                             mundos, não específico de um domínio
 02_Sistema_Interno_Django/
 03_ML_Analytics_HUB/
 Modelos_Notas_Obsidian/    → Templates, nunca conteúdo
@@ -39,6 +43,10 @@ Modelos_Notas_Obsidian/    → Templates, nunca conteúdo
 
 Dentro de cada pasta de "mundo" (`02_`, `03_`), a subestrutura é sempre
 idêntica:
+
+01_Notas_Gerais é parcialmente subfolderada: Regras/ segue o mesmo padrão
+das subpastas de mundo, mas os demais tipos (Glossário, Visão Geral) não
+têm subpasta própria — continuam soltos na raiz de 01_Notas_Gerais.
 
 ```
 Regras/
