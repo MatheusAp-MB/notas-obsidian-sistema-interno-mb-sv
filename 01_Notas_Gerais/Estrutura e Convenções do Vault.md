@@ -3,6 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
+atualizado_em: 03/08/2026 11:30
 relacionado: []
 ---
 
@@ -54,6 +55,7 @@ tipo:
 dominio: 
 status: 
 criado: DD/MM/YYYY
+atualizado_em: DD/MM/YYYY HH:mm
 relacionado: []
 ---
 ```
@@ -66,7 +68,8 @@ relacionado: []
   - `bug_conhecido`: `ativo` | `corrigido`
   - `checkpoint`: `em_andamento` | `concluido`
   - `regra` | `descoberta` | `conceito`: sempre `ativa`
-- **`criado`**: `DD/MM/YYYY`, nunca ISO.
+- **`criado`**: `DD/MM/YYYY`, nunca ISO. Nunca muda depois de escrito.
+- **`atualizado_em`**: `DD/MM/YYYY HH:mm` (adicionado 03/08/2026 — `criado` sozinho não refletia a última edição de conteúdo). Toda nota nova já nasce com `atualizado_em` igual a `criado` (só sem hora). Toda edição de conteúdo depois disso atualiza só este campo — `criado` nunca muda. Campo adicionado de forma NÃO retroativa: notas antigas sem esse campo continuam válidas, só ganham `atualizado_em` na próxima vez que forem editadas de verdade.
 - **`relacionado`**: lista de nomes exatos de nota, sem `[[ ]]`.
 
 ## Ciclo de vida de dúvida e bug (nunca apagar histórico)

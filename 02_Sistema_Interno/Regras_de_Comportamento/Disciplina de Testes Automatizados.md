@@ -64,9 +64,15 @@ Nunca aceitar uma verificação de propriedade genérica (ex: "cai em dia útil"
 
 `Meta.ordering = ['-campo_de_data']` sozinho não é confiável — 2 registros criados muito próximos no tempo podem empatar (resolução do relógio do sistema, mais comum em Windows), e sem critério de desempate a ordem fica indefinida (o banco pode devolver o mais antigo, não o mais recente). Sempre adicionar `'-id'` como segundo campo de ordenação quando "o mais recente vale" for uma regra de negócio real — desempate por `id` é seguro porque cresce sempre na ordem de criação, nunca empata. Achado real: `HistoricoStatusManualAgenda`, 02/08/2026 — 2 registros no mesmo teste empataram no timestamp no Windows, `status_manual_atual()` devolveu o registro errado.
 
+Achado real (03/08/2026), mesmo padrão repetido 2x em `agenda_videos/funcoes_auxiliares/`: `calcular_roadmap_produto()` (`order_by('criado_em')` sem desempate, corrigido pra `order_by('criado_em', 'id')`) e `montar_historico_produto()` (`order_by('-criado_em')` sem desempate, corrigido pra `order_by('-criado_em', '-id')`). Variação do mesmo problema em `montar_linha_do_tempo_produto()`: o `eventos.sort(...)` final não tinha desempate entre eventos de ciclos diferentes com timestamp idêntico — corrigido não no sort em si, mas tornando a ORIGEM determinística (`ciclos_video.order_by('criado_em', 'id')`), apoiado no sort estável do Python (documentado na linguagem).
+
 ## Erro de setup ≠ erro de lógica
 
 Quando um teste falha, primeiro pergunta: isso é porque o TESTE foi montado errado, ou porque o CÓDIGO se comporta diferente do esperado? Só a segunda é informação real sobre o sistema.
+
+## Teste nunca contorna bug real — conserta o código, mesmo que seja retroativo
+
+Teste sempre usa o código real, com comportamento real — nunca "contorna" uma limitação ou bug pra fazer passar (ex: forçar timestamps bem distantes só pra evitar expor um empate que o código não trata direito). Se aparecer um bug de verdade durante a escrita do teste, o código de produção é corrigido (sob permissão do usuário) — nunca o teste é enfraquecido pra esconder o problema. Vale retroativamente: se um teste já escrito tiver contornado um problema real em vez de expô-lo, esse teste é considerado inválido e precisa ser reescrito sob a condição exata que antes era evitada, provando a correção.
 
 ## Estrutura de arquivo
 

@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "e35130ba4042d4ce",
+    "type": "split",
+    "children": [
+      {
+        "id": "5cfb75875279bd3f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "131898d44c6cd0e7",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "0e95b49bd1d88b18",
+    "type": "split",
+    "children": [
+      {
+        "id": "32954eb8ffb9bd10",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8efc4137a87f380b",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "byModifiedTime",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "831c5854f3b0a630",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "699e3c07e114e51d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "aa172a38da1f4d8a",
+    "type": "split",
+    "children": [
+      {
+        "id": "272fcc9853dccda8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a3e73505f40b8619",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos"
+            }
+          },
+          {
+            "id": "b50fd59661c12e62",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída"
+            }
+          },
+          {
+            "id": "5be8188f79c43588",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "37b4031ee7a3e999",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "b6da9c3c0bf72020",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "131898d44c6cd0e7",
+  "lastOpenFiles": [
+    "02_Sistema_Interno/00_Indice.md.tmp.13992.8bfd2cbf1a53",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.13992.4ba9ff06fbdd",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Cache de Indicadores Nao e Populado Automaticamente.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Cache de Indicadores Nao e Populado Automaticamente.md.tmp.13992.e44a3455eceb",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.13992.44dc1361e875",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.13992.a495430697ff",
+    "02_Sistema_Interno/Agenda_Videos/Decisoes/Mapa de Execucao das 5 Telas da Agenda de Videos.md",
+    "02_Sistema_Interno/Agenda_Videos/Decisoes/Estrutura de Telas da Agenda de Videos.md",
+    "02_Sistema_Interno/00_Indice.md",
+    "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
+    "2026-08-03.md",
+    "02_Sistema_Interno/00_Indice.md.tmp.3128.823182667d03",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.3128.04ec5cac6630",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.3128.f1742540f160",
+    "02_Sistema_Interno/Agenda_Videos/Decisoes/Pausa Para Replanejar UX de Filtros e Telas.md.tmp.3128.b12d9ec9d030",
+    "02_Sistema_Interno/Agenda_Videos/Decisoes/Pausa Para Replanejar UX de Filtros e Telas.md.tmp.3128.b6cabebb84d6",
+    "02_Sistema_Interno/00_Indice.md.tmp.1396.3a66cee43653",
+    "02_Sistema_Interno/Regras_de_Comportamento/Perguntar Data e Hora Antes de Escrever no Vault.md",
+    "Sem título.canvas",
+    "Modelos_Notas_Obsidian/padrao.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Padroes de Projeto GoF Quando Usar.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Nomenclatura e Comentarios.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Modelo Padrao de Arquivo de Teste.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Modelagem de Objeto e Encapsulamento.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Fluxo Decomposicao de Problemas em Micro Etapas.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Refatoracao e Testes.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Aviso Proativo Para Notas no Obsidian.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Estrutura de Arquivo e Classe Python.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Perguntas Sempre em Texto Corrido.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Testes Automatizados.md",
+    "02_Sistema_Interno/Agenda_Videos/Regras/Sequencia Travada de 5 Passos por Ocorrencia.md",
+    "02_Sistema_Interno/Agenda_Videos/Regras/Cadencia de 30 e 90 Dias Corridos Contados do Replicado.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Ajuste de Dia Util Cria Padrao Estavel de 28 Dias.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo.md"
+  ]
+}
