@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: testes
 status: em_andamento
 criado: 02/08/2026
-atualizado_em: 03/08/2026 17:10
-relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]
+atualizado_em: 04/08/2026 11:40
+relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
 ---
 
 # Checkpoint — Testes Automatizados Agenda_Videos
@@ -12,6 +12,18 @@ relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Te
 Nota viva — atualizada em cada sessão relevante, nunca substituída por nota nova. Serve pra retomar o trabalho mesmo se o contexto da conversa for perdido (compactação já causou esquecimento real, ex: acesso ao GitHub).
 
 ## Última atualização
+
+04/08/2026 (Bloco C fechado — testes de views, achado + corrigido erro próprio, pausa do usuário, 11:40) — As 2 views de flag do produto (`view_alternar_urgente`, `view_alternar_pausado_agenda`) estão testadas via HTTP real. No meio do caminho, 5 dos 6 testes novos de `view_alternar_pausado_agenda` falharam com `NameError: name 'status_manual_atual_do_produto' is not defined` em `views.py:433` — **erro do próprio Claude, não do banco nem da view**: ao entregar o fix do bug de status manual (10:12), a instrução de adicionar essa função ao bloco de import de `views.py` foi descrita em prosa ("adicione X à lista de import"), nunca como diff exato — e nunca chegou a ser aplicada de verdade. Ficou escondida a sessão inteira porque `view_alternar_pausado_agenda` é o único lugar de `views.py` que usa essa função, e nenhum teste tinha exercitado essa view até agora. Corrigido com diff exato (Localize/Substitua) pro import. Confirmado: **248 passed, 0 failed**. Detalhe do achado em nova seção de [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]. **Usuário decidiu pausar o trabalho aqui** — Bloco D (Configurações) fica como próximo passo pra quando retomar. Ver [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] pra retomada sem contexto de conversa.
+
+04/08/2026 (Bloco B fechado — testes de views, 11:24) — As 3 views que escrevem no roadmap do ciclo (`view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica` com as 6 sub-ações) estão testadas via HTTP real. Nenhum bug novo encontrado nesta leva — só confirmou o comportamento já esperado, incluindo guards de estado (2 abas abertas, ações fora de ordem) e a régua de fases sendo exigida pelo card renderizado no final de toda escrita. Confirmado: **238 passed, 0 failed**. Próximo: Bloco C (`view_alternar_urgente`, `view_alternar_pausado_agenda`).
+
+04/08/2026 (Bloco A fechado — testes de views, 11:10) — As 4 views de leitura (`view_historico_produto`, `view_confirmar_ponto_roadmap`, `view_agenda_videos`, `view_historico_agenda_videos`) estão testadas via HTTP real (client do pytest-django). Achado extra no meio do caminho: renderizar qualquer produto na grade principal exige a régua de `ConfiguracaoFase` existir no banco de teste (mesma régua real, não é bug) — corrigido no próprio teste com a fixture `regua_de_fases`. Confirmado: **209 passed, 0 failed**. Próximo: Bloco B (`view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica`).
+
+04/08/2026 (rodada de views iniciada + bug real de status manual, 10:12) — Começamos a testar `views.py` (Nível 4 — 21 views, nenhuma tinha teste ainda). Bloco A (leitura, sem escrita): `view_historico_produto` fechado, achou e corrigiu bug real GRAVE — `status_manual_atual` ignorava o histórico de Pausado/Descontinuado sempre que `ParticipacaoAgenda` não existia, e isso deixava o próprio botão "Pausar" TRAVADO (nunca voltava pra Ativo) pra qualquer produto nessa situação. Corrigido extraindo `status_manual_atual_do_produto()` como fonte única. Confirmado: 190 passed, 0 failed. Detalhe completo em [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
+
+04/08/2026 (3 bugs de validação manual fechados, 09:00) — Fix da validação de Configurações aplicado pelo usuário e confirmado: Simples agora salva normalmente com "Distância entre ocorrências" em branco. Usuário optou por não adicionar indicação visual no campo pra Simples. **Os 3 bugs achados na validação manual paralela (modal de Histórico, tela Configurações quebrada, validação de Simples) estão todos RESOLVIDOS e confirmados.** Ver [[Validacao de Configuracoes Nao Abre Excecao Para Simples]], seção "Resolução".
+
+04/08/2026 (retomada pós-compactação + bugs de validação manual, 08:48) — Sessão retomada depois de perda de contexto por compactação de conversa. 3 itens novos desde o fechamento de 03/08 17:10: (1) 6ª tela **Todos** adicionada (sem filtro, 1ª aba) — usuário reabriu a questão "ver tudo" que tinha sido fechada como desnecessária; (2) `listar_produtos_com_historico()` retomado e concluído (185 passed, 100% cover); (3) 3 bugs reais achados testando manualmente em paralelo — modal de Histórico não fechava no ícone X (RESOLVIDO, confirmado pelo usuário), tela Configurações quebrada por template obsoleto (RESOLVIDO, confirmado), validação de Configurações rejeita a fase Simples (ABERTO, fix identificado, não aplicado). Detalhe completo na seção "Quarta rodada" abaixo.
 
 03/08/2026 (5 telas concluídas e aprovadas, 17:10) — As 7 fases do [[Mapa de Execucao das 5 Telas da Agenda de Videos]] foram todas concluídas e aplicadas pelo usuário: vocabulário/condições (`Tela`, `condicao_tela`, os 6 motivos de A Fazer Hoje), listagem unificada (`listar_produtos_agenda_filtrados(tela=...)`, `listar_a_fazer_hoje()` aposentada), contexto (`tela` + `contadores_chips`), views/orquestrador (replicação automática migrada; postagem automática reescrita à parte, preservando Simples+atrasado), templates (navegação por link + chip-contador sempre visível), testes (`test_nivel_3__listar_produtos_agenda_filtrados.py` novo, ~27 cenários). Suíte inteira validada (só a suíte antiga quebrou a coleta, esperado — resto passou). Achado real: cache `IndicadoresAgendaProduto` não populava sozinho pra produto nunca tocado, resolvido rodando `popular_banco` (ver [[Cache de Indicadores Nao e Populado Automaticamente]]). Validação manual dupla: usuário + Vinicius (time) aprovaram fluxo e design — pergunta de precisar tela "ver tudo cruzando fases" fechada, não é necessária. Nota de contexto auto-contido criada pra retomada em outro computador: [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]]. Próximo passo: só refinamento (nenhum item específico levantado ainda).
 
@@ -138,6 +150,63 @@ Suíte inteira validada via pytest (só a suíte antiga de `listar_a_fazer_hoje`
 4. `HistoricoProduto` (dataclass, `historico_roadmap.py`) ganhou campo `status_manual_atual: Badge` — `montar_historico_produto()` agora sempre calcula e devolve isso. Teste retroativo do rótulo do evento (`test_linha_do_tempo_com_participacao_e_agendado_em`) corrigido e confirmado passando.
 5. Nenhuma das mudanças 1-2 acima tem teste pytest ainda — são Nível 4 (views), reservado pro round de `views.py` já mapeado. Validação visual no navegador (CSS/HTML do badge e botão novo) também pendente.
 
+## Quarta rodada — tela Todos, histórico concluído, bugs de validação manual (a partir de 04/08/2026)
+
+### Tela "Todos" adicionada (6ª tela)
+
+Usuário reabriu a pergunta fechada em 03/08 ("ver tudo, cruzando fases" não seria necessário) — na prática, sentiu falta mesmo depois de aprovar o fluxo de 5 telas. Adicionada `Tela.TODOS` como 1ª opção de `OPCOES_TELA`: sem filtro nenhum (`_condicao_todos()` devolve `Q()` vazio), sem chip-contador (não faz sentido pra ela), ordenação livre (como as outras telas, exceto A Fazer Hoje) — e é a ÚNICA tela que mostra produto sem `IndicadoresAgendaProduto` sincronizado (as outras 5 dependem do cache via INNER JOIN). 1 teste retroativo precisou ser corrigido: `test_produto_sem_indicadores_nenhum_nao_aparece_em_nenhuma_tela` → renomeado `test_produto_sem_indicadores_nenhum_so_aparece_em_todos`, já que a suposição antiga ficou falsa por desenho. Suíte confirmada: **185 passed, 0 failed**.
+
+Aproveitando, usuário perguntou se a ordenação de prioridade antiga (7 níveis, incluindo "risco" isolado) ainda existia — conferido em `prioridade_agenda_videos.py` (nunca editado nesta sessão): são 6 níveis reais, sem fator de risco isolado (urgente+reprovado, urgente, atrasado+reprovado, atrasado, reprovado, default). Usuário confirmou que os 6 reais atendem — dúvida fechada.
+
+### `listar_produtos_com_historico()` — concluído
+
+Rodada retomada (estava pausada desde 03/08, ver [[Pausa Para Replanejar UX de Filtros e Telas]]). Arquivo novo `test_nivel_3__listar_produtos_com_historico.py`, 11 blocos, ~24 cenários. 2 comportamentos sutis confirmados contra o código real:
+
+1. Filtro de `fase` + `status` combinados precisam bater no MESMO `CicloVideo` (filtragem sequencial na mesma queryset de ciclos) — não basta o produto ter QUALQUER ciclo pra cada condição separadamente.
+2. Filtro de `status_manual` depende do cache `IndicadoresAgendaProduto` existir (mesmo padrão de INNER JOIN das telas) — produto sem cache é excluído por esse filtro especificamente, mesmo aparecendo normalmente sem ele.
+
+**Confirmado: 185 passed, 0 failed, 100% cover em `historico_roadmap.py` (106 stmts, 0 Miss, 42 branch, 0 BrPart)** — arquivo fechado por completo (as 3 funções: `montar_linha_do_tempo_produto`, `montar_historico_produto`, `listar_produtos_com_historico`).
+
+### Bugs reais encontrados testando manualmente em paralelo (04/08)
+
+1. **Modal de Histórico não fechava no ícone X — RESOLVIDO, confirmado pelo usuário.** Causa: `script_roadmap_produto.js` usa `evento.target.matches('[data-fechar-modal-roadmap]')`, que só checa o elemento exato clicado — o ícone `<i>` dentro do botão intercepta o clique e não carrega o atributo. `.closest()` foi cogitado e REJEITADO (o backdrop do modal tem o mesmo atributo, quebraria "clicar dentro da caixa não fecha"). Fix aplicado: CSS `pointer-events: none` em `.modal-historico-fechar i` (`layout_historico_agenda_videos.css`).
+2. **Tela "Configurações" quebrada — RESOLVIDO, confirmado pelo usuário.** Causa: template (`estrutura_configuracoes_agenda_videos.html`) ainda era da era Diária/Semanal/Mensal (extinta em 30/07) — nomes de campo e valores de fase não batiam com a view, que já estava correta (tinha até comentário `[PENDENTE] → Formulário real (HTML) também pendente`). Template reescrito do zero com os 4 campos reais (`periodo_continuo`, `periodo`, `distancia_dias_corridos`, `distancia_dias_ao_entrar_na_fase`) pras 3 fases reais, reaproveitando as classes CSS existentes (`config-agenda-*`). Usuário optou por não adicionar configurações novas nem tornar `proxima_fase` editável aqui. Testado — Mensal e Trimestral salvaram certo.
+3. **Validação da view de Configurações rejeita Simples — RESOLVIDO, confirmado pelo usuário.** Ao testar o fix do item 2, apareceu bug novo (pré-existente, só exposto agora que o template ficou correto): `view_configuracoes_agenda_videos` exigia `distancia_dias_corridos` preenchido em QUALQUER fase, mas o modelo documenta que Simples não usa esse campo (só 1 ocorrência, campo é `null=True` no banco). Fix: exceção de validação pra Simples (`distancia_obrigatoria = fase_valor != Fase.SIMPLES`). Usuário optou por não adicionar indicação visual no campo pra Simples. Detalhe completo em [[Validacao de Configuracoes Nao Abre Excecao Para Simples]].
+
+## Quinta rodada — Testes de views/Nível 4 (a partir de 04/08/2026)
+
+Motivo: `views.py` tem 21 funções `view_*` e nenhuma tinha teste ainda — sempre ficou mapeado como pendente. Escopo desta rodada: as 10 views do fluxo MANUAL (sem Drive, sem postagem/replicação automática — ambos adiados, ver [[Fluxo Manual Antes do Automatizado]] e a pergunta ainda aberta sobre Drive). Ferramenta nova: `client` do pytest-django (`client.get`/`client.post` + `reverse()`) — requisição HTTP real, simulada em memória (sem servidor/rede), primeira vez que este projeto testa a camada de view (antes só função). Motivo de usar isso em vez de chamar a view direto: confirma o roteamento real (`urls.py`), as travas de método (`@require_POST`) e o sistema de mensagens (`messages.warning`/`success`) — nenhum desses 3 é exercitado chamando a função Python isolada.
+
+Divisão em 4 blocos:
+
+- **Bloco A — leitura, sem escrita:** `view_agenda_videos`, `view_confirmar_ponto_roadmap`, `view_historico_produto`, `view_historico_agenda_videos`. **Completo.**
+- **Bloco B — ações que escrevem no roadmap do ciclo:** `view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica` (6 sub-ações). **Completo.**
+- **Bloco C — flags do produto:** `view_alternar_urgente`, `view_alternar_pausado_agenda`. **Completo.**
+- **Bloco D — Configurações:** `view_configuracoes_agenda_videos` (trava a correção do Simples contra regressão). **Próximo** (trabalho pausado aqui em 04/08, 11:40).
+
+### Bloco A — concluído
+
+- `view_historico_produto`: 4 cenários (sem ciclo, com ciclo em Base, produto pausado, produto inexistente → 404). Achou e corrigiu 1 bug real grave — ver [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]. Teste retroativo adicionado em `test_nivel_3__calcular_indicadores.py` fechando o gap que deixou o bug passar despercebido até agora.
+- `view_confirmar_ponto_roadmap`: 9 cenários (sem ciclo + base/outra chave, cada etapa real batendo com a chave pedida, recusado→nova_tentativa, estado divergente/2 abas abertas, concluído sem ação, produto inexistente).
+- `view_agenda_videos`: 5 cenários (tela padrão, tela Todos mostrando produto sem cache — regressão do bug de 03/08, tela inválida cai no padrão, contador de chip chegando no contexto, paginação). Achado no meio do caminho: renderizar qualquer produto na grade principal exige a régua de `ConfiguracaoFase` existir no banco de teste (mesma régua real de produção, não bug) — corrigido com a fixture `regua_de_fases` no próprio arquivo de teste.
+- `view_historico_agenda_videos`: 5 cenários (sem filtro, busca via querystring, marcas_disponiveis exclui vazia/nula, paginação, por_pagina inválido cai no padrão 25).
+- Confirmado: **209 passed, 0 failed** (suíte inteira, sem regressão).
+
+### Bloco B — concluído
+
+- `view_marcar_ponto_roadmap`: 7 cenários (cria o Simples no 1º clique, chave inválida sem ciclo, marcação normal, estado divergente, etapa fora de base/roteiro/completo, produto inexistente, sincronização do cache confirmada).
+- `view_agendar_produto`: 6 cenários (sucesso, Simples não concluído, sem ciclo nenhum, ciclo concluído mas fora da fase Simples — prova que a trava checa fase E etapa, idempotência de `agendado_em`, produto inexistente).
+- `view_executar_acao_ciclica`: 16 cenários — as 6 sub-ações (postar, aprovado, recusado, nova_tentativa, seguir, replicar), cada uma com sucesso + guard de estado próprio (aprovado/recusado compartilham a mesma função de guard, testada 1 vez só), mais os 2 guards compartilhados (produto sem ciclo, ação desconhecida) e o 404.
+- Nenhum bug novo encontrado — só confirmação de comportamento já esperado.
+- Confirmado: **238 passed, 0 failed** (suíte inteira, sem regressão).
+
+### Bloco C — concluído
+
+- `view_alternar_urgente`: 4 cenários (sem participação, o toggle cria e marca urgente; com participação urgente=True, o toggle vira False; 2 toggles seguidos voltam ao estado original; produto inexistente → 404).
+- `view_alternar_pausado_agenda`: 6 cenários (sem participação, 1º toggle pausa; sem participação, 2º toggle volta pra Ativo — **teste de regressão explícito pro bug de status manual achado em 10:12**; com participação Ativo, toggle pausa; produto pausado, toggle volta pra Ativo; toggle sincroniza o cache de indicadores; produto inexistente → 404).
+- **Achado no meio do caminho — erro do próprio Claude, não bug de produção pré-existente:** 5 dos 6 testes de `view_alternar_pausado_agenda` falharam com `NameError: name 'status_manual_atual_do_produto' is not defined` em `views.py:433`. Causa raiz: ao entregar o fix do bug de status manual (ver entrada de 10:12 acima), a instrução de adicionar essa função ao import de `views.py` foi passada em prosa, nunca em diff exato — nunca foi de fato aplicada. Ficou invisível a sessão inteira porque essa view era o único ponto de `views.py` que usa a função, e nenhum teste a exercitava ainda. Corrigido com diff exato (Localize/Substitua) no bloco de import de `agenda_videos/models` dentro de `views.py`, acrescentando `status_manual_atual_do_produto` à lista. Lição registrada em [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] e detalhada em nova seção de [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
+- Confirmado: **248 passed, 0 failed** (suíte inteira, sem regressão).
+
 ## Infra de teste (estado atual dos arquivos compartilhados)
 
 - `conftest.py` (raiz): classe `RegistradorDeResultados` (tabela Rich com `show_lines=True` + lista de linhas pro log), fixture `_resetar_log_de_testes` (autouse, `scope='session'`, zera `resultados_testes.txt`), fixture `tabela_resultados` (`scope='module'`), hook `pytest_collection_modifyitems` (ordem garantida por `nodeid`), hook `pytest_terminal_summary` (resumo de sessão + tracebacks de falha real, filtrando `report.when == 'call'`).
@@ -147,10 +216,12 @@ Suíte inteira validada via pytest (só a suíte antiga de `listar_a_fazer_hoje`
 
 ## Próximo passo imediato
 
-1. **Refinar as 5 telas** — usuário confirmou que agora é só ajuste fino, mas nenhum item específico foi levantado ainda. Perguntar o que precisa de polimento antes de assumir qualquer coisa.
-2. `listar_produtos_com_historico()` (7 filtros: fase, status, data_de, data_ate, urgente, marcas, status_manual, + busca multi-termo) — pausado desde 03/08, é trabalho paralelo/independente, pode retomar a qualquer momento.
-3. `view_verificar_produto_drive`/`view_verificar_todos_drive` — pergunta ainda aberta (testar agora com mock ou na fase automatizada).
-4. Só depois de tudo isso: iniciar o fluxo automatizado (postagem_automatica, replicacao_automatica, Drive real).
+**Trabalho pausado pelo usuário em 04/08/2026, 11:40** — sem tempo pra seguir agora, retomada em sessão futura. Ordem combinada ao retomar:
+
+1. **Bloco D da rodada de views** — `view_configuracoes_agenda_videos` (trava a correção do Simples contra regressão, ver [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]).
+2. `view_verificar_produto_drive`/`view_verificar_todos_drive` — pergunta ainda aberta (testar agora com mock ou na fase automatizada).
+3. Só depois de tudo isso: iniciar o fluxo automatizado (postagem_automatica, replicacao_automatica, Drive real).
+4. Pendência solta, sem prazo: os 9 arquivos novos de teste do Nível 4 (Blocos A/B/C) + o fix de import do `views.py` ainda não foram commitados/enviados pro GitHub — decidir título/descrição do commit quando o usuário estiver pronto.
 
 Ver mapa completo em [[Fluxo Manual Antes do Automatizado]] e [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] (nota auto-contida, pra quando o contexto de conversa não estiver disponível).
 
@@ -162,3 +233,5 @@ Ver mapa completo em [[Fluxo Manual Antes do Automatizado]] e [[Contexto Geral -
 - [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
 - [[Cache de Indicadores Nao e Populado Automaticamente]]
 - [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]]
+- [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]
+- [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]

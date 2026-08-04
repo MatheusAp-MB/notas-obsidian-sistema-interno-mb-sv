@@ -3,7 +3,8 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-relacionado: [Disciplina de Testes Automatizados]
+atualizado_em: 04/08/2026 11:40
+relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
 ---
 
 # Regras de Colaboração no Repositório de Código (branch dev)
@@ -30,6 +31,15 @@ Sempre que surgir dúvida sobre regra de negócio, convenção ou decisão de pr
 
 Arquivos dentro de `LEGADO/` são arquivo morto — consulta pontual apenas, nunca base para decisão ou premissa de trabalho atual.
 
+## Mudança de código nunca em prosa — sempre diff exato ou arquivo completo
+
+Reforço com incidente real (04/08/2026): toda mudança de código, mesmo 1 linha, precisa ser entregue como bloco "Localize:"/"Substitua por:" (texto exato do arquivo real) ou arquivo completo — nunca descrita em prosa (ex: "adicione a função X à lista de import").
+
+O que aconteceu: ao corrigir um bug real (`status_manual_atual` ignorando histórico quando `ParticipacaoAgenda` não existia), a instrução de adicionar `status_manual_atual_do_produto` ao bloco de import de `views.py` foi passada em prosa. Nunca foi de fato aplicada no arquivo do usuário — os outros 2 call sites do mesmo fix, entregues como diff exato, foram aplicados e passaram sem problema. O resultado foi um `NameError` real de produção que ficou escondido por várias rodadas de teste (nenhum teste tinha exercitado ainda o único ponto do arquivo que usava essa função), só aparecendo quando essa view finalmente foi testada. Detalhe completo em [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
+
+Conclusão prática: nenhuma mudança é pequena o suficiente pra pular o diff exato. Prosa é ambígua o bastante pra nunca ser aplicada, e o erro pode ficar invisível por tempo indefinido até o trecho de código específico ser exercitado.
+
 ## Relacionado
 
 - [[Disciplina de Testes Automatizados]]
+- [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]

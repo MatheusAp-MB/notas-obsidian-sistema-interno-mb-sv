@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 03/08/2026
-atualizado_em: 03/08/2026 17:10
-relacionado: [Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Fluxo Manual Antes do Automatizado, Checkpoint Testes Automatizados Agenda Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente]
+atualizado_em: 04/08/2026 08:48
+relacionado: [Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Fluxo Manual Antes do Automatizado, Checkpoint Testes Automatizados Agenda Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Validacao de Configuracoes Nao Abre Excecao Para Simples]
 ---
 
 # Estrutura de Telas da Agenda de Vídeos
@@ -36,6 +36,12 @@ A estrutura de 5 telas acima corrige os 2 problemas e dá simetria (Simples/Mens
 
 As 5 telas foram implementadas (ver [[Mapa de Execucao das 5 Telas da Agenda de Videos]]), testadas via pytest (suíte nova cobrindo escopo/motivos/ordenação) e validadas manualmente por 2 pessoas — o usuário e o Vinicius (time) — que aprovaram o fluxo e o design atuais. A pergunta sobre precisar de uma tela "ver tudo, cruzando todas as fases" (capacidade que existia implicitamente no sistema antigo, quando nenhuma caixinha de estágio era marcada) foi levantada e fechada: não é necessária, o fluxo por tela já atende. Também se descobriu, na validação, que o cache `IndicadoresAgendaProduto` precisa estar sincronizado pra qualquer produto aparecer nas 5 telas (ver [[Cache de Indicadores Nao e Populado Automaticamente]]) — não é falha deste desenho, é um cuidado operacional novo que o desenho expôs.
 
+## Atualização 04/08/2026 08:48 — tela "Todos" adicionada, pergunta reaberta
+
+A pergunta sobre "ver tudo, cruzando todas as fases" — fechada em 03/08 como "não é necessária" — foi reaberta pelo próprio usuário: na prática, sentiu falta dessa capacidade mesmo após aprovar o fluxo de 5 telas. Resultado: adicionada uma 6ª tela, **Todos** (1ª aba, `Tela.TODOS`), sem filtro nenhum (`_condicao_todos()` devolve `Q()` vazio), sem chip-contador, ordenação livre. É a única tela que mostra produto sem `IndicadoresAgendaProduto` sincronizado — as outras 5 dependem desse cache via INNER JOIN e portanto excluem esse tipo de produto sempre.
+
+1 teste retroativo precisou ser corrigido, já que sua suposição original ("produto sem indicadores não aparece em NENHUMA tela") ficou falsa por desenho depois da tela Todos existir — renomeado pra refletir a regra nova (`test_produto_sem_indicadores_nenhum_so_aparece_em_todos`). Suíte confirmada: 185 passed, 0 failed.
+
 ## Relacionado
 
 - [[Modelo de Status e Entrada na Agenda]]
@@ -44,3 +50,4 @@ As 5 telas foram implementadas (ver [[Mapa de Execucao das 5 Telas da Agenda de 
 - [[Checkpoint Testes Automatizados Agenda Videos]]
 - [[Mapa de Execucao das 5 Telas da Agenda de Videos]]
 - [[Cache de Indicadores Nao e Populado Automaticamente]]
+- [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]

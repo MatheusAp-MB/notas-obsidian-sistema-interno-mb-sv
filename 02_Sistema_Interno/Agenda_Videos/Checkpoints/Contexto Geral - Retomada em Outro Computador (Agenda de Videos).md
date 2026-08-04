@@ -3,13 +3,17 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 03/08/2026 17:10
-relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault]
+atualizado_em: 04/08/2026 11:40
+relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Agenda de Vídeos)
 
 > Nota auto-contida, gerada em 03/08/2026 porque o desenvolvimento vai continuar em outro computador e a conversa atual não migra junto. Serve como ponto de partida único — lê esta nota primeiro, depois segue os links pra detalhe quando precisar. Se algo aqui parecer desatualizado, o vault é a fonte da verdade — os links levam ao original.
+>
+> Atualizada em 04/08/2026 08:48 (retomada pós-compactação de contexto) — ver "Status real agora" abaixo pro estado mais recente.
+>
+> Atualizada de novo em 04/08/2026 11:40 — usuário pausou o trabalho de propósito ("vou precisar dar uma pausa... quero que atualize o vault com tudo que for importante, para eu retornar depois"). Esta é a atualização mais recente; leia "Status real agora" e "O que ainda está em aberto" abaixo antes de qualquer outra coisa.
 
 ## Onde isso vive
 
@@ -44,12 +48,15 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 
 Motivo: testando manualmente com dado real pela 1ª vez, apareceram 2 bugs no filtro antigo — "Não Agendado" sumia assim que o produto tinha o 1º clique em Base (mesmo continuando 100% dentro de Simples), e "A Fazer Hoje" mostrava qualquer produto ativo, sem noção real de urgência. Isso motivou parar os testes de `listar_produtos_com_historico()` (ver [[Pausa Para Replanejar UX de Filtros e Telas]]) e replanejar a UX do zero.
 
-Resultado do desenho — [[Estrutura de Telas da Agenda de Videos]]: 5 telas, cada uma com critério de entrada explícito:
+Resultado do desenho — [[Estrutura de Telas da Agenda de Videos]]: 6 telas (5 originais + "Todos", adicionada depois — ver "Status real agora" abaixo), cada uma com critério de entrada explícito:
 
+0. **Todos** — sem filtro nenhum (1ª aba). Única tela que mostra produto sem `IndicadoresAgendaProduto` sincronizado — todas as outras dependem desse cache via INNER JOIN. Sem chip-contador (não faz sentido pra ela). Adicionada depois que o usuário sentiu falta de "ver tudo", revertendo o fechamento de 03/08 que tinha dado essa necessidade como não existente.
 1. **Não Agendado** — fase Simples com `etapa_atual()=='concluido'` (já replicado, só falta clicar "Agendar"). Sem filtro de etapa — estado único.
 2. **Simples** — toda a fase Simples EXCETO `concluido`. "Base" soma 2 situações: produto nunca tocado (0 ciclos, cache sintético `nao_agendado`) + produto com ciclo mas ainda em `base` — decisão de arquitetura deliberada, são a mesma ação pendente pro usuário.
 3. **Vídeo Mensal** / 4. **Vídeo Trimestral** — listagem completa da fase, qualquer etapa.
 5. **A Fazer Hoje** — cruza SÓ Mensal+Trimestral (nunca Simples, que não tem prazo). Entra por 6 motivos: atrasado, risco (etapa em produção + prazo ≤1 dia útil), postar hoje (com proteção contra cache `postou_hoje` desatualizado), aguardando aprovação, aprovado-aguardando-replicar, recusado — as 3 últimas contam sempre, sem checar prazo ("se não foi replicado ainda é porque tem ação pendente a ser feita"). Pausado/Descontinuado excluído incondicionalmente aqui (só aqui — as outras 4 telas mostram tudo por padrão, pausado incluso, a menos que o usuário filtre `status_manual` de propósito).
+
+Ordenação de prioridade real (`prioridade_agenda_videos.py`, conferida em 04/08 direto no código): 6 níveis — urgente+reprovado, urgente, atrasado+reprovado, atrasado, reprovado, default — sem fator de risco isolado. Não são 7 níveis com "risco" à parte, como se chegou a supor de memória numa sessão anterior.
 
 Toda etapa/motivo é um **chip-contador clicável** (ex: "Completo (3)") — filtro E resumo visual ao mesmo tempo, sempre visível (não escondido em "Mais filtros"), 1 query agregada pra todos os contadores de uma vez (nunca 1 query por chip).
 
@@ -67,22 +74,32 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (03/08/2026, 17:10)
+## Status real agora (04/08/2026, 11:40 — trabalho pausado pelo usuário)
 
-- Código aplicado, testado via pytest (só a suíte antiga de `listar_a_fazer_hoje` quebrou a coleta, esperado — resto passou) e validado manualmente por 2 pessoas.
-- Commit do código (título + descrição) foi gerado nesta conversa — **CONFIRMAR se já foi de fato commitado/pushado** antes de considerar essa etapa fechada (não presumir).
-- Usuário classificou a fase atual como "testar e validar, e refinar apenas" — ou seja, sem redesenho pendente, só ajuste fino. **Nenhum item específico de refino foi levantado ainda** — perguntar antes de assumir o que precisa de polimento.
+- As 6 telas (5 originais + Todos) estão aplicadas, testadas via pytest e validadas manualmente.
+- `listar_produtos_com_historico()` (relatório de Histórico) fechado — 100% cover em `historico_roadmap.py`.
+- Os 3 bugs de validação manual achados em 04/08 (modal de Histórico não fechava no X, tela Configurações quebrada, validação de Configurações rejeitava Simples) estão **todos RESOLVIDOS e confirmados** — ver [[Validacao de Configuracoes Nao Abre Excecao Para Simples]].
+- **Nova rodada iniciada e parcialmente concluída nesta mesma sessão (04/08): testes de views/Nível 4.** `agenda_videos/views.py` tem 21 funções `view_*` e nenhuma tinha teste até agora. Ferramenta nova: `client` do pytest-django (`client.get`/`client.post` + `reverse()`) — HTTP real simulado em memória, valida roteamento, travas de método (`@require_POST`) e mensagens (`messages.warning`/`success`), nenhum dos 3 exercitado chamando a view direto. Dividida em 4 blocos:
+  - **Bloco A (leitura: `view_agenda_videos`, `view_confirmar_ponto_roadmap`, `view_historico_produto`, `view_historico_agenda_videos`) — completo.**
+  - **Bloco B (escrita no roadmap do ciclo: `view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica` com 6 sub-ações) — completo.**
+  - **Bloco C (flags do produto: `view_alternar_urgente`, `view_alternar_pausado_agenda`) — completo.**
+  - **Bloco D (Configurações: `view_configuracoes_agenda_videos`) — não iniciado, é o próximo passo ao retomar.**
+- **Confirmado: 248 passed, 0 failed** (suíte inteira, sem regressão) — este é o número real mais atual, não o 185 mencionado em atualizações anteriores desta nota.
+- **1 bug real GRAVE encontrado e corrigido no Bloco A:** `status_manual_atual` ignorava o histórico de Pausado/Descontinuado sempre que `ParticipacaoAgenda` não existia — deixava o próprio botão "Pausar" TRAVADO (nunca voltava pra Ativo) pra qualquer produto nessa situação. Ver [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
+- **Lição importante do Bloco C, sobre a colaboração em si (não sobre o domínio):** ao aplicar o fix do bug acima, uma instrução de import foi passada em PROSA em vez de diff exato — nunca foi de fato aplicada, e isso gerou um `NameError` real que ficou escondido por várias rodadas de teste, só aparecendo quando `view_alternar_pausado_agenda` (o único ponto que usava a função) finalmente foi exercitada. Já corrigido (248 passed). Detalhe completo na mesma nota de descoberta acima, seção "Atualização 04/08/2026 11:40".
+- Os 9 arquivos novos de teste do Nível 4 (Blocos A/B/C) + o fix de import de `views.py` **ainda NÃO foram commitados/pushados pro GitHub** — decidir título/descrição do commit quando o usuário retomar.
 
 ## O que ainda está em aberto
 
-- **Refino das 5 telas** — sem itens concretos levantados ainda.
-- `listar_produtos_com_historico()` (relatório de Histórico, 7 filtros) — pausado desde antes do redesenho, é trabalho PARALELO/independente, pode retomar a qualquer momento. O filtro de `urgente` (NULL não entra em `IN()`) já foi corrigido pelo usuário antes da pausa.
+- **Bloco D da rodada de views** — `view_configuracoes_agenda_videos` (testar, e travar contra regressão a correção do Simples já aplicada em produção). Este é o próximo passo imediato ao retomar.
 - `view_verificar_produto_drive`/`view_verificar_todos_drive` — pergunta antiga nunca respondida: testar agora com mock, ou esperar a fase de fluxo automatizado? Ver [[Fluxo Manual Antes do Automatizado]].
 - `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima).
 - CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo, marcado como "pode limpar depois" — não é urgente.
 - Depois de tudo isso: iniciar o fluxo AUTOMATIZADO (postagem_automatica, replicacao_automatica, Drive real) — deliberadamente adiado até o fluxo manual estar 100% validado (ver [[Fluxo Manual Antes do Automatizado]]).
 
-## Arquivos tocados nesta sessão (referência rápida)
+## Arquivos tocados (referência rápida)
+
+### Sessão 03/08
 
 - `agenda_videos/funcoes_auxiliares/filtros_agenda_videos.py` — reescrito por completo.
 - `agenda_videos/funcoes_auxiliares/a_fazer_hoje.py` — reduzido a `calcular_indicadores_ciclo`.
@@ -94,9 +111,38 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 - `agenda_videos/static/agenda_videos/css/layout_agenda_videos.css` — classes novas (`.agenda-tela-*`, `.agenda-chip-contador-*`).
 - `agenda_videos/tests/test_nivel_3__listar_produtos_agenda_filtrados.py` (novo) — `test_nivel_3__listar_a_fazer_hoje.py` (removido).
 
+### Sessão 04/08
+
+- `agenda_videos/funcoes_auxiliares/filtros_agenda_videos.py` — `Tela.TODOS` + `_condicao_todos()` adicionados.
+- `agenda_videos/tests/test_nivel_3__listar_produtos_agenda_filtrados.py` — 1 teste retroativo corrigido pra refletir a tela Todos.
+- `agenda_videos/tests/test_nivel_3__listar_produtos_com_historico.py` (novo) — fecha `historico_roadmap.py`.
+- `agenda_videos/templates/agenda_videos/estrutura_configuracoes_agenda_videos.html` — reescrito por completo.
+- `agenda_videos/static/agenda_videos/css/layout_configuracoes_agenda_videos.css` — classes novas pra checkbox/dica de cabeçalho.
+- `agenda_videos/static/agenda_videos/css/layout_historico_agenda_videos.css` — fix do ícone de fechar do modal.
+- `agenda_videos/models/participacao_agenda.py` — nova função `status_manual_atual_do_produto(produto)`, fonte única do status manual.
+- `agenda_videos/models/__init__.py` — re-export de `status_manual_atual_do_produto`.
+- `agenda_videos/funcoes_auxiliares/historico_roadmap.py` — call site corrigido pra usar `status_manual_atual_do_produto`.
+- `agenda_videos/funcoes_auxiliares/sincronizar_roadmap_agenda.py` — idem.
+- `agenda_videos/views.py` — call site em `view_alternar_pausado_agenda` corrigido; bloco de import corrigido depois (ver NameError abaixo).
+- `agenda_videos/tests/test_nivel_3__calcular_indicadores.py` — teste novo fechando o gap que deixou o bug de status manual passar despercebido.
+- `agenda_videos/tests/test_nivel_4__view_historico_produto.py` (novo, 4 testes).
+- `agenda_videos/tests/test_nivel_4__view_confirmar_ponto_roadmap.py` (novo, 9 testes).
+- `agenda_videos/tests/test_nivel_4__view_agenda_videos.py` (novo, 5 testes; ganhou fixture `regua_de_fases`).
+- `agenda_videos/tests/test_nivel_4__view_historico_agenda_videos.py` (novo, 5 testes).
+- `agenda_videos/tests/test_nivel_4__view_marcar_ponto_roadmap.py` (novo, 7 testes).
+- `agenda_videos/tests/test_nivel_4__view_agendar_produto.py` (novo, 6 testes).
+- `agenda_videos/tests/test_nivel_4__view_executar_acao_ciclica.py` (novo, 16 testes).
+- `agenda_videos/tests/test_nivel_4__view_alternar_urgente.py` (novo, 4 testes).
+- `agenda_videos/tests/test_nivel_4__view_alternar_pausado_agenda.py` (novo, 6 testes — inclui regressão explícita do bug de status manual).
+- `agenda_videos/views.py` — 2º fix, este de import: bloco `from agenda_videos.models import (...)` corrigido pra incluir `status_manual_atual_do_produto` (fix que corrigiu o `NameError` do Bloco C — ver [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]).
+
+**Nenhum destes arquivos de teste (9 novos) nem o fix de import acima está commitado/pushado ainda** — só aplicado localmente pelo usuário e confirmado via saída real de pytest (248 passed, 0 failed).
+
 ## Convenção de entrega de código (lembrar de imediato)
 
 Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo código é entregue como bloco "Localize: / Substitua por:" (diff nomeado, texto exato do arquivo real) ou arquivo completo, sempre depois de explicar em tópicos simples o que vai mudar e por quê, pro usuário aplicar e rodar localmente — reportando o resultado real de volta (saída de terminal, screenshot, ou descrição precisa do comportamento).
+
+**Reforço crítico, confirmado por incidente real em 04/08 (Bloco C):** isso vale SEM EXCEÇÃO, mesmo pra mudança de 1 linha — como adicionar 1 nome a uma lista de import. Descrever a mudança em prosa ("adicione X à lista de import") em vez de dar o diff exato já causou um `NameError` real de produção, que ficou escondido por várias rodadas de teste até a view específica afetada ser finalmente exercitada. Ver detalhe em [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]] e reforço formal em [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]].
 
 ## Relacionado
 
@@ -111,3 +157,5 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo c�
 - [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
 - [[Perguntas Sempre em Texto Corrido]]
 - [[Perguntar Data e Hora Antes de Escrever no Vault]]
+- [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]
+- [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]

@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "5cfb75875279bd3f",
+        "id": "af899a9cbcfc4cce",
         "type": "tabs",
         "children": [
           {
-            "id": "131898d44c6cd0e7",
+            "id": "4d52cd712f7c1b0f",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Visualização em gráfico"
+              "type": "markdown",
+              "state": {
+                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Checkpoint Testes Automatizados Agenda Videos"
             }
           }
         ]
@@ -75,8 +79,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -96,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -156,6 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -182,26 +188,30 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "131898d44c6cd0e7",
+  "active": "4d52cd712f7c1b0f",
   "lastOpenFiles": [
-    "02_Sistema_Interno/00_Indice.md.tmp.13992.8bfd2cbf1a53",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.16328.27d304e002de",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.16328.b9e5368b3fde",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.6140.e71cd98453bf",
+    "LEGADO/_scratch_nao_usar.md",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.4924.1fb6a950c922",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Status Manual Atual Ignora Historico Quando Participacao Nao Existe.md",
+    "02_Sistema_Interno/00_Indice.md.tmp.7044.4270856f6528",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.7044.028137fc6bb0",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md.tmp.7044.2a36ce099043",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md.tmp.10932.c5f88be7a361",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.0b54fd594a59",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.e6b15ba3d577",
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.69b326d7a0ac",
     "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.13992.4ba9ff06fbdd",
     "02_Sistema_Interno/Agenda_Videos/Descobertas/Cache de Indicadores Nao e Populado Automaticamente.md",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Cache de Indicadores Nao e Populado Automaticamente.md.tmp.13992.e44a3455eceb",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.13992.44dc1361e875",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.13992.a495430697ff",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Mapa de Execucao das 5 Telas da Agenda de Videos.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Estrutura de Telas da Agenda de Videos.md",
     "02_Sistema_Interno/00_Indice.md",
     "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
     "2026-08-03.md",
-    "02_Sistema_Interno/00_Indice.md.tmp.3128.823182667d03",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.3128.04ec5cac6630",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.3128.f1742540f160",
-    "02_Sistema_Interno/Agenda_Videos/Decisoes/Pausa Para Replanejar UX de Filtros e Telas.md.tmp.3128.b12d9ec9d030",
-    "02_Sistema_Interno/Agenda_Videos/Decisoes/Pausa Para Replanejar UX de Filtros e Telas.md.tmp.3128.b6cabebb84d6",
-    "02_Sistema_Interno/00_Indice.md.tmp.1396.3a66cee43653",
     "02_Sistema_Interno/Regras_de_Comportamento/Perguntar Data e Hora Antes de Escrever no Vault.md",
     "Sem título.canvas",
     "Modelos_Notas_Obsidian/padrao.md",
@@ -216,10 +226,6 @@
     "02_Sistema_Interno/Regras_de_Comportamento/Estrutura de Arquivo e Classe Python.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
     "02_Sistema_Interno/Regras_de_Comportamento/Perguntas Sempre em Texto Corrido.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Testes Automatizados.md",
-    "02_Sistema_Interno/Agenda_Videos/Regras/Sequencia Travada de 5 Passos por Ocorrencia.md",
-    "02_Sistema_Interno/Agenda_Videos/Regras/Cadencia de 30 e 90 Dias Corridos Contados do Replicado.md",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Ajuste de Dia Util Cria Padrao Estavel de 28 Dias.md",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo.md"
+    "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Testes Automatizados.md"
   ]
 }
