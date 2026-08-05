@@ -23,6 +23,10 @@ Não faz sentido forçar a versão autônoma sem a versão manual funcionando �
 
 `badges_agenda.py` → `roadmap_produto.py` → `historico_roadmap.py` → `listar_produtos_com_historico()` (rodada própria, 7 filtros) → `contexto_tela_agenda_videos.py` → `views.py` (bloco manual, ~24 funções). Views que tocam Drive (`view_verificar_produto_drive`/`view_verificar_todos_drive`) ainda sem decisão — mockar agora junto do manual, ou deixar pra fase automatizada (pergunta em aberto).
 
+## Atualização 05/08/2026 09:30 — decisão sobre as views de Drive
+
+A pergunta em aberto ("mockar agora ou deixar pra fase automatizada?") foi resolvida pelo usuário: `view_verificar_produto_drive`/`view_verificar_todos_drive` vão ser testadas usando o **Drive real, sempre que possível** — não mock. Isso marca o fim do fluxo manual "puro" (as 10 views sem Drive, Blocos A-D, estão 100% testadas — ver [[Checkpoint Testes Automatizados Agenda Videos]]) e o início de uma rodada nova, que já mistura fluxo manual (as 2 views de Drive) com uma abordagem de teste diferente de tudo que veio antes (contra serviço externo real, não só banco local). Plano de teste ainda sendo desenhado.
+
 ## Relacionado
 
 - [[Disciplina de Testes Automatizados]]

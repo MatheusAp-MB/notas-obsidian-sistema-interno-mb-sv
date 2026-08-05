@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 04/08/2026 11:40
+atualizado_em: 05/08/2026 09:30
 relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
 ---
 
@@ -14,6 +14,8 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 > Atualizada em 04/08/2026 08:48 (retomada pós-compactação de contexto) — ver "Status real agora" abaixo pro estado mais recente.
 >
 > Atualizada de novo em 04/08/2026 11:40 — usuário pausou o trabalho de propósito ("vou precisar dar uma pausa... quero que atualize o vault com tudo que for importante, para eu retornar depois"). Esta é a atualização mais recente; leia "Status real agora" e "O que ainda está em aberto" abaixo antes de qualquer outra coisa.
+>
+> Atualizada de novo em 05/08/2026 09:30 — usuário retomou, confirmou que os commits anteriores foram aplicados, e fechamos o Bloco D + os testes de integração. Rodada de views/Nível 4 encerrada por completo (260 passed). Próximo passo real: testar a sincronia do Drive usando o Drive real, decisão do usuário — ver "Status real agora" abaixo.
 
 ## Onde isso vive
 
@@ -74,28 +76,25 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (04/08/2026, 11:40 — trabalho pausado pelo usuário)
+## Status real agora (05/08/2026, 09:30)
 
 - As 6 telas (5 originais + Todos) estão aplicadas, testadas via pytest e validadas manualmente.
 - `listar_produtos_com_historico()` (relatório de Histórico) fechado — 100% cover em `historico_roadmap.py`.
 - Os 3 bugs de validação manual achados em 04/08 (modal de Histórico não fechava no X, tela Configurações quebrada, validação de Configurações rejeitava Simples) estão **todos RESOLVIDOS e confirmados** — ver [[Validacao de Configuracoes Nao Abre Excecao Para Simples]].
-- **Nova rodada iniciada e parcialmente concluída nesta mesma sessão (04/08): testes de views/Nível 4.** `agenda_videos/views.py` tem 21 funções `view_*` e nenhuma tinha teste até agora. Ferramenta nova: `client` do pytest-django (`client.get`/`client.post` + `reverse()`) — HTTP real simulado em memória, valida roteamento, travas de método (`@require_POST`) e mensagens (`messages.warning`/`success`), nenhum dos 3 exercitado chamando a view direto. Dividida em 4 blocos:
-  - **Bloco A (leitura: `view_agenda_videos`, `view_confirmar_ponto_roadmap`, `view_historico_produto`, `view_historico_agenda_videos`) — completo.**
-  - **Bloco B (escrita no roadmap do ciclo: `view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica` com 6 sub-ações) — completo.**
-  - **Bloco C (flags do produto: `view_alternar_urgente`, `view_alternar_pausado_agenda`) — completo.**
-  - **Bloco D (Configurações: `view_configuracoes_agenda_videos`) — não iniciado, é o próximo passo ao retomar.**
-- **Confirmado: 248 passed, 0 failed** (suíte inteira, sem regressão) — este é o número real mais atual, não o 185 mencionado em atualizações anteriores desta nota.
+- **Rodada de testes de views/Nível 4 CONCLUÍDA por completo (04-05/08).** `agenda_videos/views.py` tinha 21 funções `view_*` sem teste algum. Ferramenta usada: `client` do pytest-django (`client.get`/`client.post` + `reverse()`) — HTTP real simulado em memória, valida roteamento, travas de método (`@require_POST`) e mensagens (`messages.warning`/`success`). As 10 views do fluxo manual, nos 4 blocos: leitura (Bloco A), escrita no roadmap do ciclo (Bloco B), flags do produto (Bloco C), Configurações (Bloco D) — todas completas.
+- **Confirmado: 258 passed, 0 failed** ao fechar o Bloco D — este é o número real mais atual pro Nível 4 puro.
+- **Depois disso, 2 testes de integração novos** (`test_nivel_4__integracao_config_afeta_roadmap.py`), motivados por uma pergunta direta do usuário ("as configs realmente refletem na realidade?"): provaram por execução (não só leitura de código) que mudar uma `ConfiguracaoFase` pela tela real reflete IMEDIATAMENTE no próximo `CicloVideo` criado por `criar_proximo()` — tanto pra distância quanto pra transição de fase. Confirmado que `ConfiguracaoFase` não é cache de nada (diferente do `IndicadoresAgendaProduto`, que precisa de resync manual). **Confirmado: 260 passed, 0 failed** — este é o número mais atual da suíte inteira.
 - **1 bug real GRAVE encontrado e corrigido no Bloco A:** `status_manual_atual` ignorava o histórico de Pausado/Descontinuado sempre que `ParticipacaoAgenda` não existia — deixava o próprio botão "Pausar" TRAVADO (nunca voltava pra Ativo) pra qualquer produto nessa situação. Ver [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
-- **Lição importante do Bloco C, sobre a colaboração em si (não sobre o domínio):** ao aplicar o fix do bug acima, uma instrução de import foi passada em PROSA em vez de diff exato — nunca foi de fato aplicada, e isso gerou um `NameError` real que ficou escondido por várias rodadas de teste, só aparecendo quando `view_alternar_pausado_agenda` (o único ponto que usava a função) finalmente foi exercitada. Já corrigido (248 passed). Detalhe completo na mesma nota de descoberta acima, seção "Atualização 04/08/2026 11:40".
-- Os 9 arquivos novos de teste do Nível 4 (Blocos A/B/C) + o fix de import de `views.py` **ainda NÃO foram commitados/pushados pro GitHub** — decidir título/descrição do commit quando o usuário retomar.
+- **Lição importante do Bloco C, sobre a colaboração em si (não sobre o domínio):** ao aplicar o fix do bug acima, uma instrução de import foi passada em PROSA em vez de diff exato — nunca foi de fato aplicada, e isso gerou um `NameError` real que ficou escondido por várias rodadas de teste, só aparecendo quando `view_alternar_pausado_agenda` (o único ponto que usava a função) finalmente foi exercitada. Já corrigido. Detalhe completo na nota de descoberta [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]], seção "Atualização 04/08/2026 11:40".
+- **Decisão nova (05/08, 09:30): a próxima rodada testa a sincronia com o Google Drive usando o Drive real, sempre que possível — não mock.** Isso resolve a pergunta que ficava em aberto desde 03/08 sobre `view_verificar_produto_drive`/`view_verificar_todos_drive`. Plano de teste ainda sendo desenhado (exploração do código de Drive é o próximo passo).
+- O commit dos 9 arquivos de teste do Bloco A/B/C + fix de import de `views.py` foi confirmado como aplicado pelo usuário e sincronizado (commit `b70f8a1`). O arquivo de Bloco D + o de integração **ainda NÃO foram commitados/pushados** — decidir título/descrição do commit quando o usuário estiver pronto.
 
 ## O que ainda está em aberto
 
-- **Bloco D da rodada de views** — `view_configuracoes_agenda_videos` (testar, e travar contra regressão a correção do Simples já aplicada em produção). Este é o próximo passo imediato ao retomar.
-- `view_verificar_produto_drive`/`view_verificar_todos_drive` — pergunta antiga nunca respondida: testar agora com mock, ou esperar a fase de fluxo automatizado? Ver [[Fluxo Manual Antes do Automatizado]].
+- **Testar a sincronia com o Drive real** (decisão de 05/08) — próximo passo imediato: explorar o código real de `view_verificar_produto_drive`/`view_verificar_todos_drive` + a camada de serviço que fala com a API do Drive, entender autenticação/credenciais e os riscos de rodar contra o Drive de verdade (efeito colateral, não idempotência, limpeza), só então desenhar o plano de teste.
 - `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima).
 - CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo, marcado como "pode limpar depois" — não é urgente.
-- Depois de tudo isso: iniciar o fluxo AUTOMATIZADO (postagem_automatica, replicacao_automatica, Drive real) — deliberadamente adiado até o fluxo manual estar 100% validado (ver [[Fluxo Manual Antes do Automatizado]]).
+- Depois de tudo isso: o restante do fluxo AUTOMATIZADO (postagem_automatica, replicacao_automatica) — deliberadamente adiado até o fluxo manual + Drive estarem 100% validados (ver [[Fluxo Manual Antes do Automatizado]]).
 
 ## Arquivos tocados (referência rápida)
 
@@ -136,7 +135,14 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 - `agenda_videos/tests/test_nivel_4__view_alternar_pausado_agenda.py` (novo, 6 testes — inclui regressão explícita do bug de status manual).
 - `agenda_videos/views.py` — 2º fix, este de import: bloco `from agenda_videos.models import (...)` corrigido pra incluir `status_manual_atual_do_produto` (fix que corrigiu o `NameError` do Bloco C — ver [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]).
 
-**Nenhum destes arquivos de teste (9 novos) nem o fix de import acima está commitado/pushado ainda** — só aplicado localmente pelo usuário e confirmado via saída real de pytest (248 passed, 0 failed).
+**Os 9 arquivos de teste acima + o fix de import já foram commitados e sincronizados** (commit `b70f8a1`, confirmado em 05/08).
+
+### Sessão 05/08 (continuação)
+
+- `agenda_videos/tests/test_nivel_4__view_configuracoes_agenda_videos.py` (novo, 10 testes — Bloco D, fecha a rodada de views/Nível 4).
+- `agenda_videos/tests/test_nivel_4__integracao_config_afeta_roadmap.py` (novo, 2 testes — prova ponta a ponta que mudar `ConfiguracaoFase` pela tela reflete em `criar_proximo()`).
+
+**Estes 2 arquivos ainda NÃO foram commitados/pushados** — confirmado 260 passed, 0 failed localmente, mas sem commit ainda.
 
 ## Convenção de entrega de código (lembrar de imediato)
 

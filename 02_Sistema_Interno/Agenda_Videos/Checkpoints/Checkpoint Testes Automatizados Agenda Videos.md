@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: testes
 status: em_andamento
 criado: 02/08/2026
-atualizado_em: 04/08/2026 11:40
+atualizado_em: 05/08/2026 09:30
 relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
 ---
 
@@ -12,6 +12,8 @@ relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Te
 Nota viva — atualizada em cada sessão relevante, nunca substituída por nota nova. Serve pra retomar o trabalho mesmo se o contexto da conversa for perdido (compactação já causou esquecimento real, ex: acesso ao GitHub).
 
 ## Última atualização
+
+05/08/2026 (Bloco D fechado + garantia de integração config→roadmap + decisão sobre Drive, 09:30) — `view_configuracoes_agenda_videos` testada via HTTP real: 10 cenários (GET com/sem config salva, validação por fase — incluindo trava de regressão explícita do bug do Simples —, `periodo_continuo`, update_or_create sem duplicar, 1 fase inválida não travar as outras, nenhuma fase válida não salva nada). Nenhum bug novo. Confirmado: **258 passed, 0 failed**. Isso fecha as 10 views do fluxo manual (Blocos A-D). Em seguida, 2 testes de integração novos (`test_nivel_4__integracao_config_afeta_roadmap.py`) provaram ponta a ponta que mudar uma `ConfiguracaoFase` pela tela real reflete IMEDIATAMENTE no próximo `CicloVideo` criado por `criar_proximo()` — tanto pra distância quanto pra transição de fase — confirmando por execução (não só leitura de código) que `ConfiguracaoFase` não é cache de nada. Confirmado: **260 passed, 0 failed**. **A rodada de testes de views/Nível 4 está encerrada.** Decisão do usuário sobre a pergunta em aberto (views de Drive): a próxima rodada real vai testar a sincronia com o Drive usando o **Drive real, sempre que possível** (não mock) — plano ainda sendo desenhado, ver "Próximo passo imediato" abaixo.
 
 04/08/2026 (Bloco C fechado — testes de views, achado + corrigido erro próprio, pausa do usuário, 11:40) — As 2 views de flag do produto (`view_alternar_urgente`, `view_alternar_pausado_agenda`) estão testadas via HTTP real. No meio do caminho, 5 dos 6 testes novos de `view_alternar_pausado_agenda` falharam com `NameError: name 'status_manual_atual_do_produto' is not defined` em `views.py:433` — **erro do próprio Claude, não do banco nem da view**: ao entregar o fix do bug de status manual (10:12), a instrução de adicionar essa função ao bloco de import de `views.py` foi descrita em prosa ("adicione X à lista de import"), nunca como diff exato — e nunca chegou a ser aplicada de verdade. Ficou escondida a sessão inteira porque `view_alternar_pausado_agenda` é o único lugar de `views.py` que usa essa função, e nenhum teste tinha exercitado essa view até agora. Corrigido com diff exato (Localize/Substitua) pro import. Confirmado: **248 passed, 0 failed**. Detalhe do achado em nova seção de [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]. **Usuário decidiu pausar o trabalho aqui** — Bloco D (Configurações) fica como próximo passo pra quando retomar. Ver [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] pra retomada sem contexto de conversa.
 
@@ -118,9 +120,9 @@ Arquivo: `test_nivel_0__badges_agenda.py`. 20 cenários (`buscar_badge_de` com t
 
 Ver [[Disciplina de Testes Automatizados]], seções "Ordenação por timestamp sempre precisa de desempate" e "Teste nunca contorna bug real" (esta última criada a partir do achado nº 1 acima).
 
-### Pergunta em aberto
+### Pergunta em aberto — RESOLVIDA em 05/08/2026, 09:30
 
-`view_verificar_produto_drive`/`view_verificar_todos_drive` (views que tocam Drive) — testar agora com mock, junto do fluxo manual, ou deixar pra fase automatizada? Ainda sem resposta do usuário.
+`view_verificar_produto_drive`/`view_verificar_todos_drive` (views que tocam Drive) — testar agora com mock, junto do fluxo manual, ou deixar pra fase automatizada? **Decisão do usuário: testar a sincronia do Drive usando o Drive real, sempre que possível (não mock).** Vira a próxima rodada de trabalho — plano de exploração/implementação ainda por fazer, ver "Próximo passo imediato" abaixo.
 
 ## Terceira rodada — Redesenho das 5 Telas (a partir de 03/08/2026)
 
@@ -182,7 +184,9 @@ Divisão em 4 blocos:
 - **Bloco A — leitura, sem escrita:** `view_agenda_videos`, `view_confirmar_ponto_roadmap`, `view_historico_produto`, `view_historico_agenda_videos`. **Completo.**
 - **Bloco B — ações que escrevem no roadmap do ciclo:** `view_marcar_ponto_roadmap`, `view_agendar_produto`, `view_executar_acao_ciclica` (6 sub-ações). **Completo.**
 - **Bloco C — flags do produto:** `view_alternar_urgente`, `view_alternar_pausado_agenda`. **Completo.**
-- **Bloco D — Configurações:** `view_configuracoes_agenda_videos` (trava a correção do Simples contra regressão). **Próximo** (trabalho pausado aqui em 04/08, 11:40).
+- **Bloco D — Configurações:** `view_configuracoes_agenda_videos` (trava a correção do Simples contra regressão). **Completo.**
+
+**Rodada encerrada — as 10 views do fluxo manual estão todas testadas.**
 
 ### Bloco A — concluído
 
@@ -207,6 +211,16 @@ Divisão em 4 blocos:
 - **Achado no meio do caminho — erro do próprio Claude, não bug de produção pré-existente:** 5 dos 6 testes de `view_alternar_pausado_agenda` falharam com `NameError: name 'status_manual_atual_do_produto' is not defined` em `views.py:433`. Causa raiz: ao entregar o fix do bug de status manual (ver entrada de 10:12 acima), a instrução de adicionar essa função ao import de `views.py` foi passada em prosa, nunca em diff exato — nunca foi de fato aplicada. Ficou invisível a sessão inteira porque essa view era o único ponto de `views.py` que usa a função, e nenhum teste a exercitava ainda. Corrigido com diff exato (Localize/Substitua) no bloco de import de `agenda_videos/models` dentro de `views.py`, acrescentando `status_manual_atual_do_produto` à lista. Lição registrada em [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] e detalhada em nova seção de [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]].
 - Confirmado: **248 passed, 0 failed** (suíte inteira, sem regressão).
 
+### Bloco D — concluído
+
+- `view_configuracoes_agenda_videos`: 10 cenários — GET sem nenhuma config (padrão em branco) e com config já salva (reflete valores reais); POST salvando Simples com distância em branco (trava de regressão explícita do bug já corrigido em [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]); POST sem distância pra Vídeo Mensal (obrigatória pra ela, não salva); POST com `periodo_continuo` marcado (período fica None, nunca é lido); POST sem período e sem `periodo_continuo` (não salva); distância-de-entrada em branco vira 0; `update_or_create` atualiza sem duplicar; 1 fase inválida não trava as outras na mesma submissão; nenhuma fase válida não salva nada (ainda assim redireciona, nunca 400).
+- Nenhum bug novo — a correção do Simples aguenta a régua de regressão.
+- Confirmado: **258 passed, 0 failed** (suíte inteira, sem regressão).
+
+### Testes de integração — config afeta o roadmap real — concluído
+
+Motivado por uma pergunta direta do usuário: "as configs realmente refletem na realidade?". Resposta em 2 partes — (1) confirmado por leitura de código que `ConfiguracaoFase` não é cache de nada (diferente do `IndicadoresAgendaProduto`, que precisa de resync manual): tanto `CicloVideo.criar_proximo()` quanto o roadmap (`_montar_caminho_completo_fases`) leem `ConfiguracaoFase.objects.get(...)` direto do banco, toda vez; (2) mesmo assim, nenhum teste provava a cadeia inteira ponta a ponta — só a view isolada (salva certo) e só `criar_proximo()` isolado (lê certo), em rodadas diferentes. Arquivo novo `test_nivel_4__integracao_config_afeta_roadmap.py`, 2 cenários: POST muda a distância do Vídeo Mensal (30→45d) e `criar_proximo()` já usa o valor novo num ciclo que já existia antes da mudança; POST muda o período do Vídeo Mensal (4→2) e `criar_proximo()` já transiciona pra Vídeo Trimestral mais cedo, mesmo o ciclo tendo sido criado com o período antigo. Confirmado: **260 passed, 0 failed**.
+
 ## Infra de teste (estado atual dos arquivos compartilhados)
 
 - `conftest.py` (raiz): classe `RegistradorDeResultados` (tabela Rich com `show_lines=True` + lista de linhas pro log), fixture `_resetar_log_de_testes` (autouse, `scope='session'`, zera `resultados_testes.txt`), fixture `tabela_resultados` (`scope='module'`), hook `pytest_collection_modifyitems` (ordem garantida por `nodeid`), hook `pytest_terminal_summary` (resumo de sessão + tracebacks de falha real, filtrando `report.when == 'call'`).
@@ -216,12 +230,12 @@ Divisão em 4 blocos:
 
 ## Próximo passo imediato
 
-**Trabalho pausado pelo usuário em 04/08/2026, 11:40** — sem tempo pra seguir agora, retomada em sessão futura. Ordem combinada ao retomar:
+**Rodada de testes de views/Nível 4 encerrada (05/08/2026, 09:30) — 260 passed, 0 failed.** Próximo passo real, decidido pelo usuário: testar a sincronia com o Google Drive usando o **Drive real** (não mock), sempre que possível.
 
-1. **Bloco D da rodada de views** — `view_configuracoes_agenda_videos` (trava a correção do Simples contra regressão, ver [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]).
-2. `view_verificar_produto_drive`/`view_verificar_todos_drive` — pergunta ainda aberta (testar agora com mock ou na fase automatizada).
-3. Só depois de tudo isso: iniciar o fluxo automatizado (postagem_automatica, replicacao_automatica, Drive real).
-4. Pendência solta, sem prazo: os 9 arquivos novos de teste do Nível 4 (Blocos A/B/C) + o fix de import do `views.py` ainda não foram commitados/enviados pro GitHub — decidir título/descrição do commit quando o usuário estiver pronto.
+1. Explorar o código real de Drive (`view_verificar_produto_drive`/`view_verificar_todos_drive` + camada de serviço que fala com a API do Drive) antes de escrever qualquer teste — entender como a credencial/autenticação é carregada, se já existe algo assim testado no projeto, e os riscos de rodar contra o Drive de verdade (efeito colateral real, não idempotência, precisa de limpeza).
+2. Só depois de entendido: desenhar o plano de teste (o que dá pra testar com Drive real sem sujar dado de produção) e explicar em tópicos antes de gerar qualquer código.
+3. Depois de tudo isso: iniciar o restante do fluxo automatizado (postagem_automatica, replicacao_automatica).
+4. Pendência solta, sem prazo: os arquivos novos de teste (Bloco D + integração) ainda não foram commitados/enviados pro GitHub — decidir título/descrição do commit quando o usuário estiver pronto.
 
 Ver mapa completo em [[Fluxo Manual Antes do Automatizado]] e [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] (nota auto-contida, pra quando o contexto de conversa não estiver disponível).
 
