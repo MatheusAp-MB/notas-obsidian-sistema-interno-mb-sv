@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 06/08/2026 10:15
-relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]
+atualizado_em: 06/08/2026 16:10
+relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Flag Temporaria de Confirmacao em Replicar Video no ML]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Agenda de Vídeos)
@@ -20,6 +20,8 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 > Atualizada de novo em 06/08/2026 01:00 — a rodada de validação do Drive (decisão de 05/08 acima) está **encerrada**: reescrita completa de `parser.py`/`verificador.py`, Nível 5 criado, 5 bugs reais corrigidos (2 na reescrita + 3 achados validando manualmente no navegador o botão de Drive individual), tudo com teste de regressão e commitado no GitHub (`d0a4be2`). Esta é a atualização mais recente — leia "Notas que deve ler a seguir" abaixo antes de qualquer outra coisa, depois "Status real agora" pro estado completo.
 >
 > Atualizada de novo em 06/08/2026 10:15 — Rodada 6 (testes de `api/replicacao_automatica` e `api/postagem_automatica`, itens 1-4 do mapa) **concluída**: 357 passed, 100% cover no pacote `api/`, 2 bugs reais novos encontrados e corrigidos. Restrição original desta rodada (usuário sem ML/Drive via navegador) não existe mais — usuário agora está no escritório com acesso real aos 2. Script manual de validação física com o ML (item 5) foi entregue e salvo, mas ainda não executado. Item 6 (feature de percentual de replicação) foi pausado a pedido do usuário antes de qualquer código, pra commitar e atualizar o vault primeiro — esta é a atualização mais recente, leia "Status real agora" abaixo pro estado completo.
+>
+> Atualizada de novo em 06/08/2026 16:10 — **PAUSA LONGA: um projeto novo, complexo e SEM RELAÇÃO com Agenda de Vídeos vai começar em paralelo.** Este bloco de atualização existe só pra garantir que nada se perca antes disso. Código real confirmado no GitHub em `2388b1f` (branch `dev`, itens 1-4 da Rodada 6). Desenhada (mas ainda NÃO aplicada) a flag temporária `confirmar_de_verdade=False` em `replicar_video_no_ml()` + o script gêmeo de dry-run pra Replicação — o código completo dos 4 blocos está guardado em [[Flag Temporaria de Confirmacao em Replicar Video no ML]], não só na conversa. Vault comitado localmente (commit pendente de push pelo usuário). Esta é a atualização mais recente — leia "Status real agora" abaixo antes de qualquer outra coisa.
 
 ## Notas que deve ler a seguir (nesta ordem)
 
@@ -89,7 +91,15 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (06/08/2026, 10:15)
+## Status real agora (06/08/2026, 16:10)
+
+- **Motivo desta atualização: pausa longa.** Um projeto novo, complexo, e sem nenhuma relação com Agenda de Vídeos vai começar em paralelo a partir daqui — o usuário quer garantir que TODO o contexto de Agenda de Vídeos esteja no vault antes de trocar de assunto, sem depender da memória da conversa atual (que pode ser perdida/compactada).
+- **Linha de base de código, confirmada:** commit `2388b1f` no GitHub, branch `dev` — inclui os itens 1-4 da Rodada 6 completos (357 passed, 100% cover em `api/`). Ver seção "Status real agora (06/08/2026, 10:15)" abaixo pro detalhe completo desses itens.
+- **Item 5 (validação física com o ML): parcialmente pronto.** Script de Postagem (`scripts_dev/testar_fluxo_real_ml_sem_clicar.py`) já existe, já está commitado, ainda não foi executado. Script de Replicação (gêmeo) + a flag `confirmar_de_verdade=False` que ele precisa (porque `replicar_video_no_ml()` clicava de verdade, decisão de 30/07) foram desenhados e entregues em texto — **NADA disso foi aplicado ainda**. O código completo (4 blocos de diff + arquivo novo inteiro) está guardado em [[Flag Temporaria de Confirmacao em Replicar Video no ML]] — nota criada exatamente pra não depender da conversa.
+- **Item 6 (percentual de replicação) permanece pausado.** O usuário decidiu que, antes de desenhar onde exibir o percentual, precisa rodar os 2 scripts de dry-run (Postagem, depois Replicação) pra ver de novo como as telas reais estão hoje — "faz tempo que não uso". Plano completo em [[Percentual de Replicacao por Produto e Geral]].
+- **Vault comitado localmente** (mesma sessão) — falta o `git push` do usuário.
+
+## Status anterior (06/08/2026, 10:15 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **Rodada 6 (testes das APIs do agente local), itens 1-4 concluídos.** `api/replicacao_automatica` (Nível 4, 100% cover) → funções puras do orquestrador (`listar_produtos_elegiveis`, `obter_mlb_do_produto`) → `resolver_arquivo_da_ocorrencia()` corrigida + 4 rotas sem Drive de `api/postagem_automatica` → `view_baixar_video`/`view_marcar_concluido` versão Simulada (mock só na borda de rede, parser/banco reais). **Confirmado: 357 passed, 0 failed, pacote `api/` inteiro 100% cover (253 stmts, 0 Miss).**
 - **2 bugs reais novos encontrados e corrigidos:** `listar_produtos_elegiveis()` nunca incluía Simples na fila (comparação `NULL <= hoje`, sempre falsa em SQL — ver [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]]); `resolver_arquivo_da_ocorrencia()` ainda usava o formato ANTIGO do parser do Drive (`.fases`/`.completos`), nunca atualizado depois da reescrita de 05/08, ia estourar `AttributeError` no 1º uso real — achado por leitura de código, não por teste falho (ver [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]]).
@@ -126,9 +136,10 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 - ~~Testar a sincronia com o Drive real~~ — **concluído em 06/08/2026**, ver "Status real agora" acima.
 - ~~Testar `api/replicacao_automatica`/`api/postagem_automatica` (itens 1-4)~~ — **concluído em 06/08/2026, 10:15** (357 passed, 100% cover), ver "Status real agora" acima.
-- **Item 5 — executar o script manual `scripts_dev/testar_fluxo_real_ml_sem_clicar.py`** contra o ML real (dry-run, sem clicar) — salvo, ainda não rodado. Corre em paralelo, não bloqueia o resto.
-- **Item 6 — feature de percentual de replicação** — pausado a pedido do usuário antes de codar qualquer coisa; plano já desenhado, falta decidir onde exibir o resultado (tela de progresso da replicação, relatório separado, ou só na resposta da API pro agente — pergunta ainda sem resposta do usuário) e então: migration + `_obter_outros_mlbs()` compartilhada + captura + cálculo. Ver [[Percentual de Replicacao por Produto e Geral]].
-- Task pendente separada: flag de dry-run temporária (`confirmar_de_verdade=False`) em `replicar_video_no_ml()` (`agente_local/replicacao_ml.py`), mirando o padrão já existente em `postagem_ml.py` — decidida mas não implementada ainda.
+- **Item 5, parte 1 — executar o script manual `scripts_dev/testar_fluxo_real_ml_sem_clicar.py`** (Postagem) contra o ML real (dry-run, sem clicar) — salvo, commitado, ainda não rodado.
+- **Item 5, parte 2 — aplicar a flag `confirmar_de_verdade=False` em `replicar_video_no_ml()` + criar `scripts_dev/testar_fluxo_real_replicacao_sem_clicar.py`** (gêmeo, Replicação) — desenhados e entregues em texto (06/08, 16:10), código completo guardado em [[Flag Temporaria de Confirmacao em Replicar Video no ML]], mas **nada disso foi aplicado ainda**. Depois de aplicado, roda esse script também.
+- **Item 6 — feature de percentual de replicação** — pausado a pedido do usuário. Decisão adicional (06/08, 16:10): antes de desenhar onde exibir o resultado, o usuário quer rodar os 2 scripts do item 5 pra rever como as telas reais estão hoje (faz tempo que não usa). Só depois disso volta a pergunta original: onde mostrar o percentual (tela de progresso da replicação, relatório separado, ou só na resposta da API pro agente). Plano técnico completo (migration + `_obter_outros_mlbs()` compartilhada + captura + cálculo) já desenhado, ver [[Percentual de Replicacao por Produto e Geral]].
+- **Um projeto novo, complexo e sem relação com Agenda de Vídeos** vai começar em paralelo a partir de 06/08, 16:10 — os itens acima ficam pausados até o usuário retomar Agenda de Vídeos especificamente.
 - `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima). Ainda não apagado.
 - CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo — ainda não limpo, não é urgente.
 - **CRLF vs LF no repo do vault** (achado em 06/08): ~10 notas + os 4 `.obsidian/*.json` aparecem como "modificado" no git só por diferença de quebra de linha, sem mudança de conteúdo real. Deixado de lado por ora — decisão de normalizar tudo de vez (commit só de formatação) fica pro usuário decidir quando quiser.
@@ -199,7 +210,15 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 - `api/tests/test_nivel_4__postagem_automatica_views_drive_simulado.py` (novo, 11 testes — `view_baixar_video`/`view_marcar_concluido`, mock só na borda de rede via `monkeypatch`).
 - `scripts_dev/testar_fluxo_real_ml_sem_clicar.py` (novo, script manual — não pytest — pra dry-run real contra o ML, salvo pelo usuário, ainda não executado).
 
-**Confirmado localmente: 357 passed, 0 failed, pacote `api/` inteiro 100% cover.** Nenhum destes arquivos foi commitado/pushado ainda — só o título/descrição do commit foi entregue em texto.
+**Confirmado localmente: 357 passed, 0 failed, pacote `api/` inteiro 100% cover.** Estes arquivos JÁ FORAM commitados e sincronizados pelo usuário — commit `2388b1f`, confirmado no GitHub via `git fetch` no clone-sandbox.
+
+### Pendente (entregue em texto, NÃO aplicado) — flag de dry-run da Replicação
+
+- `agente_local/replicacao_ml.py` — 3 mudanças: comentário do topo + import de `posicionar_mouse_com_seguranca`; parâmetro novo `confirmar_de_verdade=False` na assinatura de `replicar_video_no_ml()`; bloco do clique final passa a parar antes do clique quando a flag for `False` (mesmo padrão de `postagem_ml.py`).
+- `agente_local/servidor_agente.py` — 1 mudança: a chamada real (fluxo automático de produção) passa `confirmar_de_verdade=True` explícito, pra não mudar nada em produção.
+- `scripts_dev/testar_fluxo_real_replicacao_sem_clicar.py` (novo) — gêmeo do script de Postagem, pra Replicação.
+
+**Código completo dos 4 blocos guardado em** [[Flag Temporaria de Confirmacao em Replicar Video no ML]] — nota criada especificamente pra isso não depender da memória desta conversa.
 
 ## Convenção de entrega de código (lembrar de imediato)
 
@@ -226,3 +245,4 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo c�
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
 - [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]]
 - [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]]
+- [[Flag Temporaria de Confirmacao em Replicar Video no ML]]
