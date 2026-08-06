@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 06/08/2026 01:00
-relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
+atualizado_em: 06/08/2026 10:15
+relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Agenda de Vídeos)
@@ -18,6 +18,8 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 > Atualizada de novo em 05/08/2026 09:30 — usuário retomou, confirmou que os commits anteriores foram aplicados, e fechamos o Bloco D + os testes de integração. Rodada de views/Nível 4 encerrada por completo (260 passed). Próximo passo real: testar a sincronia do Drive usando o Drive real, decisão do usuário — ver "Status real agora" abaixo.
 >
 > Atualizada de novo em 06/08/2026 01:00 — a rodada de validação do Drive (decisão de 05/08 acima) está **encerrada**: reescrita completa de `parser.py`/`verificador.py`, Nível 5 criado, 5 bugs reais corrigidos (2 na reescrita + 3 achados validando manualmente no navegador o botão de Drive individual), tudo com teste de regressão e commitado no GitHub (`d0a4be2`). Esta é a atualização mais recente — leia "Notas que deve ler a seguir" abaixo antes de qualquer outra coisa, depois "Status real agora" pro estado completo.
+>
+> Atualizada de novo em 06/08/2026 10:15 — Rodada 6 (testes de `api/replicacao_automatica` e `api/postagem_automatica`, itens 1-4 do mapa) **concluída**: 357 passed, 100% cover no pacote `api/`, 2 bugs reais novos encontrados e corrigidos. Restrição original desta rodada (usuário sem ML/Drive via navegador) não existe mais — usuário agora está no escritório com acesso real aos 2. Script manual de validação física com o ML (item 5) foi entregue e salvo, mas ainda não executado. Item 6 (feature de percentual de replicação) foi pausado a pedido do usuário antes de qualquer código, pra commitar e atualizar o vault primeiro — esta é a atualização mais recente, leia "Status real agora" abaixo pro estado completo.
 
 ## Notas que deve ler a seguir (nesta ordem)
 
@@ -26,7 +28,7 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 3. [[Checkpoint Testes Automatizados Agenda Videos]] — histórico completo, nível por nível, de todos os testes e bugs já corrigidos no domínio Agenda de Vídeos.
 4. [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]] — achado mais recente (06/08), fecha a rodada de validação do Drive.
 5. [[Fluxo Manual Antes do Automatizado]] — por que o automatizado (postagem/replicação) foi deliberadamente adiado, e por que ele é o próximo passo real agora que o Drive está validado.
-6. Só então: começar a testar `api/postagem_automatica`/`api/replicacao_automatica` — nenhuma das 2 tem teste ainda. Ordem de execução já mapeada em [[Checkpoint Testes Automatizados Agenda Videos]], seção "Mapa de Execução — Rodada 6".
+6. `api/postagem_automatica`/`api/replicacao_automatica` (itens 1-4 do mapa) — **concluído** (357 passed, 100% cover). Ordem completa e os 2 bugs novos em [[Checkpoint Testes Automatizados Agenda Videos]], seção "Mapa de Execução — Rodada 6".
 
 ## Onde isso vive
 
@@ -87,7 +89,17 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (06/08/2026, 01:00)
+## Status real agora (06/08/2026, 10:15)
+
+- **Rodada 6 (testes das APIs do agente local), itens 1-4 concluídos.** `api/replicacao_automatica` (Nível 4, 100% cover) → funções puras do orquestrador (`listar_produtos_elegiveis`, `obter_mlb_do_produto`) → `resolver_arquivo_da_ocorrencia()` corrigida + 4 rotas sem Drive de `api/postagem_automatica` → `view_baixar_video`/`view_marcar_concluido` versão Simulada (mock só na borda de rede, parser/banco reais). **Confirmado: 357 passed, 0 failed, pacote `api/` inteiro 100% cover (253 stmts, 0 Miss).**
+- **2 bugs reais novos encontrados e corrigidos:** `listar_produtos_elegiveis()` nunca incluía Simples na fila (comparação `NULL <= hoje`, sempre falsa em SQL — ver [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]]); `resolver_arquivo_da_ocorrencia()` ainda usava o formato ANTIGO do parser do Drive (`.fases`/`.completos`), nunca atualizado depois da reescrita de 05/08, ia estourar `AttributeError` no 1º uso real — achado por leitura de código, não por teste falho (ver [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]]).
+- **Restrição original desta rodada não existe mais.** Usuário estava em casa sem ML/Drive via navegador no início — agora está no escritório com acesso real aos 2.
+- **Item 5 (validação física com o ML real) esclarecido e redirecionado.** Não é testável por pytest (sucesso é visual — mouse parado sobre o botão, sem clique). Script manual `scripts_dev/testar_fluxo_real_ml_sem_clicar.py` entregue e salvo pelo usuário — baixa vídeo real do Drive (só leitura), abre o navegador real, sobe o arquivo, chama a `postar_video_no_ml()` real (que já para antes do clique final por decisão de 30/07). **Ainda não executado** — corre em paralelo ao pytest, não bloqueia o resto.
+- **Item 6 (percentual de replicação) pausado a pedido do usuário antes de qualquer código** — "isso vai afetar muita coisa nova", primeiro commit + vault. Plano de implementação (migration + 3 campos em `ItemExecucaoReplicacao` + `_obter_outros_mlbs()` compartilhada + captura em 2 momentos + assert de soma 100%) já desenhado, ver [[Percentual de Replicacao por Produto e Geral]].
+- **Ainda não commitado no GitHub** — só foi entregue o título/descrição do commit em texto; falta confirmação do usuário de que aplicou e sincronizou.
+- Escopo esclarecido durante a rodada: `testar_fluxo_real_ml_sem_clicar.py` é diferente de um teste pytest de `view_marcar_concluido` — o 1º é dry-run manual no navegador real, o 2º é teste automatizado da API Django. Confusão identificada e corrigida na hora, sem impacto em código.
+
+## Status anterior (06/08/2026, 01:00 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **Reescrita completa do Drive concluída e testada.** `constantes.py`/`parser.py`/`verificador.py` reescritos pro modelo Base/Roteiro/Completo por ocorrência. Nível 0 (parser, 15 testes), Nível 2 (verificador puro, 8 testes), Nível 3 (verificador com banco, 8 + mais 4 hoje), Nível 5 — **novo** (integração externa real, contra o Drive de verdade, 2 testes). Padrão novo formalizado: qualquer função que toca API externa ganha par Real+Simulado. Ver [[Disciplina de Testes Automatizados]].
 - **2 bugs reais corrigidos na reescrita:** `obter_fase()` levantava `AttributeError` cru pra chave inválida (agora `ValueError` claro); `montar_arvore_por_ean()` comparava nome de subpasta case-sensitive, mas o Drive é case-insensitive — 4 de 5 pastas de EAN dentro de QUIMIVIDA usavam "videos" minúsculo e eram descartadas silenciosamente da varredura.
@@ -113,7 +125,10 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 ## O que ainda está em aberto
 
 - ~~Testar a sincronia com o Drive real~~ — **concluído em 06/08/2026**, ver "Status real agora" acima.
-- **Próximo passo real: iniciar testes de `postagem_automatica`/`replicacao_automatica`** — nenhuma das 2 APIs que o agente local consome tem teste algum ainda. Ver [[Fluxo Manual Antes do Automatizado]] pro motivo do adiamento, e [[Checkpoint Testes Automatizados Agenda Videos]] seção "Mapa de Execução — Rodada 6" pra ordem já mapeada: 1. `api/replicacao_automatica` (puro banco) → 2. funções puras do orquestrador → 3. `api/postagem_automatica` sem Drive → 4. com Drive real → 5. feature de % de replicação (gap de schema já identificado, ver [[Percentual de Replicacao por Produto e Geral]]).
+- ~~Testar `api/replicacao_automatica`/`api/postagem_automatica` (itens 1-4)~~ — **concluído em 06/08/2026, 10:15** (357 passed, 100% cover), ver "Status real agora" acima.
+- **Item 5 — executar o script manual `scripts_dev/testar_fluxo_real_ml_sem_clicar.py`** contra o ML real (dry-run, sem clicar) — salvo, ainda não rodado. Corre em paralelo, não bloqueia o resto.
+- **Item 6 — feature de percentual de replicação** — pausado a pedido do usuário antes de codar qualquer coisa; plano já desenhado, falta decidir onde exibir o resultado (tela de progresso da replicação, relatório separado, ou só na resposta da API pro agente — pergunta ainda sem resposta do usuário) e então: migration + `_obter_outros_mlbs()` compartilhada + captura + cálculo. Ver [[Percentual de Replicacao por Produto e Geral]].
+- Task pendente separada: flag de dry-run temporária (`confirmar_de_verdade=False`) em `replicar_video_no_ml()` (`agente_local/replicacao_ml.py`), mirando o padrão já existente em `postagem_ml.py` — decidida mas não implementada ainda.
 - `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima). Ainda não apagado.
 - CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo — ainda não limpo, não é urgente.
 - **CRLF vs LF no repo do vault** (achado em 06/08): ~10 notas + os 4 `.obsidian/*.json` aparecem como "modificado" no git só por diferença de quebra de linha, sem mudança de conteúdo real. Deixado de lado por ora — decisão de normalizar tudo de vez (commit só de formatação) fica pro usuário decidir quando quiser.
@@ -175,6 +190,17 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 **Confirmado em 06/08/2026 via clone fresco do GitHub:** os 4 commits acima existem no branch `dev`, e o diff de cada um bate exatamente com o que foi planejado/pedido na conversa (sem discrepância).
 
+### Sessão 06/08 (Rodada 6 — testes das APIs do agente local) — ainda NÃO commitado
+
+- `api/tests/__init__.py` (novo, vazio) + `api/tests/test_nivel_4__replicacao_automatica_views.py` (novo, 20 testes — 5 rotas de `api/replicacao_automatica`, 100% cover).
+- `agenda_videos/tests/test_nivel_3__orquestrador_postagem_automatica.py` (novo, 12 testes — `listar_produtos_elegiveis`/`obter_mlb_do_produto`, achou o bug do Simples).
+- `agenda_videos/funcoes_auxiliares/postagem_automatica/orquestrador.py` — 2 fixes reais: `listar_produtos_elegiveis()` (`Q(...) | Q(...isnull=True)` pro Simples) e `resolver_arquivo_da_ocorrencia()` (formato novo do parser — `.obter_fase()`/`.obter_ocorrencia()`/`.completo`).
+- `api/tests/test_nivel_4__postagem_automatica_views_sem_drive.py` (novo, 14 testes — as 4 rotas sem Drive de `api/postagem_automatica`).
+- `api/tests/test_nivel_4__postagem_automatica_views_drive_simulado.py` (novo, 11 testes — `view_baixar_video`/`view_marcar_concluido`, mock só na borda de rede via `monkeypatch`).
+- `scripts_dev/testar_fluxo_real_ml_sem_clicar.py` (novo, script manual — não pytest — pra dry-run real contra o ML, salvo pelo usuário, ainda não executado).
+
+**Confirmado localmente: 357 passed, 0 failed, pacote `api/` inteiro 100% cover.** Nenhum destes arquivos foi commitado/pushado ainda — só o título/descrição do commit foi entregue em texto.
+
 ## Convenção de entrega de código (lembrar de imediato)
 
 Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo código é entregue como bloco "Localize: / Substitua por:" (diff nomeado, texto exato do arquivo real) ou arquivo completo, sempre depois de explicar em tópicos simples o que vai mudar e por quê, pro usuário aplicar e rodar localmente — reportando o resultado real de volta (saída de terminal, screenshot, ou descrição precisa do comportamento).
@@ -198,3 +224,5 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo c�
 - [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]
 - [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]]
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
+- [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]]
+- [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]]

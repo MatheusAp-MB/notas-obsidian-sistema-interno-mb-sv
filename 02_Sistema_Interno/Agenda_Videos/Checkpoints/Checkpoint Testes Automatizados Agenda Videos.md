@@ -3,35 +3,38 @@ tipo: checkpoint
 dominio: testes
 status: em_andamento
 criado: 02/08/2026
-atualizado_em: 06/08/2026 01:00
-relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Percentual de Replicacao por Produto e Geral, Convencao de Nomenclatura de Arquivos no Drive, Badge de Aviso Para Arquivos Inconsistentes no Drive, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), LOGIN_REQUIRED no .env Causa Falso Positivo de 71 Falhas em Testes de View, obter_fase Levantava AttributeError Cru Para Chave Invalida, Botao de Verificar Drive Individual Tinha 3 Bugs Reais]
+atualizado_em: 06/08/2026 10:15
+relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Percentual de Replicacao por Produto e Geral, Convencao de Nomenclatura de Arquivos no Drive, Badge de Aviso Para Arquivos Inconsistentes no Drive, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), LOGIN_REQUIRED no .env Causa Falso Positivo de 71 Falhas em Testes de View, obter_fase Levantava AttributeError Cru Para Chave Invalida, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]
 ---
 
 # Checkpoint — Testes Automatizados Agenda_Videos
 
 Nota viva — atualizada em cada sessão relevante, nunca substituída por nota nova. Serve pra retomar o trabalho mesmo se o contexto da conversa for perdido (compactação já causou esquecimento real, ex: acesso ao GitHub).
 
-## Mapa de Execução — Rodada 6 (trabalho remoto, sem ML e sem Drive via navegador)
+## Mapa de Execução — Rodada 6
 
 **Objetivo geral do projeto:** o fluxo completo da Agenda de Vídeos rodando ponta a ponta — cadastro → produção (Base/Roteiro/Completo) → postagem no ML → aprovação → replicação nos demais MLBs → reinício do ciclo — com as duas automações (Postagem e Replicação) operando sem intervenção manual.
 
-**Onde estamos:** as 6 telas e o fluxo manual completo estão testados (260+ testes, 3 bugs reais corrigidos). As APIs que o agente local consome (`api/postagem_automatica`, `api/replicacao_automatica`) existem em produção mas nunca foram testadas.
+**Onde estamos (06/08/2026, 10:15):** itens 1-4 completos. `api/replicacao_automatica` e `api/postagem_automatica` (as 21 rotas somadas) estão 100% cobertas por teste — 357 passed. 2 bugs reais encontrados e corrigidos no processo (ver seção própria abaixo). Restrição original desta rodada (usuário em casa, sem ML nem Drive via navegador) **não existe mais** — usuário agora está no escritório, com acesso total ao Drive real e ao Mercado Livre real.
 
-**Restrição desta rodada:** usuário em casa, sem acesso ao ML e sem Drive via navegador — mas com acesso à API do Drive. Postagem física no ML (`agente_local/postagem_ml.py`, pywinauto/keyboard) só é validável na máquina do escritório — fora de alcance por definição, não é pendência.
+**Frentes:**
+1. Testes de `api/replicacao_automatica` — puro banco, zero Drive. **Completo** (100% cover).
+2. Testes das funções puras do orquestrador (`listar_produtos_elegiveis`, `obter_mlb_do_produto`) — puro ORM. **Completo.**
+3. Corrigir `resolver_arquivo_da_ocorrencia()` (bug real) + testar as 4 rotas sem Drive de `api/postagem_automatica`. **Completo.**
+4. Testar `view_baixar_video`/`view_marcar_concluido` com Drive — versão **Simulada** (mock só na borda de rede). **Completo** (`api/` inteiro 100% cover). Versão **Real** (Nível 5, contra o Drive de verdade) autorizada pelo usuário (já tem backup da pasta) mas ainda não escrita — redirecionada pro item 5 abaixo antes de voltar aqui, se ainda fizer sentido.
+5. Validação física com o ML real (postar sem clicar) — esclarecido que **não é pytest** (sucesso é visual: mouse parado sobre o botão, sem clique — não dá pra `assert` isso). Script manual entregue e salvo pelo usuário: `scripts_dev/testar_fluxo_real_ml_sem_clicar.py` — baixa vídeo real do Drive (só leitura), abre o navegador de verdade, sobe o arquivo, para o mouse no botão final sem clicar (a função `postar_video_no_ml()` já faz isso por decisão anterior, 30/07). **Ainda não executado.** Corre em paralelo ao pytest, não bloqueia o resto do mapa.
+6. Feature nova: percentual de replicação por produto e geral — ver [[Percentual de Replicacao por Produto e Geral]]. Plano de implementação já desenhado na conversa (3 campos novos em `ItemExecucaoReplicacao` + migration; `_obter_outros_mlbs()` deixa de ser privada da API; captura em 2 momentos — criação do item e `view_marcar_concluido`; função de cálculo com assert de soma 100%; exibição ainda a decidir, provavelmente na tela de progresso). **Pausado a pedido do usuário antes de codar** ("isso vai afetar muita coisa nova") — primeiro commit + vault, só depois volta.
 
-**Frentes abertas:**
-1. Testes de `api/replicacao_automatica` — puro banco, zero Drive.
-2. Testes das funções puras do orquestrador (`listar_produtos_elegiveis`, `obter_mlb_do_produto`) — puro ORM.
-3. Testes de `api/postagem_automatica` — as 4 rotas sem Drive primeiro.
-4. Testes com Drive real (API, sem mock) — `resolver_arquivo_da_ocorrencia`, `view_baixar_video`, `view_marcar_concluido` da postagem.
-5. Feature nova: percentual de replicação por produto e geral — ver [[Percentual de Replicacao por Produto e Geral]] — inclui gap de schema (novo campo em `ItemExecucaoReplicacao`, precisa de migration).
-6. Fora de alcance nesta rodada: validação física end-to-end com o ML, só no escritório.
+**Ordem de execução:** 1→2→3→4 concluídos em sequência. 5 (validação manual do ML) e 6 (feature de %) agora correm em paralelo entre si — não são mais sequenciais um do outro.
 
-**Ordem de execução:** 1 → 2 → 3 → 4 → 5, do menor problema pro maior — cada item só avança depois do anterior confirmado passando.
+**Pausa/pivô (05/08, tarde):** usuário pediu pra não testar nada que dependa do ML por agora, e priorizar validar o Drive de ponta a ponta primeiro — histórico, já resolvido (ver entrada de 06/08 01:00 abaixo).
 
-**Pausa/pivô (05/08, tarde):** usuário pediu pra não testar nada que dependa do ML por agora, e priorizar validar o Drive de ponta a ponta primeiro — a ordem acima (itens 1-5) fica pausada, ver detalhe da validação de Drive na entrada de atualização mais recente abaixo.
+**Pausa levantada (06/08/2026, 01:00):** validação do Drive concluída por completo (reescrita + Nível 5 + 3 bugs do botão individual, tudo commitado — `d0a4be2`). A ordem 1→6 acima passou a valer.
 
-**Pausa levantada (06/08/2026, 01:00):** validação do Drive concluída por completo (reescrita + Nível 5 + 3 bugs do botão individual, tudo commitado — `d0a4be2`). A ordem 1→5 acima volta a valer — próximo item real é o 1 (`api/replicacao_automatica`, puro banco).
+### Bugs reais encontrados e corrigidos na Rodada 6
+
+1. **`listar_produtos_elegiveis()` nunca incluía Simples na fila de postagem** — comparava `data_devida_ciclo_atual__lte=hoje`, mas Simples nunca tem `data_devida` (fica `None` por design, sem vencimento); `NULL <= hoje` nunca é verdadeiro em SQL. Corrigido tratando `NULL` como "sempre elegível quando pronto" (`Q(...__lte=hoje) | Q(...__isnull=True)`). Detalhe: [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]].
+2. **`resolver_arquivo_da_ocorrencia()` usava o formato ANTIGO do parser do Drive** — `estrutura.fases[fase].completos...`, que não existe mais desde a reescrita de 05/08. Nunca tinha sido exercitada por teste algum; ia estourar `AttributeError` na 1ª vez que fosse usada com dado real. Corrigida pra `estrutura.obter_fase(fase).obter_ocorrencia(numero).completo`. Detalhe: [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]].
 
 ## Última atualização
 
@@ -277,7 +280,12 @@ Motivado por uma pergunta direta do usuário: "as configs realmente refletem na 
 **Validação manual no navegador (06/08/2026) achou + corrigiu 3 bugs reais a mais** no botão de verificar Drive individual (visibilidade escondida por `ciclo_atual`; loop não criava o 1º `CicloVideo`; snapshot nunca gravado nesse caminho) — ver [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]]. Todos confirmados corrigidos em ambiente real, e agora com teste de regressão: **42 passed, 100% cover, 0 Miss, 0 BrPart** em `parser.py`/`verificador.py` (00:35).
 
 1. ~~Commitar os 3 fixes do botão individual...~~ — **concluído e confirmado no GitHub em 06/08/2026 (commit `d0a4be2`).**
-2. **Próximo passo real: iniciar o fluxo automatizado (`api/postagem_automatica`, `api/replicacao_automatica`)** — pausado desde 05/08, nenhuma das 2 APIs tem teste ainda. Ordem definida no "Mapa de Execução — Rodada 6" no topo desta nota: 1. replicacao_automatica (puro banco) → 2. funções puras do orquestrador → 3. postagem_automatica sem Drive → 4. com Drive real → 5. feature de % de replicação.
+2. ~~Iniciar o fluxo automatizado (`api/postagem_automatica`, `api/replicacao_automatica`)~~ — **itens 1-4 da Rodada 6 concluídos (06/08/2026, 10:15).**
+
+**Rodada 6, itens 1-4 concluídos (06/08/2026, 10:15)** — `api/replicacao_automatica` (Nível 4, 100% cover) → funções puras do orquestrador (achou e corrigiu o bug do Simples) → `resolver_arquivo_da_ocorrencia()` corrigida + 4 rotas sem Drive de `api/postagem_automatica` → `view_baixar_video`/`view_marcar_concluido` versão Simulada (mock só na borda de rede). **Confirmado: 357 passed, 0 failed, pacote `api/` inteiro 100% cover.** 2 bugs reais corrigidos no processo, ver seção "Bugs reais encontrados e corrigidos na Rodada 6" no topo desta nota. Nenhum destes arquivos foi commitado/pushado ainda.
+
+3. **Item 5 (validação física com o ML real) redirecionado pra script manual, não pytest.** `scripts_dev/testar_fluxo_real_ml_sem_clicar.py` entregue e salvo pelo usuário — dry-run real contra o ML (sem clicar), corre em paralelo, ainda não executado.
+4. **Item 6 (feature de percentual de replicação) pausado a pedido do usuário antes de qualquer código** — "isso vai afetar muita coisa nova", primeiro commit + vault. Plano já desenhado (ver [[Percentual de Replicacao por Produto e Geral]]); falta decidir onde exibir o resultado antes de codar.
 
 Ver mapa completo em [[Fluxo Manual Antes do Automatizado]] e [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] (nota auto-contida, pra quando o contexto de conversa não estiver disponível).
 
