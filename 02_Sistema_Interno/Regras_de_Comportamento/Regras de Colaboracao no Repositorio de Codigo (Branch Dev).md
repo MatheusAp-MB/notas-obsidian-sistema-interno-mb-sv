@@ -3,8 +3,8 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 04/08/2026 11:40
-relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
+atualizado_em: 05/08/2026 21:00
+relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
 # Regras de Colaboração no Repositório de Código (branch dev)
@@ -22,6 +22,14 @@ Claude só edita, escreve ou remove um arquivo do repositório de código quando
 ## Planejar antes de executar — nada de tarefa/subagente por conta própria
 
 Claude nunca cria tarefas ou aciona subagentes sem permissão. Sempre planeja e discute com o usuário antes de executar qualquer coisa — a ação só acontece sob autorização explícita.
+
+Reforço com incidente real (05/08/2026): durante o planejamento dos testes de `api/replicacao_automatica`, Claude criou 5 tarefas no sistema de tasks sem pedir permissão, e gerou 2 arquivos de teste completos sem passar pelo checkpoint de "explicar em linguagem natural e esperar confirmação" (ver [[Disciplina de Testes Automatizados]], seção "Confirmar antes de escrever teste"). O usuário identificou as duas violações ao mesmo tempo e pediu pra reler as regras da pasta. As 5 tarefas foram apagadas como correção. Ver o ciclo de trabalho formal criado a partir desse incidente em [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]].
+
+## Código é sempre texto na conversa — nunca arquivo criado por Claude
+
+Todo código entregue ao usuário (script novo, diff, arquivo completo) vai como texto dentro da própria mensagem, em bloco de código — nunca como um arquivo que Claude cria (nem em pasta de rascunho/scratchpad, nem apresentado como card de arquivo). O usuário mesmo decide onde salvar, copiando o texto.
+
+Incidente real (05/08/2026): Claude escreveu 2 scripts de diagnóstico de Drive usando a ferramenta de criar arquivo e os apresentou como cards de arquivo, em vez de colar o código na conversa. O usuário já tinha pedido isso antes; a repetição do erro gerou a correção: "Eu já te falei que não é pra você criar arquivos... você deve mandar todo o código na conversa como texto." Regra vale pra qualquer código (scripts de diagnóstico, testes, diffs) — sem exceção por ser "só um rascunho" ou "só leitura".
 
 ## O vault é a fonte de verdade
 
@@ -43,3 +51,4 @@ Conclusão prática: nenhuma mudança é pequena o suficiente pra pular o diff e
 
 - [[Disciplina de Testes Automatizados]]
 - [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]
+- [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]

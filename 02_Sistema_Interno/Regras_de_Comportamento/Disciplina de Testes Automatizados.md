@@ -3,6 +3,7 @@ tipo: regra
 dominio: testes
 status: ativa
 criado: 02/08/2026
+atualizado_em: 05/08/2026 23:05
 relacionado: [Disciplina de Refatoracao e Testes, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167]
 ---
 
@@ -32,8 +33,19 @@ Todo teste explica por que existe, seguindo essa lógica — no nome da função
 
 - **SUT** (System Under Test): a peça sendo testada de verdade.
 - **DOC** (Depended-on Component): termo do livro *xUnit Test Patterns* (Gerard Meszaros) — qualquer colaborador que o SUT chama pra funcionar (ex: no material de referência analisado, `ListaDeTarefas` é SUT e `Tarefa` é DOC dela). Não é termo do deck "Live de Python #167" — ver [[Conceitos de Pytest Live de Python 167]] pra não confundir a origem.
-- **Regra do projeto: DOC real, quase sempre — nunca dublê/mock aqui.** Um dublê só se justificaria se o DOC fosse lento, externo, ou não-determinístico. Nenhum DOC deste projeto é isso hoje (são funções puras ou o banco de teste do Django). Se um dia entrar uma integração externa de verdade (ex: API do Mercado Livre), esse seria o 1º candidato a dublê.
+- **Regra do projeto: DOC real, quase sempre — nunca dublê/mock aqui.** Um dublê só se justificaria se o DOC fosse lento, externo, ou não-determinístico. Até 04/08/2026 nenhum DOC deste projeto era isso (só funções puras ou o banco de teste do Django). **Atualização 05/08/2026: aconteceu — Google Drive é o 1º DOC externo de verdade do projeto.** Padrão adotado pra esse caso: ver seção "Integração externa real: sempre par Real + Simulado" abaixo.
 - **DOC já testado numa camada de baixo não precisa ser re-exaurido em cima** — a camada de cima só confirma que a chamada ao DOC está correta (1-2 casos representativos), e concentra o "cobrir o máximo" no que é NOVO daquela camada. Isso evita a suíte crescer exponencialmente conforme sobe de nível.
+
+## Integração externa real: sempre par Real + Simulado
+
+Quando o DOC é uma integração externa de verdade (rede, API terceira) — a exceção já prevista na seção "SUT e DOC" acima — a função que toca essa borda ganha 2 testes pro MESMO cenário, nunca só 1:
+
+- **Real**: chama a API de verdade (ex: Google Drive, reaproveitando o EAN de referência já validado — QUIMIVIDA, `0789888395162`) — prova que a integração funciona ponta a ponta contra o mundo real.
+- **Simulado**: `monkeypatch` só na função/método que faz a chamada de rede em si (ex: `LocalizadorArquivosProduto.localizar_arquivos`, `escaneador.sincronizar_snapshots_drive`) — todo o resto (parser, avanço de etapa, escrita no banco) roda de verdade, sem dublê nenhum.
+
+Motivo (ideia do usuário, 05/08/2026): se o teste Real falhar e o Simulado passar, o problema é do lado externo (dado/permissão/conectividade do Drive) — não do código. Se os dois falharem, é bug real no código. Separar assim acelera o diagnóstico em vez de deixar tudo indistinto sob "falhou".
+
+1º caso de uso real: `verificar_produto_no_drive()`/`verificar_todos_no_drive()` (`agenda_videos/funcoes_auxiliares/drive/verificador.py`), 05/08/2026.
 
 ## Progressão por Nível (substitui "Camada") — nunca pular pro difícil
 
@@ -43,6 +55,7 @@ Renomeado de "Camada" pra "Nível" depois de testar o código real do `agenda_vi
 - **Nível 2**: precisa de 1 instância de model em memória, mas SEM salvar — sem `@pytest.mark.django_db` (ex: `CicloVideo.etapa_atual()`, construído via `CicloVideo(campo=valor, ...)`, nunca `.save()`).
 - **Nível 3**: toca banco de verdade — sempre `pytestmark = pytest.mark.django_db` (ex: `CicloVideo.criar_proximo()`).
 - **Nível 4**: view/integração — ingestão em massa, dashboard.
+- **Nível 5**: integração externa real — rede de verdade, API de terceiro (ex: Google Drive). Sempre com auto-skip (`pytest.mark.skipif`) baseado na credencial existir na máquina (ex: `settings.GOOGLE_DRIVE_CREDENCIAIS_JSON`), pra nunca quebrar quem não tem a credencial configurada. Nasceu como categoria "fora da numeração" (`test_integracao_real__...`) antes de existir um padrão claro pra ela — corrigido em 05/08/2026: nenhum teste fica "sem nível", passou a ser Nível 5 mesmo. Ver também a seção "Integração externa real: sempre par Real + Simulado" acima — todo Nível 5 tem um par Nível 3 simulado (mock só na borda de rede) pro mesmo cenário.
 
 Nomeia o arquivo com o número do nível: `test_nivel_N__assunto.py` (nível + underscore + número + DUPLO underscore + assunto). A ordem de execução é garantida por hook explícito em `conftest.py` (`pytest_collection_modifyitems`, ordena por `nodeid`) — nunca confiar só na ordem "padrão" de coleta do pytest, que já variou de forma inesperada mesmo com arquivo numerado certo.
 
