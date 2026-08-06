@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 05/08/2026 09:30
-relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe]
+atualizado_em: 06/08/2026 01:00
+relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Agenda de Vídeos)
@@ -16,6 +16,17 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 > Atualizada de novo em 04/08/2026 11:40 — usuário pausou o trabalho de propósito ("vou precisar dar uma pausa... quero que atualize o vault com tudo que for importante, para eu retornar depois"). Esta é a atualização mais recente; leia "Status real agora" e "O que ainda está em aberto" abaixo antes de qualquer outra coisa.
 >
 > Atualizada de novo em 05/08/2026 09:30 — usuário retomou, confirmou que os commits anteriores foram aplicados, e fechamos o Bloco D + os testes de integração. Rodada de views/Nível 4 encerrada por completo (260 passed). Próximo passo real: testar a sincronia do Drive usando o Drive real, decisão do usuário — ver "Status real agora" abaixo.
+>
+> Atualizada de novo em 06/08/2026 01:00 — a rodada de validação do Drive (decisão de 05/08 acima) está **encerrada**: reescrita completa de `parser.py`/`verificador.py`, Nível 5 criado, 5 bugs reais corrigidos (2 na reescrita + 3 achados validando manualmente no navegador o botão de Drive individual), tudo com teste de regressão e commitado no GitHub (`d0a4be2`). Esta é a atualização mais recente — leia "Notas que deve ler a seguir" abaixo antes de qualquer outra coisa, depois "Status real agora" pro estado completo.
+
+## Notas que deve ler a seguir (nesta ordem)
+
+1. **Pasta `Regras_de_Comportamento/` inteira** (~14 notas) — sempre primeiro, sem exceção. Define como se comportar neste projeto (git, testes, vault, comunicação). Reread completo confirmado em 05/08/2026, sem drift.
+2. **Esta nota** (você já está aqui) — snapshot geral + "Status real agora" logo abaixo.
+3. [[Checkpoint Testes Automatizados Agenda Videos]] — histórico completo, nível por nível, de todos os testes e bugs já corrigidos no domínio Agenda de Vídeos.
+4. [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]] — achado mais recente (06/08), fecha a rodada de validação do Drive.
+5. [[Fluxo Manual Antes do Automatizado]] — por que o automatizado (postagem/replicação) foi deliberadamente adiado, e por que ele é o próximo passo real agora que o Drive está validado.
+6. Só então: começar a testar `api/postagem_automatica`/`api/replicacao_automatica` — nenhuma das 2 tem teste ainda. Ordem de execução já mapeada em [[Checkpoint Testes Automatizados Agenda Videos]], seção "Mapa de Execução — Rodada 6".
 
 ## Onde isso vive
 
@@ -76,7 +87,17 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (05/08/2026, 09:30)
+## Status real agora (06/08/2026, 01:00)
+
+- **Reescrita completa do Drive concluída e testada.** `constantes.py`/`parser.py`/`verificador.py` reescritos pro modelo Base/Roteiro/Completo por ocorrência. Nível 0 (parser, 15 testes), Nível 2 (verificador puro, 8 testes), Nível 3 (verificador com banco, 8 + mais 4 hoje), Nível 5 — **novo** (integração externa real, contra o Drive de verdade, 2 testes). Padrão novo formalizado: qualquer função que toca API externa ganha par Real+Simulado. Ver [[Disciplina de Testes Automatizados]].
+- **2 bugs reais corrigidos na reescrita:** `obter_fase()` levantava `AttributeError` cru pra chave inválida (agora `ValueError` claro); `montar_arvore_por_ean()` comparava nome de subpasta case-sensitive, mas o Drive é case-insensitive — 4 de 5 pastas de EAN dentro de QUIMIVIDA usavam "videos" minúsculo e eram descartadas silenciosamente da varredura.
+- O susto de "71 falhas em outro PC" era só `.env` local com `LOGIN_REQUIRED=True` forçando redirect de login — zero regressão real. Ver [[LOGIN_REQUIRED no .env Causa Falso Positivo de 71 Falhas em Testes de View]].
+- **Validação manual no navegador (06/08) achou +3 bugs reais em cadeia** no botão de verificar Drive individual — só existia "Verificar Todos" antes, e o usuário sentiu falta do botão por produto: (1) botão já existia no template mas ficava escondido atrás de `ciclo_atual`; (2) `_avancar_etapas_com_estrutura` não criava o 1º `CicloVideo` mesmo com o arquivo Base já pronto no Drive — sincronização não fazia nada em produto novo; (3) verificação individual nunca gravava `SnapshotArquivosDrive` — o badge de "última verificação" só atualizava pelo "Verificar Todos". **Os 3 corrigidos**, com teste de regressão: **42 passed, 100% cover, 0 Miss, 0 BrPart** em `parser.py`/`verificador.py`. Detalhe completo em [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]].
+- **Commitado e sincronizado no GitHub:** commit `d0a4be2` (branch `dev`) — confirmado via clone fresco, log e diff linha a linha batendo exatamente com o que foi planejado na conversa.
+- **Vault também commitado** — 2 commits: um cobrindo o trabalho desta sessão, e um retroativo pra ~7 notas de sessões anteriores que nunca tinham sido commitadas (Ciclo de Trabalho Calmo, Nível 5, Convenção de Nomenclatura de Arquivos no Drive, Percentual de Replicação, Badge de Aviso, LOGIN_REQUIRED, obter_fase).
+- **A rodada de validação do Drive está encerrada.** Próximo passo real: retomar o fluxo automatizado (`postagem_automatica`, `replicacao_automatica`) — pausado desde 05/08, nenhuma das 2 APIs tem teste ainda.
+
+## Status anterior (05/08/2026, 09:30 — histórico, ver "Status real agora" acima pro estado atual)
 
 - As 6 telas (5 originais + Todos) estão aplicadas, testadas via pytest e validadas manualmente.
 - `listar_produtos_com_historico()` (relatório de Histórico) fechado — 100% cover em `historico_roadmap.py`.
@@ -91,10 +112,11 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 ## O que ainda está em aberto
 
-- **Testar a sincronia com o Drive real** (decisão de 05/08) — próximo passo imediato: explorar o código real de `view_verificar_produto_drive`/`view_verificar_todos_drive` + a camada de serviço que fala com a API do Drive, entender autenticação/credenciais e os riscos de rodar contra o Drive de verdade (efeito colateral, não idempotência, limpeza), só então desenhar o plano de teste.
-- `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima).
-- CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo, marcado como "pode limpar depois" — não é urgente.
-- Depois de tudo isso: o restante do fluxo AUTOMATIZADO (postagem_automatica, replicacao_automatica) — deliberadamente adiado até o fluxo manual + Drive estarem 100% validados (ver [[Fluxo Manual Antes do Automatizado]]).
+- ~~Testar a sincronia com o Drive real~~ — **concluído em 06/08/2026**, ver "Status real agora" acima.
+- **Próximo passo real: iniciar testes de `postagem_automatica`/`replicacao_automatica`** — nenhuma das 2 APIs que o agente local consome tem teste algum ainda. Ver [[Fluxo Manual Antes do Automatizado]] pro motivo do adiamento, e [[Checkpoint Testes Automatizados Agenda Videos]] seção "Mapa de Execução — Rodada 6" pra ordem já mapeada: 1. `api/replicacao_automatica` (puro banco) → 2. funções puras do orquestrador → 3. `api/postagem_automatica` sem Drive → 4. com Drive real → 5. feature de % de replicação (gap de schema já identificado, ver [[Percentual de Replicacao por Produto e Geral]]).
+- `script_agenda_videos.js` ficou vazio (lógica de exclusão mútua não existe mais) — pode apagar quando o usuário autorizar (regra 2 acima). Ainda não apagado.
+- CSS antigo (`.agenda-estagio-*` em `layout_agenda_videos.css`) ficou morto no arquivo — ainda não limpo, não é urgente.
+- **CRLF vs LF no repo do vault** (achado em 06/08): ~10 notas + os 4 `.obsidian/*.json` aparecem como "modificado" no git só por diferença de quebra de linha, sem mudança de conteúdo real. Deixado de lado por ora — decisão de normalizar tudo de vez (commit só de formatação) fica pro usuário decidir quando quiser.
 
 ## Arquivos tocados (referência rápida)
 
@@ -142,7 +164,16 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 - `agenda_videos/tests/test_nivel_4__view_configuracoes_agenda_videos.py` (novo, 10 testes — Bloco D, fecha a rodada de views/Nível 4).
 - `agenda_videos/tests/test_nivel_4__integracao_config_afeta_roadmap.py` (novo, 2 testes — prova ponta a ponta que mudar `ConfiguracaoFase` pela tela reflete em `criar_proximo()`).
 
-**Estes 2 arquivos ainda NÃO foram commitados/pushados** — confirmado 260 passed, 0 failed localmente, mas sem commit ainda.
+**Estes 2 arquivos ainda NÃO foram commitados/pushados** — confirmado 260 passed, 0 failed localmente, mas sem commit ainda. *(Atualização 06/08: confirmado commitado no commit `e2028ca` ("update", 05/08 18:03) — junto com a 1ª versão do arquivo de Drive Nível 5, antes de ser renomeado.)*
+
+### Sessão 05-06/08 (reescrita do Drive + botão individual) — TUDO commitado e confirmado no GitHub
+
+- `agenda_videos/funcoes_auxiliares/drive/constantes.py`, `parser.py`, `verificador.py` — reescritos por completo pro modelo Base/Roteiro/Completo por ocorrência. `agenda_videos/tests/test_nivel_0__parser.py`, `test_nivel_2__verificador.py`, `test_nivel_3__verificador.py` (versão inicial) — novos. Commit `f294b1b`.
+- `scripts_dev/` — diagnóstico e correção manual da pasta de referência do Drive (QUIMIVIDA). Commit `b4193ee`.
+- `agenda_videos/funcoes_auxiliares/drive/escaneador.py` — fix de case-sensitivity em `montar_arvore_por_ean`. `agenda_videos/tests/test_nivel_5__drive_leitura.py` (renomeado de `test_integracao_real__drive_leitura.py`) e `test_nivel_5__verificador_drive.py` (novo) — Nível 5 criado. Commit `78dbf07`.
+- `agenda_videos/funcoes_auxiliares/drive/verificador.py` — 2 fixes reais (bootstrap do 1º ciclo quando Base está pronta no Drive; grava `SnapshotArquivosDrive` também no caminho individual). `agenda_videos/templates/agenda_videos/parciais/estrutura_parcial_card_produto.html` — botão de verificar Drive movido pra fora do `{% if ciclo_atual %}`. `test_nivel_3__verificador.py` (4 cenários novos/atualizados) e `test_nivel_4__view_agenda_videos.py` (1 teste novo). Commit `d0a4be2`.
+
+**Confirmado em 06/08/2026 via clone fresco do GitHub:** os 4 commits acima existem no branch `dev`, e o diff de cada um bate exatamente com o que foi planejado/pedido na conversa (sem discrepância).
 
 ## Convenção de entrega de código (lembrar de imediato)
 
@@ -165,3 +196,5 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo c�
 - [[Perguntar Data e Hora Antes de Escrever no Vault]]
 - [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]
 - [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]
+- [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]]
+- [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]

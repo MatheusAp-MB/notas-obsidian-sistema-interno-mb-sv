@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: testes
 status: em_andamento
 criado: 02/08/2026
-atualizado_em: 06/08/2026 00:35
+atualizado_em: 06/08/2026 01:00
 relacionado: [Disciplina de Testes Automatizados, Modelo Padrao de Arquivo de Teste, Fluxo Manual Antes do Automatizado, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Regua de Fases Precisa Ser Semeada em Todo Ambiente Novo, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Percentual de Replicacao por Produto e Geral, Convencao de Nomenclatura de Arquivos no Drive, Badge de Aviso Para Arquivos Inconsistentes no Drive, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), LOGIN_REQUIRED no .env Causa Falso Positivo de 71 Falhas em Testes de View, obter_fase Levantava AttributeError Cru Para Chave Invalida, Botao de Verificar Drive Individual Tinha 3 Bugs Reais]
 ---
 
@@ -31,7 +31,11 @@ Nota viva — atualizada em cada sessão relevante, nunca substituída por nota 
 
 **Pausa/pivô (05/08, tarde):** usuário pediu pra não testar nada que dependa do ML por agora, e priorizar validar o Drive de ponta a ponta primeiro — a ordem acima (itens 1-5) fica pausada, ver detalhe da validação de Drive na entrada de atualização mais recente abaixo.
 
+**Pausa levantada (06/08/2026, 01:00):** validação do Drive concluída por completo (reescrita + Nível 5 + 3 bugs do botão individual, tudo commitado — `d0a4be2`). A ordem 1→5 acima volta a valer — próximo item real é o 1 (`api/replicacao_automatica`, puro banco).
+
 ## Última atualização
+
+06/08/2026 (RODADA 6 ENCERRADA — commit confirmado no GitHub, análise retroativa completa, 01:00) — Clone fresco do GitHub (`dev`) confirmou: commit `d0a4be2` ("agenda_videos: corrige verificacao individual do Drive (3 bugs reais)") está lá, e o diff de cada arquivo bate exatamente com o planejado na conversa (`_avancar_etapas_com_estrutura` com o bootstrap do 1º ciclo, `verificar_produto_no_drive` gravando o snapshot nos 2 desfechos, botão fora do `{% if ciclo_atual %}`, os 5 testes novos/atualizados, `resultados_testes.txt` confirmando 42 passed/100% cover). **Isso encerra por completo a rodada 6 (validação do Drive).** Nota "Contexto Geral — Retomada em Outro Computador" reescrita com o estado atual + nova seção "Notas que deve ler a seguir", pra retomada em outro PC sem depender desta conversa. Vault também commitado (2 commits — o de hoje + um retroativo de ~7 notas de sessões anteriores nunca commitadas). Próximo passo real, sem mais pendência de Drive: iniciar testes de `api/postagem_automatica`/`api/replicacao_automatica` (ver "Mapa de Execução — Rodada 6" no topo desta nota pra ordem já definida).
 
 06/08/2026 (teste de regressão dos 3 bugs do botão de Drive individual — concluído, 42 passed, 100% cover, 00:35) — Os 4 cenários confirmados com o usuário foram escritos: 2 substituem o teste antigo `test_nivel_3__avancar_etapas_produto_sem_ciclo_nao_faz_nada` (que encodava o comportamento ANTIGO/errado — esperava `diagnostico is None`) por 2 testes novos (sem Base no Drive → não cria nada, com diagnóstico; com Base pronta → cria o 1º ciclo e avança); 2 novos cobrem o snapshot gravado nos 2 desfechos de `verificar_produto_no_drive`; 1 novo em `test_nivel_4__view_agenda_videos.py` confirma o botão aparece mesmo sem `ciclo_atual` (via tela Todos). Achado no processo: `..._avanca_ponta_a_ponta` (teste já existente) precisou de mock extra pra `listar_arquivos_usados` — sem isso bateria no Drive real, já que o fix do Bug 3 passou a chamar esse método. Confirmado: **42 passed, 100% cover, 0 Miss, 0 BrPart** em `parser.py` (69 stmts/12 branch) e `verificador.py` (88 stmts/22 branch). Detalhe em [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]]. Falta só commitar.
 
@@ -272,8 +276,8 @@ Motivado por uma pergunta direta do usuário: "as configs realmente refletem na 
 
 **Validação manual no navegador (06/08/2026) achou + corrigiu 3 bugs reais a mais** no botão de verificar Drive individual (visibilidade escondida por `ciclo_atual`; loop não criava o 1º `CicloVideo`; snapshot nunca gravado nesse caminho) — ver [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]]. Todos confirmados corrigidos em ambiente real, e agora com teste de regressão: **42 passed, 100% cover, 0 Miss, 0 BrPart** em `parser.py`/`verificador.py` (00:35).
 
-1. Commitar os 3 fixes do botão individual (template + `verificador.py`) + os testes novos/atualizados (`test_nivel_3__verificador.py`, `test_nivel_4__view_agenda_videos.py`) — o commit de `escaneador.py`/`test_nivel_5__verificador_drive.py`/rename já foi feito antes (`78dbf07`).
-2. Depois: iniciar o restante do fluxo automatizado (postagem_automatica, replicacao_automatica) — pausado desde 05/08.
+1. ~~Commitar os 3 fixes do botão individual...~~ — **concluído e confirmado no GitHub em 06/08/2026 (commit `d0a4be2`).**
+2. **Próximo passo real: iniciar o fluxo automatizado (`api/postagem_automatica`, `api/replicacao_automatica`)** — pausado desde 05/08, nenhuma das 2 APIs tem teste ainda. Ordem definida no "Mapa de Execução — Rodada 6" no topo desta nota: 1. replicacao_automatica (puro banco) → 2. funções puras do orquestrador → 3. postagem_automatica sem Drive → 4. com Drive real → 5. feature de % de replicação.
 
 Ver mapa completo em [[Fluxo Manual Antes do Automatizado]] e [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]] (nota auto-contida, pra quando o contexto de conversa não estiver disponível).
 
