@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 07/08/2026 11:26
+atualizado_em: 07/08/2026 14:08
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -32,6 +32,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 | [[Lista de CFOP Relevantes para Precificacao]] | decisao | ativa | 07/08/2026 | Custo de aquisição confiável em 1.102/2.102/1.403/2.403; bonificação (1.910/2.910) válida mas sem custo real; retorno de conserto fora. Ampliada de 4 pra 6 códigos em 11:26 (reunião com o superior). |
 | [[Custo Medio Ponderado ou Custo Atual para Precificacao]] | duvida | resolvida | 07/08/2026 | Custo médio ponderado vs. custo atual — decidido custo atual em reunião com o superior. Ver [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]]. |
 | [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]] | decisao | ativa | 07/08/2026 | Custo atual (não médio ponderado) escolhido pelo superior do usuário. Em aberto: sub-questão de alíquota, e como tratar bonificação sendo a nota mais recente (adiado de propósito). |
+| [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]] | descoberta | ativa | 07/08/2026 | Comparação com a tela real do ERP mostrou `Entrada` divergente da API pra mesma nota (Emissão bate, Entrada não) — hipótese: API reflete data do manifesto fiscal, não entrada física real. Sem outro endpoint disponível; decisão de seguir com a limitação conhecida por ora. |
 
 ## Relacionado
 

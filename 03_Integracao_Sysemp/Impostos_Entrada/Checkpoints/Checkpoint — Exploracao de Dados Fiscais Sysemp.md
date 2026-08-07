@@ -3,11 +3,19 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 07/08/2026 11:26
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp]
+atualizado_em: 07/08/2026 14:08
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (07/08/2026 14:08)
+
+Construindo o pipeline de custo atual (`calcular_custo_atual_por_produto.py`, novo — filtra CFOP válido → agrupa produto+data → pega a data mais recente → exibe em tabela Rich), apareceu um "empate" (2 notas do mesmo produto/fornecedor, aparentemente na mesma data) que virou uma descoberta bem maior: comparando o registro cru da API com a tela real do ERP pra essas 2 notas, `Emissão` bate mas `Entrada` diverge — API diz 31/07/2026, tela do ERP diz 05/08/2026, pra exatamente a mesma nota fiscal. Hipótese: o campo `Entrada` do endpoint `listarManifestoNotaEntrada` reflete a data do manifesto/confirmação fiscal (perto da Emissão), não a entrada física real da mercadoria no estoque. Ver [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]] pro achado completo.
+
+**Decisão do usuário:** não existe outro endpoint Sysemp disponível agora pra pegar a entrada física real — segue trabalhando com o campo `Entrada` da API como está, aceitando a limitação conhecida, pra não travar o avanço. Fica registrado como risco sistêmico (pode afetar qual nota é escolhida como "mais recente" em qualquer produto, não só neste caso) — revisar se/quando o suporte da Sysemp confirmar outro campo/endpoint.
+
+Também corrigido nesta sessão: `filtrar_dados_por_cfop.py` estava com a lista de CFOP desatualizada (ainda tinha 1.916/2.916, faltava 1.403/2.403) — corrigido pra bater com a decisão de 11:26. Critério de desempate pra 2 notas do mesmo produto na mesma data definido: maior número de NF (fornecedores numeram sequencialmente) — só válido entre notas do MESMO fornecedor, com aviso crítico separado se o empate envolver fornecedores diferentes.
 
 ## Última atualização (07/08/2026 11:26)
 
@@ -38,7 +46,8 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 ## Próximos passos
 
 - ~~Reunião com o superior (07/08/2026): decidir custo médio vs. custo atual.~~ — feito, custo atual escolhido.
-- Implementar a lógica de custo atual em código.
+- ~~Implementar a lógica de custo atual em código.~~ — feito, `calcular_custo_atual_por_produto.py` criado e funcionando (com a limitação de `Entrada` registrada como risco conhecido).
+- Confirmar com o suporte da Sysemp se existe campo/endpoint pra entrada física real da mercadoria — ver [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]].
 - Rodar `listar_periodo_completo` contra o histórico completo (desde a fundação da empresa), não só maio–agosto.
 - Revisitar a lista de CFOP com o histórico completo (pode aparecer CFOP não visto ainda) — agora com 6 códigos, não 4.
 - Decidir se precisa de limite de segurança no loop de paginação.
@@ -51,3 +60,4 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 - [[Custo Medio Ponderado ou Custo Atual para Precificacao]]
 - [[API Sysemp So Retorna a Ultima Nota Fiscal por Produto]]
 - [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]]
+- [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]]
