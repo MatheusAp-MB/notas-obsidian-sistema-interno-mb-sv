@@ -1,10 +1,10 @@
 ---
 tipo: duvida
 dominio: 
-status: ativa
+status: resolvida
 criado: 07/08/2026
-atualizado_em: 07/08/2026 01:32
-relacionado: [Lista de CFOP Relevantes para Precificacao]
+atualizado_em: 07/08/2026 11:26
+relacionado: [Lista de CFOP Relevantes para Precificacao, Custo Atual Escolhido para Precificacao dos Produtos Sysemp]
 ---
 
 # Custo Médio Ponderado ou Custo Atual para Precificação
@@ -25,8 +25,9 @@ Depende do campo:
 
 ## Status
 
-Aguardando decisão do superior do usuário (conversa prevista pra 07/08/2026). Nenhuma das duas opções foi escolhida ainda.
+**Resolvida em 07/08/2026, 11:26** — reunião com o superior decidiu **custo atual**. Ver [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]] pra decisão completa e o que ainda ficou em aberto (sub-questão de alíquota, e o caso de bonificação ser a nota mais recente).
 
 ## Relacionado
 
 - [[Lista de CFOP Relevantes para Precificacao]]
+- [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]]

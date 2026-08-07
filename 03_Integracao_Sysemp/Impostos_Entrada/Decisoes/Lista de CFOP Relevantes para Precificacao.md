@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 07/08/2026
-atualizado_em: 07/08/2026 01:32
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, API Sysemp So Retorna a Ultima Nota Fiscal por Produto]
+atualizado_em: 07/08/2026 11:26
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp]
 ---
 
 # Lista de CFOP Relevantes para Precificação
@@ -31,7 +31,20 @@ Isso só é seguro depois da correção de paginação (ver [[Paginacao do Endpo
 
 Lista baseada numa amostra de ~3 meses (maio–agosto/2026), não no histórico completo desde a fundação da empresa. Revisar quando rodar a importação histórica completa — pode aparecer CFOP não visto ainda (ex: devolução de compra, consignação, transferência entre filiais).
 
+## Atualização (07/08/2026, 11:26) — lista definitiva ampliada pelo superior
+
+Reunião do usuário com seu superior fechou a lista definitiva de CFOPs válidos como entrada de compra/bonificação — **6 códigos**, não 4:
+
+- **1.102 / 2.102** — compra pra revenda (já documentado acima).
+- **1.403 / 2.403** — novo nesta atualização. Significado exato não verificado por pesquisa externa (2 tentativas de busca não retornaram nada útil), mas o usuário confirmou que os códigos estão corretos e não precisa de confirmação de significado — entendimento do Claude, não confirmado formalmente: compra pra revenda sob regime de substituição tributária (ICMS-ST), mesma natureza de 1.102/2.102 só que noutro regime fiscal.
+- **1.910 / 2.910** — bonificação (já documentado acima, continua sem custo real).
+
+**1.916/2.916 (retorno de conserto) continua FORA da lista** — nenhuma mudança aí, consistente com o motivo original (não é compra nem bonificação).
+
+Isso não contradiz a decisão de custo original (só 1.102/2.102 tinham custo confiável) — 1.403/2.403 é a mesma natureza de compra, só que faltava na lista. Bonificação continua sendo "válida" como entrada real de produto, mas sem custo de aquisição — ver a pergunta ainda aberta sobre isso em [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]].
+
 ## Relacionado
 
 - [[Paginacao do Endpoint Manifesto Nota Entrada]]
 - [[API Sysemp So Retorna a Ultima Nota Fiscal por Produto]]
+- [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]]
