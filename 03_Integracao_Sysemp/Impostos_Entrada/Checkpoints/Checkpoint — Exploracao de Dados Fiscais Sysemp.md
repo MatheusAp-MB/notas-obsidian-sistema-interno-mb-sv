@@ -3,11 +3,15 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 07/08/2026 14:08
+atualizado_em: 07/08/2026 18:04
 relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (07/08/2026 18:04)
+
+Troca de PC do usuário a partir daqui — sem trabalho novo de código/decisão nesta entrada, só um reforço registrado na descoberta do campo `Entrada`: nos 2 casos confirmados, `Entrada` da API é sempre idêntico à `Emissão` da própria API (não só "diverge da tela do ERP") — ver [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]]. Linha de base de código confirmada: repositório em `012b0a7` (branch `dev`, GitHub) — nada pendente de commit no lado do código Sysemp; o vault está sincronizado com o GitHub em tempo real nesta sessão (confirmado via `git fetch`, sem necessidade de push manual, diferente do que era esperado antes).
 
 ## Última atualização (07/08/2026 14:08)
 

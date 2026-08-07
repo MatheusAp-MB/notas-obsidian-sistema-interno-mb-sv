@@ -3,7 +3,7 @@ tipo: descoberta
 dominio: 
 status: ativa
 criado: 07/08/2026
-atualizado_em: 07/08/2026 14:08
+atualizado_em: 07/08/2026 18:04
 relacionado: [Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Lista de CFOP Relevantes para Precificacao, Paginacao do Endpoint Manifesto Nota Entrada, Checkpoint — Exploracao de Dados Fiscais Sysemp]
 ---
 
@@ -27,6 +27,10 @@ Produto 7908050719121 (PULVERIZADOR COSTAL... BRUDDEN), 2 notas do mesmo fornece
 O endpoint usado é `listarManifestoNotaEntrada` — "manifesto" é o processo de confirmação do destinatário via SEFAZ de que a nota existe e é destinada à empresa, evento que tende a acontecer perto da própria Emissão. A hipótese é que o campo `Entrada` desse endpoint reflete a data desse manifesto (confirmação fiscal), não a entrada física real da mercadoria no estoque — que é o que a tela do ERP mostra na coluna "Entrada" de verdade, provavelmente registrada manualmente/separadamente quando a mercadoria é de fato recebida no depósito.
 
 Não confirmado formalmente (não é documentação oficial, é dedução a partir de 1 caso real) — mas o padrão (Emissão bate, Entrada não bate) é consistente com essa hipótese.
+
+## Reforço (07/08/2026, 18:04)
+
+Revendo os 2 registros crus com mais calma: em AMBAS as notas, o campo `Entrada` da API é **idêntico** ao campo `Emissão` da própria API (NF 101445: os 2 = `2026-07-31`; NF 101561: os 2 = `2026-08-04`) — não é só "divergente da tela", é "sempre igual à Emissão" nos 2 casos confirmados até agora. Reforça a hipótese: é bem possível que o endpoint simplesmente NUNCA devolva uma entrada física distinta — `Entrada` pode ser só um eco de `Emissão` neste endpoint, sempre, não um campo com dado próprio. Ainda 2 de 2 amostras — vale confirmar com mais produtos quando possível, mas já é sinal forte.
 
 ## Impacto
 
