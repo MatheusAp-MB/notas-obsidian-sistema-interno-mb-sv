@@ -28,6 +28,7 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Perguntas Sempre em Texto Corrido]] | regra | ativa | 03/08/2026 | Claude nunca usa caixinha de múltipla escolha — pergunta e resposta sempre em texto corrido na conversa. |
 | [[Perguntar Data e Hora Antes de Escrever no Vault]] | regra | ativa | 03/08/2026 | Antes de escrever/editar nota, pergunta data/hora ao usuário (1x por bloco, não por arquivo) — todo write atualiza `atualizado_em`. |
 | [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] | regra | ativa | 05/08/2026 | 7 etapas fixas, sem pular: Idealizar→Planejar→Executar→Analisar→Corrigir→Otimizar→Validar. Criada após incidente de ritmo (tarefa e código gerados sem permissão). |
+| [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Pacote `api_<nome>/core` com excecoes/protecao/cliente separados; transporte nunca sabe de negócio (validação mora no contexto por endpoint, acesso mora numa Facade); hierarquia de exceção própria; throttle proativo + backoff reativo com teto 30s; sem circuit breaker por padrão; log nunca leva dado sensível. |
 
 ## Agenda_Videos
 

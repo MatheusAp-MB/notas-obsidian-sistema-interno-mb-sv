@@ -3,19 +3,24 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 03/08/2026 11:30
-relacionado: []
+atualizado_em: 06/08/2026 22:00
+relacionado: [Padrao de Robustez para Clientes de API Externa]
 ---
 
 # Estrutura e Convenções do Vault
 
 Esta nota é a especificação técnica fixa da organização deste vault, reescrita em 01/08/2026 depois de mover todo o conteúdo anterior para `LEGADO/`. Substitui por completo a versão antiga.
 
-## Os 3 mundos
+## Os mundos
 
-- **`02_Sistema_Interno/`** — ativo, reconstruído do zero a partir desta data. Segue a estrutura descrita abaixo.
-- **`03_ML_Analytics_HUB/`** — congelado dentro de `LEGADO/` por enquanto. Não segue necessariamente esta convenção nova até uma decisão futura de também reconstruí-lo.
-- **Integração Sysemp** — ainda não existe. Só cria pasta quando o projeto realmente começar, seguindo o mesmo padrão de `02_Sistema_Interno/` abaixo.
+Decisão de 06/08/2026: nem toda API/integração externa vira mundo próprio — só quando for grande e crítica o suficiente pra justificar ser testada e documentada de forma isolada. O critério é caso a caso, decidido junto com o usuário quando a situação aparecer.
+
+- **`02_Sistema_Interno/`** — ativo. Segue a estrutura descrita abaixo. Inclui 2 contextos de API que são parte do próprio sistema, não integrações isoladas: `API_Google_Drive/` e `API_Agente_Local/` (a API que o próprio Sistema Interno expõe pro agente executável local). Criados sob demanda, na primeira nota de cada, como qualquer outro contexto.
+- **`03_Integracao_Sysemp/`** — ativo, mundo próprio (não é contexto dentro de Sistema Interno). Motivo: a API do ERP Sysemp lida com dado fiscal sensível e é grande o suficiente pra ter ciclo de trabalho e índice isolados, mesmo o código morando no mesmo repositório do Sistema Interno (`scripts_exploracao_ERP/`).
+- **`04_Integracao_Mercado_Livre/`** — ativo, mundo próprio, mesmo motivo do Sysemp. Integração ainda não começou de fato nesta versão do projeto (V2) — a pasta já existe pra receber decisões/descobertas assim que o trabalho começar.
+- **`03_ML_Analytics_HUB/`** (dentro de `LEGADO/`) — projeto antigo e diferente, sem relação direta com `04_Integracao_Mercado_Livre/` além de servir de fonte de lições aprendidas. Congelado, não segue esta convenção.
+
+Padrão de engenharia que atravessa mais de um mundo (ex: como construir com segurança um cliente de API externa) mora em `02_Sistema_Interno/Regras_de_Comportamento/`, mesmo quando o assunto também vale pra `03_Integracao_Sysemp/` ou `04_Integracao_Mercado_Livre/` — o código de todas essas integrações vive no mesmo repositório, então a regra é do projeto como um todo. Os outros mundos referenciam essa regra via `relacionado`, nunca duplicam o conteúdo. Ver [[Padrao de Robustez para Clientes de API Externa]].
 
 ## Convenção de nome (mantida)
 
@@ -23,7 +28,9 @@ Esta nota é a especificação técnica fixa da organização deste vault, reesc
 - Evitar acento e cedilha em nome de arquivo quando possível.
 - Nome de pasta (mundo, contexto, tipo) usa underscore com prefixo numérico quando aplicável (`02_Sistema_Interno`, `Agenda_Videos`) — a convenção de espaço vale só para arquivos de nota, nunca para pastas.
 
-## Estrutura de pastas dentro de `02_Sistema_Interno/`
+## Estrutura de pastas dentro de um mundo
+
+Padrão único, usado por qualquer mundo ativo (`02_Sistema_Interno/`, `03_Integracao_Sysemp/`, `04_Integracao_Mercado_Livre/`):
 
 ```
 02_Sistema_Interno/
