@@ -3,7 +3,8 @@ tipo: regra
 dominio: python
 status: ativa
 criado: 01/08/2026
-relacionado: [Integridade e Fonte Unica de Dado, Padroes de Projeto GoF Quando Usar]
+atualizado_em: 08/08/2026 00:12
+relacionado: [Integridade e Fonte Unica de Dado, Padroes de Projeto GoF Quando Usar, Checkpoint — Exploracao de Dados Fiscais Sysemp]
 ---
 
 # Modelagem de Objeto e Encapsulamento
@@ -36,7 +37,34 @@ relacionado: [Integridade e Fonte Unica de Dado, Padroes de Projeto GoF Quando U
 - `@property` é o "getter" pythônico, e cumpre um papel específico aqui: a classe dona de um dado é a **única** responsável por entregá-lo padronizado — quem consome nunca reinterpreta ou recalcula por fora (ver [[Integridade e Fonte Unica de Dado]]).
 - `@x.setter` só quando escrever nesse valor precisar de validação/efeito colateral real — nunca criado por padrão sem necessidade.
 
+## Exemplo real validado — `DadosXmlNF` (08/08/2026)
+
+Aplicação prática de "quebrar problema grande em passos menores e nomeáveis, compostas uma dentro da outra" (ver seção acima), no pipeline de impostos de entrada Sysemp ([[Checkpoint — Exploracao de Dados Fiscais Sysemp]]): em vez de 1 dataclass única com ~30 campos soltos, os dados de 1 nota fiscal foram quebrados em várias dataclasses pequenas e nomeáveis, agrupadas por contexto — identificação do produto, identificação da NF, dados da NF, e 1 dataclass por tipo de imposto (ICMS ST, ICMS, ICMS RET, IPI, PIS, COFINS, Custos) — todas compostas dentro de 1 classe maior (`DadosXmlNF`).
+
+Cada dataclass pequena tem seu próprio `@classmethod a_partir_do_registro()` — constrói a si mesma a partir do dict cru. A classe maior só chama os métodos das menores e monta o objeto final:
+
+```python
+@classmethod
+def a_partir_do_registro(cls, registro: dict) -> 'DadosXmlNF':
+    return cls(
+        identificacao_produto=IdentificacaoProduto.a_partir_do_registro(registro),
+        identificacao_nf=IdentificacaoNF.a_partir_do_registro(registro),
+        dados_nf=DadosNF.a_partir_do_registro(registro),
+        identificador_regra=IdentificadorRegra.a_partir_do_registro(registro),
+        icms_st=IcmsSt.a_partir_do_registro(registro),
+        icms=Icms.a_partir_do_registro(registro),
+        icms_ret=IcmsRet.a_partir_do_registro(registro),
+        ipi=Ipi.a_partir_do_registro(registro),
+        pis=Pis.a_partir_do_registro(registro),
+        cofins=Cofins.a_partir_do_registro(registro),
+        custos=Custos.a_partir_do_registro(registro),
+    )
+```
+
+Resultado: campo buscável por caminho claro (`dados.custos.unitario`, `dados.pis.aliquota`) em vez de `dict['Custo Unitário']`/`dict['Aliquota PIS']` — nome de campo errado quebra na hora de criar o objeto (fail-fast), não silenciosamente mais adiante no código. Também evita "stutter" (nome do campo repetindo o nome do grupo — `custos.unitario`, não `custos.custo_unitario`). Campos sem uso/grupo confirmado (nesse caso: `Item`, `Empresa Fantasia`, `% FCP ST`, `Valor FCP ST`) ficaram de fora por decisão consciente, não por esquecimento — continuam disponíveis no dado cru se precisarem voltar.
+
 ## Relacionado
 
 - [[Integridade e Fonte Unica de Dado]]
 - [[Padroes de Projeto GoF Quando Usar]]
+- [[Checkpoint — Exploracao de Dados Fiscais Sysemp]]

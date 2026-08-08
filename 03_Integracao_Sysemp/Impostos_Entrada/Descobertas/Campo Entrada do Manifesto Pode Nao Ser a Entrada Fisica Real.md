@@ -3,7 +3,7 @@ tipo: descoberta
 dominio: 
 status: ativa
 criado: 07/08/2026
-atualizado_em: 07/08/2026 18:04
+atualizado_em: 07/08/2026 21:12
 relacionado: [Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Lista de CFOP Relevantes para Precificacao, Paginacao do Endpoint Manifesto Nota Entrada, Checkpoint — Exploracao de Dados Fiscais Sysemp]
 ---
 
@@ -44,6 +44,21 @@ Não existe, por enquanto, nenhum outro endpoint da Sysemp que devolva a entrada
 
 - Confirmar com o suporte da Sysemp se existe outro endpoint/campo que reflita a entrada física real de mercadoria.
 - Se/quando isso for resolvido, revisar todo o pipeline de custo atual — pode mudar qual nota é selecionada como "mais recente" em produtos que hoje parecem corretos só por não terem tido esse tipo de divergência visível.
+
+## Resolução (07/08/2026, 21:12)
+
+Chamado aberto com o suporte da Sysemp sobre essa divergência. Em vez de corrigir o campo `Entrada` isoladamente, a Sysemp remodelou a estrutura inteira do endpoint `listarManifestoNotaEntrada`: `retorno` agora agrupa por NOTA (não por item), com os itens dentro de `itens_nf`. O campo `Entrada` não existe mais — foi substituído por `Data Entrada da Nota`, agora no nível da nota (não do item) e nulável.
+
+Validado com as MESMAS 2 notas do achado original, depois de reescrever `investigar_ocorrencias_de_produto.py` pra nova estrutura (ver [[Paginacao do Endpoint Manifesto Nota Entrada]] pro contexto da reestruturação):
+
+| NF | Emissão | `Data Entrada da Nota` (API nova) | Entrada física real (confirmada pelo usuário) |
+|---|---|---|---|
+| 101445 | 2026-07-31 | 2026-08-05 | 05/08 — bate |
+| 101561 | 2026-08-04 | 2026-08-05 | 05/08 (mesmo dia da nota de 1000 un.) — bate |
+
+2 de 2 confirmado. Diferente do campo antigo (sempre idêntico a `Emissão` nos 2 casos conhecidos), o campo novo diverge de `Emissão` na maioria das 21 ocorrências do produto teste (17 de 21) — sinal de dado próprio, não eco. **Campo `Data Entrada da Nota` considerado confiável a partir de agora.**
+
+Risco sistêmico registrado em "Impacto" fica resolvido: o critério de "nota mais recente" pode passar a usar `Data Entrada da Nota` diretamente, em vez de depender de `Entrada` (não confiável) ou do desempate por maior NF (workaround). Pendente: aplicar isso em `calcular_custo_atual_por_produto.py` quando ele for reescrito pra nova estrutura da API.
 
 ## Relacionado
 

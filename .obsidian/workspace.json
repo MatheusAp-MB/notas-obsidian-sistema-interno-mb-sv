@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "af899a9cbcfc4cce",
+        "id": "a885d2323d2e4d02",
         "type": "tabs",
         "children": [
           {
-            "id": "4d52cd712f7c1b0f",
+            "id": "f6bd77a06771b2e9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Checkpoint Testes Automatizados Agenda Videos"
+              "title": "Nova aba"
             }
           }
         ]
@@ -83,7 +79,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 573.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -188,29 +184,34 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "4d52cd712f7c1b0f",
+  "active": "f6bd77a06771b2e9",
   "lastOpenFiles": [
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.16328.27d304e002de",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.16328.b9e5368b3fde",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.6140.e71cd98453bf",
-    "LEGADO/_scratch_nao_usar.md",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md.tmp.4924.1fb6a950c922",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Status Manual Atual Ignora Historico Quando Participacao Nao Existe.md",
-    "02_Sistema_Interno/00_Indice.md.tmp.7044.4270856f6528",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.7044.028137fc6bb0",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md.tmp.7044.2a36ce099043",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md",
-    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md.tmp.10932.c5f88be7a361",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.0b54fd594a59",
+    "03_Integracao_Sysemp/00_Indice.md.tmp.15064.f6df3a448855",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Plano em Etapas do Duble de Precificacao ML.md.tmp.15064.44e640b02865",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Plano em Etapas do Duble de Precificacao ML.md.tmp.15064.988b375948c8",
+    "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Checkpoint — Exploracao de Dados Fiscais Sysemp.md.tmp.4812.7f8d4725d977",
+    "03_Integracao_Sysemp/00_Indice.md.tmp.4812.edb480269c3b",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Plano em Etapas do Duble de Precificacao ML.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Checkpoint — Exploracao de Dados Fiscais Sysemp.md.tmp.15356.ee0ef0a5c0e6",
+    "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Checkpoint — Exploracao de Dados Fiscais Sysemp.md.tmp.15356.449b5364b6e4",
+    "03_Integracao_Sysemp/00_Indice.md.tmp.15356.2848acd6e1ba",
+    "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md.tmp.15356.e6a6808647a8",
+    "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md.tmp.15356.4ed13c1bb759",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total.md.tmp.15356.2d9f6f0ceb41",
+    "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md",
+    "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Checkpoint — Exploracao de Dados Fiscais Sysemp.md",
+    "03_Integracao_Sysemp/00_Indice.md",
     "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.e6b15ba3d577",
-    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md.tmp.10932.69b326d7a0ac",
+    "LEGADO/_scratch_nao_usar.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Status Manual Atual Ignora Historico Quando Participacao Nao Existe.md",
+    "02_Sistema_Interno/Agenda_Videos/Descobertas/Validacao de Configuracoes Nao Abre Excecao Para Simples.md",
     "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
     "02_Sistema_Interno/Agenda_Videos/Descobertas/Cache de Indicadores Nao e Populado Automaticamente.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Mapa de Execucao das 5 Telas da Agenda de Videos.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Estrutura de Telas da Agenda de Videos.md",
     "02_Sistema_Interno/00_Indice.md",
-    "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
     "2026-08-03.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Perguntar Data e Hora Antes de Escrever no Vault.md",
     "Sem título.canvas",
@@ -219,13 +220,8 @@
     "02_Sistema_Interno/Regras_de_Comportamento/Nomenclatura e Comentarios.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Modelo Padrao de Arquivo de Teste.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Modelagem de Objeto e Encapsulamento.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Fluxo Decomposicao de Problemas em Micro Etapas.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Refatoracao e Testes.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Aviso Proativo Para Notas no Obsidian.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Estrutura de Arquivo e Classe Python.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Perguntas Sempre em Texto Corrido.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Disciplina de Testes Automatizados.md"
+    "02_Sistema_Interno/Regras_de_Comportamento/Aviso Proativo Para Notas no Obsidian.md"
   ]
 }

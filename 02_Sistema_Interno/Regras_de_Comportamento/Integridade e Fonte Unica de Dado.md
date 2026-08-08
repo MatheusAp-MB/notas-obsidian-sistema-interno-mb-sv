@@ -3,7 +3,8 @@ tipo: regra
 dominio: python
 status: ativa
 criado: 01/08/2026
-relacionado: [Modelagem de Objeto e Encapsulamento, Fluxo Decomposicao de Problemas em Micro Etapas]
+atualizado_em: 08/08/2026 01:55
+relacionado: [Modelagem de Objeto e Encapsulamento, Fluxo Decomposicao de Problemas em Micro Etapas, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total]
 ---
 
 # Integridade e Fonte Única de Dado
@@ -38,7 +39,14 @@ Toda entrega é validada em 4 eixos: funcionalidade, fluxo de UX, eficiência de
 
 Dado interpretado de forma diferente em 2 lugares do sistema é a raiz da maioria dos bugs de desincronia — e é o tipo de erro mais caro de rastrear, porque cada lugar "parece certo" isoladamente.
 
+## Exemplo real validado — `Pis.reducao`/`Cofins.reducao` (08/08/2026)
+
+Caso concreto de "dono único do dado" quando o cálculo depende de dado que mora em OUTRA dataclass: a API da Sysemp não devolve "Redução PIS"/"Redução COFINS" direto (só devolve pra ICMS/ICMS ST) — só a base de cálculo já reduzida e o custo total da nota, que vive na dataclass `Custos`, não em `Pis`/`Cofins`. Ver [[Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total]] pra decisão completa.
+
+Como o dado que falta (`custo_total`) não pertence a `Pis`/`Cofins`, o cálculo não podia virar `@property` (só aceita `self`, sem parâmetro externo) nem um campo preenchido à parte por fora (abriria a porta pra 2 lugares calcularem o mesmo dado de formas diferentes, exatamente o erro que essa regra existe pra evitar). Solução: a fábrica (`a_partir_do_registro`) passou a receber `custo_total` como parâmetro extra, calcula a redução 1 única vez ali dentro, e guarda o resultado como campo comum do dataclass — a fábrica continua sendo o único ponto de decisão desse dado, só que agora com 1 dependência explícita de fora, declarada na própria assinatura do método.
+
 ## Relacionado
 
 - [[Modelagem de Objeto e Encapsulamento]]
 - [[Fluxo Decomposicao de Problemas em Micro Etapas]]
+- [[Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total]]
