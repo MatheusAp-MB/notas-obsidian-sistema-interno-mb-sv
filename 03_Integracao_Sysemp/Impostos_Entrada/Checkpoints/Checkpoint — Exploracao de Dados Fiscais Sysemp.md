@@ -3,11 +3,83 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 08/08/2026 03:40
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML]
+atualizado_em: 09/08/2026 19:10
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (09/08/2026 19:10)
+
+Planejada (sem código escrito ainda) a sincronização incremental dos dados de entrada — motivada pela pergunta de como manter tudo atualizado sem reler anos de histórico a cada vez. Desenho fechado: watermark `cobertura_ate` + margem de segurança de 7 dias (rodadas diárias) + merge por produto reaproveitando o critério já existente (Data Entrada da Nota + NR NF) — ver [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]] pro desenho completo.
+
+Peça chave do desenho: como o sistema roda local (`runserver`, sem processo sempre ativo), a sincronização é acionada por um comando customizado `manage.py iniciar` (substitui o boot direto) em vez de agendamento real — ele confere se está desatualizado, sincroniza só se precisar, e só depois sobe o servidor. Falha nunca bloqueia o boot. Tabela nova dedicada "Sincronização com o ERP", só pra essa função (sem generalizar pra futuras integrações, pela Regra dos Três).
+
+**Incidente de processo nesta sessão (registrado por completo em [[Disciplina de Testes Automatizados]] e [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]):** durante o planejamento dessa sincronização, Claude executou uma simulação de código por conta própria (violando "Claude nunca executa código sozinho"), criou o arquivo dessa simulação em vez de colar como texto na conversa, e criou 18 tarefas + acionou subagentes sem pedir permissão antes. Identificado pelo usuário, que pediu pra reler as regras corretas (não as de `LEGADO/`, que não é fonte de verdade). Corrigido: as 18 tarefas foram apagadas.
+
+## Última atualização (09/08/2026 17:17)
+
+Usuário perguntou se já dá pra oficializar o dublê no sistema real. Resposta: ainda não — checklist reunido (validação formal do tributário/superior ainda não feita, amostra pequena de produtos testados, 2 problemas de dado sem correção, 2 divergências fiscais sem explicação até então, decisão de "como" escrever no banco nunca tomada, só 1 de 6 fórmulas de marketplace testada).
+
+Em resposta a isso, o usuário fechou uma **regra nova, cross-cutting neste domínio**: [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]] — quando o dado existir no XML e divergir do banco/planilha, o XML vale. Isso resolveu, de uma vez, as 2 divergências fiscais que estavam em aberto: a divergência de custo antiga (banco R$ 619,70 vs XML R$ 566,27, EAN 7908050700174) e a divergência de PIS/COFINS do SB-630 (planilha 0% vs XML R$ 98,33/unidade) — as duas passam a ter o valor do XML como válido. Continua de pé, à parte, a validação formal do tributário sobre a fórmula em si (a regra resolve "qual fonte", não "se o cálculo está certo").
+
+## Última atualização (09/08/2026 17:05)
+
+Fechando um resumo básico pedido pelo usuário ("o que ainda depende de planilha?"), o quadro ficou mais completo que só a parte fiscal:
+
+**Ainda depende de planilha hoje:** Cadastro de Produto (ativo/inativo, códigos, fotos, nome) e dimensões físicas — nenhuma API pra isso ainda, embora a Sysemp já tenha confirmado que **pode** desenvolver (é a tela "Cadastro de Produtos" deles). Paliativo atual: baixar de novo a planilha de produtos ativos e reimportar. ICMS/PIS-COFINS de saída — API em desenvolvimento paralelo, sem prazo; caminho manual atual é a planilha **"Busca Legal"**, que o usuário está desenvolvendo com o superior/financeiro. Frete CIF/FOB — aqui falta investigação mesmo, ainda não sabemos de onde vem o dado nem a lógica de CIF vs. FOB.
+
+**Nova regra cross-cutting registrada:** [[Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo]] — o usuário deixou explícito que não haverá escrita via API no Sysemp em nenhuma hipótese, e que acesso de leitura não é livre: só temos o que já foi pedido e desenvolvido (hoje, impostos de entrada). Cada API nova (cadastro, saída) tem custo real de desenvolvimento e prazo — vale pra qualquer projeto futuro com o Sysemp, não só este.
+
+Ver [[Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta]] pra tabela de cobertura atualizada com esse quadro completo.
+
+## Última atualização (09/08/2026 16:40)
+
+Depois de reunir a planilha completa do superior (entrada anterior, 14:50), o usuário escolheu 3 produtos reais — 1 de cada categoria de `Tributação` (Tributado: SB-630, Redução: Guarany S4 20L, ST: K-430) — pra rodar o dublê e comparar linha a linha com a planilha, e responder de vez se "Redução" precisa do mesmo tratamento de diferimento que "ST".
+
+**Bug real encontrado e corrigido:** o cálculo de ICMS ST no dublê gerava um valor negativo fantasma pra produtos sem substituição tributária (subtraía o ICMS normal mesmo quando não havia ICMS ST nenhum), reduzindo o Custo Final indevidamente. Corrigido com uma guarda simples (mesma condição de "é ST?" já usada na Etapa 8). Revalidado nos 3 produtos — Custo Final do dublê bate quase exato com a planilha em todos, restando só uma diferença já explicada (campo `frete_cif_fob` zerado no banco). Ver [[Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria]].
+
+**Pergunta da "Redução" respondida:** confirmado com o Guarany que Redução de base de ICMS não envolve substituição tributária (Base ICMS ST = 0) — não precisa de nenhum ajuste especial de crédito, o crédito normal já resolve. Ver seção "Resolvido" em [[Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST]].
+
+**2 achados de dado, fora do escopo fiscal:** `frete_cif_fob` zerado no banco nos 3 produtos testados (planilha tem 1%/1%/4%, banco tem 0% nos 3); e o cadastro do SB-630 (EAN 7908050734971) está com altura/largura/comprimento/peso zerados, quebrando Coleta, Armazenagem e a faixa de frete usada — preço desse produto específico não é confiável até o cadastro ser corrigido. Ver [[Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal]].
+
+**1 divergência fiscal nova, em aberto:** SB-630 tem PIS/COFINS entrada = 0% na planilha, mas o XML calcula um crédito real de R$ 98,33/unidade pra esse produto — pode ser omissão da planilha ou regra fiscal legítima, precisa do tributário/superior pra saber qual. Ver [[Divergencia de Credito PIS COFINS Entrada no Soprador SB-630]].
+
+ICMS entrada e IPI seguem validados exatos nos 3 produtos, sem exceção nenhuma — a lógica de imposto da Etapa 4 do dublê está confirmada de novo, com mais dados reais.
+
+## Última atualização (09/08/2026 14:50)
+
+Usuário trouxe a planilha real completa do superior (múltiplos produtos) — validou fortemente o dublê pro EAN 7908050700174: CUSTO (566,27), IPI (5,20%) e PIS/COFINS (9,25%) bateram exatos com o XML. Achado importante: `ICMS ENTRADA = 0,00%` na planilha pra esse produto não é dado faltando — é uma nota explícita do superior ("produtos ST... valor de crédito é zero diferimento"). `ST Valor` da planilha (18,32) bate quase exato com o ICMS ST líquido que o dublê já calculava (18,33), confirmando que o crédito de ICMS normal já está embutido *por dentro* do cálculo do ST — dar um crédito separado além disso seria creditar 2x.
+
+Nova decisão registrada: [[Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST]] — hipótese (não confirmada formalmente) de que produtos com ICMS ST aplicado na nota (`IcmsSt.valor > 0`, dado que já vem do XML, sem precisar da coluna manual "Tributação" da planilha) devem ter o crédito de ICMS entrada zerado no FIXO. Usuário lembra vagamente de já ter ouvido o superior falar algo parecido, sem certeza.
+
+**Combinado com o usuário:** seguir implementando o dublê conforme entendemos correto, manter o vault atualizado com todo raciocínio/decisão, e só depois montar a explicação completa pra validação formal do superior numa conversa.
+
+## Última atualização (09/08/2026 03:27)
+
+Dublê concluído fim a fim (Etapas 1-9, `duble_precificacao_ml.py`) — PIS/COFINS definitivamente separados, Etapa 4 único ponto de cálculo de imposto, Etapas 5-9 só consomem (Custo Final, Coleta, Armazenagem por faixa dinâmica, FIXO, Taxa/Denominador/Preço Final), reaproveitando código real. Rodado pro EAN 7908050700174: preço R$ 913,90 (dublê) vs R$ 1.031,90 (tela real do sistema hoje, mesma margem 15%). Diferença explicada: R$ 81,16/unidade de crédito fiscal de ICMS/PIS/COFINS que o sistema real ignora hoje (campos zerados no banco) — nova nota de conceito [[Credito Fiscal Nao Cumulativo (ICMS PIS COFINS)]] registrada, com o exemplo completo. Resto da diferença (~R$ 37) é uma divergência de custo ainda não investigada (banco R$ 619,70 vs XML R$ 566,27). Ver [[Plano em Etapas do Duble de Precificacao ML]], seção "Implementado e Validado fim a fim — Etapas 5-9".
+
+## Última atualização (09/08/2026 02:18)
+
+Fechado o levantamento de cobertura completo: "fechamos todos os impostos de entrada? temos tudo que a precificação precisa?" — ver [[Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta]]. Decisão do usuário: dado do XML sobre custo/impostos de entrada passa a ser usado no sistema; o que não tivermos continua como está até decisão futura. 3 correções importantes ao mapeamento: armazenagem já não vem mais da planilha (sistema calcula por faixa dinâmica, correção própria, anterior a este projeto); custo com bonificação abandonado (custo 0 não faz sentido pra precificar); ICMS/PIS-COFINS de saída e Frete CIF/FOB continuam vindo da planilha — a API de saída da Sysemp está em desenvolvimento em paralelo, sem previsão de prazo.
+
+## Última atualização (08/08/2026 17:15)
+
+Código do dublê corrigido e validado: `duble_precificacao_ml.py` ganhou `_exibir_calculo_didatico_icms_st` (função separada da genérica, ICMS ST não deriva base do custo unitário, recebe o valor do ICMS normal já calculado como dependência explícita). Rodado contra EAN 7908050700174 — resultado exato com a validação manual (ICMS R$ 31,71/un, ICMS ST R$ 18,33/un). Ver [[Plano em Etapas do Duble de Precificacao ML]], seção "Implementado e validado (17:15)". Aguardando validação do tributário/superior, como todo achado de imposto deste domínio.
+
+## Última atualização (08/08/2026 17:00)
+
+**Nova regra criada:** [[Achados de Imposto Sempre Aguardam Validacao do Tributario]] — toda descoberta/correção sobre imposto neste domínio passa a levar o rótulo "aguardando validação do tributário/superior", porque o usuário não tem formação tributária formal, só o aprendizado prático deste projeto. Bater com os dados da API confirma consistência interna, não confirma correção fiscal/legal — são validações diferentes.
+
+**Planilha real conferida pro produto 7908050718117 (`Pasta1.xlsx`, enviada pelo usuário):** os 3 campos que pareciam "só existir no XML" na comparação anterior (custo, IPI, PIS+COFINS) na verdade já estavam certos NA PLANILHA (572,90 / 5,20% / 9,25% — batendo exatamente com o Sysemp) e também o ICMS de saída (12%). O banco é quem estava desatualizado, não a planilha nem o Sysemp. Usuário confirmou: essa planilha é nova, nunca foi importada — banco desatualizado é esperado, não é bug. Revalidado byte a byte o mapeamento de coluna do import (`row[9]`=custo, `row[13]`=ipi, `row[14]`=pis_cofins, `row[15]/16]`=icms_saida) contra essa planilha real — 100% consistente com o que já estava documentado.
+
+**Correção sobre MVA/ST Valor:** o cruzamento de campos que o superior do usuário fez mostrou que `ST Valor` (planilha) tem par direto no XML — é o mesmo dado que `Valor ICMS ST`. A comparação anterior tinha agrupado errado "MVA/ST Valor" como se nenhum tivesse par. `MVA` continua sem par de verdade (é insumo pra calcular a base do ICMS ST quando a empresa mesma calcula; o XML já vem com a base pronta, calculada pelo fornecedor).
+
+**Fórmula de redução (Etapa 7 do dublê) validada com produto de ICMS ≠ 0% real** (EAN 7908050700174, alíquota 18%, redução 68,89% — os produtos testados antes tinham alíquota 0%, não testavam nada). Resultado, ver [[Plano em Etapas do Duble de Precificacao ML]] seção "Correção (17:00)":
+- ICMS normal: fórmula bate exata (`base = custo_total × (1−redução)`, `valor = base × alíquota`).
+- ICMS ST: fórmula NÃO serve — a base não vem do custo (já tem MVA embutido pelo fornecedor) e o valor não é `base × alíquota` isolado, é `(base × alíquota) − valor ICMS normal` (lógica de substituição tributária — o ST compensa o que já foi cobrado na operação própria). Dublê precisa de correção de arquitetura: ICMS ST como caso especial, dependente do ICMS normal já calculado.
+
+**Tudo isso aguardando validação do tributário/superior.**
 
 ## Última atualização (08/08/2026 03:40) — pausa, contexto completo pra retomada
 
@@ -120,7 +192,8 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 - ~~Reescrever `filtrar_dados_por_cfop.py` e `calcular_custo_atual_por_produto.py` pra nova estrutura da API.~~ — feito (ver 01:55): o segundo foi substituído por `selecionar_nota_mais_recente_por_produto.py` + `dados_xml_nf.py`.
 - Validar `DadosXmlNF` com mais produtos (só 7908050719121 testado até agora).
 - Implementar e validar, etapa por etapa, o Dublê de Precificação ML — ver [[Plano em Etapas do Duble de Precificacao ML]].
-- Validar a fórmula de redução (etapa 7 do dublê) com produto real de ICMS/ICMS ST ≠ 0.
+- ~~Validar a fórmula de redução (etapa 7 do dublê) com produto real de ICMS/ICMS ST ≠ 0.~~ — feito (17:00): ICMS normal validado exato; ICMS ST precisa de correção de arquitetura (base vem de campo bruto, valor líquido do ICMS normal).
+- ~~Corrigir o código do dublê pra tratar ICMS ST como caso especial.~~ — feito e validado (17:15), resultado exato.
 - Rodar `listar_periodo_completo` contra o histórico completo (desde a fundação da empresa), não só maio–agosto.
 - Revisitar a lista de CFOP com o histórico completo (pode aparecer CFOP não visto ainda) — agora com 6 códigos, não 4.
 - Decidir se precisa de limite de segurança no loop de paginação.
@@ -134,3 +207,9 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 - [[API Sysemp So Retorna a Ultima Nota Fiscal por Produto]]
 - [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]]
 - [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]]
+- [[Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria]]
+- [[Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal]]
+- [[Divergencia de Credito PIS COFINS Entrada no Soprador SB-630]]
+- [[Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo]]
+- [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]]
+- [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]]

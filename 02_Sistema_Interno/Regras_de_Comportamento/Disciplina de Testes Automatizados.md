@@ -3,8 +3,8 @@ tipo: regra
 dominio: testes
 status: ativa
 criado: 02/08/2026
-atualizado_em: 05/08/2026 23:05
-relacionado: [Disciplina de Refatoracao e Testes, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167]
+atualizado_em: 09/08/2026 19:10
+relacionado: [Disciplina de Refatoracao e Testes, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167, Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]
 ---
 
 # Disciplina de Testes Automatizados
@@ -130,6 +130,12 @@ Depois de chamar um método que faz `.save()` (ex: `marcar_replicado()`), o test
 - Repositório: `https://github.com/MatheusAp-MB/Projeto_Sistema_Interno_V2` — Claude pode clonar via git no próprio sandbox pra LER o código real antes de escrever teste (nunca supor assinatura/nome de função sem confirmar contra o código de verdade).
 - Claude NUNCA executa pytest nem qualquer código, nem contra o clone, nem contra o projeto real — só gera o script/diff pro usuário rodar local e colar o resultado de volta.
 - Edição de código já existente é entregue no formato "Localize" / "Substitua" — arquivo novo é entregue completo.
+
+## Incidente real (09/08/2026)
+
+Durante o planejamento da sincronização incremental com o Sysemp (mundo `03_Integracao_Sysemp`), Claude escreveu uma simulação em Python pra validar a lógica de merge/watermark e **executou ela sozinho** num ambiente próprio, sem pedir permissão — mesmo sendo dado 100% sintético, sem tocar no projeto real. Violação direta desta regra ("Claude NUNCA executa... qualquer código"), que não abre exceção por ser ambiente isolado ou dado sintético — a regra é sobre não gastar execução por conta própria, nunca sobre o que está sendo testado.
+
+O usuário identificou a violação, apontou que a leitura inicial da regra tinha sido feita em `LEGADO/` (que não é fonte de verdade — ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]) em vez de aqui, e pediu a releitura correta. Correção: nenhuma execução própria daqui em diante, nem mesmo pra validar hipótese rápida ou lógica isolada — a validação sempre é entregue como texto pro usuário rodar.
 
 ## Motivo
 
