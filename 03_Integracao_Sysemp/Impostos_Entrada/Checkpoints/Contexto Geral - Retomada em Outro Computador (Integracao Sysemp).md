@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 10/08/2026 12:05
+atualizado_em: 10/08/2026 12:25
 relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]
 ---
 
@@ -55,7 +55,13 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - 1ª rodada real contra a API do Sysemp executada com sucesso (10/08, ~01:35-01:40) — carga histórica completa desde 2020-05-01. Banco de produção com dado fiscal real de 1416 produtos. Detalhe completo em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] e [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
 - 2 itens bloqueavam o próximo avanço real: decisão de negócio sobre os 320 casos com campo de imposto `null`, e reprocessamento do histórico antigo.
 
-## Status real agora (10/08/2026, 12:05)
+## Status real agora (10/08/2026, 12:25)
+
+- **⚠️ Correção de arquitetura importante:** não existe 1 banco de produção compartilhado entre os PCs — **cada PC (casa/escritório) tem seu próprio banco MySQL local, independente**, confirmado direto com o usuário. Toda suposição anterior neste vault sobre "banco de produção compartilhado" precisa ser lida com esse ajuste.
+- **`null→0` validado com carga real** (não só teste): rodando `sincronizar_impostos_entrada` no banco do escritório (nunca sincronizado antes, carga do zero desde 2020-05-01), os números foram 3791 selecionados, **1736 sincronizados, 0 com erro** (1416 que já sincronizavam + exatamente os 320 que antes travavam por `null`). Ver detalhe em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]], seção "Validação real em produção".
+- **Isso NÃO resolve o reprocessamento do histórico antigo de verdade** — o banco do escritório nunca teve a pendência dos 320 erros pra começo (watermark nunca setado ali). O banco de CASA, se ainda tiver essa pendência registrada, continua precisando de um desenho de reprocessamento — sincronizações futuras só olham a janela nova.
+
+## Status anterior (10/08/2026, 12:05 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **Confirmado: commit/push pós-`8343dba` já estavam OK** — verificado direto no GitHub (`git fetch`, `dev`) nesta sessão: 4 dos 5 itens pendentes estão no commit `575f865` ("Adiciona relatório de tempo/progresso ao orquestrador e corrige bug de tipo na chamada da API"), atual HEAD de `origin/dev`; o 5º (`calcular_janela_da_proxima_busca()`/`DATA_INICIAL_PRIMEIRA_CARGA`) já fazia parte do próprio `8343dba`. Não era mais uma pendência real, só um aviso desatualizado nesta nota.
 - **Decisão do `null` tomada e implementada:** vira `0`, explícito — ver seção própria em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]. Implementado em `integracao_sysemp/servicos/dados_xml_nf.py`, testado (Nível 0, 100% cover).
@@ -66,8 +72,8 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 
 ## O que ainda está em aberto (consolidado)
 
-- ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05).
-- **Desenhar o reprocessamento do histórico antigo (320 casos)** — desbloqueado, ainda sem desenho.
+- ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05), **validado com carga real em 12:25** (0 erro, ver "Status real agora").
+- **Desenhar o reprocessamento do histórico antigo (320 casos) no banco de CASA** — segue sem desenho. A carga fresca no banco do escritório não conta como reprocessamento (nunca teve a pendência).
 - Investigar os 2055 produtos sem correspondência.
 - ~~Confirmar commit/push das mudanças pós-`8343dba`~~ — confirmado (10/08, 12:05): já estava tudo commitado.
 - Implementar `manage.py iniciar_servidor` (agendamento — hoje o disparo é manual).

@@ -3,11 +3,19 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 10/08/2026 12:05
+atualizado_em: 10/08/2026 12:25
 relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (10/08/2026 12:25) — validação real do `null→0` + correção: bancos são locais e independentes por PC
+
+Depois do commit do fix (10/08, 12:05), o usuário rodou `manage.py sincronizar_impostos_entrada` de verdade no PC do escritório. Resultado real: 3791 selecionados, **1736 sincronizados, 0 com erro** — `1736 = 1416 + 320` (exatamente os que travavam antes por campo de imposto `null`). Confirma o fix em escala real, não só em teste de Nível 0.
+
+**Achado de arquitetura, não de imposto:** `busca_api` levou ~8min, mesma ordem de grandeza de uma carga histórica completa — sinal de que não foi incremental. Perguntado direto ao usuário: **cada PC (casa/escritório) tem seu próprio banco MySQL local, independente** — não existe banco de produção compartilhado entre eles, suposição anterior deste vault estava errada. Por isso o banco do escritório fez carga do zero (watermark nunca setado ali).
+
+**Isso NÃO é reprocessamento do histórico antigo de verdade** — o banco do escritório nunca teve a pendência dos 320 erros pra começo. O banco de CASA (se ainda tiver o watermark cobrindo o período e os 320 em `XML_Manifesto_NF_Erros.json` de lá) continua com essa pendência real, sem desenho de como reprocessar. Ver detalhe completo em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]], seção "Validação real em produção".
 
 ## Última atualização (10/08/2026 12:05) — retomada em outro PC (escritório), dublê validado pelo superior, decisão do `null` implementada
 
