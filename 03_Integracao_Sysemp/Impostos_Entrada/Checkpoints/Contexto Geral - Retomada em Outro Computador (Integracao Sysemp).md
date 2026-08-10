@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 10/08/2026 12:30
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]
+atualizado_em: 10/08/2026 15:30
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -24,7 +24,7 @@ relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao I
 ## Onde isso vive
 
 - Projeto: `Projeto_Sistema_Interno_V2` (Django). Repo GitHub `MatheusAp-MB/Projeto_Sistema_Interno_V2`, branch `dev`.
-- Apps envolvidos: `api_sysemp` (cliente HTTP oficial, throttle/backoff/exceções, sem Django), `integracao_sysemp` (watermark `SincronizacaoXmlManifestoNotaEntrada` + `servicos/` com o orquestrador e, desde 10/08, também `dados_xml_nf.py`), `impostos` (guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas). `scripts_exploracao_ERP/` guarda só os scripts de exploração manual (defasados desde a orquestração — não usar como referência de código, só histórico) e o dublê (`duble_precificacao_ml.py`) — nenhum código de produção mora mais lá, pode ser apagada a qualquer momento sem afetar o sistema real.
+- Apps envolvidos: `api_sysemp` (cliente HTTP oficial, throttle/backoff/exceções, sem Django), `integracao_sysemp` (watermark `SincronizacaoXmlManifestoNotaEntrada` + `servicos/` com o orquestrador, `dados_xml_nf.py`, e desde 10/08 15:30 também o management command `reprocessar_impostos_entrada_de_json`), `impostos` (guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas + método de exibição `obter_detalhes_para_exibicao()`), e desde 10/08 15:30 também `produtos` (a tela de Produtos e o modal de detalhe do produto agora exibem os dados deste domínio — aba "Impostos", ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]]). `scripts_exploracao_ERP/` guarda só os scripts de exploração manual (defasados desde a orquestração — não usar como referência de código, só histórico) e o dublê (`duble_precificacao_ml.py`) — nenhum código de produção mora mais lá, pode ser apagada a qualquer momento sem afetar o sistema real.
 - Vault Obsidian: `notas-obsidian-sistema-interno-mb-sv`, mundo `03_Integracao_Sysemp/` — isolado do resto do Sistema Interno por decisão explícita (dado fiscal sensível, mundo grande o suficiente pra ter documentação própria).
 
 ## Regras de colaboração (resumo — ver notas linkadas pra nuance completa)
@@ -55,7 +55,15 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - 1ª rodada real contra a API do Sysemp executada com sucesso (10/08, ~01:35-01:40) — carga histórica completa desde 2020-05-01. Banco de produção com dado fiscal real de 1416 produtos. Detalhe completo em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] e [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
 - 2 itens bloqueavam o próximo avanço real: decisão de negócio sobre os 320 casos com campo de imposto `null`, e reprocessamento do histórico antigo.
 
-## Status real agora (10/08/2026, 12:30)
+## Status real agora (10/08/2026, 15:30)
+
+- **Trabalho novo, fora do backend/pipeline pela 1ª vez neste domínio:** a tela de Produtos (app `produtos`) e o modal de detalhe do produto agora exibem os dados de impostos de entrada — modal ganhou abas ("Visão Geral"/"Impostos"), card antigo "Fiscal (cadastro manual)" (ruído) removido, aba nova com card de resumo da última nota + 2 tabelas de detalhamento (entrada real, saída placeholder). Detalhe completo em [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
+- **Achado e corrigido, no meio do caminho:** os valores exibidos estavam em nível de NOTA, não por unidade (a API entrega assim) — comparação com o dublê expôs isso. Corrigido com 2 campos novos (`quantidade_nota`, `custo_unitario`) + 1 campo novo de identificação (`emissao`, Data de Emissão) no guarda-chuva `impostos.models.ImpostosECustosXMLEntradaProduto`. Ver [[Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]].
+- **Novo management command `manage.py reprocessar_impostos_entrada_de_json`** — relê o json já em disco (de uma sincronização anterior) e repersiste no banco sem chamar a API, criado pra backfillar os campos novos acima nos produtos já sincronizados antes dessa mudança.
+- **Plano maior da tela de Produtos tinha 5 etapas; só a de Impostos foi feita.** Seguem em aberto, sem código: reduzir a aba "Visão Geral" (só Identificação + Dimensões), nova aba "Dados do produto nas plataformas" (tabela por marketplace), nova aba "Resumo de Precificação" (a mais complexa — precisa investigar o app `precificacao` antes).
+- **Sem mudança nos itens de pipeline/backend** — ver "Status anterior (12:30)" abaixo pro estado deles (validação real do `null→0`, reprocessamento do histórico antigo em aberto, 2055 produtos sem correspondência não investigados).
+
+## Status anterior (10/08/2026, 12:30 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **⚠️ Correção de arquitetura importante:** não existe 1 banco de produção compartilhado entre os PCs — **cada PC (casa/escritório) tem seu próprio banco MySQL local, independente**, confirmado direto com o usuário. Toda suposição anterior neste vault sobre "banco de produção compartilhado" precisa ser lida com esse ajuste.
 - **`null→0` validado com carga real** (não só teste): rodando `sincronizar_impostos_entrada` no banco do escritório (nunca sincronizado antes, carga do zero desde 2020-05-01), os números foram 3791 selecionados, **1736 sincronizados, 0 com erro** (1416 que já sincronizavam + exatamente os 320 que antes travavam por `null`). Ver detalhe em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]], seção "Validação real em produção".
@@ -80,6 +88,10 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - Definir cooldown entre tentativas de falha consecutivas.
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05).
 - Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos do `Produto` — decisão futura, sem prazo.
+- ~~Montar a exibição dos impostos de entrada no modal de produto.~~ — feito (10/08, 15:30), ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
+- **Reduzir a aba "Visão Geral" do modal de produto** (só Identificação + as 3 seções de Dimensões) — destino dos cards Financeiro/Controle sem decisão.
+- **Nova aba "Dados do produto nas plataformas"** no modal — tabela por marketplace; campo "Permitido Publicar?" sem modelagem ainda.
+- **Nova aba "Resumo de Precificação"** no modal — precisa investigar o app `precificacao` antes de idealizar.
 
 ## Convenção de entrega de código (lembrar de imediato)
 

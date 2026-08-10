@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 10/08/2026 00:55
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML]
+atualizado_em: 10/08/2026 15:30
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]
 ---
 
 # Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)
@@ -81,11 +81,22 @@ Fase Planejar fechada e código escrito, migrado e testado:
 
 O serviço que chama a API, filtra, seleciona e aciona `sincronizar_a_partir_de` com dado real foi escrito e testado (Nível 0 + Nível 3, `ApiSysemp` mockada, 100% cover/0 Miss/0 BrPart) — ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] pro desenho completo.
 
+## Implementado e validado (10/08/2026, 15:30) — exibição no modal + 3 campos novos
+
+Ao construir a aba Impostos do modal de produto (ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]]), achado que faltava persistir 3 campos que já vinham parseados de `dados_xml_nf.py` mas nunca gravados no guarda-chuva:
+
+- `quantidade_nota` e `custo_unitario` — sem eles não tinha como converter `base_calculo`/`valor` de cada imposto de "por nota" pra "por unidade" (achado motivado pela comparação com o dublê — ver [[Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]]).
+- `emissao` (Data de Emissão) — mesma situação, campo já existia em `dados.identificacao_nf.emissao`.
+
+Os 3 são `null=True/blank=True` — produtos já sincronizados antes dessa mudança ficam `None` até serem reprocessados (novo management command `reprocessar_impostos_entrada_de_json`, que relê o json já em disco sem chamar a API de novo).
+
+Novo método `obter_detalhes_para_exibicao()` no guarda-chuva — só ponto que converte pra "por unidade" e monta as dataclasses de exibição (`LinhaImpostoEntrada`, `DetalhesImpostosEntradaProduto`), nunca recalculado no template.
+
 ## Em aberto (próximos passos reais)
 
 - Migrar as 6 fórmulas de precificação pra ler destas tabelas novas em vez dos campos genéricos do `Produto` (`icms_entrada`, `ipi`, `pis_cofins`) — decisão futura separada, sem prazo.
-- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.
-- Rodar a sincronização de verdade contra a API real pela 1ª vez.
+- ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.~~ — feito (10/08, 12:05).
+- ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00).
 
 ## Relacionado
 
