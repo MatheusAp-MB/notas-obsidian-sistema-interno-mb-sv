@@ -3,11 +3,57 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 09/08/2026 19:10
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]
+atualizado_em: 10/08/2026 02:00
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (10/08/2026 02:00) — pausa, sessão encerrada por hoje
+
+Depois da orquestração fechada (00:55), foi feita a 1ª rodada real contra a API do Sysemp — primeira vez que qualquer código deste domínio toca a API de verdade (tudo antes disso era mock/dado fabricado). Sequência completa desta rodada:
+
+1. **Cronômetro granular + relatório estruturado.** `sincronizar_impostos_entrada_xml()` passou a devolver `RelatorioDeSincronizacao` — dataclass, não dict cru (o usuário perguntou "por que dict?" e a resposta foi corrigir na hora, é inconsistente com o resto do projeto) — com o tempo de cada fase e as contagens de produto. Motivo: decidir se vale otimizar a gravação em lote **medindo primeiro**, sem adivinhar.
+
+2. **Bug real #1, achado só ao rodar contra a API real:** `calcular_janela_da_proxima_busca()` devolve `date` (correto pro model), mas `ApiSysemp().impostos_entrada.listar_periodo_completo()` exige string ISO — o orquestrador passava o `date` direto, gerando `TypeError`. Corrigido com `.isoformat()` na fronteira exata entre os 2 domínios. **O mock dos testes não pegou isso** (aceitava qualquer tipo sem checar) — reforçado com `assert isinstance(..., str)` dentro do mock, pra nunca mais passar batido.
+
+3. **Problema real de observabilidade.** Rodando contra a API de verdade, o comando ficou mais de 1 minuto em silêncio total (paginação com throttle de 1s/página, zero feedback) — o usuário achou que travou e encerrou o terminal. Corrigido com callback opcional `informar_fase(mensagem: str)` no orquestrador (nunca imprime nada sozinho) + repasse do `ao_avancar_pagina` já existente no `api_sysemp` — o comando agora mostra um spinner vivo com a fase atual e o progresso página a página.
+
+4. **1ª rodada real completa (carga histórica desde 2020-05-01):** `busca_api` = 299,5s (93% do tempo), `persistencia_no_banco` = 20,6s (6,4%), total = 5m21s. **Resposta real, medida, pra pergunta original ("vale otimizar a gravação em lote?"): não — o gargalo é o throttle da API, não o banco.** Também é custo de carga histórica única; sincronizações futuras (janela de 7 dias) devem ser bem mais rápidas na busca.
+
+5. **2 achados de dado nos números da rodada:** 3791 produtos selecionados; 1416 sincronizados (37%); **2055 sem `Produto` correspondente no banco (54%)**; 320 com erro (8,4%).
+
+6. **Bug/achado real #2 — os 320 erros, investigado com dado real (não suposição).** Todos com a mesma mensagem genérica (`float() argument ... not 'NoneType'`). Pedido e conferido o registro real do EAN `7909436946186` (NF 188419, CFOP 1.403): **todos** os campos de imposto vêm `null`, e até o `NCM` (teoricamente obrigatório em qualquer NF-e) também vem `null` — não parece "imposto zero de verdade", parece dado incompleto do lado da Sysemp pra essa nota específica. **Decisão de negócio em aberto, não resolvida** — 3 opções na seção "Em aberto" de [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+
+7. **Achado sobre re-execução.** Rodar o comando de novo agora é um no-op puro (watermark já em dia, dentro da margem) — confirmado na prática (`total: 0.008s`). Mais importante: **sincronizações futuras nunca voltam a reler o histórico antigo** (só a janela nova) — os 320 erros dessas notas antigas não se resolvem sozinhos com o tempo. Qualquer fix pro `null` vai precisar também de um jeito de reprocessar esse histórico antigo.
+
+**Sessão pausada aqui, por decisão do usuário (fim do horário disponível).** Ver [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]] pro ponto de partida único ao retomar em outro computador.
+
+## Última atualização (10/08/2026 00:55)
+
+Fechada a frente de orquestração (idealizada ao longo da madrugada, sem incidente de processo desta vez): serviço completo que liga watermark + `api_sysemp` + `impostos` de ponta a ponta. Idealizado por diálogo — usuário rejeitou a proposta inicial de processar tudo em memória, preferindo manter os 3 jsons intermediários (bruto/filtrado/selecionado) em disco, sempre sobrescritos (sem 1 arquivo por execução), com 1 4º json de pendências de erro por produto (não é log — some quando o produto sincroniza bem numa rodada futura). Ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] pro desenho completo.
+
+Implementado: `integracao_sysemp/servicos/` (`arquivos_retorno_api.py`, `filtro_cfop.py`, `selecao_nota_recente.py`, `erros_sincronizacao.py`, `orquestrador.py`) + comando `manage.py sincronizar_impostos_entrada` + método novo `calcular_janela_da_proxima_busca()` no model do watermark. Testado (Nível 0 pras funções puras e arquivo, Nível 3 pro orquestrador com `ApiSysemp` mockada como caixa-preta) — **21 testes reais + 5 xfail, 100% cover / 0 Miss / 0 BrPart** em todo o pacote novo e no model do watermark.
+
+Código commitado e sincronizado com o GitHub (`dev`, commit `8343dba`) — relocação oficial do `api_sysemp` + criação dos apps `impostos`/`integracao_sysemp` foram todos no mesmo commit.
+
+## Última atualização (09/08/2026 23:10)
+
+Fase Executar concluída pra modelagem de impostos/custos de entrada (idealizada às 22:25): app novo `impostos` criado, com o guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas (`IcmsEntradaProduto`, `IcmsStEntradaProduto`, `IcmsRetEntradaProduto`, `IpiEntradaProduto`, `PisEntradaProduto`, `CofinsEntradaProduto`), migração aplicada, pipeline único de escrita (`sincronizar_a_partir_de`) testado com **100% cover / 0 Miss / 0 BrPart** (13 testes + 1 xfail). No caminho, achado e corrigido um bug real de precisão (float passado direto pra `DecimalField` capturava o valor binário exato, não o decimal correto — corrigido com `_converter_para_decimal`). Ver seção "Implementado e validado" em [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]] pro detalhe completo.
+
+**3º incidente de processo nesta sessão (registrado por completo em [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]):** durante a análise de cobertura, Claude tentou criar um arquivo no próprio sandbox só pra contar linha de um código que o usuário já tinha colado na conversa — violação da mesma regra dos 2 incidentes anteriores ("código é sempre texto"), mesmo sendo só verificação interna, sem entrega nem execução envolvida. Identificado pelo usuário na hora; regra reforçada explicitamente no vault pra cobrir esse caso.
+
+## Última atualização (09/08/2026 22:25)
+
+Idealizada (Ciclo de Trabalho Calmo, fase Idealizar concluída) a modelagem de banco pra receber impostos/custos de entrada de forma completa — hoje o `Produto` só tem campos genéricos e soltos, da era da planilha. Desenho fechado por diálogo (incluindo mockup visual validado pelo usuário): guarda-chuva `ImpostosECustosXMLEntradaProduto` (1 linha por produto, sem histórico, sempre sobrescrita) carregando identificação da nota + `custo_total`, com 6 tabelas-filhas (ICMS, ICMS ST, ICMS Ret, IPI, PIS, COFINS) — cada uma só com os campos que realmente tem no XML (IPI sem redução, ICMS Ret sem alíquota/redução), sempre as 6 criadas mesmo com valor zero. Campos monetários em `Decimal`, não `float` (diferente das dataclasses de processo). Decisão explícita do usuário de fazer isso como reforma, não remendo — não presa a manter compatibilidade com os campos genéricos atuais do Produto. Ver [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]] pro desenho completo. Próximo passo: fase Planejar (app, nomes finais das 6 tabelas, pipeline de gravação).
+
+## Última atualização (09/08/2026 20:50)
+
+Modelo da sincronização incremental (planejada na entrada de 19:10) foi implementado, migrado e testado. App novo dedicado `integracao_sysemp`, model `SincronizacaoXmlManifestoNotaEntrada` — nomes finais diferentes dos provisórios do desenho original (watermark virou 2 campos, `data_inicial_cobertura`/`data_final_cobertura`, não 1; comando `manage.py iniciar` virou `manage.py iniciar_servidor` pra não colidir com `iniciar_banco` já existente; status persistido simplificado pra 2 valores, "desatualizado" ficou como método calculado). Migração `0001_initial` aplicada com sucesso no banco real.
+
+Teste pytest Nível 3 escrito, rodado pelo usuário e validado: 10 testes + 1 xfail proposital, **100% cover / 0 Miss / 0 BrPart** em `integracao_sysemp/models.py` (checado com `pytest-cov`, conforme [[Disciplina de Testes Automatizados]]). Ver seção "Implementado e validado" em [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]] pro detalhe completo dos campos e cenários cobertos.
+
+Segue em aberto: o serviço/cliente que de fato chama a API e aciona os métodos de escrita, a implementação do comando `iniciar_servidor`, onde o aviso visual de "desatualizado" aparece na tela, e o botão manual de sincronizar.
 
 ## Última atualização (09/08/2026 19:10)
 
@@ -186,6 +232,15 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 
 ## Próximos passos
 
+- ~~Escrever o serviço/cliente que chama a API do Sysemp e aciona `registrar_sincronizacao_bem_sucedida()`/`registrar_falha()` do model `SincronizacaoXmlManifestoNotaEntrada`.~~ — feito (10/08, 00:55): ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+- ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00): carga histórica completa desde 2020-05-01, 5m21s, ver detalhe acima e na decisão de orquestração.
+- **Decidir como tratar campos de imposto vindos `null` da API** (3 opções: tratar como zero / manter como pendência sem persistir / permitir `null` de verdade nas 6 tabelas de `impostos`) — bloqueado, precisa de decisão de negócio, ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+- **Desenhar como reprocessar especificamente o histórico antigo** — sincronizações futuras só olham a janela nova (7 dias), nunca voltam a reler as notas de 2020-2026 já fora da cobertura. Sem isso, os 320 erros atuais (e a decisão do `null`, quando tomada) nunca chegam a ser reaplicados nesses casos antigos.
+- **Investigar os 2055 produtos (54% dos selecionados) sem `Produto` correspondente no banco** — produto descontinuado de verdade, ou divergência de formato de EAN entre Sysemp e o cadastro?
+- Implementar o comando `manage.py iniciar_servidor` (hoje o disparo é manual, via `sincronizar_impostos_entrada`).
+- Definir cooldown entre tentativas de falha consecutivas (`data_ultima_chamada` já sustenta isso).
+- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/` (mesmo caminho já percorrido pelo `api_sysemp`).
+- Decidir onde o aviso visual de "dados desatualizados" aparece na tela, e o formato do botão manual de sincronizar.
 - ~~Reunião com o superior (07/08/2026): decidir custo médio vs. custo atual.~~ — feito, custo atual escolhido.
 - ~~Implementar a lógica de custo atual em código.~~ — feito, `calcular_custo_atual_por_produto.py` criado e funcionando (com a limitação de `Entrada` registrada como risco conhecido).
 - ~~Confirmar com o suporte da Sysemp se existe campo/endpoint pra entrada física real da mercadoria.~~ — feito: a Sysemp remodelou a API; `Data Entrada da Nota` resolve isso, validado 2/2 — ver [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]].
@@ -213,3 +268,6 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 - [[Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo]]
 - [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]]
 - [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]]
+- [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]]
+- [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
+- [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]]

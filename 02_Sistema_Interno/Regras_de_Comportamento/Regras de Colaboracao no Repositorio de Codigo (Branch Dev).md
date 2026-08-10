@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 09/08/2026 19:10
+atualizado_em: 09/08/2026 23:00
 relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
@@ -31,9 +31,13 @@ Reincidiu em 09/08/2026, no mundo `03_Integracao_Sysemp`: durante o planejamento
 
 Todo código entregue ao usuário (script novo, diff, arquivo completo) vai como texto dentro da própria mensagem, em bloco de código — nunca como um arquivo que Claude cria (nem em pasta de rascunho/scratchpad, nem apresentado como card de arquivo). O usuário mesmo decide onde salvar, copiando o texto.
 
+**Reforço (09/08/2026, depois do 3º incidente):** a regra não vale só pra código ENTREGUE ao usuário — vale pra qualquer criação de arquivo por Claude, por qualquer motivo, mesmo puramente interno ("só pra eu contar linha", "só pra eu conferir uma coisa", "não vou nem mostrar pro usuário"). "É só verificação, não é entrega" NÃO é exceção válida. Se Claude precisa contar, comparar, checar ou processar algo sobre um código que já está na conversa (colado pelo usuário ou gerado pelo próprio Claude antes), a única ação permitida é ler e raciocinar sobre o texto já disponível — nunca escrever esse texto num arquivo (nem em sandbox/scratchpad) pra rodar ferramenta em cima.
+
 Incidente real (05/08/2026): Claude escreveu 2 scripts de diagnóstico de Drive usando a ferramenta de criar arquivo e os apresentou como cards de arquivo, em vez de colar o código na conversa. O usuário já tinha pedido isso antes; a repetição do erro gerou a correção: "Eu já te falei que não é pra você criar arquivos... você deve mandar todo o código na conversa como texto." Regra vale pra qualquer código (scripts de diagnóstico, testes, diffs) — sem exceção por ser "só um rascunho" ou "só leitura".
 
 Reincidiu em 09/08/2026, no mundo `03_Integracao_Sysemp`: Claude escreveu uma simulação de sincronização incremental direto num arquivo (via ferramenta de shell), em vez de colar o código como texto na conversa — mesmo erro do incidente de 05/08, em contexto diferente. Corrigido junto com o incidente de execução sem permissão, registrado em [[Disciplina de Testes Automatizados]].
+
+Reincidiu uma 3ª vez em 09/08/2026 (23:00), durante a análise de cobertura de teste do app `impostos`: Claude tentou escrever o conteúdo de `impostos/models.py` — que o próprio usuário já tinha colado na conversa — num arquivo dentro do sandbox, só pra contar número de linha com uma ferramenta, em vez de contar direto no texto já disponível. Diferente dos 2 incidentes anteriores, aqui não era entrega de código nem execução de lógica — era puramente uma verificação interna, e mesmo assim violou a regra (motivo do reforço acima). O usuário identificou na hora: "QUE ARQUIVO QUE VOCE ESTA CRIANDO?". Corrigido: a contagem foi refeita manualmente, lendo o texto colado, sem qualquer ferramenta — e bateu exatamente com o resultado do coverage real.
 
 ## O vault é a fonte de verdade
 

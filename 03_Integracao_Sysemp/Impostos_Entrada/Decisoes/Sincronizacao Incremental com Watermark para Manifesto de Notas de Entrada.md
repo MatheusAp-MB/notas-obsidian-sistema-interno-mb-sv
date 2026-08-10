@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 09/08/2026 19:10
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Paginacao do Endpoint Manifesto Nota Entrada, Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker), Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo]
+atualizado_em: 10/08/2026 00:55
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Paginacao do Endpoint Manifesto Nota Entrada, Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker), Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, Estrutura de Arquivo e Classe Python, Modelagem de Objeto e Encapsulamento, Integridade e Fonte Unica de Dado, Orquestracao da Sincronizacao de Impostos de Entrada via XML]
 ---
 
 # Sincronização Incremental com Watermark para Manifesto de Notas de Entrada
@@ -43,12 +43,30 @@ Quando não existe `cobertura_ate` registrado (primeiro uso), o próprio `inicia
 
 Nova tabela no banco (o banco está sendo remodelado agora, junto de várias funções de precificação) — guarda o `cobertura_ate` e o que mais for decidido (ver "Em aberto"). Decisão explícita do usuário: essa tabela é **só** pra essa função específica (sincronizar dados de entrada do XML) — não generalizada pra outras futuras integrações Sysemp (Cadastro de Produtos, dados de saída), seguindo a Regra dos Três já estabelecida em [[Disciplina de Refatoracao e Testes]]: só generaliza quando a 2ª necessidade real aparecer, não antes.
 
+## Implementado e validado (09/08/2026 20:50)
+
+Nomes finais, diferentes dos provisórios usados no desenho acima — registrados aqui pra não ficar divergente do código real:
+
+- **Watermark virou 2 campos, não 1.** O desenho original falava em 1 campo (`cobertura_ate`). Na prática, virou `data_inicial_cobertura` + `data_final_cobertura` — separação que nasceu de uma distinção discutida depois deste documento: "data de cobertura" (o que já está garantido, nunca regride) é diferente de "data de parâmetro" (a janela pedida numa chamada específica). `data_inicial_cobertura` escreve só 1 vez (na primeira sincronização bem-sucedida, enquanto estiver vazia) e nunca é sobrescrita depois; `data_final_cobertura` avança a cada sincronização bem-sucedida. As 2 datas moram como campos comuns (`models.DateField`), nunca como propriedade calculada, porque são o próprio dado bruto persistido — o que é calculado é `esta_desatualizada()`.
+- **Model:** `SincronizacaoXmlManifestoNotaEntrada`, no app novo dedicado `integracao_sysemp` (app próprio, não dentro de `core`/`produtos` — decisão explícita, já que o código de sincronização vai crescer com serviço/cliente API depois). Campos: `data_inicial_cobertura`, `data_final_cobertura`, `data_ultima_chamada` (`DateTimeField`, guarda hora — sustenta cooldown entre tentativas), `status` (`TextChoices`: `Sincronizado`/`Falha`), `motivo_da_falha`.
+- **Status simplificado pra 2 valores, não 3.** A proposta original tinha "Sincronizado"/"Desatualizado"/"Falha ao sincronizar". "Desatualizado" nunca chegou a virar campo persistido — vira o método `esta_desatualizada(data_referencia=None)`, calculado a partir de `data_final_cobertura + margem` vs. hoje. Motivo: [[Integridade e Fonte Unica de Dado]] proíbe guardar campo 100% dedutível de outro dado já guardado.
+- **`obter()`**: `get_or_create(pk=1)` — mesmo esquema de linha única já usado em `ConfiguracaoOperacional` (não é o Singleton do GoF, sem restrição de linguagem — ver [[Padroes de Projeto GoF Quando Usar]]).
+- **Comando renomeado**: `manage.py iniciar` (proposto no desenho original) virou `manage.py iniciar_servidor`, pra não colidir com o `manage.py iniciar_banco` que já existe no projeto (achado real, checando o código, não suposição).
+- Migração (`0001_initial`) aplicada com sucesso no banco real do usuário.
+- **Teste pytest Nível 3** (`integracao_sysemp/tests/test_nivel_3__sincronizacao_xml_manifesto.py`) escrito, rodado pelo usuário e validado: 10 testes reais + 1 xfail proposital, 100% cover / 0 Miss / 0 BrPart em `integracao_sysemp/models.py`. Cobre: criação de linha vazia, `esta_desatualizada` nunca sincronizado / dentro da margem / fora da margem / usando `date.today()` quando não informado, primeira sincronização preenchendo as 2 datas, segunda sincronização nunca regredindo `data_inicial_cobertura`, `registrar_falha` nunca tocando a cobertura, e os 2 métodos de escrita usando `timezone.now()` real (provado por intervalo antes/depois da chamada) quando `agora` não é informado.
+
+## Implementado e validado (10/08/2026 00:55)
+
+Método novo `calcular_janela_da_proxima_busca(data_referencia=None) -> tuple[date, date]` — decide `data_inicial`/`data_final` da próxima chamada à API. Adicionado aqui (não no orquestrador) porque depende só de campos e constante que já moram neste model (`data_final_cobertura`, `MARGEM_DE_SEGURANCA_DIAS`) — mesmo raciocínio de `esta_desatualizada()`. Nova constante `DATA_INICIAL_PRIMEIRA_CARGA = date(2020, 5, 1)` (mesma data já validada manualmente, usada só na 1ª sincronização, quando `data_final_cobertura` ainda é `None`). 3 cenários novos testados (primeira vez, com cobertura aplicando a margem, sem `data_referencia`), mantendo os 100% de cobertura do model.
+
+O serviço que de fato chama a API e aciona `registrar_sincronizacao_bem_sucedida()`/`registrar_falha()` foi escrito — ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] pro desenho e implementação completos.
+
 ## Em aberto
 
-- Campos exatos da tabela: só `cobertura_ate`, ou também `ultima_execucao_em` e status/erro da última tentativa (útil pro aviso visual mostrar o motivo, não só "desatualizado"). Não decidido ainda.
 - Onde o aviso visual ("dados desatualizados, clique para sincronizar") vai aparecer na tela — usuário decide depois.
 - Formato final do botão manual de sincronizar.
-- Nome exato dos campos/tabela em código (isso é decisão de implementação, não de design).
+- Implementação do comando `manage.py iniciar_servidor` em si — ainda não escrita (hoje o disparo é manual, via `manage.py sincronizar_impostos_entrada`).
+- Cooldown entre tentativas de falha consecutivas — `data_ultima_chamada` foi desenhado pra sustentar isso, mas nenhuma regra/método de cooldown foi definido ainda.
 
 ## Relacionado
 
@@ -56,3 +74,8 @@ Nova tabela no banco (o banco está sendo remodelado agora, junto de várias fun
 - [[Paginacao do Endpoint Manifesto Nota Entrada]]
 - [[Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker)]]
 - [[Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo]]
+- [[Estrutura de Arquivo e Classe Python]]
+- [[Modelagem de Objeto e Encapsulamento]]
+- [[Integridade e Fonte Unica de Dado]]
+- [[Padroes de Projeto GoF Quando Usar]]
+- [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]

@@ -1,0 +1,89 @@
+---
+tipo: checkpoint
+dominio: 
+status: ativo
+criado: 10/08/2026
+atualizado_em: 10/08/2026 02:00
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault]
+---
+
+# Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
+
+> Nota auto-contida, criada em 10/08/2026 porque o trabalho vai continuar em outro computador e a conversa atual não migra junto. Serve como ponto de partida único — leia esta nota primeiro, depois siga os links pra detalhe quando precisar. Se algo aqui parecer desatualizado, o vault é a fonte da verdade — os links levam ao original.
+>
+> Domínio: **Integração Sysemp / Impostos de Entrada** — completamente separado do domínio Agenda de Vídeos (que tem sua própria nota equivalente, [[Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]], não relacionada a este trabalho).
+
+## Notas que deve ler a seguir (nesta ordem)
+
+1. **Pasta `02_Sistema_Interno/Regras_de_Comportamento/` inteira** — sempre primeiro, sem exceção. Define como agir neste projeto (git, testes, vault, comunicação). Em especial: [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] (3 incidentes reais documentados nesta mesma frente — leia antes de criar qualquer arquivo ou executar qualquer coisa) e [[Disciplina de Testes Automatizados]].
+2. **Esta nota** (você já está aqui) — snapshot geral + "Status real agora" abaixo.
+3. [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] — histórico completo, cronológico, de toda a exploração fiscal desde 06/08/2026.
+4. [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] — decisão mais recente e mais importante pra continuar: tem os 2 itens bloqueantes (decisão do `null` e reprocessamento do histórico antigo).
+5. [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]] e [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]] — as 2 decisões que a orquestração liga.
+
+## Onde isso vive
+
+- Projeto: `Projeto_Sistema_Interno_V2` (Django). Repo GitHub `MatheusAp-MB/Projeto_Sistema_Interno_V2`, branch `dev`.
+- Apps envolvidos: `api_sysemp` (cliente HTTP oficial, throttle/backoff/exceções, sem Django), `integracao_sysemp` (watermark `SincronizacaoXmlManifestoNotaEntrada` + `servicos/` com o orquestrador), `impostos` (guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas). `scripts_exploracao_ERP/` ainda guarda `dados_xml_nf.py` (dataclasses de processo, ainda não oficializado) e os scripts antigos de exploração manual (defasados desde a orquestração — não usar como referência de código, só histórico).
+- Vault Obsidian: `notas-obsidian-sistema-interno-mb-sv`, mundo `03_Integracao_Sysemp/` — isolado do resto do Sistema Interno por decisão explícita (dado fiscal sensível, mundo grande o suficiente pra ter documentação própria).
+
+## Regras de colaboração (resumo — ver notas linkadas pra nuance completa)
+
+1. Só sincronizar (fetch) com o GitHub quando o usuário pedir explicitamente.
+2. Claude nunca escreve/edita nada no repositório de código real do usuário — código é sempre entregue como texto na conversa (arquivo completo ou bloco "Localize:/Substitua por:"), nunca como arquivo criado por Claude, **mesmo pra verificação puramente interna** (3º incidente documentado — essa exceção não existe). O usuário aplica e roda localmente, e reporta o resultado real de volta.
+3. Claude nunca executa código, testes ou comandos sozinho contra o projeto real — só no seu próprio clone-sandbox de leitura, e só depois que o usuário autorizar sincronizar.
+4. Nunca criar tarefa/subagente sem necessidade real — planejar (Idealizar → Planejar) antes de executar.
+5. Perguntas sempre em texto corrido na conversa, nunca caixinha de múltipla escolha.
+6. Antes de escrever/editar qualquer nota do vault, perguntar data e hora ao usuário.
+7. O vault é fonte de verdade; `LEGADO/` é arquivo morto, nunca base de decisão.
+8. Mudança de código, mesmo 1 linha, sempre como diff exato ou arquivo completo — nunca descrita em prosa.
+9. Ciclo de trabalho: Idealizar (discutir sem pressa) → Planejar (nomes, estrutura, sem código ainda) → Executar (código, só depois de autorizado) → Analisar/Corrigir/Otimizar/Validar. Testes sempre passam por "explicar cenário em linguagem natural, esperar confirmação" antes de qualquer teste ser escrito.
+10. Nunca assumir/supor sobre dado real ou comportamento de código — sempre confirmar (ler o código real, pedir pro usuário rodar e colar o resultado, ou pedir o dado real) antes de diagnosticar ou decidir.
+
+## O que é este domínio (modelo mental rápido)
+
+Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS ST, ICMS Ret, IPI, PIS, COFINS) atualizados no banco, vindos do XML da nota fiscal real via API do Sysemp — substituindo os campos genéricos e soltos que o `Produto` tinha antes (herdados de planilha manual).
+
+- **`api_sysemp`** — cliente HTTP puro, camadas `ClienteApiSysemp` (transporte, throttle 1s + backoff) → `ImpostosEntradaXML` (contexto do endpoint, paginação) → `ApiSysemp` (Facade, autenticação via `.env`). 100% testado, oficializado (fora de `scripts_exploracao_ERP/`).
+- **Watermark (`integracao_sysemp.models.SincronizacaoXmlManifestoNotaEntrada`)** — controla até onde a sincronização já cobriu (`data_inicial_cobertura`/`data_final_cobertura`), com margem de segurança de 7 dias. `esta_desatualizada()` decide se vale chamar a API; `calcular_janela_da_proxima_busca()` decide o período; `registrar_sincronizacao_bem_sucedida()`/`registrar_falha()` são os únicos pontos de escrita.
+- **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
+- **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
+
+## Status real agora (10/08/2026, 02:00)
+
+- **Tudo commitado e no GitHub até o commit `8343dba`** ("Oficializa api_sysemp e cria apps impostos e integracao_sysemp") — isso cobre: relocação do `api_sysemp`, apps `impostos` e `integracao_sysemp` completos (models, migrações, `servicos/`, comando, testes), tudo 100% cover na época do commit.
+- **⚠️ Mudanças feitas DEPOIS desse commit, entregues como texto na conversa, aplicadas pelo usuário localmente — commit e push AINDA NÃO confirmados:**
+  - Método `calcular_janela_da_proxima_busca()` + constante `DATA_INICIAL_PRIMEIRA_CARGA` em `integracao_sysemp/models.py`.
+  - `RelatorioDeSincronizacao` (dataclass) substituindo o retorno em dict do orquestrador.
+  - Callback `informar_fase` + repasse de `ao_avancar_pagina` (progresso em tempo real no comando).
+  - Fix do bug `date` → `.isoformat()` na chamada à API.
+  - Testes correspondentes em `integracao_sysemp/tests/` e `integracao_sysemp/servicos/tests/` (incluindo o mock reforçado com `assert isinstance(..., str)`).
+  - **Confirmado 100% cover / 0 Miss / 0 BrPart em todos os módulos após cada rodada** — só falta confirmar que o `git commit`/`push` foi feito.
+- **1ª rodada real contra a API do Sysemp executada com sucesso** (10/08, ~01:35-01:40, pelos timestamps do erros.json) — carga histórica completa desde 2020-05-01. **O banco de produção real já tem dado fiscal real de 1416 produtos agora** (via `impostos.ImpostosECustosXMLEntradaProduto` + as 6 tabelas-filhas). Detalhe completo dos números em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]], entrada de 02:00, e em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+- **2 itens bloqueiam o próximo avanço real**, ambos documentados em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]], seção "Achado real — campos de imposto vindo null da API": (1) decisão de negócio sobre como tratar os 320 casos com campo de imposto `null` na origem (3 opções propostas, nenhuma escolhida ainda); (2) como reprocessar especificamente o histórico antigo depois de qualquer fix (sincronizações futuras não voltam a ler essas notas por conta própria).
+- **1 achado de dado aberto, não bloqueante:** 2055 dos 3791 produtos do manifesto (54%) não têm `Produto` correspondente no banco pelo EAN — não investigado ainda se é descontinuação real ou divergência de formato.
+
+## O que ainda está em aberto (consolidado)
+
+- Decidir o tratamento do `null` nos campos de imposto (bloqueante).
+- Desenhar o reprocessamento do histórico antigo (bloqueante, depende da decisão acima).
+- Investigar os 2055 produtos sem correspondência.
+- Confirmar commit/push das mudanças pós-`8343dba` (ver "Status real agora").
+- Implementar `manage.py iniciar_servidor` (agendamento — hoje o disparo é manual).
+- Definir cooldown entre tentativas de falha consecutivas.
+- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.
+- Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos do `Produto` — decisão futura, sem prazo.
+
+## Convenção de entrega de código (lembrar de imediato)
+
+Claude nunca escreve direto no repo do usuário nem roda pytest/comandos. Todo código é entregue como bloco "Localize:/Substitua por:" (diff nomeado, texto exato do arquivo real) ou arquivo completo, sempre depois de explicar em linguagem natural o que vai mudar e por quê — e, no caso de testes, só depois de propor os cenários e esperar confirmação. O usuário aplica e roda localmente, reportando o resultado real de volta (nunca assumir que passou).
+
+## Relacionado
+
+- [[Checkpoint — Exploracao de Dados Fiscais Sysemp]]
+- [[Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada]]
+- [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]]
+- [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
+- [[Disciplina de Testes Automatizados]]
+- [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
+- [[Estrutura e Convenções do Vault]]
