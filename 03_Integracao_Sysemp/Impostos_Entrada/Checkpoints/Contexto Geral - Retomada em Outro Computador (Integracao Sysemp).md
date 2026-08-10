@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 10/08/2026 02:00
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault]
+atualizado_em: 10/08/2026 12:05
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -24,7 +24,7 @@ relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao I
 ## Onde isso vive
 
 - Projeto: `Projeto_Sistema_Interno_V2` (Django). Repo GitHub `MatheusAp-MB/Projeto_Sistema_Interno_V2`, branch `dev`.
-- Apps envolvidos: `api_sysemp` (cliente HTTP oficial, throttle/backoff/exceções, sem Django), `integracao_sysemp` (watermark `SincronizacaoXmlManifestoNotaEntrada` + `servicos/` com o orquestrador), `impostos` (guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas). `scripts_exploracao_ERP/` ainda guarda `dados_xml_nf.py` (dataclasses de processo, ainda não oficializado) e os scripts antigos de exploração manual (defasados desde a orquestração — não usar como referência de código, só histórico).
+- Apps envolvidos: `api_sysemp` (cliente HTTP oficial, throttle/backoff/exceções, sem Django), `integracao_sysemp` (watermark `SincronizacaoXmlManifestoNotaEntrada` + `servicos/` com o orquestrador e, desde 10/08, também `dados_xml_nf.py`), `impostos` (guarda-chuva `ImpostosECustosXMLEntradaProduto` + 6 tabelas-filhas). `scripts_exploracao_ERP/` guarda só os scripts de exploração manual (defasados desde a orquestração — não usar como referência de código, só histórico) e o dublê (`duble_precificacao_ml.py`) — nenhum código de produção mora mais lá, pode ser apagada a qualquer momento sem afetar o sistema real.
 - Vault Obsidian: `notas-obsidian-sistema-interno-mb-sv`, mundo `03_Integracao_Sysemp/` — isolado do resto do Sistema Interno por decisão explícita (dado fiscal sensível, mundo grande o suficiente pra ter documentação própria).
 
 ## Regras de colaboração (resumo — ver notas linkadas pra nuance completa)
@@ -49,29 +49,30 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status real agora (10/08/2026, 02:00)
+## Status anterior (10/08/2026, 02:00 — histórico, ver "Status real agora" abaixo pro estado atual)
 
-- **Tudo commitado e no GitHub até o commit `8343dba`** ("Oficializa api_sysemp e cria apps impostos e integracao_sysemp") — isso cobre: relocação do `api_sysemp`, apps `impostos` e `integracao_sysemp` completos (models, migrações, `servicos/`, comando, testes), tudo 100% cover na época do commit.
-- **⚠️ Mudanças feitas DEPOIS desse commit, entregues como texto na conversa, aplicadas pelo usuário localmente — commit e push AINDA NÃO confirmados:**
-  - Método `calcular_janela_da_proxima_busca()` + constante `DATA_INICIAL_PRIMEIRA_CARGA` em `integracao_sysemp/models.py`.
-  - `RelatorioDeSincronizacao` (dataclass) substituindo o retorno em dict do orquestrador.
-  - Callback `informar_fase` + repasse de `ao_avancar_pagina` (progresso em tempo real no comando).
-  - Fix do bug `date` → `.isoformat()` na chamada à API.
-  - Testes correspondentes em `integracao_sysemp/tests/` e `integracao_sysemp/servicos/tests/` (incluindo o mock reforçado com `assert isinstance(..., str)`).
-  - **Confirmado 100% cover / 0 Miss / 0 BrPart em todos os módulos após cada rodada** — só falta confirmar que o `git commit`/`push` foi feito.
-- **1ª rodada real contra a API do Sysemp executada com sucesso** (10/08, ~01:35-01:40, pelos timestamps do erros.json) — carga histórica completa desde 2020-05-01. **O banco de produção real já tem dado fiscal real de 1416 produtos agora** (via `impostos.ImpostosECustosXMLEntradaProduto` + as 6 tabelas-filhas). Detalhe completo dos números em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]], entrada de 02:00, e em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
-- **2 itens bloqueiam o próximo avanço real**, ambos documentados em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]], seção "Achado real — campos de imposto vindo null da API": (1) decisão de negócio sobre como tratar os 320 casos com campo de imposto `null` na origem (3 opções propostas, nenhuma escolhida ainda); (2) como reprocessar especificamente o histórico antigo depois de qualquer fix (sincronizações futuras não voltam a ler essas notas por conta própria).
-- **1 achado de dado aberto, não bloqueante:** 2055 dos 3791 produtos do manifesto (54%) não têm `Produto` correspondente no banco pelo EAN — não investigado ainda se é descontinuação real ou divergência de formato.
+- Tudo commitado e no GitHub até o commit `8343dba` ("Oficializa api_sysemp e cria apps impostos e integracao_sysemp"). Mudanças feitas depois desse commit (relatório de progresso, fix `date`→`.isoformat()`, testes reforçados) estavam marcadas como "commit/push ainda não confirmados" — **essa dúvida foi resolvida em 10/08, 12:05, ver abaixo: já estava tudo commitado.**
+- 1ª rodada real contra a API do Sysemp executada com sucesso (10/08, ~01:35-01:40) — carga histórica completa desde 2020-05-01. Banco de produção com dado fiscal real de 1416 produtos. Detalhe completo em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] e [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+- 2 itens bloqueavam o próximo avanço real: decisão de negócio sobre os 320 casos com campo de imposto `null`, e reprocessamento do histórico antigo.
+
+## Status real agora (10/08/2026, 12:05)
+
+- **Confirmado: commit/push pós-`8343dba` já estavam OK** — verificado direto no GitHub (`git fetch`, `dev`) nesta sessão: 4 dos 5 itens pendentes estão no commit `575f865` ("Adiciona relatório de tempo/progresso ao orquestrador e corrige bug de tipo na chamada da API"), atual HEAD de `origin/dev`; o 5º (`calcular_janela_da_proxima_busca()`/`DATA_INICIAL_PRIMEIRA_CARGA`) já fazia parte do próprio `8343dba`. Não era mais uma pendência real, só um aviso desatualizado nesta nota.
+- **Decisão do `null` tomada e implementada:** vira `0`, explícito — ver seção própria em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]. Implementado em `integracao_sysemp/servicos/dados_xml_nf.py`, testado (Nível 0, 100% cover).
+- **`dados_xml_nf.py` oficializado** — saiu de `scripts_exploracao_ERP/` (que precisa poder ser apagada a qualquer momento) e foi pra `integracao_sysemp/servicos/`, resolvendo uma dependência real de produção que estava escondida ali (o orquestrador E um teste oficial do app `impostos` dependiam dele). 6 consumidores corrigidos, 0 regressão (87 passed + 11 xfailed). Ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
+- **Dublê validado (parcialmente) pelo superior** — usuário mostrou `duble_precificacao_ml.py` numa reunião real; resultado: "boa parte está correta e válida". Antes disso, achados 2 bugs ambientais reais no PC do escritório (path e resíduo de `api_sysemp` antigo) — ver [[Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]].
+- **Ainda bloqueado, agora só por falta de desenho (não mais por decisão de negócio):** reprocessamento dos 320 casos que já erraram na 1ª rodada real. Usuário considerou rodar a sincronização de novo pra tentar resolver, mas decidiu não fazer isso agora.
+- **Sem mudança:** 2055 dos 3791 produtos do manifesto (54%) ainda sem `Produto` correspondente no banco pelo EAN — não investigado.
 
 ## O que ainda está em aberto (consolidado)
 
-- Decidir o tratamento do `null` nos campos de imposto (bloqueante).
-- Desenhar o reprocessamento do histórico antigo (bloqueante, depende da decisão acima).
+- ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05).
+- **Desenhar o reprocessamento do histórico antigo (320 casos)** — desbloqueado, ainda sem desenho.
 - Investigar os 2055 produtos sem correspondência.
-- Confirmar commit/push das mudanças pós-`8343dba` (ver "Status real agora").
+- ~~Confirmar commit/push das mudanças pós-`8343dba`~~ — confirmado (10/08, 12:05): já estava tudo commitado.
 - Implementar `manage.py iniciar_servidor` (agendamento — hoje o disparo é manual).
 - Definir cooldown entre tentativas de falha consecutivas.
-- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.
+- ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05).
 - Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos do `Produto` — decisão futura, sem prazo.
 
 ## Convenção de entrega de código (lembrar de imediato)

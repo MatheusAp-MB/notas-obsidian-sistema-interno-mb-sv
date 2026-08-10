@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 10/08/2026 02:00
+atualizado_em: 10/08/2026 12:05
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -51,8 +51,10 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 | [[Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal]] | descoberta | aberta | 09/08/2026 | 2 achados de dado (não de imposto/fórmula): `frete_cif_fob` zerado no banco em 3 produtos testados (planilha tem valor real); dimensões físicas zeradas no cadastro do SB-630, quebrando Coleta/Armazenagem/Frete pra esse produto. |
 | [[Divergencia de Credito PIS COFINS Entrada no Soprador SB-630]] | duvida | resolvida | 09/08/2026 | SB-630 tem PIS/COFINS entrada = 0% na planilha, XML calcula R$ 98,33/unidade. **Resolvida (17:17)**: XML é a fonte válida (ver regra de fonte única). Segue aguardando validação do tributário só quanto à fórmula. |
 | [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]] | decisao | ativa | 09/08/2026 | Guarda-chuva `ImpostosECustosXMLEntradaProduto` (1 linha/produto, sem histórico) + 6 tabelas-filhas (ICMS, ICMS ST, ICMS Ret, IPI, PIS, COFINS), cada uma só com os campos reais do XML. **Implementado (23:10)**: app `impostos`, migração aplicada, pipeline `sincronizar_a_partir_de` com 100% cover/0 Miss/0 BrPart. Bug real de precisão float→Decimal achado e corrigido no caminho. |
-| [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] | decisao | ativa | 10/08/2026 | Serviço que liga watermark + `api_sysemp` + `impostos`: busca API, filtra CFOP, seleciona nota mais recente por produto, persiste, registra erro individual (pendência) ou falha total. 3 jsons de apoio sempre sobrescritos + 1 de pendências. **Implementado (00:55)**: `integracao_sysemp/servicos/` + comando `sincronizar_impostos_entrada`. **1ª rodada real (02:00)**: 5m21s, 93% do tempo é throttle da API (não vale otimizar gravação); achado bloqueante: 320 produtos com campo de imposto `null` na origem, decisão de tratamento ainda aberta. |
-| [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]] | checkpoint | ativo | 10/08/2026 | Nota auto-contida — ponto de partida único pra retomar este domínio em outro computador. Lê antes de qualquer outra coisa ao voltar. |
+| [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] | decisao | ativa | 10/08/2026 | Serviço que liga watermark + `api_sysemp` + `impostos`: busca API, filtra CFOP, seleciona nota mais recente por produto, persiste, registra erro individual (pendência) ou falha total. 3 jsons de apoio sempre sobrescritos + 1 de pendências. **Implementado (00:55)**: `integracao_sysemp/servicos/` + comando `sincronizar_impostos_entrada`. **1ª rodada real (02:00)**: 5m21s, 93% do tempo é throttle da API; 320 produtos com campo de imposto `null` na origem. **Decidido (12:05):** `null` vira `0`, explícito — implementado e testado; reprocessamento dos 320 casos antigos segue sem desenho. |
+| [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]] | decisao | ativa | 10/08/2026 | `dados_xml_nf.py` (usado pelo orquestrador de produção e por teste oficial de `impostos`) morava em `scripts_exploracao_ERP/`, que precisa poder ser apagada a qualquer momento. Movido pra `integracao_sysemp/servicos/`, 6 consumidores corrigidos, 0 regressão (87 passed + 11 xfailed). |
+| [[Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]] | descoberta | corrigida | 10/08/2026 | 2 bugs ambientais no PC do escritório: scripts sem `_adicionar_raiz_do_projeto_ao_path()` (quebram ao rodar direto, desde a oficialização do `api_sysemp`) e resíduo local de pasta `api_sysemp` antiga mascarando o erro real como pacote de namespace. Ambos corrigidos. |
+| [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]] | checkpoint | ativo | 10/08/2026 | Nota auto-contida — ponto de partida único pra retomar este domínio em outro computador. Lê antes de qualquer outra coisa ao voltar. Atualizada 12:05: confirmação de commit pós-`8343dba`, decisão do `null`, oficialização do `dados_xml_nf`, validação parcial do dublê pelo superior. |
 
 ## Relacionado
 

@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 criado: 10/08/2026
 status: ativa
-atualizado_em: 10/08/2026 02:00
-relacionado: [Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Lista de CFOP Relevantes para Precificacao, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]
+atualizado_em: 10/08/2026 12:05
+relacionado: [Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Lista de CFOP Relevantes para Precificacao, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]
 ---
 
 # Orquestração da Sincronização de Impostos de Entrada via XML
@@ -78,14 +78,30 @@ Os 320 produtos que foram pra `XML_Manifesto_NF_Erros.json` falham todos com a m
 
 **Além da decisão do `null`, falta resolver:** como reprocessar especificamente esse histórico antigo depois que o código for corrigido — sincronizações futuras não vão voltar a essas notas de 2020-2021 por conta própria.
 
+## Decisão do usuário (10/08/2026, 12:05) — opção 1 escolhida: `null` vira `0`
+
+Caminho 1 escolhido, explícito: "null deve virar 0... é o que faz mais sentido... se não vai ter vários erros e ifs que vamos ter que tratar de número multiplicado por null. Melhor tratar como 0. E deixar isso explícito." Motivo direto do usuário: não é só sobre o dado ficar "certo" — é evitar que a ausência de tratamento espalhe checagem de `null` por todo cálculo/soma adiante no pipeline (impostos entram em fórmulas de precificação, no dublê e no futuro real).
+
+Implementado em `integracao_sysemp/servicos/dados_xml_nf.py` (ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]] pra essa mudança de local) — 2 funções puras, únicas responsáveis por essa conversão:
+- `_float_ou_zero(valor)` — `float(valor) if valor is not None else 0.0`.
+- `_int_ou_zero(valor)` — `int(valor) if valor is not None else 0`.
+
+Aplicado nos 6 impostos (base_calculo, aliquota, reducao, valor, cst — onde existir), nunca em `Custo Total`/`Custo Unitário`/`Qtde` — esses continuam com `float()` direto de propósito, porque `null` ali é um problema mais grave (não é o "imposto pode não existir de verdade" do achado original) e não deve ser mascarado.
+
+Efeito colateral esperado e aceito: quando `Base Calculo PIS`/`Base Calculo COFINS` vem `null` (vira 0.0), a fórmula de redução (`_calcular_percentual_de_reducao`) calcula `reducao = 100.0` — matematicamente consistente (base zero = 100% de redução sobre o custo total), sem tratamento especial.
+
+**Testado** (`integracao_sysemp/servicos/tests/test_nivel_0__dados_xml_nf.py`, Nível 0): 8 cenários reais + 1 xfail — registro sem null (comportamento original intacto), cada 1 dos 6 impostos com todos os campos null isolado, reprodução do caso real do vault (EAN 7909436946186, todos os 6 impostos null ao mesmo tempo, custo intacto) — **100% cover / 0 Miss / 0 BrPart**.
+
+**Resolve daqui pra frente, não retroativamente** — os 320 produtos que já erraram na 1ª rodada real (10/08, 02:00) continuam sem registro de imposto no banco. Ver seção "Em aberto" abaixo.
+
 ## Em aberto (próximos passos reais)
 
-- **Decisão do `null` acima** — bloqueia os 320 casos e qualquer nova carga histórica.
-- **Reprocessamento do histórico antigo** — ainda sem desenho, necessário pra aplicar qualquer fix retroativamente.
+- ~~Decisão do `null`~~ — **decidido em 10/08/2026, 12:05: vira 0** (ver seção acima). Implementado e testado, corrige os casos daqui pra frente.
+- **Reprocessamento do histórico antigo dos 320 casos que já erraram** — agora desbloqueado (a decisão que faltava já foi tomada), mas ainda sem desenho de como reprocessar sem rechamar a API (watermark não relê período coberto). Usuário considerou "puxar tudo de novo" em 10/08, mas confirmou que não ia rodar por enquanto.
 - **Investigar os 2055 produtos (54%) sem `Produto` correspondente** — descontinuado de verdade, ou divergência de EAN entre Sysemp e o cadastro?
 - Implementação do comando `manage.py iniciar_servidor` (checa/sincroniza antes de subir o servidor) — ainda não escrito; hoje o disparo é manual via `sincronizar_impostos_entrada`.
 - Cooldown entre tentativas de falha consecutivas — `data_ultima_chamada` sustenta isso, mas nenhuma regra foi definida.
-- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/` (mesmo caminho já percorrido pelo `api_sysemp`).
+- ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — **feito em 10/08/2026, 12:05**, ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
 
 ## Relacionado
 

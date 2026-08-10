@@ -3,11 +3,27 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 10/08/2026 02:00
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]
+atualizado_em: 10/08/2026 12:05
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (10/08/2026 12:05) — retomada em outro PC (escritório), dublê validado pelo superior, decisão do `null` implementada
+
+Retomada em outro computador (PC do escritório), sem migrar a conversa anterior — leitura do vault confirmou o estado real (checkpoint e commits batendo, nada perdido). Sequência real desta sessão:
+
+1. **Dublê quebrado ao reabrir, 2 causas ambientais reais (não bug de lógica):** `FileNotFoundError` no json local de entrada (pasta `scripts_exploracao_ERP/saidas/` é gitignored, nunca existiu nesse PC) — resolvido rodando de novo a pipeline manual (`explorar_manifesto_nota_entrada.py` → `filtrar_dados_por_cfop.py` → `selecionar_nota_mais_recente_por_produto.py`). No caminho, 2 bugs reais achados e corrigidos em scripts de exploração que nunca foram atualizados depois da oficialização do `api_sysemp` (relocação, commit `8343dba`) — ver [[Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp]].
+
+2. **Dublê rodou e foi mostrado ao superior.** Usuário reportou: "boa parte está correta e válida" — validação parcial real, primeira vez que o dublê foi usado como material de apresentação de verdade (não só validação técnica interna).
+
+3. **Usuário pediu pra seguir com a integração real + modelagem do banco** — descoberta: **já estava feita**, de uma sessão anterior sem memória direta desta conversa (orquestrador + app `impostos`, 1ª rodada real já tinha rodado). Reconciliado contra o GitHub (`git fetch`, `dev` em `575f865`) antes de prosseguir — nada realmente pendente de commit, só a nota de Contexto Geral estava com aviso desatualizado (corrigido nesta mesma rodada, ver "Status real agora" na nota).
+
+4. **Decisão de negócio tomada: campo de imposto `null` vira `0`, explícito.** Resolve o achado dos 320 casos com erro da 1ª rodada real. Ver seção própria em [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] — implementado com 2 funções puras (`_float_ou_zero`/`_int_ou_zero`), testado (Nível 0, 8 cenários + 1 xfail, 100% cover).
+
+5. **Achado maior, motivado pelo usuário:** `dados_xml_nf.py` (usado pelo orquestrador de produção E por um teste oficial do app `impostos`) morava em `scripts_exploracao_ERP/` — pasta que precisa poder ser apagada a qualquer momento sem afetar o sistema real. Relocado pra `integracao_sysemp/servicos/dados_xml_nf.py`, 6 consumidores corrigidos, validado sem regressão (87 passed + 11 xfailed em `impostos`/`integracao_sysemp`/`api_sysemp`). Ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
+
+6. **Reprocessamento dos 320 erros antigos e resync completo: NÃO feitos ainda.** Usuário considerou "puxar tudo de novo" mas decidiu não rodar agora — segue em aberto, agora desbloqueado (a decisão do `null` que faltava já foi tomada) mas sem desenho de como reprocessar sem rechamar a API.
 
 ## Última atualização (10/08/2026 02:00) — pausa, sessão encerrada por hoje
 
@@ -234,12 +250,12 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 
 - ~~Escrever o serviço/cliente que chama a API do Sysemp e aciona `registrar_sincronizacao_bem_sucedida()`/`registrar_falha()` do model `SincronizacaoXmlManifestoNotaEntrada`.~~ — feito (10/08, 00:55): ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
 - ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00): carga histórica completa desde 2020-05-01, 5m21s, ver detalhe acima e na decisão de orquestração.
-- **Decidir como tratar campos de imposto vindos `null` da API** (3 opções: tratar como zero / manter como pendência sem persistir / permitir `null` de verdade nas 6 tabelas de `impostos`) — bloqueado, precisa de decisão de negócio, ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
-- **Desenhar como reprocessar especificamente o histórico antigo** — sincronizações futuras só olham a janela nova (7 dias), nunca voltam a reler as notas de 2020-2026 já fora da cobertura. Sem isso, os 320 erros atuais (e a decisão do `null`, quando tomada) nunca chegam a ser reaplicados nesses casos antigos.
+- ~~Decidir como tratar campos de imposto vindos `null` da API~~ — feito (10/08, 12:05): vira `0`, explícito, ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
+- **Desenhar como reprocessar especificamente o histórico antigo (320 erros)** — agora desbloqueado (decisão do `null` já tomada), mas ainda sem desenho — sincronizações futuras só olham a janela nova (7 dias), nunca voltam a reler as notas de 2020-2026 já fora da cobertura.
 - **Investigar os 2055 produtos (54% dos selecionados) sem `Produto` correspondente no banco** — produto descontinuado de verdade, ou divergência de formato de EAN entre Sysemp e o cadastro?
 - Implementar o comando `manage.py iniciar_servidor` (hoje o disparo é manual, via `sincronizar_impostos_entrada`).
 - Definir cooldown entre tentativas de falha consecutivas (`data_ultima_chamada` já sustenta isso).
-- Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/` (mesmo caminho já percorrido pelo `api_sysemp`).
+- ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05), ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
 - Decidir onde o aviso visual de "dados desatualizados" aparece na tela, e o formato do botão manual de sincronizar.
 - ~~Reunião com o superior (07/08/2026): decidir custo médio vs. custo atual.~~ — feito, custo atual escolhido.
 - ~~Implementar a lógica de custo atual em código.~~ — feito, `calcular_custo_atual_por_produto.py` criado e funcionando (com a limitação de `Entrada` registrada como risco conhecido).
