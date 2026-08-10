@@ -3,7 +3,7 @@ tipo: decisao
 dominio: 
 criado: 10/08/2026
 status: ativa
-atualizado_em: 10/08/2026 12:25
+atualizado_em: 10/08/2026 12:30
 relacionado: [Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Lista de CFOP Relevantes para Precificacao, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]
 ---
 
@@ -94,7 +94,7 @@ Efeito colateral esperado e aceito: quando `Base Calculo PIS`/`Base Calculo COFI
 
 **Resolve daqui pra frente, não retroativamente** — os 320 produtos que já erraram na 1ª rodada real (10/08, 02:00) continuam sem registro de imposto no banco. Ver seção "Em aberto" abaixo.
 
-## Validação real em produção (10/08/2026, 12:25) — carga fresca no banco do escritório
+## Validação real em produção (10/08/2026, 12:30) — carga fresca no banco do escritório
 
 Depois de aplicado e commitado o fix, o usuário rodou `manage.py sincronizar_impostos_entrada` de verdade no PC do escritório. `busca_api` levou 499,9s (~8min) — mesma ordem de grandeza da carga histórica completa, não de uma janela incremental de 7 dias. **Correção de uma suposição anterior deste registro: não existe 1 banco de produção compartilhado entre os 2 PCs — cada PC (casa/escritório) tem seu próprio banco local MySQL, independente**, confirmado direto com o usuário. Por isso o watermark desse banco nunca tinha sido setado, e a sincronização fez carga completa do zero (2020-05-01 até hoje).
 
@@ -104,7 +104,7 @@ Números da rodada: 3791 produtos selecionados (igual à rodada de casa — mesm
 
 ## Em aberto (próximos passos reais)
 
-- ~~Decisão do `null`~~ — **decidido em 10/08/2026, 12:05: vira 0** (ver seção acima). Implementado, testado (Nível 0) e **validado em produção com carga real** (12:25): 1736 sincronizados, 0 erro.
+- ~~Decisão do `null`~~ — **decidido em 10/08/2026, 12:05: vira 0** (ver seção acima). Implementado, testado (Nível 0) e **validado em produção com carga real** (12:30): 1736 sincronizados, 0 erro.
 - **Reprocessamento do histórico antigo dos 320 casos que já erraram no banco de CASA** — segue em aberto, sem desenho. A carga fresca no banco do escritório NÃO conta como reprocessamento (nunca teve a pendência pra começo, ver seção acima) — só prova que o código está correto. Ainda falta decidir como reprocessar pra qualquer banco que já tenha essa pendência registrada.
 - **Investigar os 2055 produtos (54%) sem `Produto` correspondente** — descontinuado de verdade, ou divergência de EAN entre Sysemp e o cadastro?
 - Implementação do comando `manage.py iniciar_servidor` (checa/sincroniza antes de subir o servidor) — ainda não escrito; hoje o disparo é manual via `sincronizar_impostos_entrada`.

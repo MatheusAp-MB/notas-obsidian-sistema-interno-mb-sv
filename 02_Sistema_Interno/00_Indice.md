@@ -3,6 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
+atualizado_em: 10/08/2026 12:30
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -26,7 +27,7 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Aviso Proativo Para Notas no Obsidian]]           | regra | ativa  | 02/08/2026 | Claude avisa sozinho quando algo for relevante pra salvar no vault, sem esperar pedido — memória de conversa é RAM, Obsidian é o HD.                                                                                                               |
 | [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] | regra | ativa | 03/08/2026 | Sincronizar só quando pedido; editar/escrever/remover só com permissão; nunca criar tarefa/subagente sem autorização; vault é fonte de verdade; LEGADO/ é arquivo morto; código sempre como texto na conversa, nunca arquivo criado por Claude. |
 | [[Perguntas Sempre em Texto Corrido]] | regra | ativa | 03/08/2026 | Claude nunca usa caixinha de múltipla escolha — pergunta e resposta sempre em texto corrido na conversa. |
-| [[Perguntar Data e Hora Antes de Escrever no Vault]] | regra | ativa | 03/08/2026 | Antes de escrever/editar nota, pergunta data/hora ao usuário (1x por bloco, não por arquivo) — todo write atualiza `atualizado_em`. |
+| [[Perguntar Data e Hora Antes de Escrever no Vault]] | regra | ativa | 03/08/2026 | Antes de escrever/editar nota, pergunta data/hora ao usuário (1x por bloco, não por arquivo) — todo write atualiza `atualizado_em`. **Incidente real (10/08, 12:30):** resposta a pergunta factual foi tratada como autorização implícita — corrigido, reforçado que autorização e hora precisam ser explícitas. |
 | [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] | regra | ativa | 05/08/2026 | 7 etapas fixas, sem pular: Idealizar→Planejar→Executar→Analisar→Corrigir→Otimizar→Validar. Criada após incidente de ritmo (tarefa e código gerados sem permissão). |
 | [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Pacote `api_<nome>/core` com excecoes/protecao/cliente separados; transporte nunca sabe de negócio (validação mora no contexto por endpoint, acesso mora numa Facade); hierarquia de exceção própria; throttle proativo + backoff reativo com teto 30s; sem circuit breaker por padrão; log nunca leva dado sensível. |
 
