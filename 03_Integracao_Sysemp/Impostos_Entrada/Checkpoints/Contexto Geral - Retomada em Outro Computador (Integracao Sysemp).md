@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 10/08/2026 15:30
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]
+atualizado_em: 11/08/2026 15:05
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -55,7 +55,13 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - 1ª rodada real contra a API do Sysemp executada com sucesso (10/08, ~01:35-01:40) — carga histórica completa desde 2020-05-01. Banco de produção com dado fiscal real de 1416 produtos. Detalhe completo em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] e [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
 - 2 itens bloqueavam o próximo avanço real: decisão de negócio sobre os 320 casos com campo de imposto `null`, e reprocessamento do histórico antigo.
 
-## Status real agora (10/08/2026, 15:30)
+## Status real agora (11/08/2026, 15:05)
+
+Usuário precisou trocar de frente de trabalho — pausa combinada, sem previsão de retomada. Antes de pausar, dentro da mesma sessão: mockup da aba "Visão Geral" reduzida foi aprovado (remove card Financeiro, Controle com só 3 campos — Entrada no DB/Cadastro no ERP/Última Compra —, Dimensões embaladas dividida em 2 cards) e o campo `ncm` foi migrado da Visão Geral pro card de resumo da nota (aba Impostos) — precisou de campo novo persistido no guarda-chuva (mesma situação de `emissao`/`quantidade_nota`/`custo_unitario`: já vinha parseado, nunca gravado). **Código de tudo isso já foi entregue ao usuário (diffs de `impostos/models.py`, template e CSS) — mas ainda não foi aplicado nem testado.** Continua em aberto até confirmação real.
+
+Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens de backend/pipeline) foi consolidado em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]] — nota dedicada, pra não se perder entre os vários "Status anterior" desta nota.
+
+## Status anterior (10/08/2026, 15:30 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **Trabalho novo, fora do backend/pipeline pela 1ª vez neste domínio:** a tela de Produtos (app `produtos`) e o modal de detalhe do produto agora exibem os dados de impostos de entrada — modal ganhou abas ("Visão Geral"/"Impostos"), card antigo "Fiscal (cadastro manual)" (ruído) removido, aba nova com card de resumo da última nota + 2 tabelas de detalhamento (entrada real, saída placeholder). Detalhe completo em [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
 - **Achado e corrigido, no meio do caminho:** os valores exibidos estavam em nível de NOTA, não por unidade (a API entrega assim) — comparação com o dublê expôs isso. Corrigido com 2 campos novos (`quantidade_nota`, `custo_unitario`) + 1 campo novo de identificação (`emissao`, Data de Emissão) no guarda-chuva `impostos.models.ImpostosECustosXMLEntradaProduto`. Ver [[Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]].
@@ -89,9 +95,11 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05).
 - Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos do `Produto` — decisão futura, sem prazo.
 - ~~Montar a exibição dos impostos de entrada no modal de produto.~~ — feito (10/08, 15:30), ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
-- **Reduzir a aba "Visão Geral" do modal de produto** (só Identificação + as 3 seções de Dimensões) — destino dos cards Financeiro/Controle sem decisão.
+- **Aba "Visão Geral" reduzida + campo `ncm` migrado pra Impostos** — decisão e mockup aprovados (11/08), código entregue, **ainda não aplicado nem testado pelo usuário**.
 - **Nova aba "Dados do produto nas plataformas"** no modal — tabela por marketplace; campo "Permitido Publicar?" sem modelagem ainda.
 - **Nova aba "Resumo de Precificação"** no modal — precisa investigar o app `precificacao` antes de idealizar.
+
+Todos os itens desta lista (menos o `null`/commit/`dados_xml_nf`, já resolvidos) estão consolidados, com mais detalhe, em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]] — pausados por decisão do usuário em 11/08/2026, 15:05, sem prazo pra retomada.
 
 ## Convenção de entrega de código (lembrar de imediato)
 

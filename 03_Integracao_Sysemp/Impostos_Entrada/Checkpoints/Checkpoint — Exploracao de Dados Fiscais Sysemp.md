@@ -3,11 +3,17 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 07/08/2026
-atualizado_em: 10/08/2026 15:30
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]
+atualizado_em: 11/08/2026 15:05
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, Lista de CFOP Relevantes para Precificacao, Custo Medio Ponderado ou Custo Atual para Precificacao, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Plano em Etapas do Duble de Precificacao ML, Achados de Imposto Sempre Aguardam Validacao do Tributario, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]
 ---
 
 # Checkpoint — Exploração de Dados Fiscais Sysemp
+
+## Última atualização (11/08/2026 15:05) — pausa, backlog registrado como melhoria contínua
+
+Usuário precisou trocar de frente de trabalho e não vai seguir com os itens abaixo por enquanto. Consolidado como backlog de melhoria contínua, sem prazo — ver [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]] pro detalhe completo (2 frentes: modal de produto e backend/pipeline).
+
+Detalhe adicional que não estava registrado ainda: a etapa "Visão Geral reduzida" (mockup aprovado — remove card Financeiro, Controle com só 3 campos, Dimensões embaladas dividida em 2 cards) mais a migração do campo NCM pra dentro do card de resumo da nota (aba Impostos) tiveram o código entregue ao usuário nesta mesma sessão, antes da pausa — mas **ainda não aplicado nem testado**. Continua em aberto até confirmação real.
 
 ## Última atualização (10/08/2026 15:30) — modal de produto, aba Impostos (entrada e saída)
 
@@ -279,9 +285,12 @@ Resumo do dia, na ordem em que aconteceu — pensado pra servir de roteiro de ap
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05), ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
 - Decidir onde o aviso visual de "dados desatualizados" aparece na tela, e o formato do botão manual de sincronizar.
 - ~~Montar a exibição dos impostos de entrada no modal de produto (tela de Produtos).~~ — feito (10/08, 15:30), ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
-- **Aba "Visão Geral" do modal de produto reduzida** (só Identificação + as 3 seções de Dimensões) — destino dos cards Financeiro/Controle ainda sem decisão.
+- ~~Decidir o destino dos cards Financeiro/Controle na aba "Visão Geral" reduzida~~ — decidido (11/08): Financeiro removido (dado já em Impostos), Controle fica só com Entrada no DB/Cadastro no ERP/Última Compra. **Código entregue, ainda não aplicado nem testado.**
+- **Campo `ncm` novo no guarda-chuva de impostos** (migrado da Visão Geral, decisão de 11/08) — código entregue (model, migration, template, CSS), aguardando aplicação + `reprocessar_impostos_entrada_de_json` de novo pra backfill.
 - **Nova aba "Dados do produto nas plataformas"** no modal — tabela por marketplace (Códigos Associados, Publicado?, Permitido Publicar? — este último sem modelagem ainda).
 - **Nova aba "Resumo de Precificação"** no modal — mostrar a precificação por marketplace; precisa investigar o app `precificacao` antes de idealizar.
+
+Detalhe completo desta pausa (2 frentes, modal + backend/pipeline) em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]].
 - ~~Reunião com o superior (07/08/2026): decidir custo médio vs. custo atual.~~ — feito, custo atual escolhido.
 - ~~Implementar a lógica de custo atual em código.~~ — feito, `calcular_custo_atual_por_produto.py` criado e funcionando (com a limitação de `Entrada` registrada como risco conhecido).
 - ~~Confirmar com o suporte da Sysemp se existe campo/endpoint pra entrada física real da mercadoria.~~ — feito: a Sysemp remodelou a API; `Data Entrada da Nota` resolve isso, validado 2/2 — ver [[Campo Entrada do Manifesto Pode Nao Ser a Entrada Fisica Real]].

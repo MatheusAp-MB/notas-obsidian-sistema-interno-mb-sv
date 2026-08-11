@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 10/08/2026
-atualizado_em: 10/08/2026 15:30
-relacionado: [Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]
+atualizado_em: 11/08/2026 15:05
+relacionado: [Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]
 ---
 
 # Modal de Produto — Aba Impostos (Entrada e Saída)
@@ -46,13 +46,29 @@ Adicionado durante a mesma rodada — mesma situação dos 2 campos acima (já v
 - **`produtos/static/produtos/css/layout_produtos.css`**: classes novas pras abas, pro grid do card de resumo da nota, pro badge "placeholder" e pra tabela de impostos.
 - **Novo management command `integracao_sysemp/management/commands/reprocessar_impostos_entrada_de_json.py`**: relê `XML_Manifesto_NF_notas_mais_recentes_por_produto.json` (já salvo em disco por uma sincronização anterior) e repersiste no banco via a mesma `sincronizar_a_partir_de` — sem chamar a API, sem tocar o watermark. Criado especificamente pra backfillar os 3 campos novos nos produtos já sincronizados, sem gastar uma chamada nova (cara/lenta) na API. Reaproveitável pra qualquer campo novo futuro que precise do mesmo tipo de backfill. Extraído do orquestrador pra função própria `persistir_selecionados_no_banco()` (refactor puro, sem mudar comportamento do pipeline real).
 
-## Em aberto — próximas etapas do plano maior da tela de Produtos (não iniciadas)
+## Decisão 6 — Visão Geral reduzida + NCM migrado pra Impostos (11/08/2026)
 
-O pedido original tinha 5 etapas; só a de Impostos (1) foi feita até aqui:
+Continuação da etapa 2 do plano maior (ver "Em aberto" abaixo). Decisões fechadas por diálogo + 2 mockups aprovados:
 
-- **Aba "Visão Geral" reduzida** — deve ficar só com Identificação, Dimensões sem embalar, Dimensões embaladas, Dimensões embaladas — ordenadas. Os cards Financeiro e Controle saem de lá e não têm destino definido ainda (decisão pendente).
+- **Card "Financeiro" removido** (Custo, Custo c/ Boni) — dado já disponível na aba Impostos (Custo Unitário), redundante aqui.
+- **Card "Controle" reduzido a 3 campos** — Entrada no DB, Cadastro no ERP, Última Compra (saíram Atualização no DB e Armazenagem (planilha)).
+- **Card "Dimensões — após embalado" dividido em 2** — "Dimensões embaladas" (Peso, Altura, Largura, Comprimento, Peso Cubado) e "Dimensões embaladas — ordenadas" (Altura/Largura/Comprimento ordenadas).
+- **NCM sai da Identificação e migra pro card "Dados sobre a última nota" (aba Impostos)** — o NCM que importa aqui é o da NOTA (`dados.identificador_regra.ncm`, mesmo dado do relatório Excel), não o do cadastro do Produto — podem divergir. Mesma situação de `emissao`/`quantidade_nota`/`custo_unitario`: já vinha parseado, nunca persistido — precisou de campo novo (`ncm`) no guarda-chuva, com migration.
+
+## Código entregue (11/08/2026) — aguardando aplicação e teste
+
+Diffs entregues como texto na conversa (nunca escritos direto no repo, por regra): `impostos/models.py` (campo `ncm`, atualização de `sincronizar_a_partir_de`, da dataclass `DetalhesImpostosEntradaProduto` e de `obter_detalhes_para_exibicao()`), `produtos/templates/.../estrutura_parcial_painel_produto.html` (reestruturação da Visão Geral + campo NCM no card de resumo da nota) e `layout_produtos.css` (grid do card de resumo com 1 coluna nova). **O usuário ainda precisa aplicar, rodar `makemigrations`/`migrate` do app `impostos`, rodar `reprocessar_impostos_entrada_de_json` de novo (backfill do `ncm`) e testar visualmente — nada disso foi confirmado ainda.**
+
+Trabalho pausado nesta etapa por decisão do usuário (troca de frente) — registrado como backlog de melhoria contínua em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]].
+
+## Em aberto — próximas etapas do plano maior da tela de Produtos
+
+O pedido original tinha 5 etapas; a de Impostos (1) está feita e validada, a de Visão Geral (2) está decidida com código entregue mas **não confirmado** (ver "Código entregue" acima). Faltam, sem código ainda:
+
 - **Nova aba "Dados do produto nas plataformas"** — 1 tabela por marketplace com Códigos Associados, Publicado? (já existe, `ProdutoAnuncioMarketplace.anunciado`) e Permitido Publicar? (não existe em nenhum lugar ainda — precisa decisão de modelagem).
 - **Nova aba "Resumo de Precificação"** — mostrar a precificação do produto em cada marketplace. A mais complexa; o app `precificacao` já tem 6 grades por marketplace e um `resumo_marketplaces.py` que pode já fazer algo parecido — precisa investigação própria antes de idealizar.
+
+Pausado por decisão do usuário em 11/08/2026, 15:05 — ver [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]].
 
 ## Relacionado
 
@@ -60,3 +76,4 @@ O pedido original tinha 5 etapas; só a de Impostos (1) foi feita até aqui:
 - [[Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]]
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
 - [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
+- [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]]
