@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 12/08/2026 07:57
+atualizado_em: 12/08/2026 09:36
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -66,7 +66,7 @@ relacionado: [Estrutura e Convenções do Vault]
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2). Decisão explícita do usuário de adiar — complexo demais pra resolver sem tempo dedicado. |
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Pista real do lado do ML: mesmo problema resolvido de verdade lá (parâmetro `conta` explícito, sem padrão) — ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]. Decisão maior de arquitetura ainda adiada de propósito. |
 
 ## Relacionado
 
