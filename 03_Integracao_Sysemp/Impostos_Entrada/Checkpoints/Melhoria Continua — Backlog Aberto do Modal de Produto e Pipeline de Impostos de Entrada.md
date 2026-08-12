@@ -1,7 +1,7 @@
 ---
-tipo: melhoria
+tipo: checkpoint
 dominio: 
-status: em_desenvolvimento
+status: em_andamento
 criado: 11/08/2026
 atualizado_em: 11/08/2026 15:05
 relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Modal de Produto — Aba Impostos (Entrada e Saida), Orquestracao da Sincronizacao de Impostos de Entrada via XML]

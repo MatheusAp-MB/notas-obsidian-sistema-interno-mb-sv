@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 573.5
+    "width": 446.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -188,7 +188,7 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "c2788711c3e5210c",
   "lastOpenFiles": [
     "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Checkpoint — Exploracao de Dados Fiscais Sysemp.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada.md",
@@ -211,6 +211,10 @@
     "02_Sistema_Interno/00_Indice.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Plano em Etapas do Duble de Precificacao ML.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Orquestracao da Sincronizacao de Impostos de Entrada via XML.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto).md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total.md",
     "02_Sistema_Interno/Regras_de_Comportamento/Integridade e Fonte Unica de Dado.md",
     "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
