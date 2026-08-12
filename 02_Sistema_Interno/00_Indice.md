@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 10/08/2026 12:30
+atualizado_em: 12/08/2026 07:57
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -61,6 +61,12 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]] | descoberta | ativa | 06/08/2026 | `listar_produtos_elegiveis()` comparava `data_devida_ciclo_atual__lte=hoje`, mas Simples nunca tem data_devida (NULL) — `NULL <= hoje` nunca é verdadeiro em SQL, excluía Simples da fila de postagem automática silenciosamente. CORRIGIDO com `Q(...) \| Q(...isnull=True)` — 332 passed. |
 | [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]] | descoberta | ativa | 06/08/2026 | `resolver_arquivo_da_ocorrencia()` ainda usava o formato antigo do parser do Drive (`.fases`/`.completos`), nunca atualizado após a reescrita de 05/08 — ia estourar AttributeError no 1º uso real. Achado por leitura de código antes de escrever teste. CORRIGIDO pra `.obter_fase()`/`.obter_ocorrencia()`/`.completo` — 346 passed. |
 | [[Flag Temporaria de Confirmacao em Replicar Video no ML]] | decisao | ativa | 06/08/2026 | `replicar_video_no_ml()` clicava de verdade em "Escolher anúncios" — flag `confirmar_de_verdade=False` (padrão seguro, mesmo agente real passa True) pra alinhar com a instrução de nunca clicar de verdade em teste. 4 blocos de diff + script gêmeo de dry-run guardados na nota — DESENHADO, NÃO APLICADO ainda. |
+
+## Multi_Empresa
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2). Decisão explícita do usuário de adiar — complexo demais pra resolver sem tempo dedicado. |
 
 ## Relacionado
 
