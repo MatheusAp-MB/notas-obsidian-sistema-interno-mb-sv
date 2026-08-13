@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 11/08/2026 15:05
+atualizado_em: 12/08/2026 23:51
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -29,6 +29,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 | [[Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker)]] | decisao | ativa | 06/08/2026 | Pacote `api_sysemp/core`; throttle fixo de 1s + backoff reativo (teto 30s); max_tentativas=4; sem circuit breaker (sem dado real pra calibrar). Implementado e testado — 100% cover, 0 Miss, 0 BrPart; validado contra a API real. |
 | [[Camadas do Cliente Sysemp Transporte Contexto e Ponto de Entrada]] | decisao | ativa | 06/08/2026 | 3 camadas: `ClienteApiSysemp` (transporte puro, `chamar()`), `ImpostosEntradaXML` (contexto por endpoint, validação própria, composição), `ApiSysemp` (Facade, autenticação resolvida sozinha, contextos por propriedade cacheada). Corrige erro real de ter colocado validação no transporte. |
 | [[Checagem de Data Inicial no Futuro Era Codigo Morto]] | descoberta | ativa | 06/08/2026 | Validação de `data_inicial` além do limite futuro era matematicamente inalcançável (já implícita na checagem de `data_final`, dado `data_inicial < data_final`). Achado pela cobertura, removido. |
+| [[Teste de ApiSysemp Monkeypatchava Variavel de Ambiente com Nome Errado]] | descoberta | corrigida | 12/08/2026 | Fixture/teste de `ApiSysemp` limpava/injetava `SYSEMP_API_TOKEN` (nome antigo) em vez de `MB_SYSEMP_API_TOKEN` — resíduo do commit `fe032ac` nunca fechado; `.env`/código já estavam certos, o teste que ficou desatualizado. Corrigido nos 3 pontos do arquivo. |
 
 ## Impostos_Entrada
 

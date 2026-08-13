@@ -1,10 +1,10 @@
 ---
 tipo: decisao
 dominio: 
-status: ativa
+status: descartada
 criado: 03/08/2026
-atualizado_em: 04/08/2026 08:48
-relacionado: [Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Fluxo Manual Antes do Automatizado, Checkpoint Testes Automatizados Agenda Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Validacao de Configuracoes Nao Abre Excecao Para Simples]
+atualizado_em: 12/08/2026 23:51
+relacionado: [Modelo de Status e Entrada na Agenda, Pausa Para Replanejar UX de Filtros e Telas, Fluxo Manual Antes do Automatizado, Checkpoint Testes Automatizados Agenda Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Cache de Indicadores Nao e Populado Automaticamente, Validacao de Configuracoes Nao Abre Excecao Para Simples, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]
 ---
 
 # Estrutura de Telas da Agenda de Vídeos
@@ -42,6 +42,10 @@ A pergunta sobre "ver tudo, cruzando todas as fases" — fechada em 03/08 como "
 
 1 teste retroativo precisou ser corrigido, já que sua suposição original ("produto sem indicadores não aparece em NENHUMA tela") ficou falsa por desenho depois da tela Todos existir — renomeado pra refletir a regra nova (`test_produto_sem_indicadores_nenhum_so_aparece_em_todos`). Suíte confirmada: 185 passed, 0 failed.
 
+## Atualização 12/08/2026 23:51 — substituída por completo
+
+Este modelo de 5/6 telas (baseado em Fase — Não Agendado/Simples/Mensal/Trimestral/A Fazer Hoje/Todos) foi substituído por completo por um modelo novo, baseado em Período × Etapa: 6 telas de nível igual (Geral/A Fazer Hoje/Aguardando Postar-Replicar/Aguardando Aprovação/Prontos pra Agendar Mensal/Pausados na Agenda). Motivo e detalhe completo em [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]] — nota nova, é a referência válida a partir de agora. Esta nota continua existindo como registro histórico de como o modelo anterior funcionava e por que foi criado.
+
 ## Relacionado
 
 - [[Modelo de Status e Entrada na Agenda]]
@@ -51,3 +55,4 @@ A pergunta sobre "ver tudo, cruzando todas as fases" — fechada em 03/08 como "
 - [[Mapa de Execucao das 5 Telas da Agenda de Videos]]
 - [[Cache de Indicadores Nao e Populado Automaticamente]]
 - [[Validacao de Configuracoes Nao Abre Excecao Para Simples]]
+- [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]]

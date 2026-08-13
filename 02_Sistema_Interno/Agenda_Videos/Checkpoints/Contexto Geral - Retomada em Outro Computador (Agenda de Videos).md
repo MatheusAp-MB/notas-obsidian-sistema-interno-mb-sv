@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 03/08/2026
-atualizado_em: 06/08/2026 16:10
-relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Flag Temporaria de Confirmacao em Replicar Video no ML]
+atualizado_em: 12/08/2026 23:51
+relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de Videos, Mapa de Execucao das 5 Telas da Agenda de Videos, Pausa Para Replanejar UX de Filtros e Telas, Cache de Indicadores Nao e Populado Automaticamente, Checkpoint Testes Automatizados Agenda Videos, Fluxo Manual Antes do Automatizado, Modelo de Status e Entrada na Agenda, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Perguntar Data e Hora Antes de Escrever no Vault, Validacao de Configuracoes Nao Abre Excecao Para Simples, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Botao de Verificar Drive Individual Tinha 3 Bugs Reais, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Flag Temporaria de Confirmacao em Replicar Video no ML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Agenda de Vídeos)
@@ -22,15 +22,18 @@ relacionado: [Estrutura e Convenções do Vault, Estrutura de Telas da Agenda de
 > Atualizada de novo em 06/08/2026 10:15 — Rodada 6 (testes de `api/replicacao_automatica` e `api/postagem_automatica`, itens 1-4 do mapa) **concluída**: 357 passed, 100% cover no pacote `api/`, 2 bugs reais novos encontrados e corrigidos. Restrição original desta rodada (usuário sem ML/Drive via navegador) não existe mais — usuário agora está no escritório com acesso real aos 2. Script manual de validação física com o ML (item 5) foi entregue e salvo, mas ainda não executado. Item 6 (feature de percentual de replicação) foi pausado a pedido do usuário antes de qualquer código, pra commitar e atualizar o vault primeiro — esta é a atualização mais recente, leia "Status real agora" abaixo pro estado completo.
 >
 > Atualizada de novo em 06/08/2026 16:10 — **PAUSA LONGA: um projeto novo, complexo e SEM RELAÇÃO com Agenda de Vídeos vai começar em paralelo.** Este bloco de atualização existe só pra garantir que nada se perca antes disso. Código real confirmado no GitHub em `2388b1f` (branch `dev`, itens 1-4 da Rodada 6). Desenhada (mas ainda NÃO aplicada) a flag temporária `confirmar_de_verdade=False` em `replicar_video_no_ml()` + o script gêmeo de dry-run pra Replicação — o código completo dos 4 blocos está guardado em [[Flag Temporaria de Confirmacao em Replicar Video no ML]], não só na conversa. Vault comitado localmente (commit pendente de push pelo usuário). Esta é a atualização mais recente — leia "Status real agora" abaixo antes de qualquer outra coisa.
+>
+> Atualizada de novo em 12/08/2026 23:51 — **a pausa de 06/08 terminou: o trabalho voltou pra Agenda de Vídeos**, numa frente diferente da Rodada 6 (não é ML/Drive — é a navegação por tela). Reestruturação completa: modelo de telas baseado em Fase (Todos/Não Agendado/Simples/Mensal/Trimestral/A Fazer Hoje) substituído por modelo baseado em Período×Etapa (Geral/A Fazer Hoje/Aguardando Postar-Replicar/Aguardando Aprovação/Prontos pra Agendar Mensal/Pausados) — commit `c369488`. 3 arquivos de teste fechados no mesmo bloco (100% cover em `filtros_agenda_videos.py` e `contexto_tela_agenda_videos.py`), suíte inteira em **520 passed, 0 failed, 12 xfailed**. Esta é a atualização mais recente — leia "Status real agora" abaixo antes de qualquer outra coisa. Os itens da Rodada 6 (ML/Drive, pausados em 06/08) continuam exatamente onde estavam — ver "Status anterior (06/08/2026, 16:10)" mais abaixo.
 
 ## Notas que deve ler a seguir (nesta ordem)
 
 1. **Pasta `Regras_de_Comportamento/` inteira** (~14 notas) — sempre primeiro, sem exceção. Define como se comportar neste projeto (git, testes, vault, comunicação). Reread completo confirmado em 05/08/2026, sem drift.
 2. **Esta nota** (você já está aqui) — snapshot geral + "Status real agora" logo abaixo.
-3. [[Checkpoint Testes Automatizados Agenda Videos]] — histórico completo, nível por nível, de todos os testes e bugs já corrigidos no domínio Agenda de Vídeos.
-4. [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]] — achado mais recente (06/08), fecha a rodada de validação do Drive.
-5. [[Fluxo Manual Antes do Automatizado]] — por que o automatizado (postagem/replicação) foi deliberadamente adiado, e por que ele é o próximo passo real agora que o Drive está validado.
-6. `api/postagem_automatica`/`api/replicacao_automatica` (itens 1-4 do mapa) — **concluído** (357 passed, 100% cover). Ordem completa e os 2 bugs novos em [[Checkpoint Testes Automatizados Agenda Videos]], seção "Mapa de Execução — Rodada 6".
+3. [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]] — achado/decisão mais recente (12/08), modelo de telas atual, substitui [[Estrutura de Telas da Agenda de Videos]] (descartada).
+4. [[Checkpoint Testes Automatizados Agenda Videos]] — histórico completo, nível por nível, de todos os testes e bugs já corrigidos no domínio Agenda de Vídeos.
+5. [[Botao de Verificar Drive Individual Tinha 3 Bugs Reais]] — achado da rodada de validação do Drive (06/08), pausada desde então.
+6. [[Fluxo Manual Antes do Automatizado]] — por que o automatizado (postagem/replicação) foi deliberadamente adiado.
+7. `api/postagem_automatica`/`api/replicacao_automatica` (itens 1-4 do mapa) — **concluído** (357 passed, 100% cover), mas os itens 5-6 dessa Rodada 6 seguem pausados desde 06/08. Ordem completa e os 2 bugs novos em [[Checkpoint Testes Automatizados Agenda Videos]], seção "Mapa de Execução — Rodada 6".
 
 ## Onde isso vive
 
@@ -91,7 +94,18 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 `IndicadoresAgendaProduto` (cache que TODAS as 5 telas dependem, via `indicadores_agenda__X`, join INNER) só é populado por ação manual (clique no roadmap) ou pelo comando `popular_banco` (passo `sincronizar_indicadores_agenda_em_lote`). Produto nunca tocado manualmente fica sem essa linha de cache — e portanto invisível em TODAS as 5 telas ao mesmo tempo, não só numa. Isso já causou confusão real (usuário só via 1 produto depois de aplicar o redesenho). Resolvido rodando `python manage.py popular_banco`. Detalhe completo em [[Cache de Indicadores Nao e Populado Automaticamente]]. Cuidado permanente: depois de qualquer import novo de produtos, rodar `popular_banco` antes de confiar na Agenda de Vídeos pro catálogo novo.
 
-## Status real agora (06/08/2026, 16:10)
+## Status real agora (12/08/2026, 23:51)
+
+- **Motivo desta atualização: a pausa longa de 06/08 terminou — trabalho voltou pra Agenda de Vídeos**, numa frente diferente da Rodada 6 (ver "Status anterior" abaixo, que segue exatamente como estava). Esta frente é sobre navegação por tela, não ML/Drive.
+- **Reestruturação completa da navegação, commit `c369488` no GitHub, branch `dev`.** O modelo de telas baseado em Fase (Todos/Não Agendado/Simples/Vídeo Mensal/Vídeo Trimestral/A Fazer Hoje — ver [[Estrutura de Telas da Agenda de Videos]], agora `descartada`) foi substituído por um modelo baseado em Período × Etapa: 6 telas de nível igual — Geral, A Fazer Hoje, Aguardando Postar/Replicar, Aguardando Aprovação, Prontos pra Agendar Mensal, Pausados na Agenda. Detalhe completo em [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]] (nota nova).
+- **2 ajustes de design fechados nesta sessão:** faltava o chip "Prontos pra agendar mensal" (`concluido`) na tela Geral — adicionado, na ordem real do fluxo (base→roteiro→completo→postar→aguardando_aprovação→recusado→replicar→concluído). A Fazer Hoje foi restrita: Vídeo Mensal/Trimestral entram em qualquer etapa de produção (têm prazo real); Simples só entra com a Base já feita (Roteiro/Completo/Recusado) — Simples em Base é backlog, não urgência do dia.
+- **Botões de automação da tela Aguardando Postar/Replicar redesenhados:** "Iniciar Postagem Autônoma de Hoje" só aparece na sub-aba Postar, "Iniciar Replicação Autônoma de Hoje" só na sub-aba Replicar, ambos ao lado de "Verificar Todos no Drive" (fix de alinhamento via `display: contents` no form + wrapper flex novo).
+- **Suíte de teste fechada pro modelo novo, 100% cover nos 2 arquivos centrais:** `test_nivel_3__listar_produtos_agenda_filtrados.py` reescrito por completo (100% cover/0 Miss/0 BrPart em `filtros_agenda_videos.py`); 4 testes corrigidos em `test_nivel_4__view_agenda_videos.py`; arquivo novo `test_nivel_4__contexto_tela_agenda_videos.py` (100% cover em `contexto_tela_agenda_videos.py`, 83%→100%, introduzindo `RequestFactory` no projeto). **Confirmado: 520 passed, 0 failed, 12 xfailed** — suíte inteira, sem regressão.
+- **1 bug de teste corrigido fora do domínio Agenda de Vídeos, achado no mesmo bloco de validação:** fixture de teste da `api_sysemp` usava o nome errado de variável de ambiente (`SYSEMP_API_TOKEN` em vez de `MB_SYSEMP_API_TOKEN`) — resíduo do commit `fe032ac`. Corrigido; ver [[Teste de ApiSysemp Monkeypatchava Variavel de Ambiente com Nome Errado]] no mundo `03_Integracao_Sysemp` (sem relação de domínio com esta nota, registrado aqui só por ter sido achado na mesma sessão).
+- **Commit gerado (título + descrição)** pro usuário aplicar, cobrindo os 4 arquivos de teste + o fix do Sysemp — ainda não confirmado como commitado/pushado pelo usuário.
+- **Itens 5-6 da Rodada 6 (ML/Drive, percentual de replicação) seguem exatamente como estavam em 06/08** — ver "Status anterior (06/08/2026, 16:10)" abaixo, nada mudou neles nesta sessão.
+
+## Status anterior (06/08/2026, 16:10 — histórico, ver "Status real agora" acima pro estado atual)
 
 - **Motivo desta atualização: pausa longa.** Um projeto novo, complexo, e sem nenhuma relação com Agenda de Vídeos vai começar em paralelo a partir daqui — o usuário quer garantir que TODO o contexto de Agenda de Vídeos esteja no vault antes de trocar de assunto, sem depender da memória da conversa atual (que pode ser perdida/compactada).
 - **Linha de base de código, confirmada:** commit `2388b1f` no GitHub, branch `dev` — inclui os itens 1-4 da Rodada 6 completos (357 passed, 100% cover em `api/`). Ver seção "Status real agora (06/08/2026, 10:15)" abaixo pro detalhe completo desses itens.
@@ -134,8 +148,10 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 
 ## O que ainda está em aberto
 
-- ~~Testar a sincronia com o Drive real~~ — **concluído em 06/08/2026**, ver "Status real agora" acima.
-- ~~Testar `api/replicacao_automatica`/`api/postagem_automatica` (itens 1-4)~~ — **concluído em 06/08/2026, 10:15** (357 passed, 100% cover), ver "Status real agora" acima.
+- ~~Reestruturar a navegação por tela (Período×Etapa) + fechar os 3 arquivos de teste~~ — **concluído em 12/08/2026, 23:51**, ver [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]] e "Status real agora" acima.
+- **Confirmar que o usuário aplicou/commitou/pushou o commit desta sessão** (4 arquivos de teste + fix do nome de variável na `api_sysemp`) — gerado em texto, ainda sem confirmação de aplicação.
+- ~~Testar a sincronia com o Drive real~~ — **concluído em 06/08/2026**, ver "Status anterior (06/08/2026, 16:10)" abaixo.
+- ~~Testar `api/replicacao_automatica`/`api/postagem_automatica` (itens 1-4)~~ — **concluído em 06/08/2026, 10:15** (357 passed, 100% cover), ver "Status anterior (06/08/2026, 16:10)" abaixo.
 - **Item 5, parte 1 — executar o script manual `scripts_dev/testar_fluxo_real_ml_sem_clicar.py`** (Postagem) contra o ML real (dry-run, sem clicar) — salvo, commitado, ainda não rodado.
 - **Item 5, parte 2 — aplicar a flag `confirmar_de_verdade=False` em `replicar_video_no_ml()` + criar `scripts_dev/testar_fluxo_real_replicacao_sem_clicar.py`** (gêmeo, Replicação) — desenhados e entregues em texto (06/08, 16:10), código completo guardado em [[Flag Temporaria de Confirmacao em Replicar Video no ML]], mas **nada disso foi aplicado ainda**. Depois de aplicado, roda esse script também.
 - **Item 6 — feature de percentual de replicação** — pausado a pedido do usuário. Decisão adicional (06/08, 16:10): antes de desenhar onde exibir o resultado, o usuário quer rodar os 2 scripts do item 5 pra rever como as telas reais estão hoje (faz tempo que não usa). Só depois disso volta a pergunta original: onde mostrar o percentual (tela de progresso da replicação, relatório separado, ou só na resposta da API pro agente). Plano técnico completo (migration + `_obter_outros_mlbs()` compartilhada + captura + cálculo) já desenhado, ver [[Percentual de Replicacao por Produto e Geral]].
@@ -145,6 +161,17 @@ Execução seguiu [[Mapa de Execucao das 5 Telas da Agenda de Videos]], 7 fases,
 - **CRLF vs LF no repo do vault** (achado em 06/08): ~10 notas + os 4 `.obsidian/*.json` aparecem como "modificado" no git só por diferença de quebra de linha, sem mudança de conteúdo real. Deixado de lado por ora — decisão de normalizar tudo de vez (commit só de formatação) fica pro usuário decidir quando quiser.
 
 ## Arquivos tocados (referência rápida)
+
+### Sessão 12/08 — ainda NÃO commitado/pushado (texto do commit já gerado)
+
+- `agenda_videos/funcoes_auxiliares/filtros_agenda_videos.py` — chip "concluído" adicionado a `OPCOES_ETAPA` (ordem corrigida pra bater com `BADGES_ETAPA`); escopo de `_condicao_a_fazer_hoje()` restrito (Simples só com Base feita). *(commit `c369488`, já sincronizado — as mudanças de código deste bloco já estão no GitHub; o que falta commitar é só a suíte de teste abaixo.)*
+- `agenda_videos/funcoes_auxiliares/contexto_tela_agenda_videos.py`, `agenda_videos/templates/agenda_videos/estrutura_agenda_videos.html`, `agenda_videos/static/agenda_videos/css/layout_agenda_videos.css`, `agenda_videos/management/commands/resetar_agenda_videos.py` — reestruturação completa pras 6 telas de nível igual, botões de automação condicionados por sub-aba, fix de alinhamento CSS. *(também já no commit `c369488`.)*
+- `agenda_videos/tests/test_nivel_3__listar_produtos_agenda_filtrados.py` — reescrito por completo. 100% cover em `filtros_agenda_videos.py`.
+- `agenda_videos/tests/test_nivel_4__view_agenda_videos.py` — 4 testes corrigidos pro modelo novo.
+- `agenda_videos/tests/test_nivel_4__contexto_tela_agenda_videos.py` (novo) — 100% cover em `contexto_tela_agenda_videos.py`, introduz `RequestFactory`.
+- `api_sysemp/tests/test_nivel_0__api_sysemp.py` — 3 pontos corrigidos (comentário + 2 `monkeypatch`), nome de variável de ambiente errado (`SYSEMP_API_TOKEN`→`MB_SYSEMP_API_TOKEN`). Domínio Sysemp, não Agenda de Vídeos — ver [[Teste de ApiSysemp Monkeypatchava Variavel de Ambiente com Nome Errado]].
+
+**Confirmado localmente: 520 passed, 0 failed, 12 xfailed.** Commit (título+descrição) gerado pro usuário aplicar — cobre os 3 arquivos de teste da Agenda de Vídeos + o fix da `api_sysemp`.
 
 ### Sessão 03/08
 
@@ -246,3 +273,4 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/scripts. Todo c�
 - [[Listar Produtos Elegiveis Ignorava Simples Por Comparacao Com Null]]
 - [[Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser]]
 - [[Flag Temporaria de Confirmacao em Replicar Video no ML]]
+- [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]]
