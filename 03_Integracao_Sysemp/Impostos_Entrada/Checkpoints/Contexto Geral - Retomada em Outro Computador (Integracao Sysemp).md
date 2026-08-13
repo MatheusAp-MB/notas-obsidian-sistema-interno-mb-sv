@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 11/08/2026 15:05
+atualizado_em: 13/08/2026 15:20
 relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]
 ---
 
@@ -49,13 +49,19 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status anterior (10/08/2026, 02:00 — histórico, ver "Status real agora" abaixo pro estado atual)
+## Status real agora (13/08/2026, 15:20)
+
+Usuário retomou esta frente depois de uma pausa longa (última atualização real era 11/08, 15:05 — nada mudou neste domínio entre 11/08 e 13/08). Aviso novo, ainda sem nenhuma ação: **a API do Sysemp passou por uma atualização — todos os nomes de campo mudaram, a pedido do próprio usuário, por melhoria de qualidade do lado do Sysemp.** O projeto (`api_sysemp` + `dados_xml_nf.py`, principalmente) precisa ser atualizado pra acompanhar.
+
+**Nada foi feito ainda:** não recebido o mapeamento novo de campos (nem JSON de exemplo, nem changelog), e o repositório não foi sincronizado nesta sessão pra ler o código real que faz esse parsing hoje. Sessão foi interrompida logo depois desse aviso — usuário vai trocar de computador e pediu pra salvar o contexto antes de perder acesso à conversa. **Próximo passo, ao retomar:** pedir o formato novo da API (exemplo real de resposta ou changelog) e sincronizar o repo pra comparar com `api_sysemp` (cliente HTTP) e `integracao_sysemp/servicos/dados_xml_nf.py` (mapeamento atual dos campos), antes de propor qualquer diff.
+
+## Status anterior (10/08/2026, 02:00 — histórico, ver "Status real agora" acima pro estado atual)
 
 - Tudo commitado e no GitHub até o commit `8343dba` ("Oficializa api_sysemp e cria apps impostos e integracao_sysemp"). Mudanças feitas depois desse commit (relatório de progresso, fix `date`→`.isoformat()`, testes reforçados) estavam marcadas como "commit/push ainda não confirmados" — **essa dúvida foi resolvida em 10/08, 12:05, ver abaixo: já estava tudo commitado.**
 - 1ª rodada real contra a API do Sysemp executada com sucesso (10/08, ~01:35-01:40) — carga histórica completa desde 2020-05-01. Banco de produção com dado fiscal real de 1416 produtos. Detalhe completo em [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] e [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]].
 - 2 itens bloqueavam o próximo avanço real: decisão de negócio sobre os 320 casos com campo de imposto `null`, e reprocessamento do histórico antigo.
 
-## Status real agora (11/08/2026, 15:05)
+## Status anterior (11/08/2026, 15:05 — histórico, ver "Status real agora" acima pro estado atual)
 
 Usuário precisou trocar de frente de trabalho — pausa combinada, sem previsão de retomada. Antes de pausar, dentro da mesma sessão: mockup da aba "Visão Geral" reduzida foi aprovado (remove card Financeiro, Controle com só 3 campos — Entrada no DB/Cadastro no ERP/Última Compra —, Dimensões embaladas dividida em 2 cards) e o campo `ncm` foi migrado da Visão Geral pro card de resumo da nota (aba Impostos) — precisou de campo novo persistido no guarda-chuva (mesma situação de `emissao`/`quantidade_nota`/`custo_unitario`: já vinha parseado, nunca gravado). **Código de tudo isso já foi entregue ao usuário (diffs de `impostos/models.py`, template e CSS) — mas ainda não foi aplicado nem testado.** Continua em aberto até confirmação real.
 
@@ -86,6 +92,7 @@ Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens 
 
 ## O que ainda está em aberto (consolidado)
 
+- **Novo (13/08): API do Sysemp mudou todos os nomes de campo** — precisa do mapeamento novo (exemplo real ou changelog) + sincronizar o repo pra atualizar `api_sysemp`/`dados_xml_nf.py`. Nada feito ainda.
 - ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05), **validado com carga real em 12:30** (0 erro, ver "Status real agora").
 - **Desenhar o reprocessamento do histórico antigo (320 casos) no banco de CASA** — segue sem desenho. A carga fresca no banco do escritório não conta como reprocessamento (nunca teve a pendência).
 - Investigar os 2055 produtos sem correspondência.

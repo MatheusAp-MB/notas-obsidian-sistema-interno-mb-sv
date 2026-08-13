@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 12/08/2026 23:51
+atualizado_em: 13/08/2026 15:20
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -58,7 +58,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 | [[Modal de Produto — Aba Impostos (Entrada e Saida)]] | decisao | ativa | 10/08/2026 | Modal de produto ganhou abas ("Visão Geral"/"Impostos"); card legado "Fiscal (cadastro manual)" removido (ruído); aba nova com resumo da última nota + detalhamento de impostos de entrada (real) e saída (placeholder). Etapa 2 (Visão Geral reduzida + campo `ncm` migrado pra Impostos) decidida e com código entregue (11/08), **ainda não aplicado/testado**. Faltam as abas "plataformas" e "precificação" — ver [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]]. |
 | [[Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]] | descoberta | corrigida | 10/08/2026 | Comparação com o dublê expôs que a API entrega Base Cálculo/Valor por NOTA, não por unidade — modal exibia bruto. Corrigido persistindo `quantidade_nota`/`custo_unitario`, já parseados mas nunca gravados. |
 | [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]] | checkpoint | em_andamento | 11/08/2026 | Backlog consolidado, pausado por troca de frente do usuário: etapa "Visão Geral" do modal (código entregue, não confirmado), abas "plataformas"/"precificação" ainda não iniciadas, e itens de backend (reprocessar 320 erros antigos, investigar 2055 produtos sem correspondência, `iniciar_servidor`, cooldown, aviso de dados desatualizados). Sem prazo. |
-| [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]] | checkpoint | ativo | 10/08/2026 | Nota auto-contida — ponto de partida único pra retomar este domínio em outro computador. Lê antes de qualquer outra coisa ao voltar. Atualizada 11/08 15:05: backlog restante (modal + backend) pausado por troca de frente do usuário, consolidado em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]]. |
+| [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]] | checkpoint | ativo | 10/08/2026 | Nota auto-contida — ponto de partida único pra retomar este domínio em outro computador. Lê antes de qualquer outra coisa ao voltar. **Atualizada 13/08 15:20:** API do Sysemp mudou todos os nomes de campo (a pedido do usuário) — projeto precisa ser atualizado, ainda sem mapeamento novo recebido nem código sincronizado. Backlog anterior (modal + backend, pausado em 11/08) segue como estava, consolidado em [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]]. |
 
 ## Relacionado
 
