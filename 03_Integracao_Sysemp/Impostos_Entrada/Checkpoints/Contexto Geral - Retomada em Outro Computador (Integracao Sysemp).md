@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 14/08/2026 09:55
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]
+atualizado_em: 14/08/2026 11:15
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -49,13 +49,19 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status real agora (14/08/2026, 09:55)
+## Status real agora (14/08/2026, 11:15)
+
+2 campos novos (`Empresa Fantasia`, `% FCP ST`/`Valor FCP ST`) promovidos a campo oficial do pipeline — motivado pelo próximo objetivo real desta frente: montar um relatório de impostos de entrada pro superior, seguindo como modelo um export real do Sysemp. Ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]] pro desenho completo e [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] pro relato da sessão.
+
+Implementado de ponta a ponta (dataclasses, models, migração aditiva sem prompt de rename, testes) — validado em 2 rodadas de pytest: a 1ª pegou 4 testes de integração quebrados por uma fixture (`test_nivel_3__orquestrador.py`) que não tinha sido atualizada na 1ª entrega de diffs (ver [[Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]]); corrigida, resultado final: **528 passed, 0 failures no escopo deste trabalho, 12 xfailed**.
+
+**Em andamento agora:** usuário rodando `manage.py sincronizar_impostos_entrada` pra popular os 3 campos novos no banco.
+
+**Próximo passo real:** escrever o script novo do relatório (`scripts_exploracao_ERP/relatorio_impostos_entrada_xlsx.py`, reescrita completa), lendo do banco (não dos jsons intermediários, que só refletem a última janela incremental) — mockup do Excel já aprovado pelo usuário nesta mesma sessão (lógica "só por unidade" pra todo campo monetário de imposto, 1 linha por produto = nota mais recente).
+
+## Status anterior (14/08/2026, 09:55 — histórico, ver "Status real agora" acima pro estado atual)
 
 Reorganização de nomenclatura fechada e implementada por completo — ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]] pro desenho e mapeamento de campo, e [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] pro relato completo da sessão. Resumo rápido: convenção de sufixo explícito `_xml`/`_cadastro` fechada, `dados_xml_nf.py`/`impostos/models.py` reescritos, migração aplicada (1 quase-erro pego antes, ver [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]), todos os consumidores downstream corrigidos (`filtro_cfop.py`, `selecao_nota_recente.py`, 3 arquivos de teste + 2 próprios), 100% cover em `impostos/models.py`. Domínio validado, 526 passed / 0 failures no escopo deste trabalho.
-
-**Em aberto, novo:** reprocessar produtos já sincronizados pra backfillar `cst_cadastro`/`ncm_cadastro` (mesmo comando `reprocessar_impostos_entrada_de_json` já existente). `scripts_exploracao_ERP/relatorio_impostos_entrada_xlsx.py` segue quebrado de propósito (usa `IdentificadorRegra`, removida) — o usuário vai reformular esse relatório por completo, corrigir agora seria retrabalho.
-
-**Próximo passo, por decisão do usuário:** seguir pro foco original desta frente — custos, impostos e o Dublê de Precificação (`duble_precificacao_ml.py`, confirmado sem quebra por esta reorganização).
 
 ## Status anterior (13/08/2026, 15:20 — histórico, ver "Status real agora" acima pro estado atual)
 
@@ -101,7 +107,9 @@ Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens 
 ## O que ainda está em aberto (consolidado)
 
 - ~~API do Sysemp mudou todos os nomes de campo~~ — feito (14/08/2026): reorganização completa implementada e validada, ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]].
-- **Novo (14/08): reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` — mesmo comando `reprocessar_impostos_entrada_de_json` já existente.
+- ~~Adicionar Empresa Fantasia e FCP ST ao pipeline~~ — feito (14/08/2026, 11:15), ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]].
+- **Escrever o script novo do relatório de impostos de entrada** (`scripts_exploracao_ERP/relatorio_impostos_entrada_xlsx.py`) — próximo passo real, mockup já aprovado.
+- **Novo (14/08): reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` **e agora também `empresa_fantasia`/`aliquota_fcp`/`valor_fcp`** — mesmo comando `reprocessar_impostos_entrada_de_json` já existente.
 - ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05), **validado com carga real em 12:30** (0 erro, ver "Status real agora").
 - **Desenhar o reprocessamento do histórico antigo (320 casos) no banco de CASA** — segue sem desenho. A carga fresca no banco do escritório não conta como reprocessamento (nunca teve a pendência).
 - Investigar os 2055 produtos sem correspondência.

@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 14/08/2026 09:55
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]
+atualizado_em: 14/08/2026 11:15
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]
 ---
 
 # Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)
@@ -106,9 +106,17 @@ Mudanças que afetam diretamente esta modelagem:
 
 Migração real aplicada com sucesso, com 1 quase-erro pego antes de rodar `migrate` — ver [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]. Cobertura de `impostos/models.py` fechada em 100% (estava 89% — faltavam `obter_detalhes_para_exibicao()` inteiro e o `__str__` dos 6 models de imposto).
 
+## Implementado e validado (14/08/2026, 11:15) — Empresa Fantasia e FCP ST
+
+2 campos que já existiam na API mas nunca tinham sido usados foram promovidos a campo oficial, motivados pelo relatório novo que o usuário vai apresentar ao superior:
+- `empresa_fantasia` — novo em `IdentificacaoNF`/no guarda-chuva, `null=True/blank=True`.
+- `aliquota_fcp`/`valor_fcp` — novos em `IcmsSt`/`IcmsStEntradaProduto` (Fundo de Combate à Pobreza, adicional que acompanha o ICMS ST), mesmo tratamento `null→0` dos demais campos de imposto, `null=True/blank=True` no model.
+
+Migração pura adição, sem prompt de rename ambíguo (diferente do caso do `ncm`). Validado com pytest real em 2 rodadas — a 1ª expôs 4 testes de integração quebrados por uma fixture desatualizada (`test_nivel_3__orquestrador.py`, não pega no grep inicial por nome de dataclass); corrigida, resultado final **528 passed, 0 failures no domínio, 12 xfailed**. Ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]] pro desenho completo e [[Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]] pra causa raiz do efeito cascata.
+
 ## Em aberto (próximos passos reais)
 
-- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` (novo, 14/08/2026) — mesmo comando `reprocessar_impostos_entrada_de_json` já existente, ainda não rodado pra esse fim.
+- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` **e agora também `empresa_fantasia`/`aliquota_fcp`/`valor_fcp`** (novo, 14/08/2026) — mesmo comando `reprocessar_impostos_entrada_de_json` já existente, ainda não rodado pra esse fim.
 - Migrar as 6 fórmulas de precificação pra ler destas tabelas novas em vez dos campos genéricos do `Produto` (`icms_entrada`, `ipi`, `pis_cofins`) — decisão futura separada, sem prazo.
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.~~ — feito (10/08, 12:05).
 - ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00).
@@ -124,3 +132,5 @@ Migração real aplicada com sucesso, com 1 quase-erro pego antes de rodar `migr
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
 - [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]]
 - [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]
+- [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]]
+- [[Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]]

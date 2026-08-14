@@ -186,6 +186,8 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos/Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos.md",
+    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos/Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp.md",
@@ -220,8 +222,6 @@
     "03_Integracao_Sysemp/Impostos_Entrada/Descobertas/Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Plano em Etapas do Duble de Precificacao ML.md",
-    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Orquestracao da Sincronizacao de Impostos de Entrada via XML.md",
-    "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto).md",
     "Sem título.canvas"
   ]
 }
