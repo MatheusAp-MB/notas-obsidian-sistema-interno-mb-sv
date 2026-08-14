@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 13/08/2026 15:20
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]
+atualizado_em: 14/08/2026 09:55
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -49,11 +49,19 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status real agora (13/08/2026, 15:20)
+## Status real agora (14/08/2026, 09:55)
+
+Reorganização de nomenclatura fechada e implementada por completo — ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]] pro desenho e mapeamento de campo, e [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] pro relato completo da sessão. Resumo rápido: convenção de sufixo explícito `_xml`/`_cadastro` fechada, `dados_xml_nf.py`/`impostos/models.py` reescritos, migração aplicada (1 quase-erro pego antes, ver [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]), todos os consumidores downstream corrigidos (`filtro_cfop.py`, `selecao_nota_recente.py`, 3 arquivos de teste + 2 próprios), 100% cover em `impostos/models.py`. Domínio validado, 526 passed / 0 failures no escopo deste trabalho.
+
+**Em aberto, novo:** reprocessar produtos já sincronizados pra backfillar `cst_cadastro`/`ncm_cadastro` (mesmo comando `reprocessar_impostos_entrada_de_json` já existente). `scripts_exploracao_ERP/relatorio_impostos_entrada_xlsx.py` segue quebrado de propósito (usa `IdentificadorRegra`, removida) — o usuário vai reformular esse relatório por completo, corrigir agora seria retrabalho.
+
+**Próximo passo, por decisão do usuário:** seguir pro foco original desta frente — custos, impostos e o Dublê de Precificação (`duble_precificacao_ml.py`, confirmado sem quebra por esta reorganização).
+
+## Status anterior (13/08/2026, 15:20 — histórico, ver "Status real agora" acima pro estado atual)
 
 Usuário retomou esta frente depois de uma pausa longa (última atualização real era 11/08, 15:05 — nada mudou neste domínio entre 11/08 e 13/08). Aviso novo, ainda sem nenhuma ação: **a API do Sysemp passou por uma atualização — todos os nomes de campo mudaram, a pedido do próprio usuário, por melhoria de qualidade do lado do Sysemp.** O projeto (`api_sysemp` + `dados_xml_nf.py`, principalmente) precisa ser atualizado pra acompanhar.
 
-**Nada foi feito ainda:** não recebido o mapeamento novo de campos (nem JSON de exemplo, nem changelog), e o repositório não foi sincronizado nesta sessão pra ler o código real que faz esse parsing hoje. Sessão foi interrompida logo depois desse aviso — usuário vai trocar de computador e pediu pra salvar o contexto antes de perder acesso à conversa. **Próximo passo, ao retomar:** pedir o formato novo da API (exemplo real de resposta ou changelog) e sincronizar o repo pra comparar com `api_sysemp` (cliente HTTP) e `integracao_sysemp/servicos/dados_xml_nf.py` (mapeamento atual dos campos), antes de propor qualquer diff.
+**Nada foi feito ainda:** não recebido o mapeamento novo de campos (nem JSON de exemplo, nem changelog), e o repositório não foi sincronizado nesta sessão pra ler o código real que faz esse parsing hoje. Sessão foi interrompida logo depois desse aviso — usuário vai trocar de computador e pediu pra salvar o contexto antes de perder acesso à conversa.
 
 ## Status anterior (10/08/2026, 02:00 — histórico, ver "Status real agora" acima pro estado atual)
 
@@ -92,7 +100,8 @@ Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens 
 
 ## O que ainda está em aberto (consolidado)
 
-- **Novo (13/08): API do Sysemp mudou todos os nomes de campo** — precisa do mapeamento novo (exemplo real ou changelog) + sincronizar o repo pra atualizar `api_sysemp`/`dados_xml_nf.py`. Nada feito ainda.
+- ~~API do Sysemp mudou todos os nomes de campo~~ — feito (14/08/2026): reorganização completa implementada e validada, ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]].
+- **Novo (14/08): reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` — mesmo comando `reprocessar_impostos_entrada_de_json` já existente.
 - ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05), **validado com carga real em 12:30** (0 erro, ver "Status real agora").
 - **Desenhar o reprocessamento do histórico antigo (320 casos) no banco de CASA** — segue sem desenho. A carga fresca no banco do escritório não conta como reprocessamento (nunca teve a pendência).
 - Investigar os 2055 produtos sem correspondência.

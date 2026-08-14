@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 10/08/2026 15:30
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade]
+atualizado_em: 14/08/2026 09:55
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]
 ---
 
 # Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)
@@ -44,6 +44,8 @@ Nenhum campo fantasma só por uniformidade artificial. Confirmado campo a campo 
 Todas as 6 tabelas são sempre criadas na sincronização, mesmo com valor zero — nunca fica ausente, pra não confundir "produto nunca sincronizado" com "imposto zero de verdade" (decisão explícita do usuário).
 
 Como `base_calculo`/`aliquota`/`valor` se repetem em 4 das 5 tabelas com alíquota (ICMS, ICMS ST, IPI, PIS, COFINS), fica de pé a ideia de uma classe-base abstrata do Django só com esses 3 campos comuns — decisão de implementação, não muda o desenho.
+
+**Atualizado 14/08/2026:** esta lista de campos ficou parcialmente desatualizada com a reorganização de nomenclatura da API (campos em par XML/Cadastro) — ver seção "Implementado e validado (14/08/2026)" abaixo e [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]] pro esquema atual completo.
 
 ## Decisão 4 — Redução do PIS/COFINS continua calculada, não bruta
 
@@ -92,8 +94,21 @@ Os 3 são `null=True/blank=True` — produtos já sincronizados antes dessa muda
 
 Novo método `obter_detalhes_para_exibicao()` no guarda-chuva — só ponto que converte pra "por unidade" e monta as dataclasses de exibição (`LinhaImpostoEntrada`, `DetalhesImpostosEntradaProduto`), nunca recalculado no template.
 
+## Implementado e validado (14/08/2026) — reorganização de campos XML/Cadastro
+
+A API do Sysemp mudou de schema (aviso registrado em 13/08) — vários campos passaram a chegar em par XML/Cadastro. Reorganização completa de nomenclatura fechada e implementada — decisão de convenção, mapeamento de campo e detalhe de migração em nota própria: [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]].
+
+Mudanças que afetam diretamente esta modelagem:
+- `ImpostosECustosXMLEntradaProduto.ncm` (campo único) → `ncm_xml`/`ncm_cadastro` (os 2, `null=True, blank=True`).
+- `IcmsEntradaProduto`/`IpiEntradaProduto`/`PisEntradaProduto`/`CofinsEntradaProduto.cst` → `cst_xml` (renomeado, continua obrigatório) + `cst_cadastro` (novo, `null=True, blank=True`).
+- `IcmsRetEntradaProduto.base` → `base_calculo` (inconsistência antiga corrigida — era o único imposto que não seguia esse nome).
+- `DadosNF`/`IdentificadorRegra` (dataclasses de processo) consolidadas em `ClassificacaoFiscalItem`.
+
+Migração real aplicada com sucesso, com 1 quase-erro pego antes de rodar `migrate` — ver [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]. Cobertura de `impostos/models.py` fechada em 100% (estava 89% — faltavam `obter_detalhes_para_exibicao()` inteiro e o `__str__` dos 6 models de imposto).
+
 ## Em aberto (próximos passos reais)
 
+- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` (novo, 14/08/2026) — mesmo comando `reprocessar_impostos_entrada_de_json` já existente, ainda não rodado pra esse fim.
 - Migrar as 6 fórmulas de precificação pra ler destas tabelas novas em vez dos campos genéricos do `Produto` (`icms_entrada`, `ipi`, `pis_cofins`) — decisão futura separada, sem prazo.
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.~~ — feito (10/08, 12:05).
 - ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00).
@@ -107,3 +122,5 @@ Novo método `obter_detalhes_para_exibicao()` no guarda-chuva — só ponto que 
 - [[Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total]]
 - [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]]
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
+- [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]]
+- [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]

@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 09/08/2026 23:00
+atualizado_em: 14/08/2026 09:55
 relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
@@ -57,8 +57,21 @@ O que aconteceu: ao corrigir um bug real (`status_manual_atual` ignorando histó
 
 Conclusão prática: nenhuma mudança é pequena o suficiente pra pular o diff exato. Prosa é ambígua o bastante pra nunca ser aplicada, e o erro pode ficar invisível por tempo indefinido até o trecho de código específico ser exercitado.
 
+**Incidente real (14/08/2026) — formato exato de "Localize"/"Substitua" precisa ser 2 blocos separados, nunca comentário dentro de 1 bloco só:** durante a correção de testes quebrados pela reorganização de campos XML/Cadastro (ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]]), Claude entregou o diff como `# Localize:`/`# Substitua por:` — comentários Python DENTRO de um único bloco de código. O usuário corrigiu 2 vezes: a 1ª pedindo blocos separados; a 2ª porque, mesmo depois de separar, Claude ainda misturou um bloco "Localize" solto (sem "Substitua" correspondente, só de contexto) junto de diffs reais, quebrando a leitura. **Formato correto, fixado a partir de agora:**
+
+```
+LOCALIZE
+<bloco de código, texto exato do arquivo real>
+
+SUBSTITUA
+<bloco de código, texto novo>
+```
+
+Cada mudança (mesmo 1 linha) é 1 par LOCALIZE/SUBSTITUA — nunca um "LOCALIZE" sem "SUBSTITUA" correspondente (trecho que não muda simplesmente não aparece em nenhum bloco), e nunca os dois lados dentro do mesmo bloco de código com comentário.
+
 ## Relacionado
 
 - [[Disciplina de Testes Automatizados]]
 - [[Status Manual Atual Ignora Historico Quando Participacao Nao Existe]]
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
+- [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]]

@@ -11,14 +11,28 @@
       "query": "Path:LEGADO/",
       "color": {
         "a": 1,
-        "rgb": 14701138
+        "rgb": 9571340
       }
     },
     {
       "query": "Path:02_Sistema_Interno  ",
       "color": {
         "a": 1,
-        "rgb": 1331199
+        "rgb": 673791
+      }
+    },
+    {
+      "query": "Path:03_Integracao_Sysemp",
+      "color": {
+        "a": 1,
+        "rgb": 7132373
+      }
+    },
+    {
+      "query": "Path:04_Integracao_Mercado_Livre",
+      "color": {
+        "a": 1,
+        "rgb": 16776960
       }
     }
   ],
@@ -32,6 +46,6 @@
   "repelStrength": 12.0334659728599,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.1316872427983523,
+  "scale": 0.18462326225857872,
   "close": false
 }
