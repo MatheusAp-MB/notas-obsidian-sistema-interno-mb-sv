@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 08/08/2026
-atualizado_em: 09/08/2026 17:17
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Modelagem de Objeto e Encapsulamento, Achados de Imposto Sempre Aguardam Validacao do Tributario, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]
+atualizado_em: 16/08/2026 05:06
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, Modelagem de Objeto e Encapsulamento, Achados de Imposto Sempre Aguardam Validacao do Tributario, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]
 ---
 
 # Plano em Etapas do Dublê de Precificação ML
@@ -114,9 +114,22 @@ ICMS entrada e IPI validados exatos nos 3 produtos, sem exceção — a lógica 
 - ~~Investigar a divergência de custo (banco R$ 619,70 vs XML R$ 566,27) pro EAN 7908050700174.~~ — **Resolvida (17:17)**: por [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]], R$ 566,27 (XML) é o valor válido; banco estava desatualizado.
 - ~~Validar com o tributário/superior a divergência de PIS/COFINS entrada do SB-630.~~ — **Resolvida quanto à fonte (17:17)**: R$ 98,33/unidade (XML) é o valor válido, mesma regra. Ver [[Divergencia de Credito PIS COFINS Entrada no Soprador SB-630]] — segue "aguardando validação do tributário" só quanto à fórmula, não à fonte.
 - Corrigir/investigar o cadastro de dimensões do SB-630 e o campo `frete_cif_fob` nos 3 produtos testados (ver [[Achados de Qualidade de Dado no Banco Fora do Escopo Fiscal]]).
-- Confirmar com o usuário se PIS/COFINS separados no FIXO (escolha da Etapa 8) é o critério certo, ou se deveria ser combinado.
+- ~~Confirmar com o usuário se PIS/COFINS separados no FIXO (escolha da Etapa 8) é o critério certo, ou se deveria ser combinado.~~ — **Fechado (16/08/2026, 05:06):** confirmado com o superior, PIS e COFINS ficam separados de vez, não é mais decisão em aberto.
 - Quando (e se) isso vira escrita real no banco, e em que ordem em relação ao import da planilha atual (`importar_planilha_precificacao.py`, que hoje roda por último e "vence").
 - Replicar o dublê pras outras 5 fórmulas de marketplace (Amazon, Magalu, Shopee, TikTok, Raia) — só ML foi feito.
+
+## Reativação e Revalidação Após Reorganização de Campos (16/08/2026, 04:50)
+
+Script parado desde 09/08/2026 (~1 semana) — não rodou durante a reorganização de nomenclatura de campos (14/08) nem o fix de CST (15/08). Usuário pediu pra retomar o dublê antes de mexer no sistema real de precificação, e insistiu em validação de verdade, não confiança ("precisamos de fato validá-lo e não apenas 'confiar'").
+
+**2 bugs reais achados ao tentar rodar de novo** (nenhum era erro de fórmula — a lógica de cálculo continuava correta):
+
+1. **Caminho desatualizado** — o script apontava pra `scripts_exploracao_ERP/saidas/nota_mais_recente_por_produto.json` (de antes da oficialização do pipeline). Corrigido pra reaproveitar `ler_json`/`NOME_ARQUIVO_NOTAS_MAIS_RECENTES` de `integracao_sysemp/servicos/arquivos_retorno_api.py` — o módulo que já é dono único desse dado, em vez de duplicar caminho/lógica (ver [[Integridade e Fonte Unica de Dado]]).
+2. **Formato mudou de dict-por-EAN pra lista** — `_carregar_registro_xml` esperava `produtos_sysemp.get(ean)`, mas o arquivo real hoje é uma `list[dict]` (confirmado no `orquestrador.py`). Corrigida pra buscar na lista pela chave real do manifesto (`Código Barras`). Também corrigida a ausência da pasta `saidas/` (faltava `os.makedirs`).
+
+**Revalidado fim a fim, EAN 7908050719121** — motor de imposto (ICMS, ICMS ST, IPI, PIS, COFINS) bate 100% campo a campo com o banco (já validado contra `Modelo_Exemplo.xlsx`), inclusive na conta nota→unidade (ex: PIS R$ 19,78 na nota ÷ 8 unidades = R$ 2,4725 ≈ R$ 2,47/unidade mostrado pelo dublê). Arquivo de origem confirmado recente (15/08, 19:33), não um resíduo antigo. Conclusão: **o dublê usa dado correto e atual, não suposição** — a reorganização de campos de 14/08 não introduziu nenhum bug na lógica de cálculo, só quebrou caminho/formato de arquivo (já corrigidos).
+
+**Achado novo, sério, fora do escopo fiscal**: Coleta e Armazenagem zeraram pra esse produto — investigado e confirmado que **não é limitação exclusiva do dublê**: a fórmula real de produção cairia no mesmo zero, porque o produto não tem variação do Mercado Livre sincronizada. Ver [[Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]] pro mecanismo completo.
 
 ## Relacionado
 
@@ -130,3 +143,4 @@ ICMS entrada e IPI validados exatos nos 3 produtos, sem exceção — a lógica 
 - [[Divergencia de Credito PIS COFINS Entrada no Soprador SB-630]]
 - [[Hipotese de Diferimento do Credito de ICMS Entrada em Produtos ST]]
 - [[XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir]]
+- [[Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]]

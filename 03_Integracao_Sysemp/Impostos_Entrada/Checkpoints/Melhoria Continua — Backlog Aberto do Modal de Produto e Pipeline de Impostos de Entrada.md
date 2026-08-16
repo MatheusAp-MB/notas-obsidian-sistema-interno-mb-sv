@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 11/08/2026
-atualizado_em: 16/08/2026 04:05
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Modal de Produto — Aba Impostos (Entrada e Saida), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]
+atualizado_em: 16/08/2026 05:23
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Modal de Produto — Aba Impostos (Entrada e Saida), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco, Plano em Etapas do Duble de Precificacao ML, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada, Migracao da Precificacao Real para Usar Impostos de Entrada Validados]
 ---
 
 # Melhoria Contínua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada
@@ -25,7 +25,8 @@ Faltam, sem código ainda:
 
 - **Nova aba "Dados do produto nas plataformas"** — tabela por marketplace (Códigos Associados, Publicado? — já existe via `ProdutoAnuncioMarketplace.anunciado` —, e "Permitido Publicar?" — não existe em lugar nenhum ainda, precisa decisão de modelagem antes de idealizar a tela).
 - **Nova aba "Resumo de Precificação"** — mostrar a precificação do produto por marketplace. A mais complexa das etapas restantes; precisa investigar o app `precificacao` (já tem 6 grades por marketplace + `resumo_marketplaces.py`) antes de qualquer mockup.
-- **Sem prazo, decisão futura:** migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos e soltos do `Produto`.
+- **Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos`** em vez dos campos genéricos e soltos do `Produto` — deixou de ser "decisão futura sem prazo": usuário confirmou (16/08, 04:50) que hoje o dublê e o sistema real de precificação **ainda não usam os impostos de entrada corretamente**, mesmo já populados no banco. Base pra migrar já está validada — ver [[Plano em Etapas do Duble de Precificacao ML]] (revalidação 16/08). Mapeamento campo a campo e decisões (sem fallback, sem planilha) já fechados em 16/08, 05:23 — ver [[Migracao da Precificacao Real para Usar Impostos de Entrada Validados]]. Nenhum diff de código escrito ainda.
+- **Decidir a fonte da dimensão "embalada" do produto** (novo, 16/08, 05:23) — achado que `importar_planilha_precificacao.py`, desativado desde 21/07/2026, era a ÚNICA fonte dos 4 campos `_apos_embalado` que alimentam o fallback de dimensão física. Sem essa fonte, Coleta/Armazenagem calculam com dimensão zerada pra praticamente todo produto hoje — não é mais um caso raro (variação ML ausente), é o padrão. Candidato: colunas de embalagem do Cadastro de Produtos do ERP (já lidas por `importar_produtos_erp.py`), a confirmar se já alimentam `_apos_embalado`. Ver [[Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]] e [[Migracao da Precificacao Real para Usar Impostos de Entrada Validados]].
 
 ## Frente 2 — Backend / pipeline de sincronização
 

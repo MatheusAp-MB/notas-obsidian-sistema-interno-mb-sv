@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 15/08/2026 14:30
+atualizado_em: 16/08/2026 04:50
 relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
@@ -70,6 +70,22 @@ SUBSTITUA
 ```
 
 Cada mudança (mesmo 1 linha) é 1 par LOCALIZE/SUBSTITUA — nunca um "LOCALIZE" sem "SUBSTITUA" correspondente (trecho que não muda simplesmente não aparece em nenhum bloco), e nunca os dois lados dentro do mesmo bloco de código com comentário.
+
+**Incidente real (16/08/2026, 04:50) — faltava o cabeçalho "Arquivo:" e os dois-pontos:** Claude entregou o par LOCALIZE/SUBSTITUA sem identificar o arquivo de destino e sem dois-pontos depois das palavras-chave. Usuário corrigiu: "voce esta mandando os localize COMPLETAMENTE INCORRETOS". **Formato definitivo, daqui pra frente:**
+
+```
+Arquivo: <caminho completo do arquivo>
+
+LOCALIZE:
+
+<bloco de código, texto exato do arquivo real>
+
+Substitua:
+
+<bloco de código, texto novo>
+```
+
+Sempre com "Arquivo:" antes (caminho completo, não só o nome), "LOCALIZE:" com dois-pontos, e "Substitua:" (maiúscula só na 1ª letra) com dois-pontos — nunca "SUBSTITUA" em caixa alta como no formato anterior.
 
 ## Relacionado
 
