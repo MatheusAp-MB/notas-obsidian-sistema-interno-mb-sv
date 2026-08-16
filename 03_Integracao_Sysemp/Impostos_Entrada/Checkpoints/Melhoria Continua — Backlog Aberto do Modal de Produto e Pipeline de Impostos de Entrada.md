@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 11/08/2026
-atualizado_em: 11/08/2026 15:05
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Modal de Produto — Aba Impostos (Entrada e Saida), Orquestracao da Sincronizacao de Impostos de Entrada via XML]
+atualizado_em: 16/08/2026 04:05
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Modal de Produto — Aba Impostos (Entrada e Saida), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]
 ---
 
 # Melhoria Contínua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada
@@ -15,9 +15,14 @@ Registrado em 11/08/2026, 15:05 — o usuário precisou trocar de frente de trab
 
 ## Frente 1 — Modal de produto (tela de Produtos)
 
-Do plano original de 5 etapas (ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]]), a etapa 1 (aba Impostos) está feita e validada. A etapa 2 (Visão Geral reduzida + NCM migrado pra Impostos) foi idealizada e aprovada por mockup, e o código já foi entregue ao usuário nesta mesma sessão (11/08/2026) — mas **ainda não aplicado nem testado**, portanto continua em aberto até confirmação real. Faltam:
+Do plano original de 5 etapas (ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]]), etapas 1 (aba Impostos) e 2 (Visão Geral reduzida + NCM migrado pra Impostos) estão feitas, aplicadas e confirmadas — a confirmação da etapa 2 (que estava pendente desde 11/08) foi verificada por leitura direta do template em produção em 15/08/2026.
 
-- **Confirmar a etapa 2** (Visão Geral reduzida: remove card Financeiro, Controle com só 3 campos, Dimensões embaladas dividida em 2 cards; + campo `ncm` novo no guarda-chuva, exibido no card de resumo da última nota) — aplicar o diff, rodar `makemigrations`/`migrate` do app `impostos`, rodar `reprocessar_impostos_entrada_de_json` de novo (backfill do `ncm` nos produtos já sincronizados) e testar visualmente.
+**Atualizado 15/08/2026, 23:25:** a etapa 1 ganhou uma continuação bem além do previsto nesta pausa — 2 rodadas de dado novo (campos já existentes expostos + 8 campos novos persistidos, 3 migrations) e um redesenho visual completo (7 mockups até aprovação, reaproveitando a estrutura rígida de card/tabela da própria Visão Geral), além da correção de um bug real de CST/CSOSN. Detalhe completo em [[Modal de Produto — Aba Impostos (Entrada e Saida)]], [[CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]] e [[Cor de Identificacao Fixa por Imposto — Padrao do Sistema]].
+
+**Atualizado 16/08/2026, 04:05:** ~~falta rodar `reprocessar_impostos_entrada_de_json`~~ — feito. Rodado pelo usuário: 3691 selecionados, 827 sincronizados, 0 erro (2864 sem `Produto` correspondente, item separado já documentado). Backfill do CST corrigido e dos 8 campos novos aplicado em toda a base com correspondência — ver [[Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]]. Frente 1 (aba Impostos) considerada fechada, aguardando validação do superior.
+
+Faltam, sem código ainda:
+
 - **Nova aba "Dados do produto nas plataformas"** — tabela por marketplace (Códigos Associados, Publicado? — já existe via `ProdutoAnuncioMarketplace.anunciado` —, e "Permitido Publicar?" — não existe em lugar nenhum ainda, precisa decisão de modelagem antes de idealizar a tela).
 - **Nova aba "Resumo de Precificação"** — mostrar a precificação do produto por marketplace. A mais complexa das etapas restantes; precisa investigar o app `precificacao` (já tem 6 grades por marketplace + `resumo_marketplaces.py`) antes de qualquer mockup.
 - **Sem prazo, decisão futura:** migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos e soltos do `Produto`.
@@ -38,3 +43,5 @@ Mais antiga, independente do modal:
 - [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]]
 - [[Modal de Produto — Aba Impostos (Entrada e Saida)]]
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
+- [[CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]]
+- [[Cor de Identificacao Fixa por Imposto — Padrao do Sistema]]

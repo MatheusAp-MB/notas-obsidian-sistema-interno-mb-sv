@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 06/08/2026 22:00
+atualizado_em: 15/08/2026 01:39
 relacionado: [Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -53,6 +53,15 @@ Padrão único, usado por qualquer mundo ativo (`02_Sistema_Interno/`, `03_Integ
 - Nota que toca mais de 1 contexto mora no contexto principal e referencia o outro via `relacionado` — nunca duplicada em duas pastas.
 - Subpasta de tipo (`Decisoes/`, `Duvidas/`, etc.) só existe dentro de um contexto quando já tiver pelo menos 1 nota daquele tipo — nunca pré-criada vazia.
 - `Regras_de_Comportamento/` é diferente de um contexto: é nível do mundo, não de negócio, e não tem subpastas de tipo — só regras, soltas.
+
+## Escrita didática — o vault agora é lido pelo time, não só por Claude
+
+Decisão do usuário (15/08/2026, 01:39): o vault deixou de ser só o "HD" de memória do Claude (ver [[Aviso Proativo Para Notas no Obsidian]]) — o time (Cauã confirmado lendo notas no mesmo dia) também busca informação direto aqui. Isso eleva o nível de exigência da escrita:
+
+- Toda nota explica como um professor explicando pra alguém que nunca viu aquele assunto — nunca assume contexto que não está escrito ali mesmo (ou linkado via `[[wikilink]]`).
+- Termos técnicos e nomes de arquivo/função vêm acompanhados do "o que isso faz"/"por que existe" — nunca só o nome cru, esperando que quem lê já saiba.
+- Prefere frase curta e concreta a frase longa e densa. Exemplo concreto ajuda mais que descrição abstrata.
+- Isso também ajuda o próprio Claude a retomar contexto depois de uma compactação de conversa — texto claro pra humano é texto claro pra IA também.
 
 ## Frontmatter (schema fixo)
 

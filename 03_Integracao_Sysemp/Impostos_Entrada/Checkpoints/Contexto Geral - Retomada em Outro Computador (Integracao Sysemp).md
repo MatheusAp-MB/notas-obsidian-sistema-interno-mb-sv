@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 14/08/2026 11:15
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]
+atualizado_em: 16/08/2026 04:05
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos, CST Perdia o Zero a Esquerda e Nao Suportava CSOSN, Cor de Identificacao Fixa por Imposto — Padrao do Sistema, Tela e Planilha de Resumo de Impostos de Entrada, Bugs de Especificidade CSS no Cabecalho Congelado da Tela de Resumo de Impostos, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -49,7 +49,41 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status real agora (14/08/2026, 11:15)
+## Status real agora (16/08/2026, 04:05)
+
+Fechamento final do domínio. Antes de considerar tudo encerrado, identificado 1 gap real: a validação campo-a-campo (ver "Status anterior 04:00" abaixo) só confirmou os 6 impostos em 3 produtos — não confirmou se o backfill do CST corrigido e dos 8 campos novos (CFOP, Origem, Natureza, TES, ID Produto Sysemp, Código Auxiliar, adicionados em 14-15/08) tinha rodado nos produtos sincronizados ANTES dessas mudanças. Usuário rodou `manage.py reprocessar_impostos_entrada_de_json`: **3691 selecionados, 827 sincronizados, 0 erro** (2864 sem `Produto` correspondente — item separado, já documentado, não é regressão). Detalhe completo em [[Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]] (seção "Fechamento") e no backlog ([[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]]).
+
+**Domínio "Impostos de Entrada + Tela/Planilha de Resumo" considerado fechado, aguardando validação do superior.** Segue em aberto, sem relação com este fechamento: os 2864 (novo total, era 2055) produtos sem correspondência por EAN, e os demais itens de backlog (abas "plataformas"/"precificação" do modal, `iniciar_servidor`, cooldown) — ver [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]].
+
+## Status anterior (16/08/2026, 04:00 — histórico, ver "Status real agora" acima pro estado atual)
+
+Verificação de fundo, à parte da tela/planilha: usuário trouxe `Modelo_Exemplo.xlsx` (NF real 237995, 3 produtos, fórmula de cada coluna explicada) pedindo pra confirmar coerência de dado fiscal e persistência correta no banco. Fórmulas conferidas com número real e comparadas com o código (`dados_xml_nf.py`) — nenhuma divergência. Comparação direta com o banco via script standalone (não `manage.py shell`, que quebra com stdin redirecionado no Windows do usuário — mesmo padrão de setup Django dos scripts antigos): **100% de coincidência campo a campo** nos 3 EANs reais (Base de Cálculo, Alíquota, Redução, Valor de ICMS/ICMS ST/ICMS Retido/IPI/PIS/COFINS). Detalhe completo em [[Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco]]. Usuário confirmou: "ok isso está resolvido."
+
+## Status anterior (16/08/2026, 03:34 — histórico, ver "Status real agora" acima pro estado atual)
+
+Frente nova, fora do modal: tela "Resumo de Impostos de Entrada" (`/impostos/`), pedida pelo usuário como versão-tela da planilha já apresentada ao superior, com base arquitetural na tela "Resumo de Critérios" do ML (busca, paginação, exportar). Escopo fechado: tela otimizada (Foto/SKU/EAN/NCM/Nota/Fornecedor/Empresa/Data Entrada/Custo Unitário + Alíquota/Redução por imposto), planilha exportada mantendo a estrutura de 52 colunas/10 grupos já aprovada, script antigo intocado por decisão explícita. Detalhe completo, incluindo o sistema de cor reescrito (1 cor-base por grupo, inspirado na própria planilha) e a revisão de largura/altura/formato numérico do xlsx, em [[Tela e Planilha de Resumo de Impostos de Entrada]].
+
+Pelo caminho, 2 bugs reais de CSS (não backend) travaram várias rodadas — `colspan` combinado com `position: sticky` no cabeçalho de grupo, e uma regra genérica de cor vencendo por especificidade (não por ordem) as classes específicas de cada grupo. Ambos com causa raiz confirmada por leitura direta do CSS real (não suposição) — ver [[Bugs de Especificidade CSS no Cabecalho Congelado da Tela de Resumo de Impostos]]. Resultado final validado pelo usuário: "visualmente tá incrível".
+
+Commit gerado nesta sessão: `5d05aed` ("Adiciona tela de Resumo de Impostos de Entrada (exportável em xlsx) e popovers de explicação de cálculo no modal de produto"), já em `origin/dev` — mudanças de polish visual desta rodada (cor/largura/planilha) ainda não commitadas no momento desta atualização.
+
+## Status anterior (16/08/2026, 00:45 — histórico, ver "Status real agora" acima pro estado atual)
+
+Fechamento do polish visual sobre o v7 da aba Impostos, testado e aprovado pelo usuário: cor pastel no corpo de cada card de imposto (continuação da cor forte do cabeçalho — ver [[Cor de Identificacao Fixa por Imposto — Padrao do Sistema]]), popover (Bootstrap) com a fórmula real e valores reais nos campos calculados (Base/Valor/Valor FCP em todo imposto; Redução só em PIS/COFINS), e remoção do campo "Código Auxiliar" da Visão Geral por ser o mesmo dado do `SKU` (confirmado em `importar_produtos_erp.py`). Sem migration. Detalhe completo em [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
+
+## Status anterior (15/08/2026, 23:25 — histórico, ver "Status real agora" acima pro estado atual)
+
+Retomada da frente 1 (modal de produto) depois da pausa de 11/08. A etapa 2 (Visão Geral reduzida + NCM migrado pra Impostos), que estava com código entregue mas não confirmado desde 11/08, **foi confirmada aplicada** (verificado por leitura direta do template em produção nesta sessão).
+
+Além disso, a etapa 1 (aba Impostos) ganhou uma continuação grande: 2 rodadas de dado (Rodada 1 — campos que já existiam no banco expostos na tela: CST XML/Cadastro, NCM Cadastro, Empresa, Custo Total, %FCP/Valor FCP; Rodada 2 — 8 campos novos persistidos que só existiam no json de apoio: CFOP, Origem+descrição, Natureza da Operação, TES de Saída, ID Produto Sysemp, Código Auxiliar, 3 migrations novas) e um redesenho visual completo da aba (7 mockups até aprovação, reaproveitando a mesma estrutura rígida de card/tabela da Visão Geral, cards por imposto com cor fixa de identificação — ver [[Cor de Identificacao Fixa por Imposto — Padrao do Sistema]]). ID Produto Sysemp/Código Auxiliar migraram definitivamente pra Visão Geral (fora do contexto fiscal).
+
+Bug real corrigido no caminho: CST (`cst_xml`/`cst_cadastro`) perdia o zero à esquerda e não suportava CSOSN (achado real em produção — ver [[CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]]). Detalhe completo de tudo isso em [[Modal de Produto — Aba Impostos (Entrada e Saida)]] e [[Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)]].
+
+Validado: **542 passed** (6 falhas pré-existentes sem relação). Commit `5ccda18` na branch `dev`.
+
+**Próximo passo real:** rodar `reprocessar_impostos_entrada_de_json` pra backfillar os 8 campos novos e o CST corrigido nos produtos já sincronizados antes desta mudança. Segue em aberto: novas abas "Dados do produto nas plataformas" e "Resumo de Precificação", e os itens de backend (reprocessar 320 erros antigos do banco de casa, investigar 2055 produtos sem correspondência, `iniciar_servidor`, cooldown) — ver [[Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada]].
+
+## Status anterior (14/08/2026, 11:15 — histórico, ver "Status real agora" acima pro estado atual)
 
 2 campos novos (`Empresa Fantasia`, `% FCP ST`/`Valor FCP ST`) promovidos a campo oficial do pipeline — motivado pelo próximo objetivo real desta frente: montar um relatório de impostos de entrada pro superior, seguindo como modelo um export real do Sysemp. Ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]] pro desenho completo e [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] pro relato da sessão.
 
@@ -109,7 +143,7 @@ Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens 
 - ~~API do Sysemp mudou todos os nomes de campo~~ — feito (14/08/2026): reorganização completa implementada e validada, ver [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]].
 - ~~Adicionar Empresa Fantasia e FCP ST ao pipeline~~ — feito (14/08/2026, 11:15), ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]].
 - **Escrever o script novo do relatório de impostos de entrada** (`scripts_exploracao_ERP/relatorio_impostos_entrada_xlsx.py`) — próximo passo real, mockup já aprovado.
-- **Novo (14/08): reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` **e agora também `empresa_fantasia`/`aliquota_fcp`/`valor_fcp`** — mesmo comando `reprocessar_impostos_entrada_de_json` já existente.
+- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro`, `empresa_fantasia`/`aliquota_fcp`/`valor_fcp` (14/08) **e agora também (15/08) os 8 campos novos (CFOP, Origem, Natureza, TES, ID Produto Sysemp, Código Auxiliar) e o CST corrigido (era `int`, perdia zero à esquerda/não suportava CSOSN)** — mesmo comando `reprocessar_impostos_entrada_de_json` já existente.
 - ~~Decidir o tratamento do `null` nos campos de imposto~~ — feito (10/08, 12:05), **validado com carga real em 12:30** (0 erro, ver "Status real agora").
 - **Desenhar o reprocessamento do histórico antigo (320 casos) no banco de CASA** — segue sem desenho. A carga fresca no banco do escritório não conta como reprocessamento (nunca teve a pendência).
 - Investigar os 2055 produtos sem correspondência.
@@ -119,7 +153,7 @@ Todo o backlog restante (esta etapa + as 2 etapas seguintes do modal + os itens 
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — feito (10/08, 12:05).
 - Migrar as 6 fórmulas de precificação do marketplace pra ler das tabelas de `impostos` em vez dos campos genéricos do `Produto` — decisão futura, sem prazo.
 - ~~Montar a exibição dos impostos de entrada no modal de produto.~~ — feito (10/08, 15:30), ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]].
-- **Aba "Visão Geral" reduzida + campo `ncm` migrado pra Impostos** — decisão e mockup aprovados (11/08), código entregue, **ainda não aplicado nem testado pelo usuário**.
+- ~~Aba "Visão Geral" reduzida + campo `ncm` migrado pra Impostos~~ — **confirmada aplicada** (verificado 15/08).
 - **Nova aba "Dados do produto nas plataformas"** no modal — tabela por marketplace; campo "Permitido Publicar?" sem modelagem ainda.
 - **Nova aba "Resumo de Precificação"** no modal — precisa investigar o app `precificacao` antes de idealizar.
 

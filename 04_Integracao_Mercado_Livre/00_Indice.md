@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 13/08/2026 15:20
+atualizado_em: 15/08/2026 01:39
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -27,7 +27,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]] | checkpoint | em_andamento | 13/08/2026 | Próxima camada da migração (scripts que consomem a API, não a base de auth) identificada mas não migrada — 4 problemas conhecidos (sys.path, import ambíguo `chamadas_safe_api` vs `cliente_api`, `conta` faltando, pasta de saída divergente de `popular_banco.py`). Achados sobre o pipeline `popular_banco`: depende de `Arquivos_API/detalhes_mlbs.json` + `dados_completos_por_sku.json`, origem do 2º arquivo ainda não localizada. |
+| [[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]] | checkpoint | em_andamento | 13/08/2026 | Próxima camada da migração (scripts que consomem a API, não a base de auth) identificada mas não migrada — 4 problemas conhecidos (sys.path, import ambíguo `chamadas_safe_api` vs `cliente_api`, `conta` faltando, pasta de saída divergente de `popular_banco.py`). Achados sobre o pipeline `popular_banco`: depende de `Arquivos_API/detalhes_mlbs.json` + `dados_completos_por_sku.json`, origem do 2º arquivo ainda não localizada. **Retomado em 15/08/2026** — mesma pendência confirmada de novo, de forma independente; plano de 4 passos continua válido. |
 
 ## Relacionado
 

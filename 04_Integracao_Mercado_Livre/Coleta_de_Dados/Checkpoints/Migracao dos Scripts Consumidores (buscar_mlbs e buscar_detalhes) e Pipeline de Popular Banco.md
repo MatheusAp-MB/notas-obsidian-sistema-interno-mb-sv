@@ -3,13 +3,23 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 13/08/2026
-atualizado_em: 13/08/2026 15:20
-relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]
+atualizado_em: 15/08/2026 01:39
+relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Padrao de Qualidade e Clareza Estrutural do Repositorio]
 ---
 
 # Migração dos Scripts Consumidores (`buscar_mlbs`/`buscar_detalhes`) e Pipeline de Popular Banco
 
 > Nota criada pra fechar uma pausa (13/08/2026, 15:20) — usuário vai trocar de PC e não vai ter acesso à conversa que gerou isso. Captura o estado real de onde a migração da API do Mercado Livre parou, depois da base de autenticação já estar migrada e validada (ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]).
+>
+> **Retomada em 15/08/2026, 01:39** — o usuário decidiu, de forma independente (sem lembrar desta nota), que quer trazer a API do Mercado Livre pra dentro do projeto de vez, no mesmo padrão de robustez do Sysemp. Achado confirmado do zero, lendo o código real de novo hoje: **o script que gera `dados_completos_por_sku.json` continua sem ser encontrado** — a mesma pendência registrada abaixo em 13/08 segue exatamente igual, 2 dias depois. Nada foi migrado ainda. O plano "Próximo passo, quando retomar" (mais abaixo) continua sendo o caminho certo — é aqui que a próxima sessão de trabalho nesta frente deve começar.
+
+## Por que isso importa pra quem está lendo agora (explicação simples)
+
+Pensa assim: existem 2 "andares" na integração com o Mercado Livre.
+
+**Andar 1 — login/autenticação.** Já está pronto, migrado e testado de verdade (nas 2 contas da empresa, MB e SV) — ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]. Ninguém precisa mexer nisso agora.
+
+**Andar 2 — os scripts que usam esse login pra buscar produto de verdade** (`buscar_mlbs.py`, `buscar_detalhes.py`). Esses ainda moram numa pasta separada do computador, fora deste repositório, e têm 4 problemas conhecidos (listados abaixo) que impedem eles de rodar aqui dentro sem ajuste. Enquanto esse andar não for migrado, o comando `popular_banco` do sistema principal não tem como ler dado fresco da API — ele fica dependendo de arquivos `.json` antigos, gerados manualmente em outro lugar.
 
 ## Onde a migração está agora
 

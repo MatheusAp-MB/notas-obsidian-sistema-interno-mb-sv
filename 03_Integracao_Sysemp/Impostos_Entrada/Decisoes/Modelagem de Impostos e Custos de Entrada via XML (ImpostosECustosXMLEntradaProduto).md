@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 14/08/2026 11:15
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]
+atualizado_em: 15/08/2026 23:25
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Integridade e Fonte Unica de Dado, Modelagem de Objeto e Encapsulamento, Calculo de Reducao PIS e COFINS via Base de Calculo e Custo Total, XML da Nota Fiscal E a Fonte Unica de Verdade Quando o Dado Existir, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos, CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]
 ---
 
 # Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto)
@@ -114,9 +114,17 @@ Migração real aplicada com sucesso, com 1 quase-erro pego antes de rodar `migr
 
 Migração pura adição, sem prompt de rename ambíguo (diferente do caso do `ncm`). Validado com pytest real em 2 rodadas — a 1ª expôs 4 testes de integração quebrados por uma fixture desatualizada (`test_nivel_3__orquestrador.py`, não pega no grep inicial por nome de dataclass); corrigida, resultado final **528 passed, 0 failures no domínio, 12 xfailed**. Ver [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]] pro desenho completo e [[Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]] pra causa raiz do efeito cascata.
 
+## Implementado e validado (15/08/2026, 23:25) — 8 campos novos + correção do CST/CSOSN
+
+Motivado pela continuação do redesenho da aba Impostos do modal de produto (ver [[Modal de Produto — Aba Impostos (Entrada e Saida)]]):
+
+- **8 campos novos no guarda-chuva `ImpostosECustosXMLEntradaProduto`**, todos `null=True/blank=True`, migrados por 3 migrations (`0008`, `0009`, `0010`): `id_produto_sysemp` (PositiveIntegerField), `codigo_auxiliar` (CharField 50), `cfop_xml`/`cfop_cadastro` (CharField 10), `origem_mercadoria_xml`/`origem_mercadoria_cadastro` (CharField 5), `descricao_origem_mercadoria_xml`/`descricao_origem_mercadoria_cadastro` (CharField 255), `natureza_operacao_cadastro` (CharField 255), `tes_saida_cadastro` (PositiveIntegerField). Mesmo padrão de sempre: já vinham parseados em `dados_xml_nf.py`, nunca persistidos.
+- **Bug real corrigido: `cst_xml`/`cst_cadastro` perdiam o zero à esquerda** ("00" virava `0`) e não suportavam CSOSN (código de 3 dígitos do regime Simples Nacional — achado real em produção, `impostos_e_custos_id=673`, CSOSN "102"). Campo migrado de `PositiveSmallIntegerField` pra `CharField(max_length=3)` em `IcmsEntradaProduto`/`IpiEntradaProduto`/`PisEntradaProduto`/`CofinsEntradaProduto`, com a causa raiz corrigida uma camada acima, em `dados_xml_nf.py`. Detalhe completo, incluindo o diagnóstico da migração que falhou no meio (MySQL não é transacional em DDL), em [[CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]].
+- Validado: 542 passed (6 falhas pré-existentes sem relação). Commit `5ccda18` na branch `dev`.
+
 ## Em aberto (próximos passos reais)
 
-- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro` **e agora também `empresa_fantasia`/`aliquota_fcp`/`valor_fcp`** (novo, 14/08/2026) — mesmo comando `reprocessar_impostos_entrada_de_json` já existente, ainda não rodado pra esse fim.
+- **Reprocessar produtos já sincronizados** pra backfillar `cst_cadastro`/`ncm_cadastro`, `empresa_fantasia`/`aliquota_fcp`/`valor_fcp` (14/08/2026) **e agora também os 8 campos novos de 15/08/2026 (CFOP, Origem, Natureza, TES, ID Produto Sysemp, Código Auxiliar) e o CST/CSOSN corrigido** — mesmo comando `reprocessar_impostos_entrada_de_json` já existente, ainda não rodado pra esse fim.
 - Migrar as 6 fórmulas de precificação pra ler destas tabelas novas em vez dos campos genéricos do `Produto` (`icms_entrada`, `ipi`, `pis_cofins`) — decisão futura separada, sem prazo.
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`.~~ — feito (10/08, 12:05).
 - ~~Rodar a sincronização de verdade contra a API real pela 1ª vez.~~ — feito (10/08, 02:00).
@@ -134,3 +142,4 @@ Migração pura adição, sem prompt de rename ambíguo (diferente do caso do `n
 - [[Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro]]
 - [[Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada]]
 - [[Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos]]
+- [[CST Perdia o Zero a Esquerda e Nao Suportava CSOSN]]

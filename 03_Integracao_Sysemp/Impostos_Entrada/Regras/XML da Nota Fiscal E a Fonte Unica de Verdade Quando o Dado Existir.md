@@ -3,8 +3,8 @@ tipo: regra
 dominio: fiscal
 status: ativa
 criado: 09/08/2026
-atualizado_em: 09/08/2026 17:17
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Achados de Imposto Sempre Aguardam Validacao do Tributario]
+atualizado_em: 15/08/2026 14:05
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Divergencia de Credito PIS COFINS Entrada no Soprador SB-630, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Achados de Imposto Sempre Aguardam Validacao do Tributario, Por Que o Filtro de CFOP Usa Cadastro e Nao XML]
 ---
 
 # XML da Nota Fiscal É a Fonte Única de Verdade Quando o Dado Existir

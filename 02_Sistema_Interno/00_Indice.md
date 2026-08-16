@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 13/08/2026 12:00
+atualizado_em: 15/08/2026 20:20
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -30,6 +30,10 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Perguntar Data e Hora Antes de Escrever no Vault]] | regra | ativa | 03/08/2026 | Antes de escrever/editar nota, pergunta data/hora ao usuário (1x por bloco, não por arquivo) — todo write atualiza `atualizado_em`. **Incidente real (10/08, 12:30):** resposta a pergunta factual foi tratada como autorização implícita — corrigido, reforçado que autorização e hora precisam ser explícitas. |
 | [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] | regra | ativa | 05/08/2026 | 7 etapas fixas, sem pular: Idealizar→Planejar→Executar→Analisar→Corrigir→Otimizar→Validar. Criada após incidente de ritmo (tarefa e código gerados sem permissão). |
 | [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Pacote `api_<nome>/core` com excecoes/protecao/cliente separados; transporte nunca sabe de negócio (validação mora no contexto por endpoint, acesso mora numa Facade); hierarquia de exceção própria; throttle proativo + backoff reativo com teto 30s; sem circuit breaker por padrão; log nunca leva dado sensível. |
+| [[Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido]] | regra | ativa | 14/08/2026 | Usuário virou responsável por TI/desenvolvimento da empresa, lidera Lucas e Cauã; sistema afeta áreas sensíveis do negócio. Sex-dom (a partir de 14/08) são dias de trabalho calmo e estrutural — eleva a seriedade de seguir [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] à risca, sem atalho. |
+| [[Padrao de Qualidade e Clareza Estrutural do Repositorio]] | regra | ativa | 15/08/2026 | Régua nova pra revisão de código: estrutura/nome autoexplicativo, preservar POO/encapsulamento/dataclasses/log/cache já usados, comentário didático, responsabilidade única, consistência entre arquivos-irmãos, refatoração estrutural (renomear/mover/excluir) no escopo. Auditoria incremental, prazo real segunda-feira (Cauã/Lucas). |
+| [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev). `iniciar_banco`/`popular_banco` ficam CLI; `sincronizar_impostos_entrada` some quando virar etapa de `popular_banco`; os 6 `calcular_grade_precificacao_*` já são redundantes com `popular_banco` (achado real); rotina real vira botão via thread+polling (sem Celery); `agente_local/` já está correto (só `servidor_agente.py` é ponto de entrada real). Vários itens ainda pendentes de decisão. |
+| [[Guia de Setup - Do Zero ao Primeiro Imposto Sincronizado]] | regra | ativa | 15/08/2026 | Passo a passo completo pra onboarding (Cauã/Lucas): pré-requisitos, clone, `.env`, criar banco MySQL (utf8mb4), migrate, seed (`iniciar_banco`), os 6 arquivos externos exigidos por `popular_banco` (2 grupos: Cadastro ERP sem proteção a arquivo faltando, Tabelas de Frete com proteção), `popular_banco`, `sincronizar_impostos_entrada` (ordem importa — só depois do popular_banco). Colunas exatas de cada arquivo documentadas, confirmadas no código. |
 
 ## Agenda_Videos
 
@@ -71,7 +75,16 @@ relacionado: [Estrutura e Convenções do Vault]
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Pista real do lado do ML: mesmo problema resolvido de verdade lá (parâmetro `conta` explícito, sem padrão) — ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]. Decisão maior de arquitetura ainda adiada de propósito. |
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade) e agora pela 3ª vez no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual). Decisão maior de arquitetura ainda adiada de propósito. |
+
+## Importacao_de_Dados
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Produto Nasce Exclusivamente do ERP]] | decisao | ativa | 15/08/2026 | ERP é a única fonte da verdade sobre quais produtos existem — `Produto` nunca nasce de dado de marketplace. Futuro comando da API do ML só pode ANEXAR anúncio a Produto já existente (por SKU/EAN), nunca criar Produto novo; MLB sem Produto no ERP é inconsistência a logar, não a "resolver" silenciosamente. |
+| [[Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo]] | decisao | ativa | 15/08/2026 | Dado bruto do ERP (ex: dimensão de embalagem) é salvo como veio, mesmo absurdo — é assim que dá pra gerar relatório de inconsistência pro time corrigir na origem. Só o dado que o PRÓPRIO sistema calcula (ex: peso_cubado) fica em branco quando o resultado é impossível, pra não alimentar cálculo real com número inventado. |
+| [[Recriar Migration com Mesmo Nome Nao Reseta o Historico do Django]] | descoberta | ativa | 15/08/2026 | Apagar arquivo de migration já aplicada sem desfazer ela primeiro deixa linha órfã em `django_migrations` — migration nova com mesmo nome é tratada como "já aplicada" sem ter rodado de verdade. Corrigido conferindo o banco real (`SHOW COLUMNS`) e limpando a linha órfã direto na tabela. |
+| [[Redesenho do Popular Banco - Fontes de Dados e Escopo]] | checkpoint | em_andamento | 15/08/2026 | Implementado, commitado (`9284b6c`) e validado com dado real: 879 produtos criados (696 ativos/183 inativos), 118 SKUs com dimensão absurda no ERP reportados, 2 sem EAN. Falta só apontar os 4 importadores de frete pra pasta nova (arquivos já estão lá, só o código não foi atualizado). |
 
 ## Relacionado
 

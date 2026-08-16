@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 criado: 10/08/2026
 status: ativa
-atualizado_em: 10/08/2026 12:30
-relacionado: [Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Lista de CFOP Relevantes para Precificacao, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]
+atualizado_em: 15/08/2026 19:50
+relacionado: [Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Lista de CFOP Relevantes para Precificacao, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Contexto Geral - Retomada em Outro Computador (Integracao Sysemp), Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Parcial Obsoleto de Tentativa Anterior Sobrevivia a Falha Antes da Primeira Pagina]
 ---
 
 # Orquestração da Sincronização de Impostos de Entrada via XML
@@ -106,10 +106,26 @@ Números da rodada: 3791 produtos selecionados (igual à rodada de casa — mesm
 
 - ~~Decisão do `null`~~ — **decidido em 10/08/2026, 12:05: vira 0** (ver seção acima). Implementado, testado (Nível 0) e **validado em produção com carga real** (12:30): 1736 sincronizados, 0 erro.
 - **Reprocessamento do histórico antigo dos 320 casos que já erraram no banco de CASA** — segue em aberto, sem desenho. A carga fresca no banco do escritório NÃO conta como reprocessamento (nunca teve a pendência pra começo, ver seção acima) — só prova que o código está correto. Ainda falta decidir como reprocessar pra qualquer banco que já tenha essa pendência registrada.
-- **Investigar os 2055 produtos (54%) sem `Produto` correspondente** — descontinuado de verdade, ou divergência de EAN entre Sysemp e o cadastro?
+- **Investigar os produtos sem `Produto` correspondente (2055/54% em 10/08, 2864/77,6% em 15/08)** — descontinuado de verdade, divergência de EAN, ou (hipótese mais forte, ver seção "Nova rodada real" abaixo) filtro da tela do ERP excluindo item de uso/consumo por padrão. Usuário vai conferir com calma na segunda-feira (17/08).
 - Implementação do comando `manage.py iniciar_servidor` (checa/sincroniza antes de subir o servidor) — ainda não escrito; hoje o disparo é manual via `sincronizar_impostos_entrada`.
 - Cooldown entre tentativas de falha consecutivas — `data_ultima_chamada` sustenta isso, mas nenhuma regra foi definida.
 - ~~Oficializar `dados_xml_nf.py` fora de `scripts_exploracao_ERP/`~~ — **feito em 10/08/2026, 12:05**, ver [[Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP]].
+
+## Achado real — parcial obsoleto de tentativa anterior sobrevivia a falha antes da 1ª página (15/08/2026, 16:00)
+
+Ver detalhe completo em [[Parcial Obsoleto de Tentativa Anterior Sobrevivia a Falha Antes da Primeira Pagina]]. Resumo: `XML_Manifesto_NF_Bruto_Parcial.json` só era limpo após sucesso total — se uma tentativa falhasse antes de qualquer página, o parcial de uma falha ANTERIOR e sem relação ficava no disco parecendo pertencer à falha atual. Corrigido: limpeza movida pro início de cada tentativa. 100% cover mantido.
+
+## Nova rodada real (15/08/2026, ~19:00) — banco diferente do escritório, hipótese nova sobre "sem correspondência"
+
+Usuário rodou `manage.py sincronizar_impostos_entrada` num PC/banco diferente do documentado em 10/08 (cada banco é local e independente, ver seção acima). Resultado: `busca_api` 251,6s, **3691 produtos selecionados, 827 sincronizados, 2864 sem `Produto` correspondente (77,6%), 0 com erro**. O 0 erro confirma, numa carga real do zero, que todas as correções de hoje seguram (bonificação removida do filtro, contenção de erro por registro, `null→0`, decimal) — ver [[Contencao de Erro por Registro no Filtro e Selecao de Impostos de Entrada]] e [[Bonificacao Removida do Filtro de CFOP de Impostos de Entrada]].
+
+A queda de sincronizados (1736 em 10/08 → 827 agora) não se explica só pela remoção da bonificação — essa mudança tira só ~100 registros do total selecionado (3791→3691), não o suficiente pra justificar a diferença toda.
+
+**Hipótese do usuário (mais forte que as 2 opções antigas "descontinuado" vs "divergência de EAN"):** a tela de cadastro de produtos do ERP usada pra gerar os 2 arquivos (Ativos/Inativos) pode vir filtrada, por padrão, só pra item de catálogo real — excluindo item de uso e consumo (ex: gasolina, que aparece no XML de entrada como compra real, mas nunca seria cadastrado como "produto" de revenda). Isso bateria com a arquitetura do filtro de CFOP (só compra pra revenda) — os itens de consumo ficarem de fora do banco de `Produto` seria o comportamento CORRETO, não um bug. Suspeita adicional: o relatório usado no banco do escritório (10/08) pode ter vindo de uma tela diferente do Sysemp que trazia "tudo" (incluindo ruído) — o que infla artificialmente a correspondência de lá, tornando a proporção de agora (77,6%) potencialmente mais correta que a de antes (54%), não pior.
+
+Sinal a favor: os 879 produtos no banco batem exatamente com o total mostrado na própria tela do ERP usada ("Página 1 de 36 — 879 produtos encontrados") — confirma que a importação reflete fielmente a tela usada; a dúvida real é só se essa tela é a certa/completa.
+
+**Usuário vai conferir com calma na segunda-feira (17/08)** — sem ação adicional até lá.
 
 ## Relacionado
 
@@ -119,3 +135,4 @@ Números da rodada: 3791 produtos selecionados (igual à rodada de casa — mesm
 - [[Disciplina de Testes Automatizados]]
 - [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
 - [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]]
+- [[Parcial Obsoleto de Tentativa Anterior Sobrevivia a Falha Antes da Primeira Pagina]]

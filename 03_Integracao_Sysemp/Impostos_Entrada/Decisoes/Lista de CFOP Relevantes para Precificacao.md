@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 07/08/2026
-atualizado_em: 07/08/2026 11:26
-relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp]
+atualizado_em: 15/08/2026 14:05
+relacionado: [Paginacao do Endpoint Manifesto Nota Entrada, API Sysemp So Retorna a Ultima Nota Fiscal por Produto, Custo Atual Escolhido para Precificacao dos Produtos Sysemp, Bonificacao Removida do Filtro de CFOP de Impostos de Entrada, Por Que o Filtro de CFOP Usa Cadastro e Nao XML]
 ---
 
 # Lista de CFOP Relevantes para Precificação
@@ -42,6 +42,12 @@ Reunião do usuário com seu superior fechou a lista definitiva de CFOPs válido
 **1.916/2.916 (retorno de conserto) continua FORA da lista** — nenhuma mudança aí, consistente com o motivo original (não é compra nem bonificação).
 
 Isso não contradiz a decisão de custo original (só 1.102/2.102 tinham custo confiável) — 1.403/2.403 é a mesma natureza de compra, só que faltava na lista. Bonificação continua sendo "válida" como entrada real de produto, mas sem custo de aquisição — ver a pergunta ainda aberta sobre isso em [[Custo Atual Escolhido para Precificacao dos Produtos Sysemp]].
+
+## Atualização (15/08/2026, 13:28) — bonificação removida da lista
+
+Decisão nova do usuário: bonificação (1.910/2.910) sai de `CFOPS_PARA_MANTER`. A partir de agora esta lista representa só CFOP de compra real (1.102/2.102, 1.403/2.403) — 4 códigos, não mais 6. Motivo completo, contexto e efeito colateral (resolve por eliminação a dúvida de bonificação como "nota mais recente") documentados em [[Bonificacao Removida do Filtro de CFOP de Impostos de Entrada]].
+
+Isso reverte parcialmente a atualização de 07/08/2026 logo acima — a parte de retorno de conserto (1.916/2.916 fora da lista) continua valendo sem mudança.
 
 ## Relacionado
 
