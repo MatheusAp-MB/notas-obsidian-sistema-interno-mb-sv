@@ -3,7 +3,7 @@ tipo: duvida
 dominio: 
 status: ativa
 criado: 12/08/2026
-atualizado_em: 17/08/2026 16:15
+atualizado_em: 17/08/2026 17:10
 relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Redesenho do Popular Banco - Fontes de Dados e Escopo, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]
 ---
 
@@ -60,7 +60,7 @@ Pedido do superior: relatório de impostos de entrada também da SV, com urgênc
 
 Investigando por um dia inteiro uma falha real da sincronização de impostos de entrada da SV (a API respondendo "Metodo não Localizado", sempre, em qualquer período testado), a causa raiz encontrada foi mais um capítulo desta mesma dúvida maior — e revela uma dimensão nova, mais séria do que as anteriores: **a Sysemp não é 1 API única compartilhada entre as empresas. Cada empresa cliente tem sua própria instância numerada, com endereço (URL) diferente** — MB usa `.../61`, SV usa `.../84`. O código só conhecia o endereço da MB, fixo, pra qualquer token.
 
-Ou seja: a "escolha de empresa", no caso do Sysemp, não é só trocar o token (já sabíamos disso desde a 1ª ocorrência) — é TAMBÉM trocar o endereço de rede da própria API. Detalhe completo da investigação, a evidência, e a correção proposta (ainda não aplicada) estão em [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]].
+Ou seja: a "escolha de empresa", no caso do Sysemp, não é só trocar o token (já sabíamos disso desde a 1ª ocorrência) — é TAMBÉM trocar o endereço de rede da própria API. Detalhe completo da investigação, a evidência, e a correção — **aplicada e confirmada no código real em 17/08/2026 (commit `e092804`)** — estão em [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]].
 
 Isso reforça, com mais força ainda, o padrão já visto 4 vezes antes nesta nota (token do Sysemp, contas do Mercado Livre, cadastro de produtos do ERP, e agora o próprio endereço do Sysemp): praticamente toda integração externa deste projeto tem, ou vai ter, algum tipo de superfície "por empresa" escondida — token, caminho de arquivo, e agora até endereço de rede. Cada vez que isso aparece de novo, é resolvido de um jeito manual e pontual diferente, específico daquele lugar — o que é evidência concreta a mais a favor de enfrentar a decisão maior de arquitetura desta nota mais cedo, em vez de continuar empilhando soluções pontuais uma por uma, cada uma com sua própria forma de quebrar se esquecida.
 

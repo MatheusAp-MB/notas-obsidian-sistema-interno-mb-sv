@@ -1,9 +1,9 @@
 ---
 tipo: bug_conhecido
 dominio: 
-status: em_andamento
+status: corrigido
 criado: 17/08/2026
-atualizado_em: 17/08/2026 16:15
+atualizado_em: 17/08/2026 17:10
 relacionado: [Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -69,18 +69,53 @@ url = f'{self.URL_BASE}/{metodo}'
 
 Como `URL_BASE` é uma constante de classe (não depende de qual token foi passado), TODA instância de `ClienteApiSysemp` — não importa o token — sempre bate na instância da MB.
 
-## Correção em uso agora (workaround manual)
+## Histórico — workaround manual usado antes da correção definitiva
 
-Enquanto a correção definitiva (próxima seção) não é aplicada no código, o jeito de rodar a sincronização pra SV é trocar a URL manualmente antes de rodar, e devolver pra MB depois — o mesmo padrão de "sempre os 2 blocos no arquivo, 1 comentado, comentário troca de lado" que o projeto já usa pros caminhos dos arquivos do ERP (ver [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]], agora com um novo Passo 7 dedicado a isso). Validado com dado real em 17/08/2026 — os impostos de entrada da SV vieram corretamente depois dessa troca.
+No início do dia (17/08/2026), enquanto a correção definitiva (próxima seção) ainda não existia, o jeito de rodar a sincronização pra SV era trocar a URL manualmente antes de rodar, e devolver pra MB depois — o mesmo padrão de "sempre os 2 blocos no arquivo, 1 comentado, comentário troca de lado" que o projeto já usa pros caminhos dos arquivos do ERP. Validado com dado real nesse formato antes de a correção definitiva existir. **Esse workaround manual não é mais necessário — foi substituído pela correção definitiva abaixo.**
 
-## Correção definitiva (proposta e desenhada, mas ainda NÃO aplicada no código real)
+## Correção definitiva — APLICADA E CONFIRMADA (17/08/2026, commit `e092804`)
 
-A ideia certa de longo prazo é a URL base deixar de ser fixa por classe e virar parâmetro configurável, com override por variável de ambiente — o mesmo padrão que o token já usa (`MB_SYSEMP_API_TOKEN`, sobrescrito na hora do comando pra rodar como SV). Ficaria assim, resumidamente:
+A URL base deixou de ser fixa por classe e virou parâmetro configurável, com override por variável de ambiente — o mesmo padrão que o token já usa (`MB_SYSEMP_API_TOKEN`). Confirmado lendo o código real do repositório sincronizado (não por suposição):
 
-- `ClienteApiSysemp.__init__` ganha um parâmetro novo `url_base=None`. Se nada for passado, usa `URL_BASE_PADRAO` (o valor da MB) — mantém tudo que já existe funcionando sem mudança.
-- `ApiSysemp.__init__` passa a ler uma variável de ambiente nova (`MB_SYSEMP_API_URL_BASE`), no mesmo espírito de override que já existe pro token, com fallback automático pro valor da MB se essa variável não estiver definida.
+```python
+# api_sysemp/core/cliente.py
+class ClienteApiSysemp:
+    URL_BASE_PADRAO = 'https://api.sysemp.com.br/61'   # MB, valor padrão
 
-Com isso, rodar pra SV vira só mais 1 variável de ambiente junto do token, no mesmo comando — sem precisar editar/reverter código à mão nunca mais. **Esta correção já foi desenhada em detalhe e está pronta pra ser aplicada, mas até o momento desta nota ainda não foi aplicada no código real do projeto** — o workaround manual (seção anterior) é o que está em uso hoje.
+    def __init__(self, token, url_base=None, maximo_tentativas=MAXIMO_TENTATIVAS_PADRAO):
+        if not token:
+            raise ValueError('Token da API Sysemp não informado.')
+        self._token = token
+        self.URL_BASE = url_base or self.URL_BASE_PADRAO
+        ...
+```
+
+```python
+# api_sysemp/__init__.py
+class ApiSysemp:
+    def __init__(self, token=None, url_base=None):
+        if token is None:
+            token = self._carregar_token_do_env()
+        if url_base is None:
+            url_base = self._carregar_url_base_do_env()
+        self._cliente = ClienteApiSysemp(token, url_base=url_base)
+        ...
+
+    @staticmethod
+    def _carregar_url_base_do_env():
+        load_dotenv('.env')
+        return os.environ.get('MB_SYSEMP_API_URL_BASE') or ClienteApiSysemp.URL_BASE_PADRAO
+```
+
+Sem nenhum toggle manual de comentário sobrando na classe (`#* MAGAZINE` / `## SAMVALE`) — essa era exatamente a versão intermediária, quebrada, que apareceu mais cedo hoje: o `__init__` já tinha sido corrigido pra usar `self.URL_BASE_PADRAO`, mas a classe ainda não tinha esse atributo definido, só o antigo `URL_BASE` fixo — resultando em `AttributeError: type object 'ClienteApiSysemp' has no attribute 'URL_BASE_PADRAO'`. Corrigido de vez no commit `e092804`.
+
+Rodar pra SV agora é só isto, num comando só, sem editar nenhum arquivo à mão:
+
+```
+MB_SYSEMP_API_TOKEN="<token da SV>" MB_SYSEMP_API_URL_BASE="https://api.sysemp.com.br/84" poetry run python manage.py sincronizar_impostos_entrada
+```
+
+Sem essas 2 variáveis, o sistema usa os valores padrão da MB automaticamente — retrocompatível, nada quebra pra quem não mexe em nada.
 
 ## Lição pra próxima vez
 

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 17/08/2026 16:45
+atualizado_em: 17/08/2026 17:10
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -82,8 +82,9 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade), no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual), e agora pela 5ª vez: a própria URL da API Sysemp muda por empresa, não só o token (17/08). Decisão maior de arquitetura ainda adiada de propósito. |
-| [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]] | bug_conhecido | em_andamento | 17/08/2026 | A sincronização de impostos da SV falhava sempre com "Metodo não Localizado" — não era permissão de conta nem intermitência (2 teorias erradas testadas antes), era a URL da API Sysemp fixa na instância da MB (`/61`) em vez da SV (`/84`). Workaround manual aplicado e validado com dado real; correção definitiva (URL configurável por variável de ambiente, mesmo padrão do token) desenhada mas ainda não aplicada no código. |
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade), no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual), e pela 5ª vez na própria URL da API Sysemp (17/08 — correção já aplicada e confirmada, ver bug abaixo). Decisão maior de arquitetura ainda adiada de propósito. |
+| [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]] | bug_conhecido | corrigido | 17/08/2026 | A sincronização de impostos da SV falhava sempre com "Metodo não Localizado" — não era permissão de conta nem intermitência (2 teorias erradas testadas antes), era a URL da API Sysemp fixa na instância da MB (`/61`) em vez da SV (`/84`). Correção definitiva (URL configurável por `MB_SYSEMP_API_URL_BASE`, mesmo padrão do token) aplicada e CONFIRMADA no código real (commit `e092804`, 17/08 17:10). |
+| [[Contexto Geral - Retomada em Outro Computador (Sysemp Multi-Empresa e Relatorio Fiscal Samvale)]] | checkpoint | ativo | 17/08/2026 | Nota auto-contida com todo o contexto do dia (17/08) nesta frente — bug da URL Sysemp resolvido e confirmado, tutorial da Samvale estabilizado (Passo 0 a 9), outras correções do dia, e o que segue em aberto — pra retomar em outro computador sem a conversa original. |
 
 ## Precificacao
 
