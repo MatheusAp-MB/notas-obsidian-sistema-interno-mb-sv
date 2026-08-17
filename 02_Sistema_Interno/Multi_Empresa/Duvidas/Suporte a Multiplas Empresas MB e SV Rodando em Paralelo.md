@@ -3,8 +3,8 @@ tipo: duvida
 dominio: 
 status: ativa
 criado: 12/08/2026
-atualizado_em: 15/08/2026 03:50
-relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Redesenho do Popular Banco - Fontes de Dados e Escopo]
+atualizado_em: 17/08/2026 01:20
+relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Redesenho do Popular Banco - Fontes de Dados e Escopo, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]
 ---
 
 # Suporte a Múltiplas Empresas (MB e SV) Rodando em Paralelo
@@ -45,6 +45,16 @@ Isso não resolve a dúvida maior desta nota (arquitetura do projeto como um tod
 Durante o redesenho do `popular_banco` (ver [[Redesenho do Popular Banco - Fontes de Dados e Escopo]]), apareceram 4 arquivos de cadastro de produto do ERP, não 2 — cada relatório (Ativos/Inativos) tem uma versão `MB` e uma versão `SV`. É a terceira vez que essa mesma pergunta (MB e SV rodando em paralelo) aparece num lugar diferente do sistema, depois do Sysemp e do Mercado Livre.
 
 Decisão do usuário pra esse caso específico — não pra questão maior desta nota: **ignorar os arquivos `SV` por enquanto**, só a importação de produtos da MB roda hoje. Os arquivos `SV` foram colocados na mesma pasta de propósito, só pra não se perder, sem intenção de serem lidos agora. A decisão maior de arquitetura (como o sistema vai de fato suportar as 2 empresas rodando em paralelo) continua adiada, exatamente como já registrado acima — este é só mais um lugar concreto onde ela vai precisar ser respondida quando for retomada.
+
+## 4ª ocorrência — 1ª solução manual real, funcionou, mas não escala (17/08/2026)
+
+Pedido do superior: relatório de impostos de entrada também da SV, com urgência (precisava estar pronto no dia seguinte). Sem tempo/necessidade de resolver a decisão maior, foi usada uma solução 100% manual, descartável, isolada:
+
+- Banco MySQL temporário separado (`sistema_interno_sv_temp`), criado e destruído por fora do fluxo normal, via `DB_NAME=` no processo.
+- Token trocado por variável de ambiente só naquele 1 comando (`MB_SYSEMP_API_TOKEN="<valor da SV>"` sobrescrito na hora).
+- `importar_produtos_erp.py` ganhou 2 blocos permanentes (MB e SV, um sempre comentado) — trocar de empresa virou comentar/descomentar, sem editar caminho à mão.
+
+**Funcionou de ponta a ponta na parte de produto** (ver [[Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]]), mas confirma exatamente o limite já esperado: é viável pra 1 pessoa, 1 uso pontual, 1 processo por vez — quebra assim que existir a necessidade de 2 pessoas (ou 2 abas) usando MB e SV ao mesmo tempo, porque a escolha "qual empresa" vive no processo inteiro (variável de ambiente), não por sessão/usuário. Passo a passo completo documentado em [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] — útil como referência de "o que já funciona hoje", não como proposta de arquitetura permanente.
 
 ## Relacionado
 

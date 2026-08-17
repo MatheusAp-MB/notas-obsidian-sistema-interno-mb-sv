@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: ativo
 criado: 10/08/2026
-atualizado_em: 16/08/2026 05:23
-relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos, CST Perdia o Zero a Esquerda e Nao Suportava CSOSN, Cor de Identificacao Fixa por Imposto — Padrao do Sistema, Tela e Planilha de Resumo de Impostos de Entrada, Bugs de Especificidade CSS no Cabecalho Congelado da Tela de Resumo de Impostos, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco, Plano em Etapas do Duble de Precificacao ML, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada, Migracao da Precificacao Real para Usar Impostos de Entrada Validados]
+atualizado_em: 17/08/2026 01:20
+relacionado: [Checkpoint — Exploracao de Dados Fiscais Sysemp, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Orquestracao da Sincronizacao de Impostos de Entrada via XML, Disciplina de Testes Automatizados, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Estrutura e Convenções do Vault, Oficializacao do dados_xml_nf Fora de Scripts Exploracao ERP, Scripts de Exploracao Quebrados Apos Relocacao do api_sysemp, Modal de Produto — Aba Impostos (Entrada e Saida), Modal Mostrava Impostos Por Nota Em Vez de Por Unidade, Melhoria Continua — Backlog Aberto do Modal de Produto e Pipeline de Impostos de Entrada, Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp, Quase-Erro na Migracao Django ao Renomear ncm para ncm_cadastro, Adicao de Empresa Fantasia e FCP ST ao Pipeline de Impostos de Entrada, Fixture Compartilhada do Orquestrador Ficou Desatualizada ao Adicionar Campos Novos, CST Perdia o Zero a Esquerda e Nao Suportava CSOSN, Cor de Identificacao Fixa por Imposto — Padrao do Sistema, Tela e Planilha de Resumo de Impostos de Entrada, Bugs de Especificidade CSS no Cabecalho Congelado da Tela de Resumo de Impostos, Validacao Cruzada com Modelo_Exemplo.xlsx Confirma Formulas e Persistencia no Banco, Plano em Etapas do Duble de Precificacao ML, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada, Migracao da Precificacao Real para Usar Impostos de Entrada Validados, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]
 ---
 
 # Contexto Geral — Retomada em Outro Computador (Integração Sysemp)
@@ -49,7 +49,29 @@ Pipeline de ponta a ponta pra manter os impostos/custos de entrada (ICMS, ICMS S
 - **Guarda-chuva (`impostos.models.ImpostosECustosXMLEntradaProduto`)** — 1 linha por produto, sem histórico, sempre sobrescrita, com 6 tabelas-filhas ligadas (1 por tipo de imposto). Único ponto de escrita: `sincronizar_a_partir_de(produto, dados: DadosXmlNF)`.
 - **Orquestrador (`integracao_sysemp.servicos.orquestrador.sincronizar_impostos_entrada_xml`)** — liga tudo: lê o watermark → busca a API → filtra por CFOP (`filtro_cfop.py`) → seleciona a nota mais recente por produto (`selecao_nota_recente.py`) → grava 3 jsons de apoio (bruto/filtrado/selecionado, sempre sobrescritos, pasta `integracao_sysemp/retorno_api/dados_impostos_xml_entrada/`, gitignored) → pra cada produto: acha o `Produto` pelo EAN, persiste ou registra pendência de erro (`XML_Manifesto_NF_Erros.json`, 4º arquivo — não é log, é lista de pendências abertas que somem quando o produto sincroniza bem de novo) → registra sucesso/falha no watermark. Devolve `RelatorioDeSincronizacao` (dataclass com tempo por fase + contagens). Disparado por `manage.py sincronizar_impostos_entrada`.
 
-## Status real agora (16/08/2026, 05:23) — momento da pausa
+## Status real agora (17/08/2026, 01:20) — momento da pausa
+
+> [!info] Amanhã em outro computador (o da empresa) — leia isto primeiro
+> O banco temporário `sistema_interno_sv_temp` é local a ESTA máquina (casa) — não existe no PC da empresa até ser criado de novo lá. O tutorial abaixo já foi escrito pra ser autossuficiente, começando do zero. Leve fisicamente os 2 arquivos ERP da SV **já com cabeçalho corrigido** (existem só nesta máquina, com backup ao lado).
+
+**O pedido do dia:** gerar o relatório de impostos de entrada da Samvale (SV) pro superior, com urgência. No meio do caminho, 2 coisas reais aconteceram, fora do domínio Sysemp propriamente dito:
+
+1. **Bug real achado e corrigido** (domínio `Importacao_de_Dados`, não Sysemp): os 4 importadores de tabela de frete apontavam pra uma pasta antiga há 2 dias, sem nenhum erro visível — descoberto por acaso ao rodar `popular_banco` de novo pra esta tarefa. Corrigido e validado com dado real. Ver [[Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]].
+2. **2 tutoriais antigos do vault, sobrepostos e com informação desatualizada, foram fundidos em 1 só** — [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] é agora a única fonte de verdade sobre setup do zero.
+
+**Sobre o relatório da SV em si — bloqueado, sem token:** todo o lado de PRODUTO já rodou de ponta a ponta com sucesso, num banco temporário isolado (`sistema_interno_sv_temp`), sem tocar no banco real da MB — 506 produtos importados, frete OK, zero mudança de lógica de código, só nome de coluna do ERP precisou de ajuste (script de rename com backup, já validado com amostra real). Ver [[Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]]. **A sincronização fiscal (`sincronizar_impostos_entrada`) e a exportação do `.xlsx` NÃO rodaram** — usuário percebeu, no meio do processo, que não tinha o `SV_SYSEMP_API_TOKEN` em mãos (não pegou com o superior ainda). Fica pra quando o token chegar.
+
+**Passo a passo completo já escrito e pronto pra amanhã:** [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] — autossuficiente, cobre do banco temporário até exportar pela tela (`runserver` + botão "Exportar", mesma tela já validada da MB — decisão de não usar script pra isso, ver nota). Inclui o script de correção de cabeçalho por inteiro, caso precise repetir em outra máquina.
+
+**Estado do código nesta máquina (casa), ainda não verificado se persiste pra amanhã:**
+
+- `core/management/commands/popular_banco_suporte/importar_produtos_erp.py` está com os 2 blocos (MB comentado, SV ativo) — modificado, **não commitado**. É local a esta máquina; não vai existir no PC da empresa até ser refeito lá (o tutorial já assume isso).
+- Os 4 arquivos de frete corrigidos (bug acima) estão prontos pra commit, com título/descrição já gerados nesta sessão — **confirmar se o commit e o push foram feitos antes de trocar de máquina.** Sem o push, o PC da empresa vai puxar o `dev` ainda com o bug do frete amanhã, e o mesmo "não encontrado" pode se repetir por engano.
+- `teste.py` (script de rename de cabeçalho) está solto na raiz do repo, não rastreado — descartável, não precisa ir pro commit (conteúdo já preservado por inteiro dentro do tutorial, ver acima).
+
+**Próximo passo real de amanhã:** seguir [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] do Passo 1 (máquina nova = banco novo), assim que o token da SV estiver em mãos. O plano original de domingo (Tarefas 2 e 4 — Shopee promoções, documentação) segue intocado, não iniciado.
+
+## Status anterior (16/08/2026, 05:23) — histórico, ver "Status real agora" acima pro estado atual
 
 Usuário pediu pra preparar o sistema REAL de precificação (não só o dublê) pra usar os impostos de entrada validados, e depois deu pausa pra noite ("volto amanhã"). Trabalho desta rodada foi só investigação/decisão — nenhum diff de código escrito ainda, por decisão própria (Ciclo de Trabalho Calmo: idealizar/planejar antes de executar).
 
@@ -199,3 +221,6 @@ Claude nunca escreve direto no repo do usuário nem roda pytest/comandos. Todo c
 - [[Disciplina de Testes Automatizados]]
 - [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]
 - [[Estrutura e Convenções do Vault]]
+- [[Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]]
+- [[Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]]
+- [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]]

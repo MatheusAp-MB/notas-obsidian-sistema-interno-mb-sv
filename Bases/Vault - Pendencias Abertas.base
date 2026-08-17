@@ -1,0 +1,45 @@
+views:
+  - type: table
+    name: "Bugs em aberto (tipo: bug_conhecido, status: ativo)"
+    filters:
+      and:
+        - tipo == "bug_conhecido"
+        - status == "ativo"
+    order:
+      - file.name
+      - dominio
+      - atualizado_em
+  - type: table
+    name: "Trabalho em andamento (tipo: checkpoint, status: em_andamento)"
+    filters:
+      and:
+        - tipo == "checkpoint"
+        - status == "em_andamento"
+    order:
+      - file.name
+      - dominio
+      - atualizado_em
+    sort:
+      - property: file.name
+        direction: ASC
+      - property: atualizado_em
+        direction: DESC
+    columnSize:
+      file.name: 615
+      note.atualizado_em: 159
+  - type: table
+    name: "Duvidas ainda em aberto (tipo: duvida, status: ativa)"
+    filters:
+      and:
+        - tipo == "duvida"
+        - status == "ativa"
+    order:
+      - file.name
+      - dominio
+      - atualizado_em
+    sort:
+      - property: dominio
+        direction: ASC
+    columnSize:
+      file.name: 609
+      note.dominio: 211

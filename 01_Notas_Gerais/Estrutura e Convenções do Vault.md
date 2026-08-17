@@ -3,13 +3,22 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 15/08/2026 01:39
-relacionado: [Padrao de Robustez para Clientes de API Externa]
+atualizado_em: 16/08/2026 23:59
+relacionado: [Padrao de Robustez para Clientes de API Externa, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Guia de Setup - Do Zero ao Primeiro Preco Calculado]
 ---
 
 # Estrutura e Convenções do Vault
 
 Esta nota é a especificação técnica fixa da organização deste vault, reescrita em 01/08/2026 depois de mover todo o conteúdo anterior para `LEGADO/`. Substitui por completo a versão antiga.
+
+## Princípios fundamentais do vault (16/08/2026)
+
+Decisão do usuário, válida pra qualquer mundo, qualquer tipo de nota, a partir de agora. Estes 4 princípios pesam mais que qualquer recomendação de ferramenta feita em [[Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)]] — nenhum recurso do Obsidian é adotado se contrariar algum destes:
+
+1. **O usuário nunca escreve nenhuma nota à mão — só visualiza e lê.** Toda criação e toda edição de nota é 100% feita por Claude, sempre. Consequência prática: qualquer recurso do Obsidian pensado pra ajudar um humano a criar nota manualmente (o exemplo mais claro é o plugin núcleo Templates) deixa de ser prioridade aqui — ninguém neste vault vai usar o atalho "inserir modelo" com as próprias mãos.
+2. **A prioridade não é "ficar bonito esteticamente" — é "didático, organizado, visualmente interessante e, se possível, bonito", nesta ordem.** Beleza estética é o último critério, nunca o primeiro. Quando existem 2 formas de mostrar a mesma informação, vence a mais clara — não a mais bonita.
+3. **Toda nota precisa ser algo que Claude consiga criar sozinho, de forma 100% correta, sem depender de ação manual do usuário dentro da interface do Obsidian.** Isso descarta, na prática, qualquer recurso que só funcione através de clique/arrastar/desenhar (ex: atribuir ícone de pasta pela interface, desenho livre estilo Excalidraw) — mesmo que o recurso seja útil em teoria, se Claude não conseguir gerar o resultado inteiro escrevendo texto, YAML ou JSON de forma confiável (sem depender de clicar em nada), ele não é adotado.
+4. **Toda nota precisa ser entendível tanto por humano quanto por Claude-como-LLM.** O vault serve 2 públicos ao mesmo tempo: gente buscando informação (ver seção "Escrita didática" abaixo) e Claude buscando contexto de sessões passadas. Consequência prática: nenhum recurso visual (Mermaid, SVG, Canvas) pode ser a ÚNICA fonte de uma informação — o texto corrido ao redor sempre precisa contar a mesma informação por escrito, porque quando Claude relê a nota depois, ele lê o texto/código-fonte do diagrama, nunca a imagem já desenhada.
 
 ## Os mundos
 
@@ -39,6 +48,9 @@ Padrão único, usado por qualquer mundo ativo (`02_Sistema_Interno/`, `03_Integ
                                  gerar código, analisar código, pensar sobre algo).
                                  Arquivos soltos direto aqui, sempre tipo=regra.
                                  Nunca contém duvida ou bug_conhecido.
+  Tutoriais/                   → (opcional, criado sob demanda) manual/guia que cobre o
+                                 mundo inteiro, sem pertencer a um contexto específico
+                                 (ver seção "Tutorial" abaixo). Irmã de Regras_de_Comportamento/.
   <Contexto>/                  → criado sob demanda, na primeira nota daquele contexto
     Decisoes/
     Duvidas/
@@ -47,6 +59,7 @@ Padrão único, usado por qualquer mundo ativo (`02_Sistema_Interno/`, `03_Integ
     Bugs_Conhecidos/
     Conceitos/
     Checkpoints/                → estado de trabalho em andamento (ver seção própria abaixo)
+    Tutoriais/                  → manual/guia passo a passo (ver seção própria abaixo)
 ```
 
 - **Contexto** agrupa um tema de negócio (ex: `Agenda_Videos`, `Precificacao`) — não precisa corresponder 1:1 a um app Django; pode interligar vários pontos do projeto.
@@ -56,12 +69,7 @@ Padrão único, usado por qualquer mundo ativo (`02_Sistema_Interno/`, `03_Integ
 
 ## Escrita didática — o vault agora é lido pelo time, não só por Claude
 
-Decisão do usuário (15/08/2026, 01:39): o vault deixou de ser só o "HD" de memória do Claude (ver [[Aviso Proativo Para Notas no Obsidian]]) — o time (Cauã confirmado lendo notas no mesmo dia) também busca informação direto aqui. Isso eleva o nível de exigência da escrita:
-
-- Toda nota explica como um professor explicando pra alguém que nunca viu aquele assunto — nunca assume contexto que não está escrito ali mesmo (ou linkado via `[[wikilink]]`).
-- Termos técnicos e nomes de arquivo/função vêm acompanhados do "o que isso faz"/"por que existe" — nunca só o nome cru, esperando que quem lê já saiba.
-- Prefere frase curta e concreta a frase longa e densa. Exemplo concreto ajuda mais que descrição abstrata.
-- Isso também ajuda o próprio Claude a retomar contexto depois de uma compactação de conversa — texto claro pra humano é texto claro pra IA também.
+Decisão do usuário (15/08/2026, 01:39, reforçada e detalhada em 16/08/2026, 22:25): o vault deixou de ser só o "HD" de memória do Claude (ver [[Aviso Proativo Para Notas no Obsidian]]) — o time (Cauã confirmado lendo notas no mesmo dia) também busca informação direto aqui, e a exigência é que qualquer leitor entenda com 100% de certeza, sem margem de dúvida. O padrão completo — modo professor, as 4 perguntas obrigatórias (O quê/Por quê/Pra quê/Como), 7 regras práticas com exemplo ANTES×DEPOIS, uso pleno dos recursos do Obsidian (tabela, callout, Mermaid, SVG) e checklist de verificação — mora em [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]], pra não duplicar conteúdo aqui. Toda nota nova (ou edição de nota existente) segue aquele padrão.
 
 ## Frontmatter (schema fixo)
 
@@ -76,14 +84,14 @@ relacionado: []
 ---
 ```
 
-- **`tipo`** (vocabulário fechado): `regra` | `decisao` | `descoberta` | `duvida` | `bug_conhecido` | `conceito` | `checkpoint`
+- **`tipo`** (vocabulário fechado): `regra` | `decisao` | `descoberta` | `duvida` | `bug_conhecido` | `conceito` | `checkpoint` | `tutorial`
 - **`dominio`** (vocabulário aberto, opcional): `python` | `css` | `js` | `banco_de_dados` | `performance` | `design` | (vazio) — nunca nome de projeto ou contexto (isso já é a pasta onde a nota está).
 - **`status`** depende do `tipo`:
   - `duvida`: `ativa` | `resolvida`
   - `decisao`: `ativa` | `descartada`
   - `bug_conhecido`: `ativo` | `corrigido`
   - `checkpoint`: `em_andamento` | `concluido`
-  - `regra` | `descoberta` | `conceito`: sempre `ativa`
+  - `regra` | `descoberta` | `conceito` | `tutorial`: sempre `ativa`
 - **`criado`**: `DD/MM/YYYY`, nunca ISO. Nunca muda depois de escrito.
 - **`atualizado_em`**: `DD/MM/YYYY HH:mm` (adicionado 03/08/2026 — `criado` sozinho não refletia a última edição de conteúdo). Toda nota nova já nasce com `atualizado_em` igual a `criado` (só sem hora). Toda edição de conteúdo depois disso atualiza só este campo — `criado` nunca muda. Campo adicionado de forma NÃO retroativa: notas antigas sem esse campo continuam válidas, só ganham `atualizado_em` na próxima vez que forem editadas de verdade.
 - **`relacionado`**: lista de nomes exatos de nota, sem `[[ ]]`.
@@ -96,6 +104,21 @@ relacionado: []
 ## Checkpoint — nota que se atualiza no lugar (nunca gera nota nova)
 
 Diferente de dúvida/decisão/bug (que preservam histórico gerando nota nova ou seção extra), `checkpoint` registra o ESTADO ATUAL de um trabalho em andamento de várias sessões — e é sobrescrito na mesma nota a cada atualização relevante, com uma seção `## Última atualização` no topo do corpo (data). Existe porque a memória de conversa é volátil (sujeita a compactação) — o checkpoint é a memória persistente desse progresso. Quando o trabalho termina de vez, `status` muda para `concluido` (a nota continua existindo, como registro final).
+
+## Tutorial — manual ou guia passo a passo (16/08/2026)
+
+Tipo novo, criado depois de um caso real: uma nota com a sequência exata de comandos pra reconstruir o banco do zero tinha sido classificada como `regra`, mas não é uma regra — não descreve um comportamento esperado do sistema ou de quem trabalha nele, é um **manual concreto**, com passos numerados e comandos literais pra executar uma tarefa específica (ex: "depois de um `drop database`, rode nesta ordem: 1, 2, 3..."). A distinção prática: `regra` explica um princípio ou convenção que vale sempre, em qualquer situação parecida (ex: "XML da nota fiscal é a fonte única de verdade"); `tutorial` é uma receita passo a passo pra uma tarefa concreta e repetível (ex: "como reconstruir o banco", "como rodar a suíte de testes com cobertura"). `status` é sempre `ativa` — quando o procedimento muda (novo comando, passo a mais), a mesma nota é editada no lugar (`atualizado_em`), igual uma regra — não gera nota nova.
+
+- **Tutorial de contexto** (a maioria): vive em `Tutoriais/`, dentro do contexto de negócio ao qual pertence (ex: `Impostos_Entrada/Tutoriais/`).
+- **Tutorial de mundo** (16/08/2026, achado real): quando o procedimento não pertence a nenhum contexto de negócio específico — cobre o mundo inteiro, do ambiente até o sistema rodando (ex: "clonar o repositório, instalar dependência, configurar banco, popular tudo") — vive em `Tutoriais/` na raiz do mundo, **irmã** de `Regras_de_Comportamento/`, não dentro de um contexto. Mesma lógica que já vale pra `Regras_de_Comportamento/`: nível do mundo, não de contexto. Primeiro exemplo real: `02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado`.
+
+## Pasta `Bases/` (arquivos `.base` do Obsidian)
+
+Convenção nova (16/08/2026), aprovada pelo usuário depois da prova de conceito descrita em [[Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)]]. Todo arquivo `.base` — uma "visão de banco de dados" nativa do Obsidian, que lê o frontmatter das notas (`tipo`, `status`, `dominio`, etc.) e monta tabelas filtradas ao vivo — mora dentro de `Bases/`, na raiz do vault, nunca solto. É uma pasta funcional, igual `Modelos_Notas_Obsidian/`, não é um "mundo" e não segue a numeração `0X_`.
+
+- Um `.base` pode juntar notas de qualquer mundo numa visão só (ex: todo `bug_conhecido` com `status: ativo`, não importa a pasta) — por isso não faz sentido ele morar dentro de um mundo específico.
+- Nome do arquivo descreve a pergunta que ele responde (ex: `Vault - Pendencias Abertas.base` responde "o que está aberto, em qualquer mundo, agora?").
+- Primeiro exemplo real: `Bases/Vault - Pendencias Abertas.base`, com 3 views (bugs abertos, checkpoints em andamento, dúvidas em aberto).
 
 ## Índice (`00_Indice.md`)
 
@@ -112,3 +135,4 @@ Se uma convenção nova precisar ser definida (nova pasta, novo campo de frontma
 ## Relacionado
 
 - [[padrao]]
+- [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]

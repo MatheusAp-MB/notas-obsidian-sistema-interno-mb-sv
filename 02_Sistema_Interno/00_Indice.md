@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 15/08/2026 20:20
+atualizado_em: 17/08/2026 00:55
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -33,7 +33,14 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido]] | regra | ativa | 14/08/2026 | Usuário virou responsável por TI/desenvolvimento da empresa, lidera Lucas e Cauã; sistema afeta áreas sensíveis do negócio. Sex-dom (a partir de 14/08) são dias de trabalho calmo e estrutural — eleva a seriedade de seguir [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] à risca, sem atalho. |
 | [[Padrao de Qualidade e Clareza Estrutural do Repositorio]] | regra | ativa | 15/08/2026 | Régua nova pra revisão de código: estrutura/nome autoexplicativo, preservar POO/encapsulamento/dataclasses/log/cache já usados, comentário didático, responsabilidade única, consistência entre arquivos-irmãos, refatoração estrutural (renomear/mover/excluir) no escopo. Auditoria incremental, prazo real segunda-feira (Cauã/Lucas). |
 | [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev). `iniciar_banco`/`popular_banco` ficam CLI; `sincronizar_impostos_entrada` some quando virar etapa de `popular_banco`; os 6 `calcular_grade_precificacao_*` já são redundantes com `popular_banco` (achado real); rotina real vira botão via thread+polling (sem Celery); `agente_local/` já está correto (só `servidor_agente.py` é ponto de entrada real). Vários itens ainda pendentes de decisão. |
-| [[Guia de Setup - Do Zero ao Primeiro Imposto Sincronizado]] | regra | ativa | 15/08/2026 | Passo a passo completo pra onboarding (Cauã/Lucas): pré-requisitos, clone, `.env`, criar banco MySQL (utf8mb4), migrate, seed (`iniciar_banco`), os 6 arquivos externos exigidos por `popular_banco` (2 grupos: Cadastro ERP sem proteção a arquivo faltando, Tabelas de Frete com proteção), `popular_banco`, `sincronizar_impostos_entrada` (ordem importa — só depois do popular_banco). Colunas exatas de cada arquivo documentadas, confirmadas no código. |
+## Tutoriais
+
+Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, não pertence a nenhum contexto de negócio específico (ver [[Estrutura e Convenções do Vault]]).
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] | tutorial | ativa | 16/08/2026 | Passo a passo completo do zero absoluto (clone, `.env`, MySQL, migrate, seed) até preço real calculado: os 6 arquivos externos exigidos por `popular_banco`, `popular_banco` (1ª tentativa das grades, saem "sem cálculo"), `sincronizar_impostos_entrada` (4-8min validado), e o passo final que faltava antes — recalcular as 6 grades depois do imposto sincronizado. Fusão de 2 notas antigas que se sobrepunham (16/08). |
+| [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | ativa | 17/08/2026 | Passo a passo completo (banco temporário → arquivos SV com cabeçalho corrigido → comentar/descomentar bloco MB/SV no importador → `popular_banco` → sincronizar com token SV → exportar pela tela via `runserver`) pra gerar o `.xlsx` de impostos de entrada da SV sem tocar no banco da MB. Escrito pra ser usado assim que o token da SV chegar. |
 
 ## Agenda_Videos
 
@@ -84,7 +91,9 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Produto Nasce Exclusivamente do ERP]] | decisao | ativa | 15/08/2026 | ERP é a única fonte da verdade sobre quais produtos existem — `Produto` nunca nasce de dado de marketplace. Futuro comando da API do ML só pode ANEXAR anúncio a Produto já existente (por SKU/EAN), nunca criar Produto novo; MLB sem Produto no ERP é inconsistência a logar, não a "resolver" silenciosamente. |
 | [[Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo]] | decisao | ativa | 15/08/2026 | Dado bruto do ERP (ex: dimensão de embalagem) é salvo como veio, mesmo absurdo — é assim que dá pra gerar relatório de inconsistência pro time corrigir na origem. Só o dado que o PRÓPRIO sistema calcula (ex: peso_cubado) fica em branco quando o resultado é impossível, pra não alimentar cálculo real com número inventado. |
 | [[Recriar Migration com Mesmo Nome Nao Reseta o Historico do Django]] | descoberta | ativa | 15/08/2026 | Apagar arquivo de migration já aplicada sem desfazer ela primeiro deixa linha órfã em `django_migrations` — migration nova com mesmo nome é tratada como "já aplicada" sem ter rodado de verdade. Corrigido conferindo o banco real (`SHOW COLUMNS`) e limpando a linha órfã direto na tabela. |
-| [[Redesenho do Popular Banco - Fontes de Dados e Escopo]] | checkpoint | em_andamento | 15/08/2026 | Implementado, commitado (`9284b6c`) e validado com dado real: 879 produtos criados (696 ativos/183 inativos), 118 SKUs com dimensão absurda no ERP reportados, 2 sem EAN. Falta só apontar os 4 importadores de frete pra pasta nova (arquivos já estão lá, só o código não foi atualizado). |
+| [[Redesenho do Popular Banco - Fontes de Dados e Escopo]] | checkpoint | concluido | 17/08/2026 | Implementado, commitado (`9284b6c`) e validado com dado real: 879 produtos, 118 SKUs com dimensão absurda, 2 sem EAN. Item pendente (caminho de frete) corrigido e validado em 17/08 — ver bug abaixo. |
+| [[Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]] | bug_conhecido | corrigido | 17/08/2026 | Os 4 importadores de frete apontavam pra pasta antiga desde 15/08, sem nenhum erro visível — 2 arquivos também tinham nome diferente do esperado (ML→Mercado_Livre, TikTok→Tiktok_Shop). Descoberto por acaso ao rodar popular_banco pra outra tarefa. |
+| [[Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]] | descoberta | confirmada | 17/08/2026 | 506 produtos SV importados, frete e grades OK, zero mudança de lógica — só nome de coluna do ERP precisou ajuste. 1ª prova real de generalização do pipeline com dado fora da MB. Sincronização fiscal (imposto de entrada) ainda pendente, travada no token. |
 
 ## Relacionado
 

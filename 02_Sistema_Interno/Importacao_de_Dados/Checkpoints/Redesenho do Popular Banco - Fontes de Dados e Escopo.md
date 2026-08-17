@@ -1,15 +1,15 @@
 ---
 tipo: checkpoint
 dominio: 
-status: em_andamento
+status: concluido
 criado: 15/08/2026
-atualizado_em: 15/08/2026 03:50
-relacionado: [Produto Nasce Exclusivamente do ERP, Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo, Recriar Migration com Mesmo Nome Nao Reseta o Historico do Django, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Padrao de Qualidade e Clareza Estrutural do Repositorio]
+atualizado_em: 17/08/2026 00:20
+relacionado: [Produto Nasce Exclusivamente do ERP, Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo, Recriar Migration com Mesmo Nome Nao Reseta o Historico do Django, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Padrao de Qualidade e Clareza Estrutural do Repositorio, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]
 ---
 
 # Redesenho do Popular Banco — Fontes de Dados e Escopo
 
-> **Estado atual (15/08/2026, 03:50): implementado, validado com dado real do ERP, e commitado (2 commits: `9284b6c` e um ajuste pequeno de acabamento logo depois).** Falta só 1 coisa pequena, não urgente — ver "Único item pendente" no fim desta nota. Pra quem retoma: o resto desta nota (tabela de arquivos, as 7 decisões) continua sendo a explicação de COMO e POR QUÊ chegamos nesse desenho — a seção nova "Resultado real da implementação" logo abaixo é o que de fato aconteceu quando rodamos de verdade.
+> **✅ Concluído (17/08/2026, 00:20).** Implementado, validado com dado real do ERP, commitado (`9284b6c` + ajuste pequeno de acabamento), e o último item pendente (caminho dos 4 arquivos de frete) foi corrigido e validado — ver "Único item pendente" no fim desta nota, agora fechado. Pra quem retoma: o resto desta nota (tabela de arquivos, as 7 decisões) continua sendo a explicação de COMO e POR QUÊ chegamos nesse desenho — a seção "Resultado real da implementação" logo abaixo é o que de fato aconteceu quando rodamos de verdade.
 
 ## Resultado real da implementação (validado em produção, 15/08/2026)
 
@@ -24,9 +24,12 @@ Achado à parte, durante a implementação (não sobre o resultado, sobre o PROC
 
 Achado à parte sobre os arquivos: apareceram 4 arquivos do ERP, não 2 (MB e SV) — decisão foi ignorar os da SV por enquanto, ver [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]].
 
-## Único item pendente
+## Único item pendente — RESOLVIDO (17/08/2026)
 
-As 4 tabelas de frete (`Tabela_Frete_ML.xlsx`, `Tabela_Frete_Magalu.xlsx`, `Tabela_Frete_TikTok.xlsx`, `Tabela_Frete_Amazon.xlsx`) continuam sendo lidas do caminho antigo (`Arquivos_de_Importação/`) — o código delas não foi atualizado ainda pra apontar pra pasta nova organizada (`Arquivos usados para Popular Banco/Tabelas de Frete/`), mesmo os arquivos já tendo sido colocados lá fisicamente pelo usuário. Não é urgente (o comando funciona normalmente do jeito que está), só não está 100% arrumado ainda — é a única parte da decisão 7 (mais abaixo) que falta.
+> [!danger] Isso ficou "não urgente" por 2 dias e quase passou despercebido pra sempre
+> O parágrafo abaixo (versão original, de 15/08) tratava isso como um detalhe de acabamento, sem risco. Não era — o comando rodou "normalmente" por 2 dias inteiros lendo frete desatualizado, sem nenhum erro visível, e só foi descoberto por acaso, numa tarefa completamente diferente (gerar um relatório pra Samvale, 17/08). Causa raiz, o quanto isso ficou invisível, e a correção real estão documentados em [[Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]] — vale a leitura completa, não só este resumo.
+
+~~As 4 tabelas de frete (`Tabela_Frete_ML.xlsx`, `Tabela_Frete_Magalu.xlsx`, `Tabela_Frete_TikTok.xlsx`, `Tabela_Frete_Amazon.xlsx`) continuam sendo lidas do caminho antigo (`Arquivos_de_Importação/`) — o código delas não foi atualizado ainda pra apontar pra pasta nova organizada (`Arquivos usados para Popular Banco/Tabelas de Frete/`), mesmo os arquivos já tendo sido colocados lá fisicamente pelo usuário. Não é urgente (o comando funciona normalmente do jeito que está), só não está 100% arrumado ainda — é a única parte da decisão 7 (mais abaixo) que falta.~~ (texto original de 15/08, mantido riscado pra registro — a frase "não é urgente" foi exatamente o que deixou isso 2 dias sem ninguém perceber.)
 
 ## Por que esse redesenho existe
 

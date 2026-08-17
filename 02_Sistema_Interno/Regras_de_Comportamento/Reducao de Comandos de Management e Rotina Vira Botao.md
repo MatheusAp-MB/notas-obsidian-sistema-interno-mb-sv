@@ -3,8 +3,8 @@ tipo: decisao
 dominio:
 status: em_andamento
 criado: 15/08/2026
-atualizado_em: 15/08/2026 20:20
-relacionado: [Padrao de Qualidade e Clareza Estrutural do Repositorio, Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Redesenho do Popular Banco - Fontes de Dados e Escopo, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Guia de Setup - Do Zero ao Primeiro Imposto Sincronizado]
+atualizado_em: 16/08/2026 23:58
+relacionado: [Padrao de Qualidade e Clareza Estrutural do Repositorio, Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Redesenho do Popular Banco - Fontes de Dados e Escopo, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Guia de Setup - Do Zero ao Primeiro Preco Calculado]
 ---
 
 # Redução de Comandos de Management e Rotina Vira Botão

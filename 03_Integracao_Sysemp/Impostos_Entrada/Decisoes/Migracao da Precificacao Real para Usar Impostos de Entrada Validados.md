@@ -1,13 +1,17 @@
 ---
 tipo: decisao
 dominio: python
-status: em_andamento
+status: concluida
 criado: 16/08/2026
-atualizado_em: 16/08/2026 05:23
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Integridade e Fonte Unica de Dado, Redesenho do Popular Banco - Fontes de Dados e Escopo]
+atualizado_em: 16/08/2026 21:59
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Escopo Final - O Que Vem da API Sysemp e O Que Continua Como Esta, Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada, Modelagem de Impostos e Custos de Entrada via XML (ImpostosECustosXMLEntradaProduto), Integridade e Fonte Unica de Dado, Redesenho do Popular Banco - Fontes de Dados e Escopo, Checklist de Execucao — Migracao da Precificacao para Impostos de Entrada (16-08), Validacao dos 3 Cenarios de Tributacao Normal Reducao e ST Pos-Migracao da Precificacao]
 ---
 
 # Migração da Precificação Real para Usar Impostos de Entrada Validados
+
+## Fechamento (16/08/2026, 21:59)
+
+Migração executada e validada de ponta a ponta — ver [[Checklist de Execucao — Migracao da Precificacao para Impostos de Entrada (16-08)]] pra execução completa em 4 etapas. Os 2 pontos que este plano deixava "em aberto" abaixo foram resolvidos: a dimensão "embalada" **não** estava sem fonte (achado corrigido — `importar_produtos_erp.py` já grava; ver [[Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]]), e o crédito líquido de ICMS ST virou função pura em `impostos/funcoes_auxiliares/creditos_fiscais_para_precificacao.py`. Os 7 consumidores (`calculo_margem.py` + 6 fórmulas de marketplace) foram migrados, os 5 campos fiscais legados removidos do `Produto`, e a planilha morta excluída. Validação final (regressão de `impostos`, os 6 comandos reais contra banco de produção, e os 3 cenários de tributação — Normal/Redução/ST — com dado real) fechada em [[Validacao dos 3 Cenarios de Tributacao Normal Reducao e ST Pos-Migracao da Precificacao]]. Sem pendência aberta desta decisão.
 
 ## Contexto
 

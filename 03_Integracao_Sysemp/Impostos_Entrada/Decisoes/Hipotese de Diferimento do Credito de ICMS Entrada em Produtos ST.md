@@ -3,8 +3,8 @@ tipo: decisao
 dominio: fiscal
 status: ativa
 criado: 09/08/2026
-atualizado_em: 09/08/2026 16:40
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Achados de Imposto Sempre Aguardam Validacao do Tributario, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria]
+atualizado_em: 16/08/2026 18:26
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Credito Fiscal Nao Cumulativo (ICMS PIS COFINS), Achados de Imposto Sempre Aguardam Validacao do Tributario, Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria, Checklist de Execucao — Migracao da Precificacao para Impostos de Entrada (16-08)]
 ---
 
 # Hipótese de Diferimento do Crédito de ICMS Entrada em Produtos ST
@@ -42,6 +42,10 @@ Testado com produto real de tributação "Redução" (Guarany S4 20L, EAN 789198
 Confirmado: o crédito de ICMS entrada desse produto (R$ 76,88, calculado normal na Etapa 4) se aplica direto no FIXO, sem nenhum ajuste especial — e bate exato com o Custo Final da planilha do superior pra esse produto (ver [[Bug ICMS ST Fantasma Quando Nao Ha Substituicao Tributaria]] pra validação completa). A dúvida sobre "Redução" fica fechada — só "ST" precisa da lógica de diferimento; "Redução" e "Tributado" seguem o crédito normal, sem ajuste.
 
 **Aguardando validação do tributário/superior** — ver [[Achados de Imposto Sempre Aguardam Validacao do Tributario]].
+
+## Saiu do dublê e chegou na produção real (16/08/2026, 18:26)
+
+Até aqui essa hipótese só rodava no script de dublê (`duble_precificacao_ml.py`), isolado, nunca no caminho real de precificação. Na migração de hoje (ver [[Checklist de Execucao — Migracao da Precificacao para Impostos de Entrada (16-08)]]), a mesma lógica (`_produto_tem_icms_st`/`_credito_icms_da_nota`, em `impostos/funcoes_auxiliares/creditos_fiscais_para_precificacao.py`) passou a valer nas 6 fórmulas reais de marketplace (ML, TikTok, Raia, Amazon, Magalu, Shopee) e em `calculo_margem.py`. Antes disso, só o ML tratava esse caso (e só parcialmente); os outros 5 marketplaces creditavam ICMS normal mesmo em produto ST, sem nenhum tratamento — bug real que só foi descoberto agora, ao migrar todos pro mesmo motor. Continua **aguardando validação formal do tributário/superior** — validar contra dado real de produção (Etapa 4 do checklist) é o próximo passo, não substitui a validação humana.
 
 ## Relacionado
 
