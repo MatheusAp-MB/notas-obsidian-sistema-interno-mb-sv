@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 17/08/2026 00:55
+atualizado_em: 17/08/2026 16:45
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -40,7 +40,7 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] | tutorial | ativa | 16/08/2026 | Passo a passo completo do zero absoluto (clone, `.env`, MySQL, migrate, seed) até preço real calculado: os 6 arquivos externos exigidos por `popular_banco`, `popular_banco` (1ª tentativa das grades, saem "sem cálculo"), `sincronizar_impostos_entrada` (4-8min validado), e o passo final que faltava antes — recalcular as 6 grades depois do imposto sincronizado. Fusão de 2 notas antigas que se sobrepunham (16/08). |
-| [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | ativa | 17/08/2026 | Passo a passo completo (banco temporário → arquivos SV com cabeçalho corrigido → comentar/descomentar bloco MB/SV no importador → `popular_banco` → sincronizar com token SV → exportar pela tela via `runserver`) pra gerar o `.xlsx` de impostos de entrada da SV sem tocar no banco da MB. Escrito pra ser usado assim que o token da SV chegar. |
+| [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | ativa | 17/08/2026 | Passo a passo completo, Passo 0 a Passo 9, reescrito 2x no mesmo dia (16:15 e 16:45) após reanálise completa do repositório real: banco temporário → **Passo 0 confirma que o código está na versão estável (sem toggle manual MAGAZINE/SAMVALE)** → corrigir cabeçalho só do arquivo de Ativos (Inativos desativado por decisão do usuário, 17/08) → comentar/descomentar bloco MB/SV no importador → `popular_banco` → sincronizar (token + URL da Sysemp da SV num único comando) → exportar pela tela via `runserver` → reverter só 1 arquivo. Reescrita das 16:45 eliminou o passo manual de trocar a URL (dobrado num comando só) e removeu de vez qualquer ponto "gambiarra" restante; seção de Resolução de Problemas cobre os 3 sintomas reais já vistos. |
 
 ## Agenda_Videos
 
@@ -82,7 +82,15 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade) e agora pela 3ª vez no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual). Decisão maior de arquitetura ainda adiada de propósito. |
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade), no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual), e agora pela 5ª vez: a própria URL da API Sysemp muda por empresa, não só o token (17/08). Decisão maior de arquitetura ainda adiada de propósito. |
+| [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]] | bug_conhecido | em_andamento | 17/08/2026 | A sincronização de impostos da SV falhava sempre com "Metodo não Localizado" — não era permissão de conta nem intermitência (2 teorias erradas testadas antes), era a URL da API Sysemp fixa na instância da MB (`/61`) em vez da SV (`/84`). Workaround manual aplicado e validado com dado real; correção definitiva (URL configurável por variável de ambiente, mesmo padrão do token) desenhada mas ainda não aplicada no código. |
+
+## Precificacao
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]] | decisao | ativa | 17/08/2026 | Shopee só tinha modo Grade pra gerar promoção — ganhou o modo Arquivo (preço já correto na plataforma + desconto manual, sem checar Grade/estoque/divergência), espelhando a arquitetura do TikTok. Validado com upload real. |
+| [[Marca com Barra Quebra Link de Download de Promocao]] | bug_conhecido | corrigido | 17/08/2026 | Marca real "DELLAMED/SUPERMEDY" quebrava `NoReverseMatch` no link de download (Shopee e TikTok, mesma rota) — conversor `str` da URL não aceita "/". Corrigido pra `path`; nome de arquivo também sanitizado (barra→hífen). |
 
 ## Importacao_de_Dados
 
@@ -94,6 +102,7 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 | [[Redesenho do Popular Banco - Fontes de Dados e Escopo]] | checkpoint | concluido | 17/08/2026 | Implementado, commitado (`9284b6c`) e validado com dado real: 879 produtos, 118 SKUs com dimensão absurda, 2 sem EAN. Item pendente (caminho de frete) corrigido e validado em 17/08 — ver bug abaixo. |
 | [[Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido]] | bug_conhecido | corrigido | 17/08/2026 | Os 4 importadores de frete apontavam pra pasta antiga desde 15/08, sem nenhum erro visível — 2 arquivos também tinham nome diferente do esperado (ML→Mercado_Livre, TikTok→Tiktok_Shop). Descoberto por acaso ao rodar popular_banco pra outra tarefa. |
 | [[Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica]] | descoberta | confirmada | 17/08/2026 | 506 produtos SV importados, frete e grades OK, zero mudança de lógica — só nome de coluna do ERP precisou ajuste. 1ª prova real de generalização do pipeline com dado fora da MB. Sincronização fiscal (imposto de entrada) ainda pendente, travada no token. |
+| [[Titulo Vazio Quebra bulk_create Quando SKU e Detalhes do Produto Estao em Branco]] | bug_conhecido | corrigido | 17/08/2026 | Linha do relatório da Samvale com "Detalhes do Produto" E "Codigo Auxiliar" em branco ao mesmo tempo gerava `titulo=None` — `Produto.titulo` é NOT NULL, `bulk_create` quebrava o lote inteiro. Corrigido estendendo o fallback pro EAN. |
 
 ## Relacionado
 

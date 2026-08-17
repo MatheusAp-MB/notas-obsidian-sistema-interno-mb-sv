@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "46dd693944366563",
+        "id": "61776550f8bb71d3",
         "type": "tabs",
         "children": [
           {
-            "id": "910892b24cc20bde",
+            "id": "492604086e40a05c",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -188,22 +188,26 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "910892b24cc20bde",
+  "active": "492604086e40a05c",
   "lastOpenFiles": [
+    "02_Sistema_Interno/Importacao_de_Dados/Descobertas/Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica.md",
+    "02_Sistema_Interno/Tutoriais/Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario.md",
+    "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "02_Sistema_Interno/00_Indice.md",
+    "02_Sistema_Interno/Multi_Empresa/Bugs_Conhecidos/Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado.md",
+    "02_Sistema_Interno/Multi_Empresa/Bugs_Conhecidos",
+    "02_Sistema_Interno/Precificacao/Decisoes/Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok.md",
+    "02_Sistema_Interno/Precificacao/Decisoes",
+    "02_Sistema_Interno/Precificacao/Bugs_Conhecidos/Marca com Barra Quebra Link de Download de Promocao.md",
+    "02_Sistema_Interno/Precificacao/Bugs_Conhecidos",
+    "02_Sistema_Interno/Precificacao",
+    "02_Sistema_Interno/Importacao_de_Dados/Bugs_Conhecidos/Titulo Vazio Quebra bulk_create Quando SKU e Detalhes do Produto Estao em Branco.md",
     "03_Integracao_Sysemp/00_Indice.md.tmp.44124.6275e048874b",
     "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Contexto Geral - Retomada em Outro Computador (Integracao Sysemp).md.tmp.44124.3e194703c3d3",
     "03_Integracao_Sysemp/Impostos_Entrada/Checkpoints/Contexto Geral - Retomada em Outro Computador (Integracao Sysemp).md.tmp.44124.da3e486f0aae",
     "02_Sistema_Interno/Multi_Empresa/Duvidas/Suporte a Multiplas Empresas MB e SV Rodando em Paralelo.md.tmp.44124.6fd226728cca",
     "02_Sistema_Interno/Multi_Empresa/Duvidas/Suporte a Multiplas Empresas MB e SV Rodando em Paralelo.md.tmp.44124.fc15299d7bed",
     "02_Sistema_Interno/00_Indice.md.tmp.16368.d5b91f6d2522",
-    "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-    "02_Sistema_Interno/Tutoriais/Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario.md",
-    "02_Sistema_Interno/Tutoriais/Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario.md.tmp.35560.0a4c6dacf93e",
-    "02_Sistema_Interno/00_Indice.md.tmp.11220.599bf3f58aba",
-    "02_Sistema_Interno/00_Indice.md.tmp.11220.f879c56a2be0",
-    "02_Sistema_Interno/Importacao_de_Dados/Descobertas/Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica.md",
-    "02_Sistema_Interno/Importacao_de_Dados/Descobertas/Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica.md.tmp.11220.539039d79dc7",
-    "02_Sistema_Interno/00_Indice.md.tmp.11332.828135f79071",
     "02_Sistema_Interno/Importacao_de_Dados/Bugs_Conhecidos/Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Tutoriais/Ordem de Comandos Para Reconstruir o Banco do Zero (Precificacao e Impostos de Entrada).md",
     "01_Notas_Gerais/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
@@ -222,10 +226,6 @@
     "03_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos/Por Que o Filtro de CFOP Usa Cadastro e Nao XML.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Lista de CFOP Relevantes para Precificacao.md",
     "03_Integracao_Sysemp/Impostos_Entrada/Decisoes/Bonificacao Removida do Filtro de CFOP de Impostos de Entrada.md",
-    "02_Sistema_Interno/Importacao_de_Dados/Decisoes/Produto Nasce Exclusivamente do ERP.md",
-    "01_Notas_Gerais/Estrutura e Convenções do Vault.md",
-    "02_Sistema_Interno/Importacao_de_Dados/Descobertas/Recriar Migration com Mesmo Nome Nao Reseta o Historico do Django.md",
-    "02_Sistema_Interno/Importacao_de_Dados/Decisoes/Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo.md",
     "Sem título.canvas"
   ]
 }

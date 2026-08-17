@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 16/08/2026 04:50
+atualizado_em: 17/08/2026 10:48
 relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 ---
 
@@ -71,7 +71,7 @@ SUBSTITUA
 
 Cada mudança (mesmo 1 linha) é 1 par LOCALIZE/SUBSTITUA — nunca um "LOCALIZE" sem "SUBSTITUA" correspondente (trecho que não muda simplesmente não aparece em nenhum bloco), e nunca os dois lados dentro do mesmo bloco de código com comentário.
 
-**Incidente real (16/08/2026, 04:50) — faltava o cabeçalho "Arquivo:" e os dois-pontos:** Claude entregou o par LOCALIZE/SUBSTITUA sem identificar o arquivo de destino e sem dois-pontos depois das palavras-chave. Usuário corrigiu: "voce esta mandando os localize COMPLETAMENTE INCORRETOS". **Formato definitivo, daqui pra frente:**
+**Incidente real (16/08/2026, 04:50) — faltava o cabeçalho "Arquivo:" e os dois-pontos:** Claude entregou o par LOCALIZE/SUBSTITUA sem identificar o arquivo de destino e sem dois-pontos depois das palavras-chave. Usuário corrigiu: "voce esta mandando os localize COMPLETAMENTE INCORRETOS". **Formato proposto então — RETRATADO em 17/08/2026, ver correção abaixo:**
 
 ```
 Arquivo: <caminho completo do arquivo>
@@ -85,7 +85,21 @@ Substitua:
 <bloco de código, texto novo>
 ```
 
-Sempre com "Arquivo:" antes (caminho completo, não só o nome), "LOCALIZE:" com dois-pontos, e "Substitua:" (maiúscula só na 1ª letra) com dois-pontos — nunca "SUBSTITUA" em caixa alta como no formato anterior.
+**Retratação (17/08/2026, 10:48) — o registro de 16/08 estava errado; o formato de 14/08 é o único vigente:** em outra sessão/conversa, o usuário confirmou que o formato com "Arquivo:"/dois-pontos acima NUNCA foi o que ele queria — o correto sempre foi o formato de 14/08 (bloco abaixo), que é exatamente o que Claude vinha entregando antes da "correção" de 16/08. Não ficou claro por que o registro de 16/08 foi feito assim (possível interpretação equivocada de outro feedback numa sessão anterior, generalizada pra esta regra sem confirmar contra o usuário antes de escrever). O trecho de 16/08 acima fica mantido só como registro histórico do que foi (indevidamente) registrado — **não é mais válido a partir de agora.**
+
+**Formato definitivo (o mesmo de 14/08, reconfirmado em 17/08/2026):**
+
+```
+LOCALIZE
+<bloco de código, texto exato do arquivo real>
+
+SUBSTITUA
+<bloco de código, texto novo>
+```
+
+Identificação do arquivo de destino continua acontecendo — só que em texto normal antes do par (ex: "Arquivo `caminho/do/arquivo.py`:"), nunca como linha fixa dentro do próprio bloco, e sem dois-pontos depois de "LOCALIZE"/"SUBSTITUA".
+
+**Lição pra evitar repetir isso:** qualquer "correção de regra" registrada no vault a partir de uma citação do usuário precisa ser conferida com cuidado antes de virar regra permanente — se a mesma regra for corrigida de novo pouco tempo depois (como aconteceu aqui, 16/08 → 17/08), é sinal de que a 1ª leitura não bateu com o que o usuário realmente queria.
 
 ## Relacionado
 
