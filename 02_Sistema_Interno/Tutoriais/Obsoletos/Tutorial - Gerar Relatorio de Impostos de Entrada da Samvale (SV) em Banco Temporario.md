@@ -1,15 +1,28 @@
 ---
 tipo: tutorial
 dominio: 
-status: ativa
+status: obsoleta
 criado: 17/08/2026
-atualizado_em: 17/08/2026 16:45
-relacionado: [Guia de Setup - Do Zero ao Primeiro Preco Calculado, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Redesenho do Popular Banco - Fontes de Dados e Escopo, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Tela e Planilha de Resumo de Impostos de Entrada, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]
+atualizado_em: 17/08/2026 23:20
+relacionado: [Guia de Setup - Do Zero ao Primeiro Preco Calculado, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Redesenho do Popular Banco - Fontes de Dados e Escopo, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Tela e Planilha de Resumo de Impostos de Entrada, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado, Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]
 ---
 
 # Tutorial — Gerar o Relatório de Impostos de Entrada da Samvale (SV) em Banco Temporário
 
-## Contexto — pra que serve e quando usar
+> [!danger] OBSOLETO desde 17/08/2026, 23h20 — não use mais este processo
+> **O quê**: este tutorial descreve um jeito manual e descartável de gerar o relatório da Samvale, usando um banco temporário (`sistema_interno_sv_temp`) e um arquivo (`importar_produtos_erp.py`) que precisava ser editado à mão a cada uso.
+>
+> **Por quê ficou obsoleto**: na noite de 17/08/2026, o sistema ganhou uma arquitetura permanente de 2 empresas — 2 bancos de dados fixos e completamente separados (`sistema_interno_magazine` e `sistema_interno_samvale`), escolhidos por um parâmetro `--empresa` nos comandos de terminal, ou por uma tela de "escolher empresa" no navegador. Não existe mais necessidade de banco temporário, nem de editar nenhum arquivo à mão pra trocar de empresa. Detalhe completo da decisão, dos bugs corrigidos no caminho, e da validação com dado real: [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]].
+>
+> **Pra quê / Como fazer agora, no lugar deste tutorial**: siga o [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] normalmente, usando `--empresa=SAMVALE` (ou `--database=samvale`, dependendo do comando) em vez do que este tutorial descrevia. Por exemplo, onde este tutorial mandava rodar `DB_NAME=sistema_interno_sv_temp poetry run python manage.py sincronizar_impostos_entrada` com token sobrescrito na mão, agora é só:
+>
+> ```bash
+> poetry run python manage.py sincronizar_impostos_entrada --empresa=SAMVALE
+> ```
+>
+> Esta nota fica guardada só como **registro histórico** de como o problema era resolvido antes de existir a arquitetura permanente — não é mais um guia a seguir. O conteúdo original, abaixo desta linha, não foi apagado nem alterado, exceto por este aviso no topo e pela pasta onde o arquivo vive agora (`Tutoriais/Obsoletos/`, em vez de `Tutoriais/`, pra não aparecer misturado com os tutoriais ativos).
+
+## Contexto — pra que serve e quando usar (histórico, não usar mais — ver aviso acima)
 
 Este tutorial gera o `.xlsx` de impostos de entrada pra **Samvale (SV)**, sem tocar no banco real da MB e sem precisar resolver a arquitetura permanente de múltiplas empresas (essa decisão maior continua adiada de propósito — ver [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]]).
 

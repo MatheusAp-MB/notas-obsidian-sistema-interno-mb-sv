@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 17/08/2026 17:10
+atualizado_em: 17/08/2026 23:43
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -39,8 +39,8 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] | tutorial | ativa | 16/08/2026 | Passo a passo completo do zero absoluto (clone, `.env`, MySQL, migrate, seed) até preço real calculado: os 6 arquivos externos exigidos por `popular_banco`, `popular_banco` (1ª tentativa das grades, saem "sem cálculo"), `sincronizar_impostos_entrada` (4-8min validado), e o passo final que faltava antes — recalcular as 6 grades depois do imposto sincronizado. Fusão de 2 notas antigas que se sobrepunham (16/08). |
-| [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | ativa | 17/08/2026 | Passo a passo completo, Passo 0 a Passo 9, reescrito 2x no mesmo dia (16:15 e 16:45) após reanálise completa do repositório real: banco temporário → **Passo 0 confirma que o código está na versão estável (sem toggle manual MAGAZINE/SAMVALE)** → corrigir cabeçalho só do arquivo de Ativos (Inativos desativado por decisão do usuário, 17/08) → comentar/descomentar bloco MB/SV no importador → `popular_banco` → sincronizar (token + URL da Sysemp da SV num único comando) → exportar pela tela via `runserver` → reverter só 1 arquivo. Reescrita das 16:45 eliminou o passo manual de trocar a URL (dobrado num comando só) e removeu de vez qualquer ponto "gambiarra" restante; seção de Resolução de Problemas cobre os 3 sintomas reais já vistos. |
+| [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] | tutorial | ativa | 17/08/2026 | Reescrito (17/08, 23h20) pra arquitetura permanente de 2 empresas: 2 bancos fixos (`sistema_interno_magazine`/`sistema_interno_samvale`), `migrate`/`createsuperuser` com `--database=`, e `iniciar_banco`/`popular_banco`/`sincronizar_impostos_entrada`/os 6 `calcular_grade_precificacao_*` com `--empresa=` obrigatório. **Atualizado 23h43:** Passo 11 ganhou o atalho `calcular_todas_as_grades_precificacao --empresa=X` (roda os 6 comandos de grade em sequência, validado nas 2 empresas), comandos individuais preservados. |
+| [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | obsoleta | 17/08/2026 | **Aposentada em 17/08, 23h20**, movida pra `Tutoriais/Obsoletos/` (fora da pasta de tutoriais ativos) — substituída pela arquitetura permanente de 2 empresas (ver [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]]). O processo manual descrito aqui (banco temporário, comentar/descomentar arquivo, token sobrescrito na mão) não deve mais ser seguido — usar `--empresa=SAMVALE` no [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] no lugar. Conteúdo mantido só como registro histórico. |
 
 ## Agenda_Videos
 
@@ -82,9 +82,10 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | ativa | 12/08/2026 | Sistema vai precisar suportar 2 empresas (MB/SV) em paralelo — usuários distintos cada um numa, ou o mesmo usuário com os 2 abertos. Gatilho concreto: `ApiSysemp` quebrado (token único do .env virou 2), resolvido só com hardcode temporário pra MB. Mesmo padrão reapareceu no ML (parâmetro `conta` explícito, resolvido de verdade), no cadastro de produtos do ERP (4 arquivos MB/SV, SV ignorado por decisão pontual), e pela 5ª vez na própria URL da API Sysemp (17/08 — correção já aplicada e confirmada, ver bug abaixo). Decisão maior de arquitetura ainda adiada de propósito. |
+| [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] | duvida | resolvida | 17/08/2026 | **Resolvida em 17/08, 23h20** — depois de 5 ocorrências do mesmo padrão (token do Sysemp, contas do ML, arquivo do ERP, URL do Sysemp), a decisão maior de arquitetura foi tomada e implementada na mesma noite: 2 bancos completamente separados, escolhidos por sessão web ou `--empresa` no terminal. Ver [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]] pro detalhe completo. Nota mantida como histórico do padrão que motivou a decisão. |
 | [[Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]] | bug_conhecido | corrigido | 17/08/2026 | A sincronização de impostos da SV falhava sempre com "Metodo não Localizado" — não era permissão de conta nem intermitência (2 teorias erradas testadas antes), era a URL da API Sysemp fixa na instância da MB (`/61`) em vez da SV (`/84`). Correção definitiva (URL configurável por `MB_SYSEMP_API_URL_BASE`, mesmo padrão do token) aplicada e CONFIRMADA no código real (commit `e092804`, 17/08 17:10). |
 | [[Contexto Geral - Retomada em Outro Computador (Sysemp Multi-Empresa e Relatorio Fiscal Samvale)]] | checkpoint | ativo | 17/08/2026 | Nota auto-contida com todo o contexto do dia (17/08) nesta frente — bug da URL Sysemp resolvido e confirmado, tutorial da Samvale estabilizado (Passo 0 a 9), outras correções do dia, e o que segue em aberto — pra retomar em outro computador sem a conversa original. |
+| [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]] | checkpoint | concluido | 17/08/2026 | 2 bancos completamente isolados (`sistema_interno_magazine`/`sistema_interno_samvale`), banco escolhido por sessão (Database Router + middleware), tela de troca, badge fixo, comandos com `--empresa` obrigatório. Fases A-F concluídas e validadas com dado real (Magazine e Samvale populados e com impostos de entrada sincronizados de verdade). 5 bugs reais encontrados e corrigidos no caminho (sessão roteada por engano, login não compartilhado, migração antiga sem `.using()`, arquivo/token do ERP e Sysemp sem resolução por empresa, jsons de retorno da API sem isolamento). Só falta a Fase G (fechar dúvida antiga + aposentar tutorial temporário). |
 
 ## Precificacao
 

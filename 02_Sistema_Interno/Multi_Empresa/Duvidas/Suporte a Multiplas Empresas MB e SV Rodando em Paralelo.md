@@ -1,11 +1,20 @@
 ---
 tipo: duvida
 dominio: 
-status: ativa
+status: resolvida
 criado: 12/08/2026
-atualizado_em: 17/08/2026 17:10
-relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Redesenho do Popular Banco - Fontes de Dados e Escopo, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado]
+atualizado_em: 17/08/2026 23:20
+relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Redesenho do Popular Banco - Fontes de Dados e Escopo, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Primeira Importacao Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudanca de Logica, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado, Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]
 ---
+
+> [!success] RESOLVIDA em 17/08/2026, 23h20 — arquitetura permanente implementada e validada
+> **O quê**: depois de 5 ocorrências do mesmo padrão (ver histórico completo abaixo), a decisão maior de arquitetura que esta nota registrava como "adiada de propósito" foi finalmente tomada e implementada, na mesma noite em que surgiu uma urgência real (superior pedindo relatório das 2 empresas no mesmo dia).
+>
+> **O que foi decidido**: 1 processo Django só, com 2 bancos de dados completamente separados (`sistema_interno_magazine`/`sistema_interno_samvale`), escolhidos por sessão de navegador (tela de "escolher empresa" + selo fixo) ou por parâmetro `--empresa` em comando de terminal — nunca mais token sobrescrito na mão, arquivo comentado/descomentado, ou banco temporário.
+>
+> **Onde está o detalhe completo**: [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]] — cobre a comparação das alternativas consideradas, os 5 bugs reais encontrados durante a implementação, e a validação final com dado real das 2 empresas (banco criado do zero, populado, e com impostos de entrada sincronizados de verdade).
+>
+> Esta nota continua existindo como **registro histórico** do problema e de como ele se manifestou repetidamente antes de ser resolvido de vez — útil pra entender o "por quê" da decisão, não como algo ainda em aberto.
 
 # Suporte a Múltiplas Empresas (MB e SV) Rodando em Paralelo
 
