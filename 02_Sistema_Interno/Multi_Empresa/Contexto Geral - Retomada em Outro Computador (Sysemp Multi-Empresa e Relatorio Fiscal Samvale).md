@@ -1,13 +1,22 @@
 ---
 tipo: checkpoint
 dominio: 
-status: ativo
+status: resolvido
 criado: 17/08/2026
-atualizado_em: 17/08/2026 17:10
-relacionado: [Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntar Data e Hora Antes de Escrever no Vault]
+atualizado_em: 17/08/2026 23:58
+relacionado: [Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Sysemp Usa Instancia Numerada Diferente por Empresa (MB e SV) — Causa Raiz do Metodo Nao Localizado, Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntar Data e Hora Antes de Escrever no Vault, Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao), Guia de Setup - Do Zero ao Primeiro Preco Calculado]
 ---
 
-# Contexto Geral — Retomada em Outro Computador (Sysemp Multi-Empresa e Relatório Fiscal da Samvale)
+> [!success] RESOLVIDA em 17/08/2026, 23h58 — leia isto primeiro se está retomando em outro PC
+> Tudo que esta nota descreve como "em aberto" ou "workaround manual" abaixo **não é mais o estado atual do sistema**. Na mesma noite (17/08/2026), depois desta nota ter sido escrita (17h10), a decisão maior de arquitetura foi tomada e implementada de ponta a ponta: 2 bancos permanentes, escolha por sessão web ou `--empresa` no terminal, sem mais banco temporário, sem mais variável de ambiente sobrescrita na hora, sem mais comentar/descomentar arquivo.
+>
+> **Se você está retomando em outro computador, comece por estas 2 notas, nesta ordem, não por esta aqui:**
+> 1. [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]] — o que foi decidido, os 5 bugs reais corrigidos no caminho, e a validação final com dado real.
+> 2. [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] — passo a passo atualizado, já usando `--empresa=`/`--database=` em vez do workaround antigo.
+>
+> **Item real ainda não confirmado, verificar amanhã**: os impostos de entrada da Samvale já estão sincronizados de verdade no banco permanente (`--empresa=SAMVALE`, 592 produtos, 0 erro) — mas não há confirmação registrada nesta conversa de que o relatório `.xlsx` final chegou a ser exportado e entregue ao superior (era o pedido original que motivou todo este trabalho). Conferir isso antes de considerar a tarefa do superior 100% encerrada.
+>
+> Esta nota continua existindo abaixo como **registro histórico** de como o problema apareceu e foi contornado manualmente antes da solução permanente — útil pra entender o "por quê", não como estado atual.
 
 ## Por que esta nota existe
 

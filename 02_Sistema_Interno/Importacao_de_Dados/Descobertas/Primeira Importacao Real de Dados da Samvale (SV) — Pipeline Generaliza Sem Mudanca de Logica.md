@@ -3,8 +3,8 @@ tipo: descoberta
 dominio: python
 status: confirmada
 criado: 17/08/2026
-atualizado_em: 17/08/2026 00:55
-relacionado: [Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Redesenho do Popular Banco - Fontes de Dados e Escopo, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido, Guia de Setup - Do Zero ao Primeiro Preco Calculado]
+atualizado_em: 17/08/2026 23:58
+relacionado: [Suporte a Multiplas Empresas MB e SV Rodando em Paralelo, Redesenho do Popular Banco - Fontes de Dados e Escopo, Frete Ficou 2 Dias Desatualizado Sem Nenhum Erro Visivel — Caminho Antigo Nunca Corrigido, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]
 ---
 
 # Primeira Importação Real de Dados da Samvale (SV) — Pipeline Generaliza Sem Mudança de Lógica
@@ -35,11 +35,16 @@ Rodar o mesmo código repetidamente contra o dado da MB não testa isso — dado
 
 O pipeline (`ImportadorProdutos`, os 4 importadores de frete, as 6 classes de cálculo de grade) passou nesse teste informal sem nenhum ajuste de lógica — só de nome de coluna, que é exatamente o tipo de variação que já era esperado precisar de tratamento (dado de fonte externa, não código).
 
-## O que isso NÃO prova — ainda em aberto
+## Atualização (17/08/2026, 23:58) — a metade "fiscal" também já rodou de verdade
 
-- A sincronização de imposto de entrada (`sincronizar_impostos_entrada`) contra a API real da Sysemp da SV **ainda não rodou** — travada esperando o token (`SV_SYSEMP_API_TOKEN`), que o usuário não tinha em mãos no momento desta nota. É a parte do pipeline que ainda não tem prova real com dado da SV.
-- A geração do `.xlsx` final também ainda não aconteceu, pelo mesmo motivo.
-- Esta nota cobre só a metade "de produto" do pipeline — a metade "fiscal" continua pendente, com plano já definido pra quando o token estiver disponível (ver [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] pro fluxo completo).
+> [!success] Resolvido — sincronização fiscal da SV rodou com sucesso, dado real
+> No mesmo dia, mais tarde, a arquitetura permanente de 2 empresas foi implementada ([[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]]) e o token da SV foi obtido — `sincronizar_impostos_entrada --empresa=SAMVALE` rodou contra a API real: 3586 selecionados, 518 sincronizados, 3068 sem produto correspondente (esperado, só Produtos Ativos são importados hoje), 0 erro. A limitação abaixo ("ainda não rodou, travada no token") **não é mais verdade** — mantida só como registro de como as coisas estavam neste momento da investigação.
+
+## O que isso NÃO provava neste momento (17/08, 00:55) — histórico
+
+- A sincronização de imposto de entrada (`sincronizar_impostos_entrada`) contra a API real da Sysemp da SV **ainda não tinha rodado** — travada esperando o token (`SV_SYSEMP_API_TOKEN`), que o usuário não tinha em mãos no momento desta nota. Resolvido depois, ver atualização acima.
+- A geração do `.xlsx` final também ainda não tinha acontecido, pelo mesmo motivo. **Não confirmado nesta nota se já aconteceu depois** — conferir em [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] ou direto com o usuário.
+- Esta nota cobria só a metade "de produto" do pipeline no momento em que foi escrita.
 
 ## Relacionado
 
