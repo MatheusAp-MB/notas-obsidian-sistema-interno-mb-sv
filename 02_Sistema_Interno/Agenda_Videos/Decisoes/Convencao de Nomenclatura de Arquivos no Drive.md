@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 05/08/2026
-atualizado_em: 05/08/2026 23:20
-relacionado: [Checkpoint Testes Automatizados Agenda Videos, Modelo Novo de Fases Substitui Ciclo Antigo, Disciplina de Testes Automatizados]
+atualizado_em: 18/08/2026 11:00
+relacionado: [Checkpoint Testes Automatizados Agenda Videos, Modelo Novo de Fases Substitui Ciclo Antigo, Disciplina de Testes Automatizados, Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural]
 ---
 
 # Convenção de Nomenclatura de Arquivos no Drive
@@ -39,7 +39,14 @@ Bug confirmado e corrigido durante a escrita do Nível 5 (`test_nivel_5__verific
 
 **Fix:** `escaneador.py`, comparação de `pasta_videos` e `pasta_usados` trocada de `f['name'] == NOME_PASTA_VIDEOS` para `f['name'].lower() == NOME_PASTA_VIDEOS.lower()` (mesmo padrão pra `NOME_PASTA_USADOS`). Confirmado: `test_nivel_5__verificador_drive.py` — 2 passed contra o Drive real.
 
+## Atualização (18/08/2026, 11h00) — "Roteiro sempre singular" (regra acima) deixou de valer sozinha
+
+A regra original, na seção "Regra" acima, dizia que a variação pro plural era erro de digitação, corrigida na pasta de referência. Na prática, validando o produto de referência da Samvale (Ortho Pauher, EAN `7899947306688`), ficou claro que **a equipe salva o arquivo de Roteiro no plural por hábito real** (`Simples_Roteiros.txt`), não por engano isolado — não é mais seguro tratar isso como excepção pontual.
+
+Decisão: em vez de pedir pra equipe renomear todo arquivo existente (trabalho manual, sem garantia de não voltar a acontecer), o `parser.py` foi corrigido pra aceitar as 2 formas — singular (`Simples_Roteiro.txt`) e plural (`Simples_Roteiros.txt`) — como equivalentes. Isso não abre uma exceção geral no formato: continua rígido em tudo o resto (prefixo, número de 2 dígitos, extensão certa por tipo); só o "s" final do Roteiro passou a ser opcional, porque Roteiro é só existência, nunca conteúdo (ver seção acima) — a variação de nome não muda nada sobre o que o arquivo representa. Detalhe completo, incluindo o teste de regressão, em [[Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural]].
+
 ## Relacionado
 
 - [[Checkpoint Testes Automatizados Agenda Videos]]
 - [[Modelo Novo de Fases Substitui Ciclo Antigo]]
+- [[Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural]]

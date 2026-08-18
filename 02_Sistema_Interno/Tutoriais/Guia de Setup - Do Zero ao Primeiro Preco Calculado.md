@@ -114,7 +114,7 @@ Permite logar em `/admin/` e inspecionar/editar dado direto pela interface do Dj
 ## Passo 7 — Seed inicial (dado fixo do sistema)
 
 ```bash
-poetry run python manage.py iniciar_banco --empresa=MAGAZINE
+	poetry run python manage.py iniciar_banco --empresa=MAGAZINE
 ```
 
 (Troque `MAGAZINE` por `SAMVALE` se estiver configurando a Samvale.)

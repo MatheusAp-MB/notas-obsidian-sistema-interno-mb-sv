@@ -3,11 +3,14 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 13/08/2026
-atualizado_em: 13/08/2026 12:00
-relacionado: [Flag Temporaria de Confirmacao em Replicar Video no ML, Fluxo Manual Antes do Automatizado, Percentual de Replicacao por Produto e Geral, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Checkpoint Testes Automatizados Agenda Videos, Agente Local Tinha 3 Bugs Reais no Empacotamento e Uma Limitacao no Pausar-Cancelar, MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma, Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre]
+atualizado_em: 18/08/2026 10:11
+relacionado: [Flag Temporaria de Confirmacao em Replicar Video no ML, Fluxo Manual Antes do Automatizado, Percentual de Replicacao por Produto e Geral, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Checkpoint Testes Automatizados Agenda Videos, Agente Local Tinha 3 Bugs Reais no Empacotamento e Uma Limitacao no Pausar-Cancelar, MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma, Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre, Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]
 ---
 
 # Checklist Postagem e Replicação Automática — Fluxo Real Sem Gambiarra
+
+> [!info] Englobada pelo plano mais amplo de 18/08/2026, 10h11
+> Esta nota continua válida como registro do que já foi validado até 13/08/2026 (Postagem ponta a ponta, bugs reais corrigidos, empacotamento `.exe`) e do que ficou pendente (Replicação sem validação ponta a ponta, possível execução travada). A partir de 18/08/2026, o plano ATIVO — que inclui esta pendência + a exigência de "tudo que a Magazine faz, a Samvale também faz" + a integração com o Drive + a análise de aprovação no ML — vive em [[Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]]. Leia aquela nota primeiro; volte aqui só pelo histórico detalhado abaixo.
 
 > Pedido do usuário (12-13/08/2026): "gerar um checklist completo e coeso de tudo que falta para terminar a postagem automática e replicar automaticamente, sem 'gambiarras', usando o botão direto do HTML, a integração com o Drive, e todo o sistema corretamente" — com intenção de terminar isso em 13/08/2026.
 >
