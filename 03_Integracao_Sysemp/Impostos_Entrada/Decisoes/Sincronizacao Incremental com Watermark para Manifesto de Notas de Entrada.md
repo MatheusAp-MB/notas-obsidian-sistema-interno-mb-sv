@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 09/08/2026
-atualizado_em: 10/08/2026 00:55
-relacionado: [Plano em Etapas do Duble de Precificacao ML, Paginacao do Endpoint Manifesto Nota Entrada, Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker), Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, Estrutura de Arquivo e Classe Python, Modelagem de Objeto e Encapsulamento, Integridade e Fonte Unica de Dado, Orquestracao da Sincronizacao de Impostos de Entrada via XML]
+atualizado_em: 19/08/2026 18:27
+relacionado: [Plano em Etapas do Duble de Precificacao ML, Paginacao do Endpoint Manifesto Nota Entrada, Padrao de Protecao do Cliente Sysemp (Throttle Backoff Sem Circuit Breaker), Sysemp So Permite Acesso de Leitura e Cada API Nova Tem Custo e Prazo, Estrutura de Arquivo e Classe Python, Modelagem de Objeto e Encapsulamento, Integridade e Fonte Unica de Dado, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]
 ---
 
 # Sincronização Incremental com Watermark para Manifesto de Notas de Entrada
@@ -60,6 +60,25 @@ Nomes finais, diferentes dos provisórios usados no desenho acima — registrado
 Método novo `calcular_janela_da_proxima_busca(data_referencia=None) -> tuple[date, date]` — decide `data_inicial`/`data_final` da próxima chamada à API. Adicionado aqui (não no orquestrador) porque depende só de campos e constante que já moram neste model (`data_final_cobertura`, `MARGEM_DE_SEGURANCA_DIAS`) — mesmo raciocínio de `esta_desatualizada()`. Nova constante `DATA_INICIAL_PRIMEIRA_CARGA = date(2020, 5, 1)` (mesma data já validada manualmente, usada só na 1ª sincronização, quando `data_final_cobertura` ainda é `None`). 3 cenários novos testados (primeira vez, com cobertura aplicando a margem, sem `data_referencia`), mantendo os 100% de cobertura do model.
 
 O serviço que de fato chama a API e aciona `registrar_sincronizacao_bem_sucedida()`/`registrar_falha()` foi escrito — ver [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]] pro desenho e implementação completos.
+
+## Implementado e validado (19/08/2026 18:27) — flag `--forcar`
+
+**Contexto do achado**: durante uma investigação urgente de inconsistência fiscal na marca HIDROLIGHT (relatório já enviado ao superior e à contabilidade — detalhe completo em [[Contexto Geral - Retomada em Outro Computador (Integracao Sysemp)]], seção "Status real agora (19/08/2026)"), ficou claro que **não existia nenhum jeito manual de ignorar a guarda de `esta_desatualizada()`** — o comando `manage.py sincronizar_impostos_entrada` só reconsultava a API depois que a margem de 7 dias expirasse de verdade, mesmo quando o usuário sabia, na hora, que um dado novo podia ter entrado no Sysemp fora do ritmo normal.
+
+**O que existia e continua existindo, sem mudança**: os 2 cálculos deste model continuam INDEPENDENTES um do outro, e essa independência é o que possibilitou a correção — `esta_desatualizada()` é só o "vale a pena tentar?" (a guarda), `calcular_janela_da_proxima_busca()` é só o "qual período pedir, se eu for tentar?" (a janela, que sempre já reconsulta os últimos `MARGEM_DE_SEGURANCA_DIAS` antes da cobertura anterior, nunca só "a partir de agora"). O bug de percepção do usuário não estava na janela (ela já fazia a coisa certa) — estava na guarda impedir a janela de rodar quando alguém pedia manualmente.
+
+**Mudança real**: `sincronizar_impostos_entrada_xml()` (`integracao_sysemp/servicos/orquestrador.py`) ganhou o parâmetro `forcar=False` — quando `True`, pula o `if not registro_watermark.esta_desatualizada(): ...` e vai direto pra `calcular_janela_da_proxima_busca()` + busca na API, mesmo com a cobertura fresca. `manage.py sincronizar_impostos_entrada` ganhou a flag correspondente `--forcar` (`action='store_true'`), repassada pro orquestrador.
+
+**Validado com dado real**: cobertura em `18/08/2026`, rodando `--forcar` no dia seguinte (`19/08/2026`, ainda dentro da margem de 7 dias) — a janela calculada e efetivamente buscada na API foi `11/08/2026 → 19/08/2026` (cobertura − 7 dias até hoje), exatamente a fórmula de `calcular_janela_da_proxima_busca()`. Confirma que a guarda estava mesmo impedindo a busca, e que ignorá-la não muda o cálculo da janela em si.
+
+**Decisão consciente, ainda em dias corridos**: o usuário considerou, na hora de decidir esta correção, se a margem/janela deveria contar em dias ÚTEIS em vez de corridos — decidiu explicitamente manter dias corridos por enquanto ("pode ser em dias corridos, tá bom o suficiente no momento"), decisão revisitável se aparecer um caso real onde isso importe.
+
+**Teste novo**: `test_forcar_ignora_guarda_e_busca_mesmo_com_watermark_fresco`, em `integracao_sysemp/servicos/tests/test_nivel_3__orquestrador.py` — watermark sincronizado dentro da margem, API mockada (ao contrário do teste irmão `test_nao_desatualizado_nao_chama_api_nem_grava_nada`, que proíbe a API), chama com `forcar=True`, confirma que o bruto foi gravado (prova que a API foi chamada de verdade).
+
+> [!warning] Pendente — confirmar se este código já foi commitado/enviado
+> O diff foi entregue como texto (Localize/Substitua) nesta sessão, e o usuário confirmou que já está aplicado e funcionando localmente (rodou `--forcar` e o resultado bateu com o esperado). **Não há confirmação, até agora, de que isso foi commitado e enviado pro GitHub** — antes de continuar em outro computador, confirmar `git status`/`git log` no `integracao_sysemp/`, porque sem o push o outro computador não vai ter essa flag disponível.
+
+Isso resolve só o "o comando não busca de novo tão cedo" — não resolve, sozinho, o problema real da HIDROLIGHT (que parece estar em outro lugar: filtro de CFOP e/ou seleção de nota mais recente por produto — ver a nota principal linkada acima pro estado completo dessa investigação, ainda em aberto).
 
 ## Em aberto
 
