@@ -3,9 +3,12 @@ tipo: decisao
 dominio: 
 status: resolvida
 criado: 20/08/2026
-atualizado_em: 20/08/2026 03:00
-relacionado: [Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos), Implementacao Real do Portal do Drive - Layout Lateral, Envio em Lote, Player Proprio e Exclusao Segura, Layout Final do Portal do Drive - Card do Produto com Lista de Fases e Cartoes de Arquivo]
+atualizado_em: 20/08/2026 16:31
+relacionado: [Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos), Implementacao Real do Portal do Drive - Layout Lateral, Envio em Lote, Player Proprio e Exclusao Segura, Layout Final do Portal do Drive - Card do Produto com Lista de Fases e Cartoes de Arquivo, Snapshot de Drive Substitui Leitura ao Vivo e Pasta de Teste Dedicada Substitui Identidade Falsa no Portal do Drive]
 ---
+
+> [!warning] Superada em 20/08/2026, 16h31 — leitura ao vivo e pasta-sandbox falsa substituídas
+> As seções abaixo sobre "leitura/escrita do Drive continua pinada na pasta de teste" e a leitura ao vivo por slot descrita em "Lazy-load por produto" **não valem mais**: a identidade falsa fixa (`MARCA_SANDBOX_TESTES`/`EAN_SANDBOX_TESTES`) foi substituída por uma raiz de teste dedicada por empresa com marca/EAN real de cada produto, e a leitura ao vivo foi substituída por cache de snapshot persistido. Nota mantida como histórico do raciocínio que levou até aqui — ver [[Snapshot de Drive Substitui Leitura ao Vivo e Pasta de Teste Dedicada Substitui Identidade Falsa no Portal do Drive]] pro estado atual.
 
 # Portal do Drive Vira Lista de Todos os Produtos — Lazy-Load por Produto e Leitura Pinada na Pasta de Teste
 
