@@ -3,9 +3,12 @@ tipo: decisao
 dominio: 
 status: resolvida
 criado: 20/08/2026
-atualizado_em: 20/08/2026 16:31
-relacionado: [Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos), Snapshot de Drive Substitui Leitura ao Vivo e Pasta de Teste Dedicada Substitui Identidade Falsa no Portal do Drive]
+atualizado_em: 20/08/2026 22:30
+relacionado: [Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos), Snapshot de Drive Substitui Leitura ao Vivo e Pasta de Teste Dedicada Substitui Identidade Falsa no Portal do Drive, Filtros de 5 Dimensoes no Portal do Drive - Marca, Progresso, Fase, Urgente e Sincronizacao]
 ---
+
+> [!success] Atualização 20/08/2026, 22h30 — pendência de filtros resolvida
+> O único item de navegação/funcionalidade que esta nota deixava pendente ("filtros estilo Hub de Anúncios") foi resolvido na mesma data, à noite — com um escopo bem mais completo do que um filtro só de marca (5 dimensões: Marca, Progresso de envio, Fase atual, Urgente, Sincronização com o Drive). Detalhe completo em [[Filtros de 5 Dimensoes no Portal do Drive - Marca, Progresso, Fase, Urgente e Sincronizacao]]. Nesta mesma sessão, também foram corrigidos 2 problemas reais achados usando a tela de verdade (não é mais "melhoria estética" — se enquadra na exceção de bug real que esta nota já previa): a confusão entre "nunca sincronizado" e "não encontrado no Drive" ([[Bug Real - Sincronizacao em Massa Confundia Nunca Sincronizado com Nao Encontrado no Drive]]) e o "piscar" do placeholder de carregamento ao reabrir um produto já visto ([[Cache de Detalhes de Arquivo no Snapshot e Cache de Sessao no Front-End Encerram o Piscar ao Reabrir Produto]]). Usuário decidiu pausar a frente visual do Portal do Drive por ora: "agora neste momento de parte visual não consigo pensar em mais nada.. agr é esperar o uso e o feedback."
 
 # Passada Final de Acabamento Visual do Portal do Drive e Fim de Melhorias Esteticas Sem Bug
 
