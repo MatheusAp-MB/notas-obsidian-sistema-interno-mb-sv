@@ -11,14 +11,10 @@
             "id": "9d2640226efc4114",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
             }
           }
         ]
@@ -190,6 +186,8 @@
   },
   "active": "9d2640226efc4114",
   "lastOpenFiles": [
+    "02_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
+    "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Passada Final de Acabamento Visual do Portal do Drive e Fim de Melhorias Esteticas Sem Bug.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Snapshot de Drive Substitui Leitura ao Vivo e Pasta de Teste Dedicada Substitui Identidade Falsa no Portal do Drive.md",
     "02_Sistema_Interno/Agenda_Videos/Decisoes/Portal do Drive Vira Lista de Todos os Produtos - Lazy-Load por Produto e Leitura Pinada na Pasta de Teste.md",
@@ -201,7 +199,6 @@
     "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos).md",
     "02_Sistema_Interno/Agenda_Videos/Descobertas/Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural.md",
     "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao).md",
-    "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "02_Sistema_Interno/Multi_Empresa/Decisoes/Pausa do Trabalho de Impostos de Entrada e Multi-Empresa - Foco Exclusivo em Agenda de Videos.md",
     "02_Sistema_Interno/Multi_Empresa/Decisoes",
     "02_Sistema_Interno/00_Indice.md.tmp.13132.ae7dfba864e3",
@@ -225,7 +222,6 @@
     "03_Integracao_Sysemp/Impostos_Entrada/Tutoriais/Ordem de Comandos Para Reconstruir o Banco do Zero (Precificacao e Impostos de Entrada).md",
     "01_Notas_Gerais/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
     "01_Notas_Gerais/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md",
-    "03_Integracao_Sysemp/Impostos_Entrada/Regras/Ordem de Comandos Para Reconstruir o Banco do Zero (Precificacao e Impostos de Entrada).md",
     "Sem título.canvas"
   ]
 }

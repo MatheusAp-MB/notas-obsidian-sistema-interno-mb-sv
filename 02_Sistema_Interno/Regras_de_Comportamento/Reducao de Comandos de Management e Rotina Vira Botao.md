@@ -3,8 +3,8 @@ tipo: decisao
 dominio:
 status: em_andamento
 criado: 15/08/2026
-atualizado_em: 16/08/2026 23:58
-relacionado: [Padrao de Qualidade e Clareza Estrutural do Repositorio, Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Redesenho do Popular Banco - Fontes de Dados e Escopo, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Guia de Setup - Do Zero ao Primeiro Preco Calculado]
+atualizado_em: 21/08/2026 16:55
+relacionado: [Padrao de Qualidade e Clareza Estrutural do Repositorio, Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Redesenho do Popular Banco - Fontes de Dados e Escopo, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Barra de Progresso Real no Sincronizar com o Drive do Portal via Thread e Polling, Thread em Background Nao Herda a Empresa Ativa do EmpresaMiddleware (Threading Local)]
 ---
 
 # Redução de Comandos de Management e Rotina Vira Botão
@@ -55,6 +55,14 @@ Existe precedente no próprio projeto: `agenda_videos/views.py` já tem o padrã
 | `investigar_campos_api` | Dev (próprio comentário: "INVESTIGAÇÃO, SÓ LEITURA") | Renomear `DEV_investigar_campos_api` |
 
 `scripts_exploracao_ERP/` (11 arquivos) — já tinha precedente no vault como pasta descartável a qualquer momento (lógica real foi oficializada em `integracao_sysemp/servicos/`). **Resolvido (15/08/2026, 20:20):** 8 de 11 arquivos apagados — `comparar_impostos_planilha_vs_xml.py`, `consultar_produto.py`, `contar_registros_por_cfop.py`, `encontrar_produto_icms_nao_zero.py`, `explorar_manifesto_nota_entrada.py`, `filtrar_dados_por_cfop.py`, `investigar_ocorrencias_de_produto.py`, `selecionar_nota_mais_recente_por_produto.py` — todos ancestrais de código já oficializado ou exploração de decisão já fechada. Mantidos por terem uso real ainda: `duble_precificacao_ml.py` (ferramenta ativa de validação da fórmula de precificação ML), `mapear_campos_json.py` (utilidade reaproveitável se a API do Sysemp mudar de estrutura de novo), `relatorio_impostos_entrada_xlsx.py` (decisão de manter/remover ainda pendente).
+
+## Primeira implementação real do padrão (21/08/2026)
+
+O padrão decidido acima ("Como 'virar botão' — decisão técnica") saiu do papel pela primeira vez dentro do Django deste projeto: o botão "Sincronizar com o Drive" do Portal do Drive (frente paralela da Agenda de Vídeos) passou a usar thread em background + endpoint de status por polling, no lugar de um `<form>` síncrono que travava a tela sem nenhum feedback durante os vários segundos (às vezes mais de 1 minuto) da sincronização. Detalhe completo em [[Barra de Progresso Real no Sincronizar com o Drive do Portal via Thread e Polling]].
+
+**Achado crítico pra qualquer botão futuro que siga o mesmo padrão** (`popular_banco`, `sincronizar_impostos_entrada`, os 2 candidatos já citados neste documento): uma `threading.Thread` criada manualmente dentro de uma view **não herda a empresa ativa** (MAGAZINE/SAMVALE) escolhida na sessão. O roteamento por empresa usa `threading.local()` (`core/empresa.py`), preenchido pelo `EmpresaMiddleware` só na thread que atende a requisição HTTP — uma thread nova, criada manualmente, nasce com esse armazenamento vazio. Qualquer código chamado de dentro dela que dependa de `obter_empresa_ativa()` recebe `None` e falha (no caso real, um `RuntimeError` ao tentar escolher a pasta certa do Drive). Ver detalhe completo, com a correção exata, em [[Thread em Background Nao Herda a Empresa Ativa do EmpresaMiddleware (Threading Local)]].
+
+**Consequência prática pra quando `popular_banco`/`sincronizar_impostos_entrada` virarem botão**: a view que dispara a thread precisa capturar `obter_empresa_ativa()` ENQUANTO ainda está na thread da requisição (onde o middleware já rodou de verdade), passar esse valor como argumento pra função que a thread nova executa, e essa função precisa chamar `definir_empresa_ativa(empresa)` como sua primeira linha — antes de qualquer chamada a código que leia dado roteado por empresa (praticamente tudo em `popular_banco`, e toda a sincronização de impostos de entrada). Pular esse passo reproduz exatamente o mesmo bug, possivelmente mascarado atrás de um `except Exception` genérico sem log — daí a importância de manter `traceback.print_exc()` (ou equivalente) em qualquer thread de background nova, mesmo depois de considerada "pronta".
 
 ## Em aberto (achado ainda sem correção aplicada)
 
