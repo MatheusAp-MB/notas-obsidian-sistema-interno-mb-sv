@@ -3,7 +3,7 @@ tipo: prompt
 dominio: 
 status: ativa
 criado: 23/08/2026
-atualizado_em: 23/08/2026 23:11
+atualizado_em: 24/08/2026 08:59
 relacionado: [Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Etapa 5 - Navegacao pelos Grafos, Trava de Formato da Foto de Capa, Responsabilidade Unica por Foto (Fotos 2-7), Proibicao de Comparacao com Concorrentes, Camada Grafica Informativa (Fotos 2-7), Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial, Desejo de Compra na Camada Grafica (Fotos 2-7)]
 ---
 
@@ -80,6 +80,7 @@ Pré-requisito, verificado antes de escrever o prompt: a Regra Global #2 é lite
 6. Prompt local, iterativo — nunca 1 prompt monolítico tentando resolver tudo de uma vez.
 7. Múltiplas imagens de referência sempre identificadas pelo que mostram ("a foto que mostra X"), nunca só por número de posição de upload.
 8. Cada frase do prompt precisa ganhar seu lugar — 1 a 3 frases claras por bloco, corte frase decorativa que não muda fidelidade, restrição ou especificidade.
+9. Declarar explicitamente que nenhum texto sobreposto além do que foi escrito no prompt (headline entre aspas + texto de cada bloco gráfico) pode aparecer na imagem — nunca confiar que o modelo se limita sozinho ao que foi pedido. Adicionado em 24/08/2026 após a Foto 2 do Pulverizador Brudden DAS G2 sair com uma linha de legenda extra não pedida, com texto ilegível — ver [[Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial]], Regra Universal #9.
 
 6 Blocos Estruturados — todo prompt segue esta sequência:
 1. **Referência e ação central** — declarar que existe imagem de referência e qual é a ação central sobre ela. Fixo em estrutura; a ação muda conforme o tipo de foto.

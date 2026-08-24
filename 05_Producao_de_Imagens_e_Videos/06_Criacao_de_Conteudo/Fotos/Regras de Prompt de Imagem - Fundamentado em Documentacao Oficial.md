@@ -3,7 +3,7 @@ tipo: decisao
 dominio: 
 status: ativa
 criado: 23/08/2026
-atualizado_em: 23/08/2026 20:55
+atualizado_em: 24/08/2026 08:59
 relacionado: [Pipeline de Geracao Dinamica das 7 Fotos via Analise Dupla e Arvore de Categorias por Facets, Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Cenário de Capa - Ambiente Residencial Externo, Cenário de Capa - Horta, Pomar ou Jardim Doméstico, Camada Grafica Informativa (Fotos 2-7), Responsabilidade Unica por Foto (Fotos 2-7)]
 ---
 
@@ -54,6 +54,7 @@ Descoberto na prática (SS-20B, 23/08/2026): a Regra Global #2 (100% fiel ao pro
 6. **Iterar em passos pequenos**, nunca um prompt monolítico tentando acertar tudo de uma vez.
 7. **Múltiplas imagens de referência precisam ser identificadas pelo que mostram, nunca só por número de posição.** Escrever "Image 2" sozinho obriga quem for gerar a imagem a saber exatamente qual arquivo é "a imagem 2" e subir na ordem certa — frágil, e o erro só aparece na hora de gerar. Correto é descrever o conteúdo junto ("a imagem de referência que mostra o closeup do mecanismo, com os 3 detalhes circulares de pressão/regulador/haste") — identificação por conteúdo não depende de ordem de upload. Erro cometido e corrigido em 23/08/2026 (Pulverizador Guarany 1,2L).
 8. **Cada frase do prompt precisa ganhar seu lugar.** A OpenAI Academy é explícita: "1 a 3 frases claras" costumam bastar. Isso não significa "sempre curto" — significa que toda frase deve estar fazendo 1 de 3 trabalhos (fidelidade, restrição, ou especificidade que muda o resultado); frase decorativa deve ser cortada.
+9. **Restrição negativa explícita contra texto extra não especificado.** Todo prompt com texto sobreposto precisa declarar que nenhum texto além do que foi explicitamente escrito (headline entre aspas + texto de cada bloco gráfico) pode aparecer na imagem — nunca confiar que o modelo vai se limitar sozinho ao que foi pedido. Descoberto em 24/08/2026 (Pulverizador Brudden DAS G2, Foto 2): sem essa restrição, o modelo acrescentou uma linha de legenda extra, não pedida, que saiu com texto ilegível/gramaticalmente quebrado ("Acontes anéétics de gosca, poulinri a repressurizada"). Reduz o risco, não elimina — texto gerado por modelo de imagem continua sendo o elemento menos confiável da composição.
 
 ## Como Pensar o Prompt — Blocos Estruturados (segundo a documentação)
 
@@ -108,6 +109,7 @@ Nossas fotos de produto usam o 2º gênero, mas emprestando do 1º a disciplina 
 1. **Assumir que uma marca era "visível na referência" sem checar** — escrevi "visible Dellamed D800 branding precisely as shown in the reference" sem verificar a imagem real; o Nano Banana só executou o que foi pedido e renderizou texto que não existe na referência real (só há um emblema abstrato ali). Não foi erro da ferramenta, foi erro de prompt — o mesmo tipo de erro de dado inventado que já corrigimos nas Étapas 1-4, agora em imagem.
 2. **Enquadramento só positivo não é suficiente pra exclusão** — "sole subject of the frame" sozinho é mais fraco que combinar com a restrição negativa direta ("no people, no human figures").
 3. **Culpar a ferramenta por diferença de resultado antes de checar o próprio prompt** — a diferença de fidelidade entre Nano Banana e ChatGPT no mesmo teste inicialmente pareceu "comportamento de ferramenta", mas a causa real era o próprio texto do prompt.
+4. **Confiar que o modelo só renderiza o texto pedido, sem dizer isso explicitamente** — no teste do Pulverizador Brudden DAS G2 (Foto 2, 24/08/2026), o prompt especificava a headline e 1 bloco de ícone+benefício, mas não proibia texto adicional; o modelo acrescentou uma 3ª linha de legenda não pedida, com texto ilegível. Corrigido com a Regra Universal #9 acima — mesmo tipo de erro dos itens 1-3 desta lista (assumir que o modelo se limita ao que foi descrito, sem uma restrição negativa explícita o forçando).
 
 ## Onde ficam os exemplos por categoria
 

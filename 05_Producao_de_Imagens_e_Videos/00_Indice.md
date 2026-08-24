@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 22/08/2026
-atualizado_em: 24/08/2026 00:23
+atualizado_em: 24/08/2026 16:58
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -26,7 +26,7 @@ Mundo isolado — reestruturado em 23/08/2026 pra se tornar um vault autônomo n
 | [[Etapa 1-4 - Estudo do Produto]] | prompt | ativa | 23/08/2026 | Étapas 1-4 — leitura fiel dos dados brutos, análise técnica (nunca responde pergunta), análise contextual livre, fusão validada (dor × recurso técnico real). |
 | [[Etapa 5 - Navegacao pelos Grafos]] | prompt | ativa | 23/08/2026 | Étapa 5 — classifica o produto no Grafo 1, ativa/cria templates no Grafo 2 (com reaproveitamento cross-categoria) e monta o cruzamento final. Desde 23h11, lê o índice compacto do grafo em vez das pastas inteiras. Ainda não testado às cegas numa conversa nova. |
 | [[Protocolo de Feedback e Correcao]] | prompt | ativa | 23/08/2026 | Capacidade paralela (não é etapa numerada) — tria feedback do usuário sobre uma geração específica em 5 causas possíveis e escreve a correção na nota certa, reaproveitando a disciplina de `bug_conhecido`. |
-| [[Etapa 8 - Criacao (Fotos)]] | prompt | ativa | 23/08/2026 | Prompt autocontido da Étapa 8 — unifica Trava da Capa + Responsabilidade Única + Proibição de Comparação + Camada Gráfica + Regras de Prompt de Imagem num único fluxo: lê Étapa 6 + pool de sugestões (Étapa 7) e produz os 7 prompts de foto. Ainda não testado numa conversa genuinamente nova. |
+| [[Etapa 8 - Criacao (Fotos)]] | prompt | ativa | 23/08/2026 | Prompt autocontido da Étapa 8 — unifica Trava da Capa + Responsabilidade Única + Proibição de Comparação + Camada Gráfica + Regras de Prompt de Imagem num único fluxo: lê Étapa 6 + pool de sugestões (Étapa 7) e produz os 7 prompts de foto. Ganhou a Regra Universal #9 (proibir texto extra não especificado) em 24/08/2026, após defeito real na Foto 2 do DAS G2. |
 
 ## 02_Regras/Comportamento
 
@@ -142,6 +142,7 @@ Documento Consolidado (Étapa 6) de cada produto já classificado — a única n
 | [[Pulverizador Manual de Compressão Prévia Guarany 1,2L]] | conceito | ativa | 23/08/2026 | 4º produto, mesma categoria-base do 1º (Pulverizador) mas subtipo genuinamente novo. Confirmou 2 nós novos de uma vez e 1 template novo. 1º teste completo do método de Fotos 2-7 (responsabilidade única + camada gráfica + proibição de comparação). |
 | [[Pistola de Pintura SGT-3011B 1,3mm Gravidade 600ml]] | conceito | ativa | 23/08/2026 | 5º produto, categoria genuinamente nova (Pistola de Pintura). Testou a Étapa 8 unificada fora de pulverizador; gerou o ciclo de feedback que produziu as correções de 23h11 (desejo de compra, índice compacto, molde vazio). |
 | [[Pulverizador Snow Foam Chantilly Veneto SGT 2L]] | conceito | ativa | 23/08/2026 | 6º produto, mesma categoria-base do 1º/4º (Pulverizador) com 2 eixos novos: mecanismo (gerador de espuma integrado) e contexto (estética automotiva/limpeza doméstica). 1º teste real do índice compacto (Étapa 5) e do molde vazio (Étapa 6) — funcionaram bem. Étapa 8 rodou mas revelou 5 gaps ainda não corrigidos (ver [[00_Leia_Primeiro]], entrada 24/08 00h23). |
+| [[Pulverizador Manual Costal Brudden DAS G2 5L]] | conceito | ativa | 24/08/2026 | 7º produto, mesma categoria-base do 1º/4º/6º (Pulverizador). 100% reaproveitamento de grafo — nenhum nó/template novo. Teste de ponta a ponta pausado em 24/08/2026 14:00 antes de fechar a Étapa 8 (Foto 1 sem aprovação registrada, Foto 2 corrigida mas não regerada, Fotos 3-7 nunca geradas) — ver [[00_Leia_Primeiro]], entrada 24/08 14:00. |
 
 ## 05_Decisoes
 
@@ -158,12 +159,21 @@ Regras e método por trás da Étapa 8 (Criação) — cada nota aqui documenta 
 
 | Nota | Tipo | Status | Data | Resumo |
 | --- | --- | --- | --- | --- |
-| [[Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial]] | decisao | ativa | 23/08/2026 | Guia universal de como escrever um prompt de imagem (Nano Banana + GPT-Image): 5 regras globais, 8 regras universais, pré-requisito de qualidade da foto de referência, esqueleto de 6 blocos estruturados. Exemplos por categoria vivem no Grafo 3. |
+| [[Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial]] | decisao | ativa | 23/08/2026 | Guia universal de como escrever um prompt de imagem (Nano Banana + GPT-Image): 5 regras globais, 9 regras universais (a 9ª adicionada em 24/08/2026 — proibir texto extra não especificado), pré-requisito de qualidade da foto de referência, esqueleto de 6 blocos estruturados. Exemplos por categoria vivem no Grafo 3. |
 | [[Trava de Formato da Foto de Capa]] | regra | ativa | 23/08/2026 | Única trava por slot de foto — produto ambientalizado no contexto de uso, sem humanos, só na Foto 1. Trava de formato, não de conteúdo; Fotos 2-7 seguem livres. |
 | [[Responsabilidade Unica por Foto (Fotos 2-7)]] | regra | ativa | 23/08/2026 | Método pras 6 fotos livres: ler a base densa, perguntar "o que o cliente quer saber?", 1 foto = 1 pergunta, sem repetir e sem lacuna. |
 | [[Proibicao de Comparacao com Concorrentes]] | regra | ativa | 23/08/2026 | Nenhuma foto compara com "outro produto"/concorrente — anti-invenção + a loja vende marcas concorrentes entre si. |
 | [[Camada Grafica Informativa (Fotos 2-7)]] | decisao | ativa | 23/08/2026 | Como compor cada foto informativa — headline, ícones, diagramas, chamadas, selos, fundo dinâmico desfocado (nunca liso), fidelidade de cor por componente (nunca genérica). Ganhou ressalvas sobre linhas de chamada e colagem em quadrantes (técnicas frágeis) em 23h11. |
 | [[Desejo de Compra na Camada Grafica (Fotos 2-7)]] | decisao | ativa | 23/08/2026 | As fotos informavam mas não vendiam — 5 técnicas (headline de promessa, produto em ação como padrão, ícone+benefício+resultado, specs em tira de apoio, selo embutido em foto de ação) derivadas de anúncio real concorrente. Incerteza registrada: ainda não confirmado se generaliza sem imagem de referência nova a cada vez. |
+
+## 06_Criacao_de_Conteudo/Videos
+
+Pesquisa e regras iniciais de vídeo (showroom/turntable 360° via Google Flow — Omni Flash e Veo 3.1). Ainda não é uma Étapa numerada do pipeline — só a Étapa 8 (fotos) existe hoje. Aberta em 24/08/2026, depois de pausar o teste de fotos do 7º produto pra focar nesta pesquisa.
+
+| Nota | Tipo | Status | Data | Resumo |
+| --- | --- | --- | --- | --- |
+| [[_Pesquisa - Documentacao Oficial Veo 3.1, Gemini Omni e Google Flow]] | conceito | ativa | 24/08/2026 | Extração de 25 páginas oficiais do Google (Veo 3.1, Gemini Omni/Omni Flash, Google Flow, Nano Banana). Mapa do ecossistema, os 3 mecanismos de imagem→vídeo do Flow, estruturas de prompt oficiais (Veo e Omni), vocabulário de câmera documentado. |
+| [[Regras de Prompt de Video - Fundamentado em Documentacao Oficial e Testes Reais]] | decisao | ativa | 24/08/2026 | Guia de prompt de vídeo (showroom/turntable), equivalente ao das fotos. Esqueleto de 7 blocos genérico e reaproveitável, mas conteúdo de cada bloco precisa ser concreto (erro real: vocabulário abstrato piorou fidelidade). Padrão de duração 6-10s, hipótese de "familiaridade do modelo com a categoria", ressalva sobre fotos de referência semelhantes. |
 
 ## 06_Criacao_de_Conteudo/Historico
 

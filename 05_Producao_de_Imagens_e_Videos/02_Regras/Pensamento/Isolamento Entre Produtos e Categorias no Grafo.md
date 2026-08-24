@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 22/08/2026
-atualizado_em: 23/08/2026 06:30
+atualizado_em: 24/08/2026 08:13
 relacionado: [Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Etapa 5 - Navegacao pelos Grafos]
 ---
 
@@ -18,6 +18,8 @@ Uma ferramenta de leitura de arquivo só vê o texto literal do arquivo — dife
 ## Onde essa regra já foi violada e corrigida
 
 Achado real na nota da D800 Dellamed — corrigido nesta sessão, reforçando a regra.
+
+2ª ocorrência (24/08/2026): ao iniciar a Étapa 5 do Pulverizador Brudden DAS G2, a nota de outro produto (`04_Produtos/Pulverizador Costal SS-20B Brudden.md`) foi aberta "pra checar precedente" antes de perceber que isso violava a regra — o conteúdo específico do SS-20B (dores, eixos de venda, redação exata) não foi usado na classificação do DAS G2, que seguiu só o índice do grafo e a Base de Conhecimento do próprio produto. Autoidentificado e corrigido antes de qualquer nó/template ser escrito. Reforça que "checar como um produto anterior foi classificado" é exatamente o impulso que esta regra existe pra bloquear — mesmo quando a intenção é só validar uma hipótese, não copiar texto.
 
 ## Relacionado
 - [[Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto]]
