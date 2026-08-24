@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 16/08/2026 23:59
+atualizado_em: 23/08/2026 05:10
 relacionado: [Padrao de Robustez para Clientes de API Externa, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Guia de Setup - Do Zero ao Primeiro Preco Calculado]
 ---
 
@@ -27,6 +27,7 @@ Decisão de 06/08/2026: nem toda API/integração externa vira mundo próprio �
 - **`02_Sistema_Interno/`** — ativo. Segue a estrutura descrita abaixo. Inclui 2 contextos de API que são parte do próprio sistema, não integrações isoladas: `API_Google_Drive/` e `API_Agente_Local/` (a API que o próprio Sistema Interno expõe pro agente executável local). Criados sob demanda, na primeira nota de cada, como qualquer outro contexto.
 - **`03_Integracao_Sysemp/`** — ativo, mundo próprio (não é contexto dentro de Sistema Interno). Motivo: a API do ERP Sysemp lida com dado fiscal sensível e é grande o suficiente pra ter ciclo de trabalho e índice isolados, mesmo o código morando no mesmo repositório do Sistema Interno (`scripts_exploracao_ERP/`).
 - **`04_Integracao_Mercado_Livre/`** — ativo, mundo próprio, mesmo motivo do Sysemp. Integração ainda não começou de fato nesta versão do projeto (V2) — a pasta já existe pra receber decisões/descobertas assim que o trabalho começar.
+- **`05_Producao_de_Imagens_e_Videos/`** — ativo, mundo próprio, criado em 22/08/2026. Motivo: cobre a PRODUÇÃO de fotos/vídeos dos produtos (geração via IA) — um problema grande e sem relação de código com `02_Sistema_Interno/` (que só cuida do que acontece depois que o material já existe, ver `Agenda_Videos/`). Ainda não tem código associado, só diagnóstico do problema (ver `00_Indice.md` do próprio mundo).
 - **`03_ML_Analytics_HUB/`** (dentro de `LEGADO/`) — projeto antigo e diferente, sem relação direta com `04_Integracao_Mercado_Livre/` além de servir de fonte de lições aprendidas. Congelado, não segue esta convenção.
 
 Padrão de engenharia que atravessa mais de um mundo (ex: como construir com segurança um cliente de API externa) mora em `02_Sistema_Interno/Regras_de_Comportamento/`, mesmo quando o assunto também vale pra `03_Integracao_Sysemp/` ou `04_Integracao_Mercado_Livre/` — o código de todas essas integrações vive no mesmo repositório, então a regra é do projeto como um todo. Os outros mundos referenciam essa regra via `relacionado`, nunca duplicam o conteúdo. Ver [[Padrao de Robustez para Clientes de API Externa]].
@@ -104,6 +105,8 @@ relacionado: []
 ## Checkpoint — nota que se atualiza no lugar (nunca gera nota nova)
 
 Diferente de dúvida/decisão/bug (que preservam histórico gerando nota nova ou seção extra), `checkpoint` registra o ESTADO ATUAL de um trabalho em andamento de várias sessões — e é sobrescrito na mesma nota a cada atualização relevante, com uma seção `## Última atualização` no topo do corpo (data). Existe porque a memória de conversa é volátil (sujeita a compactação) — o checkpoint é a memória persistente desse progresso. Quando o trabalho termina de vez, `status` muda para `concluido` (a nota continua existindo, como registro final).
+
+**Checkpoint de nível de mundo** (achado real, 23/08/2026, mundo `05_Producao_de_Imagens_e_Videos/`): normalmente `Checkpoints/` mora dentro de um `<Contexto>` específico (padrão original, ex: `Agenda_Videos/Checkpoints/`). Quando o checkpoint cobre o mundo inteiro — várias frentes/contextos ao mesmo tempo, não uma frente de negócio isolada — ele mora direto na raiz do mundo (`05_Producao_de_Imagens_e_Videos/Checkpoints/`), mesma lógica de exceção já usada por `Regras_de_Comportamento/` e `Tutoriais/` de mundo.
 
 ## Tutorial — manual ou guia passo a passo (16/08/2026)
 

@@ -3,9 +3,12 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 18/08/2026
-atualizado_em: 18/08/2026 15:40
+atualizado_em: 22/08/2026 14:35
 relacionado: [Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao), Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra, Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre, Flag Temporaria de Confirmacao em Replicar Video no ML, MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma, Pausa do Trabalho de Impostos de Entrada e Multi-Empresa - Foco Exclusivo em Agenda de Videos, Padrao de Robustez para Clientes de API Externa, Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural, Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos)]
 ---
+
+> [!warning] Pausado em 22/08/2026, 14h35 — retomar as Etapas 2/4 só de volta no escritório
+> Sessão de hoje (22/08, de casa) fechou de vez a frente paralela do Portal do Drive (testes + destaque de etapa atual, ver [[Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos)]]) e corrigiu o bug do "já postou hoje" (fora desta frente, ver [[Checagem de Ja Postou Hoje Usa Ultimo Dia Util e Pode Nao Reconhecer Postagem Feita em Fim de Semana]]). As Etapas 2-4 desta nota (Postagem correta, Aprovação no ML, Replicação) **continuam exatamente como estavam em 18/08** — nenhum código novo foi escrito hoje pra elas. Motivo de não avançar: de casa, o acesso de hoje era só API do Mercado Livre (sem o site) e API+acesso ao Drive — as Etapas 2-4 dependem de automação real no SITE do ML (`agente_local`, Selenium/Tkinter contra a tela de verdade), que não roda sem esse acesso. **Decisão do usuário**: retomar esta frente (começando pelo "Achado central" — identificação de empresa no agente local) quando estiver de volta no escritório, com acesso ao site.
 
 # Checkpoint — Correção de Ponta a Ponta da Agenda de Vídeos (Drive → Postagem → Aprovação ML → Replicação)
 

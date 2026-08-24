@@ -8,44 +8,58 @@
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "Path:LEGADO/",
+      "query": "path:LEGADO  ",
       "color": {
         "a": 1,
-        "rgb": 9571340
+        "rgb": 14701138
       }
     },
     {
-      "query": "Path:02_Sistema_Interno  ",
+      "query": "path:02_Sistema_Interno  ",
       "color": {
         "a": 1,
-        "rgb": 673791
+        "rgb": 5419488
       }
     },
     {
-      "query": "Path:03_Integracao_Sysemp",
+      "query": "path:03_Integracao_Sysemp  ",
       "color": {
         "a": 1,
-        "rgb": 7132373
+        "rgb": 3022847
       }
     },
     {
-      "query": "Path:04_Integracao_Mercado_Livre",
+      "query": "path:04_Integracao_Mercado_Livre  ",
       "color": {
         "a": 1,
-        "rgb": 16776960
+        "rgb": 16775490
+      }
+    },
+    {
+      "query": "path:05_Producao_de_Imagens_e_Videos/04_Produtos  ",
+      "color": {
+        "a": 1,
+        "rgb": 11533881
+      }
+    },
+    {
+      "query": "path:05_Producao_de_Imagens_e_Videos",
+      "color": {
+        "a": 1,
+        "rgb": 5431473
       }
     }
   ],
-  "collapse-display": false,
+  "collapse-display": true,
   "showArrow": false,
   "textFadeMultiplier": 0,
   "nodeSizeMultiplier": 1,
   "lineSizeMultiplier": 1,
   "collapse-forces": false,
   "centerStrength": 0.518713248970312,
-  "repelStrength": 12.0334659728599,
+  "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.18462326225857614,
+  "scale": 0.7132754626223693,
   "close": false
 }
