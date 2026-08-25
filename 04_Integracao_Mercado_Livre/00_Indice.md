@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 16/08/2026 04:50
+atualizado_em: 25/08/2026 11:58
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
 ---
 
@@ -27,7 +27,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]] | checkpoint | em_andamento | 13/08/2026 | Próxima camada da migração (scripts que consomem a API, não a base de auth) identificada mas não migrada — 4 problemas conhecidos (sys.path, import ambíguo `chamadas_safe_api` vs `cliente_api`, `conta` faltando, pasta de saída divergente de `popular_banco.py`). Achados sobre o pipeline `popular_banco`: depende de `Arquivos_API/detalhes_mlbs.json` + `dados_completos_por_sku.json`, origem do 2º arquivo ainda não localizada. **Retomado em 15/08/2026** — mesma pendência confirmada de novo, de forma independente; plano de 4 passos continua válido. **Atualizado 16/08/2026, 04:50**: ganhou peso extra — confirmado que produto sem variação ML sincronizada cai em fallback de dimensão zerada na precificação real, não só em tela — ver [[Precificacao Real Pode Cair em Fallback de Dimensao Zero Sem Variacao ML Sincronizada]] (mundo Sysemp). |
+| [[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]] | checkpoint | em_andamento | 13/08/2026 | **Atualizado 25/08/2026, 11:58**: achado grande — o app `mercado_livre/` já existe e está maduro (11 models, 22 migrations, 5 importadores em POO já prontos); só falta migrar a "metade A" (busca na API + geração dos 2 `.json`), não o consumo. Os 4 arquivos antigos foram identificados e comparados (`chamadas_safe_api.py`, `buscar_mlbs.py`, `buscar_dados_sku_completo.py` — confirmado como origem de `dados_completos_por_sku.json` — e `classificar_por_sku.py`, que não precisa de alteração). Schemas dos 3 `.json` confirmados; achado novo: campo `mlbu` existiu no banco e foi removido em 05/07/2026, decisão de reintroduzir ainda pendente. Ainda falta colar o conteúdo real de 4 dos 5 arquivos pra escrever o diff de migração. |
 
 ## Relacionado
 
