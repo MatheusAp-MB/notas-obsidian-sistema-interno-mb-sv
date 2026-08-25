@@ -3,12 +3,18 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 18/08/2026
-atualizado_em: 22/08/2026 14:35
+atualizado_em: 25/08/2026 10:50
 relacionado: [Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao), Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra, Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre, Flag Temporaria de Confirmacao em Replicar Video no ML, MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma, Pausa do Trabalho de Impostos de Entrada e Multi-Empresa - Foco Exclusivo em Agenda de Videos, Padrao de Robustez para Clientes de API Externa, Roteiro Salvo no Plural pela Equipe - Parser Aceita Singular e Plural, Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos)]
 ---
 
 > [!warning] Pausado em 22/08/2026, 14h35 — retomar as Etapas 2/4 só de volta no escritório
 > Sessão de hoje (22/08, de casa) fechou de vez a frente paralela do Portal do Drive (testes + destaque de etapa atual, ver [[Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos)]]) e corrigiu o bug do "já postou hoje" (fora desta frente, ver [[Checagem de Ja Postou Hoje Usa Ultimo Dia Util e Pode Nao Reconhecer Postagem Feita em Fim de Semana]]). As Etapas 2-4 desta nota (Postagem correta, Aprovação no ML, Replicação) **continuam exatamente como estavam em 18/08** — nenhum código novo foi escrito hoje pra elas. Motivo de não avançar: de casa, o acesso de hoje era só API do Mercado Livre (sem o site) e API+acesso ao Drive — as Etapas 2-4 dependem de automação real no SITE do ML (`agente_local`, Selenium/Tkinter contra a tela de verdade), que não roda sem esse acesso. **Decisão do usuário**: retomar esta frente (começando pelo "Achado central" — identificação de empresa no agente local) quando estiver de volta no escritório, com acesso ao site.
+
+> [!success] Retomado em 25/08/2026, 09h47 — Achado central implementado e testado; Etapas 2 e 4 avançaram, mas ainda dependem de validação real no ML
+> De volta ao escritório, com acesso ao site do ML. O "Achado central" (seção abaixo) foi implementado nas 4 partes já desenhadas, mais um refactor extra de testabilidade em `agente_local/servidor_agente.py` (guarda `if __name__ == '__main__':`, sem mudar nenhum comportamento em produção) e uma rodada completa de testes: 45 testes existentes corrigidos + 4 arquivos novos + `pyproject.toml` com escopo de cobertura ampliado. **Confirmado de verdade na máquina real do usuário: 760 passed, 3 failed (pré-existentes e sem relação — 2 por pasta real do Drive da Samvale vazia hoje, 1 em `impostos`, domínio pausado), 19 xfailed.** `core/middleware.py` e `core/empresa.py` fecharam em 100% de cobertura. **Por segurança, nenhum clique real foi feito no ML** — nesta sessão, tanto `postar_video_no_ml()` quanto `replicar_video_no_ml()` foram chamados com `confirmar_de_verdade=False` temporário (marcado `[TEMPORÁRIO — 25/08]` no código) — ou seja, além da Replicação (já era `False` desde 13/08), a Postagem também está temporariamente com a trava ligada, mesmo já tendo virado 100% autônoma antes (ver [[MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma]]). Reverter os 2 pra `True` só depois que o usuário validar 1 execução real completa por empresa, nos 2 fluxos. Detalhe completo de tudo isso na seção "Achado central" e no checklist de execução, ambos abaixo, já atualizados.
+
+> [!warning] Pausado de novo em 25/08/2026, 10h50 — bloqueado, não é mais "só falta validar"
+> Validação real no navegador foi iniciada na mesma sessão de hoje: 1 produto Magazine testado com IP correto do `.exe` reempacotado, automação chegou até o Checkpoint 2 de `postar_video_no_ml()` (upload do vídeo confirmado na tela do ML). Dois achados no caminho, nenhum deles bug de código: (1) o Mercado Livre atualizou o layout da tela de criar vídeo — `postagem_ml.py` vai precisar de ajuste nos textos/controles esperados (`NOMES_BOTAO_UPLOAD`/`NOMES_BOTAO_ENVIAR`), ainda não diagnosticado com precisão (log da execução real ainda não analisado); (2) **achado maior, motivo real desta pausa**: pra seguir testando Postagem/Replicação de ponta a ponta, o sistema precisa do MLB e de outros dados de produto vindos DE VERDADE da API do Mercado Livre — hoje esse dado ainda vem de JSON importado manualmente de um projeto separado (fluxo antigo), porque a integração oficial da API do ML pra dentro do `Projeto_Sistema_Interno_V2` (decisão já tomada, ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]) nunca foi terminada — ver [[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]], retomada agora nesta mesma data/hora. **Etapas 2 e 4 desta nota ficam bloqueadas** até essa integração avançar o suficiente pra fornecer dado real de produto/MLB — não é mais só "falta 1 execução real", é uma dependência de outra frente inteira. Continuação do trabalho a partir de agora vive na nota linkada acima, domínio `04_Integracao_Mercado_Livre`.
 
 # Checkpoint — Correção de Ponta a Ponta da Agenda de Vídeos (Drive → Postagem → Aprovação ML → Replicação)
 
@@ -40,6 +46,9 @@ A arquitetura de 2 empresas — banco de dados separado por empresa, escolhido p
 | 2 | `agente_local/servidor_agente.py` | As rotas `/executar/<id>` e `/executar-replicacao/<id>` passam a receber essa empresa e repassar pra `_processar_execucao`/`_processar_execucao_replicacao`. |
 | 3 | `agente_local/cliente_api.py` | As ~10 funções que chamam a API do Django (listar itens, baixar vídeo, marcar concluído/falhou, heartbeat, finalizar — pros 2 fluxos, Postagem e Replicação) passam a mandar essa empresa num cabeçalho novo (`X-Empresa`), mesmo padrão que já existe aqui pra `X-Drive-File-Id`. |
 | 4 | `core/middleware.py` | Pra rotas que começam com `/api/`, o `EmpresaMiddleware` para de confiar em `request.session` (que nunca existe nessas chamadas) e passa a EXIGIR o cabeçalho `X-Empresa` — recusando a chamada com erro claro se não vier, nunca um valor padrão silencioso. Mesmo espírito do `--empresa` obrigatório já usado nos comandos de terminal (`core/management/commands/_base_empresa.py`). |
+
+> [!success] Implementado e testado — 25/08/2026, 09h47
+> As 4 partes acima foram aplicadas exatamente como desenhado. Junto, `agente_local/servidor_agente.py` ganhou uma guarda `if __name__ == '__main__':` (nada em produção muda — só o que corre ao importar o módulo, que antes abria log real, lia config do disco e travava num loop do `pystray` só de ser importado, tornando o arquivo impossível de testar). Testes: 45 arquivos/testes existentes corrigidos pra mandar `X-Empresa`; 4 arquivos novos (`core/tests/test_nivel_2__empresa_middleware.py`, `core/tests/test_nivel_2__autenticacao_middleware.py`, `core/tests/test_nivel_0__empresa.py`, `agente_local/tests/test_nivel_4__servidor_agente_rotas.py`); `pyproject.toml` com o `source` do coverage ampliado pra incluir `core`/`api`/`agente_local` (antes só media `agenda_videos`). **Confirmado na máquina real do usuário: 760 passed, 3 failed pré-existentes/sem relação, 19 xfailed** — `core/middleware.py` e `core/empresa.py` em 100% cover. Falta só a validação real (clique de verdade no ML) — ver Etapas 2 e 4 abaixo.
 
 > [!info] Por que isso também resolve o Drive "de graça" dentro da automação
 > O download/arquivamento de vídeo (`ArquivadorDrive`, `LocalizadorArquivosProduto`) roda DENTRO do Django (no servidor), não na sua máquina — só a interface (Tkinter, teclado, clique no ML) roda no agente local. Corrigindo o middleware acima, `obter_empresa_ativa()` passa a responder certo também pras chamadas vindas do agente — então a separação de pasta do Drive (Etapa 1) já funciona automaticamente dentro da Postagem/Replicação Automática, sem precisar de nenhuma correção extra ali.
@@ -73,6 +82,9 @@ A arquitetura de 2 empresas — banco de dados separado por empresa, escolhido p
 
 **Critério de pronto**: 1 execução de Postagem Automática real, completa, confirmada pra Magazine E 1 pra Samvale, cada uma postando no MLB certo, sem nenhuma mistura de dado entre as 2.
 
+> [!info] Parcial — 25/08/2026, 09h47
+> Achado central aplicado e testado de verdade (ver seção acima) — a parte de código está feita. Falta exatamente o critério de pronto: a execução real por empresa. Por segurança, `postar_video_no_ml()` está com `confirmar_de_verdade=False` temporário nesta sessão, então mesmo depois de aplicar o código o clique final continua NÃO acontecendo até essa flag ser revertida — a validação real (com clique de verdade) só deve rodar depois de reverter pra `True`.
+
 ## Etapa 3 — Análise da tela do Mercado Livre pra saber se o vídeo foi aprovado
 
 **O quê**: hoje isso é só uma ideia registrada, ainda sem decisão de design — ver [[Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre]]. Os 4 estados reais já foram confirmados manualmente na tela "Meus Vídeos" do Mercado Livre: **EM REVISÃO**, **PUBLICADO**, **RECUSADO**, **PAUSADO**.
@@ -98,15 +110,18 @@ A arquitetura de 2 empresas — banco de dados separado por empresa, escolhido p
 
 **Critério de pronto**: 1 execução de Replicação Automática real, completa, confirmada pra Magazine E 1 pra Samvale, com `confirmar_de_verdade=True`, sem execução travada.
 
-## Checklist de execução — status atual (atualizado em 18/08/2026, 11h00)
+> [!info] Parcial — 25/08/2026, 09h47
+> Achado central aplicado e testado de verdade (ver seção acima) — mesma cadeia agente local → API da Postagem. Ainda pendentes, sem mudança hoje: confirmar se a execução travada em "Rodando" desde ~10:19 de 13/08 ainda existe ou já se resolveu sozinha, e reverter `confirmar_de_verdade` pra `True` (nesta sessão ele continua `False`, por segurança, junto com o da Postagem) — só depois da validação real por empresa.
+
+## Checklist de execução — status atual (atualizado em 25/08/2026, 09h47)
 
 | Etapa | O que envolve | Status |
 |---|---|---|
-| **Achado central** (base das etapas 1/2/4) | 4 partes: template → `servidor_agente.py` → `cliente_api.py` → `core/middleware.py` | 🔜 Desenhado, código ainda não escrito |
+| **Achado central** (base das etapas 1/2/4) | 4 partes: template → `servidor_agente.py` → `cliente_api.py` → `core/middleware.py` | ✅ Implementado e testado — 760 passed, `core/middleware.py`/`core/empresa.py` 100% cover (falta validação com clique real no ML) |
 | **1 — Drive** | `GOOGLE_DRIVE_PASTA_RAIZ_MAGAZINE`/`_SAMVALE` + função de resolução em `drive/cliente.py` + 2 pontos de leitura trocados | ✅ Concluído — 37 passed, Magazine e Samvale validados com dado real, isolados um do outro |
-| **2 — Postagem** | Achado central aplicado + 1 execução real validada por empresa | ⏳ Depende do Achado central |
+| **2 — Postagem** | Achado central aplicado + 1 execução real validada por empresa | 🔴 Bloqueada em 25/08, 10h50 — depende da integração real da API do ML ([[Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco]]) pra ter MLB/dado de produto de verdade; também precisa de ajuste em `postagem_ml.py` pro layout novo do ML |
 | **3 — Aprovação/Recusa no ML** | Modelo de interação + seletor de automação ainda não decididos | ⏳ Decisão de design pendente — nada codado ainda |
-| **4 — Replicação** | Achado central aplicado + execução travada de 13/08 resolvida + flag revertida pra `True` + validação por empresa | ⏳ Depende do Achado central + de itens pendentes desde 13/08 |
+| **4 — Replicação** | Achado central aplicado + execução travada de 13/08 resolvida + flag revertida pra `True` + validação por empresa | 🔴 Bloqueada em 25/08, 10h50 — mesma dependência da API do ML da Etapa 2; execução travada de 13/08 e reversão da flag continuam pendentes |
 
 > [!info] Frente paralela, fora desta tabela — Portal do Drive
 > O upload manual de vídeo pela tela do sistema (`enviar_arquivo()`, motor pronto e validado com dado real nesta mesma tarde de 18/08) é uma feature independente das 4 etapas acima — não conta nem pra Etapa 1 nem pra Etapa 2. Acompanhamento próprio em [[Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos)]].

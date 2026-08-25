@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 13/08/2026
-atualizado_em: 15/08/2026 01:39
-relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Padrao de Qualidade e Clareza Estrutural do Repositorio]
+atualizado_em: 25/08/2026 10:50
+relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Padrao de Qualidade e Clareza Estrutural do Repositorio, Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]
 ---
 
 # Migração dos Scripts Consumidores (`buscar_mlbs`/`buscar_detalhes`) e Pipeline de Popular Banco
@@ -12,6 +12,8 @@ relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (M
 > Nota criada pra fechar uma pausa (13/08/2026, 15:20) — usuário vai trocar de PC e não vai ter acesso à conversa que gerou isso. Captura o estado real de onde a migração da API do Mercado Livre parou, depois da base de autenticação já estar migrada e validada (ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]).
 >
 > **Retomada em 15/08/2026, 01:39** — o usuário decidiu, de forma independente (sem lembrar desta nota), que quer trazer a API do Mercado Livre pra dentro do projeto de vez, no mesmo padrão de robustez do Sysemp. Achado confirmado do zero, lendo o código real de novo hoje: **o script que gera `dados_completos_por_sku.json` continua sem ser encontrado** — a mesma pendência registrada abaixo em 13/08 segue exatamente igual, 2 dias depois. Nada foi migrado ainda. O plano "Próximo passo, quando retomar" (mais abaixo) continua sendo o caminho certo — é aqui que a próxima sessão de trabalho nesta frente deve começar.
+>
+> **Retomada de novo em 25/08/2026, 10:50** — motivo desta vez é concreto e vem de outra frente: a correção de ponta a ponta da Agenda de Vídeos (Postagem/Replicação Automática, ver [[Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]]) chegou ao ponto de precisar de MLB e dado de produto DE VERDADE vindo da API — e hoje isso só existe via JSON importado manualmente do projeto separado antigo. Mesma pendência de 13-15/08 confirmada de novo, ainda sem nenhuma mudança: os 4 problemas de `buscar_mlbs.py`/`buscar_detalhes.py` continuam os mesmos, e a origem de `dados_completos_por_sku.json` ainda não foi localizada. Passo 1 do plano abaixo ("Próximo passo, quando retomar") só pode começar depois que o usuário disser onde estão, no computador dele, os 3 arquivos da pasta separada antiga (`buscar_mlbs.py`, `buscar_detalhes.py`, `chamadas_safe_api.py`) — ainda não compartilhados nesta sessão.
 
 ## Por que isso importa pra quem está lendo agora (explicação simples)
 
