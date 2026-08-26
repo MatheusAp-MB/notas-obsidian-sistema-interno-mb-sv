@@ -3,7 +3,7 @@ tipo: decisao
 dominio: python
 status: ativa
 criado: 25/08/2026
-atualizado_em: 26/08/2026 08:40
+atualizado_em: 26/08/2026 09:06
 relacionado: [Convencao de Nomenclatura de Arquivos no Drive, Badge de Aviso Para Arquivos Inconsistentes no Drive, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Perguntas Sempre em Texto Corrido, Contexto Geral - Retomada em Outro Computador (Agenda de Videos)]
 ---
 
@@ -1485,9 +1485,13 @@ Usuário confirmou: *"Ok executei e funcionou, olhando rapidamente não encontre
 
 ### Em aberto
 
-- **Commit/push do script pro repositório** — hoje ele só existe nesta nota e na conversa; não está no GitHub. Não foi commitado porque não houve pedido explícito nesta conversa (ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]).
+- ~~**Commit/push do script pro repositório** — hoje ele só existe nesta nota e na conversa; não está no GitHub.~~ — **resolvido: commitado/pushado pelo usuário, confirmado como commit `418ca9a` em `origin/dev` (checado em 26/08/2026, 09h06, via `git fetch`/`git pull --ff-only` no clone-sandbox do Claude).**
 - **Aguardar o feedback real da equipe** usando as planilhas — pode gerar ajuste na regra do Plan 2 (ex: a ordem de prioridade dos motivos, ou os 2 critérios mantidos sem recontestação: marca válida e EAN não duplicado em marcas).
 - Confirmar se `GOOGLE_DRIVE_PASTA_RAIZ_SAMVALE` está mesmo preenchido no `.env` de produção — assumido que sim, já que a execução da Samvale não deu erro, mas não foi checado o conteúdo/número de produtos da Samvale especificamente nesta sessão.
+
+### Atualização 26/08/2026, 09h06
+
+Sincronizando o clone-sandbox com `origin/dev` (`git fetch` + `git pull --ff-only`), confirmado que o script já está commitado/pushado — commit `418ca9a`, usando o próprio título de commit que tinha sido gerado nesta nota. Nenhum outro ponto desta nota mudou.
 
 ## Relacionado
 
