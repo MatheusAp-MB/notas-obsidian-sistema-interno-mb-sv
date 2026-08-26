@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 13/08/2026
-atualizado_em: 25/08/2026 11:58
+atualizado_em: 26/08/2026 11:11
 relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Padrao de Qualidade e Clareza Estrutural do Repositorio, Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]
 ---
 
@@ -16,6 +16,8 @@ relacionado: [Migracao da API do Mercado Livre com Suporte a Multiplas Contas (M
 > **Retomada de novo em 25/08/2026, 10:50** — motivo desta vez é concreto e vem de outra frente: a correção de ponta a ponta da Agenda de Vídeos (Postagem/Replicação Automática, ver [[Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]]) chegou ao ponto de precisar de MLB e dado de produto DE VERDADE vindo da API — e hoje isso só existe via JSON importado manualmente do projeto separado antigo. Mesma pendência de 13-15/08 confirmada de novo, ainda sem nenhuma mudança: os 4 problemas de `buscar_mlbs.py`/`buscar_detalhes.py` continuam os mesmos, e a origem de `dados_completos_por_sku.json` ainda não foi localizada. Passo 1 do plano abaixo ("Próximo passo, quando retomar") só pode começar depois que o usuário disser onde estão, no computador dele, os 3 arquivos da pasta separada antiga (`buscar_mlbs.py`, `buscar_detalhes.py`, `chamadas_safe_api.py`) — ainda não compartilhados nesta sessão.
 >
 > **Retomada de novo em 25/08/2026, 11:58** — nas ~1h desde a retomada anterior (10:50), avançamos mais do que em qualquer retomada anterior. O usuário está discutindo os detalhes técnicos da migração em paralelo, numa segunda conversa de IA que tem acesso direto ao conteúdo real dos arquivos do projeto antigo (num outro computador). O papel desta sessão foi validar cada afirmação vinda de lá contra o código real deste repositório (`Projeto_Sistema_Interno_V2`) — nunca aceitar descrição sem checar, mesma disciplina de sempre. Resultado: os 4 arquivos que faltavam foram identificados, a lógica de cada um foi comparada com o código novo, e descobrimos que o trabalho de migração restante é **bem menor** do que esta nota fazia parecer até agora — ver a seção nova "Achado que reduz o tamanho do trabalho" abaixo. Todo o conteúdo a partir daquela seção foi escrito nesta atualização; o que já existia acima e abaixo foi mantido sem apagar nada, só com pequenos avisos apontando pro que mudou.
+>
+> **Retomada de novo em 26/08/2026, 11:11** — ponto 02 do plano por etapas (validado com o usuário nesta mesma retomada: "01 tokens ✓ / 02 buscar_mlbs.py / 03 buscar_detalhes.py / 04 classificar_por_sku.py / 05 buscar_dados_sku_completo.py") está **concluído e validado nas 2 empresas**. O conteúdo real de `buscar_mlbs.py` — que o passo 1 do plano mais abaixo ainda listava como pendente de colar — foi colado, comparado e migrado de verdade nesta sessão, não é mais descrição de segunda mão. Decisão de arquitetura tomada: em vez de reaproveitar `mercado_livre/` (app madura, mas confirmado por grep que nunca chama a API ao vivo) ou tratar como `scripts_dev/` descartável, foi criado um app novo, `integracao_mercado_livre/`, espelhando a separação já validada no Sysemp (`api_sysemp/` × `integracao_sysemp/`). Ver seção nova "Ponto 02 concluído e validado (26/08/2026, 11:11)" abaixo pra todos os detalhes técnicos — o que falta agora vale só pra `buscar_detalhes.py`, `chamadas_safe_api.py`, `classificar_por_sku.py` e `buscar_dados_sku_completo.py` (pontos 03 a 05).
 
 ## Por que isso importa pra quem está lendo agora (explicação simples)
 
@@ -99,12 +101,80 @@ A base (`api_mercado_livre/core/` — auth OAuth2+PKCE, gerenciador de token mul
 > [!info] Atualização de 25/08/2026, 11:58
 > Esta seção descreve o estado até 15/08/2026 — hoje sabemos mais: são 4 arquivos, não 2 (ver seção "Os 4 arquivos do projeto antigo" acima), e o `buscar_detalhes.py` já teve o conteúdo real comparado com sucesso. Nenhum diff foi aplicado ainda, mas o caminho até lá está bem mais claro agora.
 
+> [!info] Atualização de 26/08/2026, 11:11
+> Esta seção segue descrevendo o estado até 25/08/2026. Ponto 02 (`buscar_mlbs.py`) saiu de "identificado, nada migrado" pra migrado, testado e rodando em produção nas 2 empresas — ver seção nova "Ponto 02 concluído e validado (26/08/2026, 11:11)", logo abaixo.
+
+## Ponto 02 concluído e validado (26/08/2026, 11:11): `buscar_mlbs.py` migrado e rodando nas 2 empresas
+
+Trabalho fechado numa sessão de foco 100% em Integração ML, tocado em ritmo "ponto a ponto, validando ponto a ponto". Plano de 5 pontos confirmado com o usuário nesta retomada: 01 tokens (✓, 26/08 09:17 — ver [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]) → **02 buscar_mlbs.py (✓, esta seção)** → 03 buscar_detalhes.py → 04 classificar_por_sku.py → 05 buscar_dados_sku_completo.py. Promoções (o 3º `.json`, `promocoes_completo.json`) segue como assunto explicitamente pausado pelo usuário, fora deste plano de 5 pontos.
+
+### Estrutura final: app novo `integracao_mercado_livre/`
+
+Decisão tomada e confirmada com o usuário: **não** reaproveitar `mercado_livre/` pra esse código novo (confirmado por grep que esse app nunca chama a API ao vivo — nenhuma ocorrência de `requests`/`chamar_api`/`obter_token_valido` em todo `mercado_livre/`, é só consumo de `.json` + banco) e **não** tratar como `scripts_dev/` descartável — palavras do usuário: *"Ja quero tratar ela como algo realmente que vai rodar em produção"*. Em vez disso, criado um 3º app, espelhando a separação já validada no Sysemp (`api_sysemp/` × `integracao_sysemp/`):
+
+```
+api_mercado_livre/         → já existia (12/08) — cliente HTTP, auth, token
+integracao_mercado_livre/  → NOVO (26/08) — lógica de negócio, comandos, futuros models de estado
+mercado_livre/             → já existia, maduro — models de catálogo/preço + importadores .json → banco
+```
+
+`integracao_mercado_livre/` registrado em `INSTALLED_APPS` (`settings.py`), sem `models.py`/`migrations/` por enquanto (nenhum estado precisa ser persistido ainda pra este ponto). Estrutura:
+
+```
+integracao_mercado_livre/
+  apps.py
+  management/commands/buscar_mlbs.py    → comando fino, só resolve empresa(s) e chama o serviço
+  servicos/buscar_mlbs.py               → lógica real (migrada/reescrita)
+  Arquivos_API/Magazine/lista_mlbs.json → saída, isolada por empresa
+  Arquivos_API/Samvale/lista_mlbs.json
+  logs/Magazine/buscar_mlbs.log
+  logs/Samvale/buscar_mlbs.log
+```
+
+### 2 correções reais em `api_mercado_livre/core/estrutura_api/cliente_api.py`, feitas durante a migração
+
+Não foram cosméticas — corrigidas na raiz, não com workaround:
+
+1. **Nome de log fixo em `"api.log"`** — `chamar_api()` sempre escrevia no mesmo arquivo, sem separar por script chamador. Primeira ideia (aninhar pasta de log por script) foi rejeitada pelo usuário como gambiarra (*"não é muito mais correto arrumar o Client_api.py? sem fazer gambiarra"*) — corrigido de verdade: `chamar_api()` e `_configurar_logger()` ganharam parâmetro `nome_log: str = "api"`. Confirmado risco zero antes de aplicar: `chamar_api()` não tinha nenhum outro chamador real em todo o repositório até este momento.
+2. **Log duplicado e mais feio que o original, ao tentar silenciar o console** — story completa na próxima seção.
+
+### Lição aprendida (reaproveitável no ponto 03+): UX de console em lote de chamadas de API
+
+Problema real, não cosmético: a primeira execução funcionou (5640 MLBs encontrados) mas o console ficou uma parede de texto ilegível, ao ponto do usuário achar que o sistema tinha travado em loop infinito. Causa raiz: `RichHandler` (logging de cada chamada HTTP) e `rich.Progress` (barra ao vivo) escrevendo na mesma região de redraw do terminal ao mesmo tempo — os 2 não convivem.
+
+Primeira tentativa de correção (`handler_console.setLevel(logging.WARNING)`, deixando só o arquivo de log em INFO) piorou o resultado: o `logging` do Python propaga registro por padrão pra todos os loggers ancestrais, e o handler do logger raiz do Django (`'terminal'`, definido em `settings.py`, sem filtro de nível) continuou imprimindo tudo, agora duplicado. Corrigido com `logger.propagate = False` no logger de `cliente_api.py`.
+
+A correção definitiva não foi só esse bugfix — foi um redesenho combinado com o usuário (regra do projeto: nunca gerar código sem idealizar e confirmar antes; usuário chegou a pausar explicitamente com *"Não gere codigo vamos idealizar"* até o mockup visual ser aprovado):
+
+- As 168 varreduras (combinações de status × logística × tipo × catálogo) se dividem naturalmente em 6 grupos de 28, por `status`.
+- Cada grupo abre seu próprio bloco `rich.Progress` (context manager) — todas as 28 linhas aparecem de uma vez, em "⏳ na fila", nada fica invisível/"às cegas" enquanto roda.
+- Ao fechar o `with Progress(...)`, o Rich congela aquele bloco no histórico do terminal e o próximo grupo abre um bloco novo, limpo.
+- **Não muda o ritmo real das chamadas** — confirmado explicitamente com o usuário: continua 1 chamada de cada vez, em sequência estrita. Só reorganiza o que é exibido.
+- Acrescentado tempo por linha (`TimeElapsedColumn`) e, no fim, ranking das 5 varreduras mais lentas — pedido explícito do usuário, pra viabilizar achar gargalo/erro depois.
+
+Única mudança funcional real dentro desse redesenho (não só visual, sinalizada explicitamente ao usuário antes de aplicar): `try/except (ErroAPI, ErroAutenticacaoAPI)` em volta de cada varrida individual, pra 1 erro isolado não abortar o lote inteiro de 168 e pra existir de fato uma linha "✗ ERRO" possível de aparecer.
+
+Esse padrão (agrupar por dimensão natural, 1 bloco `Progress` por grupo, try/except por item) é candidato natural a se repetir em `buscar_detalhes.py` (ponto 03) — que também roda em lote, só que por página de 20 registros em vez de por combinação.
+
+### Resultado real, validado pelo usuário nas 2 empresas
+
+- **Magazine**: `python manage.py buscar_mlbs --empresa magazine` → **5640 MLBs**, 35/168 varreduras com resultado, 0 com erro, 132,9s no total. Varrida mais lenta: `paused | cross_docking | gold_special | cat:false`, 15,52s / 1631 MLBs. JSON salvo em `integracao_mercado_livre/Arquivos_API/Magazine/lista_mlbs.json`. Palavras do usuário: *"FUNCIONOU PERFEITAMENTE."*
+- **Samvale**: `python manage.py buscar_mlbs --empresa samvale` rodado pelo usuário com a mesma versão final — confirmado funcionando (*"ja rodei com a samvale, funcionou"*), sem números detalhados compartilhados nesta sessão.
+
+### Pendência nova, aberta por decisão explícita: caminho de saída aninhado por empresa diverge da convenção antiga
+
+Decisão explícita do usuário pra este ponto: `lista_mlbs.json` fica isolado por empresa dentro de `integracao_mercado_livre/Arquivos_API/<Empresa>/` (não na raiz do repo). Isso cria uma inconsistência real com os outros 2 `.json` que a migração ainda não tocou — `detalhes_mlbs.json` e `dados_completos_por_sku.json` continuam, no código hoje, esperados na raiz (`Arquivos_API/`), sem isolamento por empresa nenhum (ver seção "Caminhos reais confirmados" acima). **Decisão de unificar (ou não) essas 2 convenções fica pro ponto 03** (`buscar_detalhes.py`), por instrução explícita do usuário — não resolvida nesta sessão.
+
+### Pendência nova, adiada de propósito: testes automatizados
+
+O checklist combinado com o usuário pra este ponto incluía um bloco de testes automatizados (nível 0, lógica pura — ex: geração das 168 combinações/`GRUPOS`/`TOTAL_VARRIDAS`). Adiado de propósito, palavras do usuário: *"Não tenho tempo para focar em testes automatizados (Deixar pendencia para depois)"*. `buscar_mlbs` está em produção sem cobertura de teste automatizada — só validação manual real (Magazine + Samvale, resultado acima).
+
 ## Problemas conhecidos, não resolvidos, nesses 2 scripts
 
-- **Profundidade de `sys.path`** — hoje fazem `sys.path.insert(0, str(Path(__file__).resolve().parent.parent))` (só 2 níveis acima). Na nova localização dentro do repo (mais aninhada que a pasta antiga), esse caminho vai precisar de ajuste — quantos níveis exatamente ainda não foi decidido, depende de onde esses 2 arquivos forem colocados dentro do repo. *(Confirmado no código real de `buscar_detalhes.py` em 25/08/2026, 11:58 — exatamente como descrito aqui.)*
-- **Nome do módulo de import ambíguo** — os scripts fazem `from core.estrutura_api.chamadas_safe_api import chamar_api`, mas o cliente HTTP já migrado ficou em `api_mercado_livre.core.estrutura_api.cliente_api` (nome de arquivo diferente: `chamadas_safe_api` vs `cliente_api`). *(Resolvido em 25/08/2026, 11:58 — ver seção "Os 4 arquivos do projeto antigo": são a mesma lógica, nome de arquivo diferente, não 2 implementações.)*
-- **`conta` faltando nas chamadas** — desde que `gerenciador_token.py` passou a exigir `conta` explícito (sem padrão), toda chamada a `chamar_api(...)` dentro desses 2 scripts também precisa passar esse argumento — hoje não passa, vai quebrar direto. *(Confirmado no código real de `buscar_detalhes.py`, e nos 3 outros arquivos por descrição — ver tabela acima.)*
-- **Descompasso de pasta de saída, confirmado lendo o código real:** `buscar_detalhes.py` salva em `APP_performance/dados_brutos/detalhes_mlbs.json`, mas `core/management/commands/popular_banco.py` espera o arquivo em `Arquivos_API/detalhes_mlbs.json` (constante `CAMINHO_DETALHES_MLBS`). Enquanto esses 2 scripts não forem migrados/ajustados, o pipeline de popular banco não tem como ler o resultado deles direto. *(Ver seção "Caminhos reais confirmados" acima — o mesmo problema também existe em `buscar_dados_sku_completo.py`.)*
+- **Profundidade de `sys.path`** — hoje fazem `sys.path.insert(0, str(Path(__file__).resolve().parent.parent))` (só 2 níveis acima). Na nova localização dentro do repo (mais aninhada que a pasta antiga), esse caminho vai precisar de ajuste — quantos níveis exatamente ainda não foi decidido, depende de onde esses 2 arquivos forem colocados dentro do repo. *(Confirmado no código real de `buscar_detalhes.py` em 25/08/2026, 11:58 — exatamente como descrito aqui. Resolvido pra `buscar_mlbs.py` em 26/08/2026: `RAIZ_APP = Path(__file__).resolve().parent.parent` dentro de `integracao_mercado_livre/servicos/buscar_mlbs.py`. Segue em aberto pra `buscar_detalhes.py`, ainda não migrado.)*
+- **Nome do módulo de import ambíguo** — os scripts fazem `from core.estrutura_api.chamadas_safe_api import chamar_api`, mas o cliente HTTP já migrado ficou em `api_mercado_livre.core.estrutura_api.cliente_api` (nome de arquivo diferente: `chamadas_safe_api` vs `cliente_api`). *(Resolvido em 25/08/2026, 11:58 — ver seção "Os 4 arquivos do projeto antigo": são a mesma lógica, nome de arquivo diferente, não 2 implementações. Import de fato corrigido pra `buscar_mlbs.py` em 26/08/2026 — usa `api_mercado_livre.core.estrutura_api.cliente_api` diretamente. Segue em aberto pra `buscar_detalhes.py`.)*
+- **`conta` faltando nas chamadas** — desde que `gerenciador_token.py` passou a exigir `conta` explícito (sem padrão), toda chamada a `chamar_api(...)` dentro desses 2 scripts também precisa passar esse argumento — hoje não passa, vai quebrar direto. *(Confirmado no código real de `buscar_detalhes.py`, e nos 3 outros arquivos por descrição — ver tabela acima. Resolvido pra `buscar_mlbs.py` em 26/08/2026 — `chamar_api(..., conta=conta)` recebe a conta certa via `PREFIXO_ENV_POR_EMPRESA`. Segue em aberto pra `buscar_detalhes.py`.)*
+- **Descompasso de pasta de saída, confirmado lendo o código real:** `buscar_detalhes.py` salva em `APP_performance/dados_brutos/detalhes_mlbs.json`, mas `core/management/commands/popular_banco.py` espera o arquivo em `Arquivos_API/detalhes_mlbs.json` (constante `CAMINHO_DETALHES_MLBS`). Enquanto esses 2 scripts não forem migrados/ajustados, o pipeline de popular banco não tem como ler o resultado deles direto. *(Ver seção "Caminhos reais confirmados" acima — o mesmo problema também existe em `buscar_dados_sku_completo.py`. Pra `buscar_mlbs.py`, resolvido de forma diferente do esperado em 26/08/2026: em vez de apontar pra `Arquivos_API/lista_mlbs.json` na raiz, entrou uma convenção nova de pasta isolada por empresa — ver pendência "caminho de saída aninhado por empresa" na seção "Ponto 02 concluído..." acima. Segue sem solução pra `buscar_detalhes.py`/`dados_completos_por_sku.json`, que ainda esperam caminho de raiz.)*
 
 ## Achados sobre o pipeline de popular banco (investigação só de leitura, via sync)
 
@@ -119,6 +189,9 @@ Perguntado "quais arquivos preciso pra popular o banco?" — respondido lendo `c
 
 > [!info] Plano atualizado em 25/08/2026, 11:58 — substitui o plano de 4 passos anterior
 > Os passos 1 e 3 do plano antigo (esclarecer se `chamadas_safe_api` e `cliente_api` são a mesma coisa; localizar o script que gera `dados_completos_por_sku.json`) **já foram resolvidos** nesta sessão — ver seções acima. O plano abaixo reflete o que falta de verdade agora.
+
+> [!info] Atualização de 26/08/2026, 11:11 — passo 1 e parte do passo 3, avançados pra `buscar_mlbs.py`
+> Do passo 1: o conteúdo real de `buscar_mlbs.py` foi colado, comparado e migrado nesta sessão (ver seção "Ponto 02 concluído..." acima); `buscar_detalhes.py` já tinha sido colado e comparado linha por linha em 25/08 (mas ainda não migrado/testado). Restam `chamadas_safe_api.py`, `buscar_dados_sku_completo.py` e `classificar_por_sku.py`, ainda só descritos, não colados de verdade nesta sessão. Do passo 3 (diff de cada um dos 5 arquivos): `buscar_mlbs.py` está completo — não só diff no papel, migrado e validado com chamada real nas 2 empresas (MB e SV). Faltam 4 dos 5.
 
 1. Colar, nesta sessão, o conteúdo real de `chamadas_safe_api.py`, `buscar_mlbs.py`, `buscar_dados_sku_completo.py` e `classificar_por_sku.py` — até agora só temos a descrição deles (verificada, mas não é o código real).
 2. Decidir sobre a persistência de `mlbu` (ver seção "Achado novo: o campo de MLBU existiu no banco e foi removido") antes de escrever o diff de `buscar_dados_sku_completo.py`.

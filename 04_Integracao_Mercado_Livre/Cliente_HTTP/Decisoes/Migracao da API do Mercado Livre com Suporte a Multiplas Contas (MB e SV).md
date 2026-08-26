@@ -3,7 +3,7 @@ tipo: decisao
 dominio: python
 status: ativa
 criado: 12/08/2026
-atualizado_em: 12/08/2026 09:36
+atualizado_em: 26/08/2026 09:17
 relacionado: [Padrao de Robustez para Clientes de API Externa, Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]
 ---
 
@@ -53,9 +53,20 @@ Script de teste (`scripts_exploracao_ML/teste_conexao.py`, `GET /users/me`) rees
 
 Renovação automática de token confirmada funcionando nas 2 contas, não só a leitura de token já válido.
 
+## Reconfirmado em 26/08/2026, 09:17 — início real do foco em Integração Mercado Livre
+
+Usuário retomou esta frente 2 semanas depois (26/08/2026), decidido a focar 100% na Integração Mercado Livre a partir daqui. Antes de qualquer código novo, pediu pra validar ponto a ponto se a base já estava pronta — 1º ponto: conexão inicial + validação de token pras 2 empresas. Rodado `scripts_exploracao_ML/teste_conexao.py` de novo, ao vivo, pelo usuário:
+
+- **SV**: `[AUTH] Token da conta SV expirando. Renovando...` → `[AUTH] Token da conta SV renovado` → `HTTP: 200` → `{'id': ...}`.
+- **MB**: `[AUTH] Token da conta MB expirando. Renovando...` → `[AUTH] Token da conta MB renovado` → `HTTP: 200` → `{'id': ...}`.
+
+Confirma que a base migrada/validada em 12/08 (seção acima) continua sólida — renovação automática de token funcionando nas 2 contas 2 semanas depois, sem intervenção manual no `.env`. Nas próprias palavras do usuário: *"OK ponto 01 testado e validado, temos conexão correta com ambas as empresas via API."*
+
+**Nuance encontrada nesta mesma validação (26/08), relevante pra próximos pontos:** a peça que falta pra chamar isso de "escolha automática de empresa" pronta de ponta a ponta é o Facade — hoje quem decide "MB" ou "SV" é sempre quem chama `obter_token_valido(conta)`/`chamar_api(..., conta)` na mão (o próprio `teste_conexao.py` faz isso com 2 atribuições seguidas à mesma variável `CONTA`, uma comentada como alternativa da outra). Não existe ainda, pro lado do ML, uma classe equivalente à `ApiSysemp(empresa=None)` que puxa `obter_empresa_ativa()` sozinha — ver correção da pendência abaixo.
+
 ## Pendências conhecidas, não resolvidas nesta migração
 
-- `api_sysemp/__init__.py` foi desbloqueado só com um hardcode temporário pra conta MB (não usa este mesmo padrão de parâmetro `conta` explícito) — inconsistência entre os 2 clientes de API do projeto, registrada em [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]]. Esta migração do ML é um exemplo concreto e já validado de como resolver isso no Sysemp também, quando a decisão maior de arquitetura multiempresa for retomada.
+- ~~`api_sysemp/__init__.py` foi desbloqueado só com um hardcode temporário pra conta MB (não usa este mesmo padrão de parâmetro `conta` explícito) — inconsistência entre os 2 clientes de API do projeto~~ — **desatualizado: confirmado em 26/08/2026 que `api_sysemp/__init__.py` já usa `obter_empresa_ativa()` + `PREFIXO_ENV_POR_EMPRESA` (Facade `ApiSysemp(empresa=None)`, resolve a conta sozinha, levanta `RuntimeError` claro se não houver empresa ativa) — o hardcode em MB não existe mais no código atual. O que falta agora é o inverso do que esta pendência dizia: **é o `api_mercado_livre` que ainda não tem esse Facade** — continua exigindo `conta` explícito de quem chama, sem ligação automática com `obter_empresa_ativa()`. Ver [[Suporte a Multiplas Empresas MB e SV Rodando em Paralelo]] pro histórico da decisão maior de arquitetura multiempresa.
 - `autorizacao_inicial.py` ainda lê/grava nomes de variável sem prefixo (`CLIENT_ID`, `ACCESS_TOKEN`, etc.) — não afeta o uso atual (nenhuma conta precisa reautorizar agora), mas vai quebrar do mesmo jeito que o `gerenciador_token.py` quebrava, se precisar rodar de novo (refresh_token revogado, nova conta).
 - Estrutura interna de `core/` não segue ainda a separação `excecoes.py`/`protecao.py`/`cliente.py` do padrão Sysemp (throttle proativo, hierarquia de exceção própria) — avaliado antes da migração, adiado de propósito pra não misturar migração com refatoração.
 
