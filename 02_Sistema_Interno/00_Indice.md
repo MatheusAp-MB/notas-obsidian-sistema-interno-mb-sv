@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 25/08/2026 16:55
+atualizado_em: 26/08/2026 20:15
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
