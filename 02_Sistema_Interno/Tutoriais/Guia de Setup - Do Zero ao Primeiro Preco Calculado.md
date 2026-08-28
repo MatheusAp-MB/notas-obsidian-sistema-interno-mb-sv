@@ -115,6 +115,7 @@ Permite logar em `/admin/` e inspecionar/editar dado direto pela interface do Dj
 
 ```bash
 	poetry run python manage.py iniciar_banco --empresa=MAGAZINE
+	poetry run python manage.py iniciar_banco --empresa=SAMVALE
 ```
 
 (Troque `MAGAZINE` por `SAMVALE` se estiver configurando a Samvale.)
@@ -171,6 +172,7 @@ Pasta: `Arquivos_de_Importação/`
 
 ```bash
 poetry run python manage.py popular_banco --empresa=MAGAZINE
+poetry run python manage.py popular_banco --empresa=SAMVALE
 ```
 
 (Troque `MAGAZINE` por `SAMVALE` se estiver configurando a Samvale — e lembre que os 2 bancos são independentes: rodar este comando pra Magazine não popula nada na Samvale.)
@@ -198,6 +200,7 @@ flowchart TD
 
 ```bash
 poetry run python manage.py sincronizar_impostos_entrada --empresa=MAGAZINE
+poetry run python manage.py sincronizar_impostos_entrada --empresa=SAMVALE
 ```
 
 (Troque `MAGAZINE` por `SAMVALE` conforme a empresa.)
