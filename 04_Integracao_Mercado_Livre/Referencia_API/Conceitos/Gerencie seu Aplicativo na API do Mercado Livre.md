@@ -1,10 +1,17 @@
 ---
 tipo: conceito
-dominio: 
+dominio:
 status: ativa
 criado: 26/08/2026
 atualizado_em: 26/08/2026 22:24
-relacionado: [Boas Praticas para Uso da Plataforma do Mercado Livre, Consideracoes de Design da API do Mercado Livre, Erro 403 (Forbidden) da API do Mercado Livre, Autenticacao e Autorizacao na API do Mercado Livre, Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre, Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale), Como Escrever Notas no Vault — Padrao Hiper-Didatico]
+relacionado:
+  - Boas Praticas para Uso da Plataforma do Mercado Livre
+  - Consideracoes de Design da API do Mercado Livre
+  - Erro 403 (Forbidden) da API do Mercado Livre
+  - Autenticacao e Autorizacao na API do Mercado Livre
+  - Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre
+  - Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale)
+  - Como Escrever Notas no Vault — Padrao Hiper-Didatico
 ---
 
 # Gerencie seu Aplicativo na API do Mercado Livre

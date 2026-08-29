@@ -1,0 +1,564 @@
+{
+  "items": [
+    {
+      "type": "group",
+      "ctime": 1788040000000,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040000500,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040001000,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040001500,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040002000,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040002500,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040003000,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040003500,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040004000,
+          "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040004500,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040005000,
+              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040005500,
+              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040006000,
+              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "00_Nucleo_Comportamento_Claude"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040006500,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040007000,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040007500,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040008000,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040008500,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040009000,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040009500,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040010000,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040010500,
+          "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040011000,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040011500,
+              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040012000,
+              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040012500,
+              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "01_Nucleo_Geral_Vault"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040013000,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040013500,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040014000,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040014500,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040015000,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040015500,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040016000,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040016500,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040017000,
+          "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040017500,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040018000,
+              "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040018500,
+              "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040019000,
+              "query": "path:\"02_Sistema_Interno\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "02_Sistema_Interno"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040019500,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040020000,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040020500,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040021000,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040021500,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040022000,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040022500,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040023000,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040023500,
+          "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040024000,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040024500,
+              "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040025000,
+              "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040025500,
+              "query": "path:\"03_Integracao_Sysemp\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "03_Integracao_Sysemp"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040026000,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040026500,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040027000,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040027500,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040028000,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040028500,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040029000,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040029500,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040030000,
+          "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040030500,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040031000,
+              "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040031500,
+              "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040032000,
+              "query": "path:\"04_Integracao_Mercado_Livre\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "04_Integracao_Mercado_Livre"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040032500,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040033000,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040033500,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040034000,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040034500,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040035000,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040035500,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040036000,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040036500,
+          "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040037000,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040037500,
+              "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040038000,
+              "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040038500,
+              "query": "path:\"05_Producao_de_Imagens_e_Videos\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "05_Producao_de_Imagens_e_Videos"
+    },
+    {
+      "type": "group",
+      "ctime": 1788040039000,
+      "items": [
+        {
+          "type": "search",
+          "ctime": 1788040039500,
+          "query": "path:\"Bases\" [\"tipo\":\"regra\"]",
+          "title": "Regras"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040040000,
+          "query": "path:\"Bases\" [\"tipo\":\"decisao\"]",
+          "title": "Decisões"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040040500,
+          "query": "path:\"Bases\" [\"tipo\":\"descoberta\"]",
+          "title": "Descobertas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040041000,
+          "query": "path:\"Bases\" [\"tipo\":\"duvida\"]",
+          "title": "Dúvidas"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040041500,
+          "query": "path:\"Bases\" [\"tipo\":\"bug_conhecido\"]",
+          "title": "Bugs Conhecidos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040042000,
+          "query": "path:\"Bases\" [\"tipo\":\"conceito\"]",
+          "title": "Conceitos"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040042500,
+          "query": "path:\"Bases\" [\"tipo\":\"checkpoint\"]",
+          "title": "Checkpoints"
+        },
+        {
+          "type": "search",
+          "ctime": 1788040043000,
+          "query": "path:\"Bases\" [\"tipo\":\"tutorial\"]",
+          "title": "Tutoriais"
+        },
+        {
+          "type": "group",
+          "ctime": 1788040043500,
+          "items": [
+            {
+              "type": "search",
+              "ctime": 1788040044000,
+              "query": "path:\"Bases\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "title": "Bugs em Aberto"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040044500,
+              "query": "path:\"Bases\" [\"tipo\":\"checkpoint\"] [\"status\":\"em_andamento\"]",
+              "title": "Checkpoints em Andamento"
+            },
+            {
+              "type": "search",
+              "ctime": 1788040045000,
+              "query": "path:\"Bases\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "title": "Dúvidas em Aberto"
+            }
+          ],
+          "title": "Pendências Abertas"
+        }
+      ],
+      "title": "Bases"
+    }
+  ]
+}

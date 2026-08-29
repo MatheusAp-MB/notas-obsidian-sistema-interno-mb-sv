@@ -4,21 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "f40c8d6cacf6cf17",
+        "id": "427ae9aed5bc64ad",
         "type": "tabs",
         "children": [
           {
-            "id": "1d0910076c124ba9",
+            "id": "52f1db49f4c43fe7",
             "type": "leaf",
+            "pinned": true,
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
+              "type": "graph",
+              "state": {},
+              "pinned": true,
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
             }
           }
         ]
@@ -57,10 +55,10 @@
               "state": {
                 "query": "",
                 "matchingCase": false,
-                "explainSearch": false,
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical"
+                "explainSearch": true,
+                "collapseAll": true,
+                "extraContext": true,
+                "sortOrder": "byModifiedTime"
               },
               "icon": "lucide-search",
               "title": "Procurar"
@@ -83,8 +81,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 562.5,
-    "collapsed": true
+    "width": 520.8333740234375
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -100,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
+                "file": "01_Notas_Gerais/Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -162,7 +159,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
+                "file": "01_Notas_Gerais/Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -171,7 +168,8 @@
               "title": "Sumário"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -180,53 +178,56 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Abrir a troca rápida": false,
+      "colorful-folders:Toggle stealth mode": true,
+      "iconic:Open rulebook": false,
+      "switcher:Abrir a troca rápida": true,
       "graph:Abrir visualização em gráfico": false,
-      "canvas:Criar novo canvas": false,
-      "daily-notes:Abrir a nota de hoje": false,
-      "templates:Inserir modelo": false,
+      "canvas:Criar novo canvas": true,
+      "daily-notes:Abrir a nota de hoje": true,
+      "templates:Inserir modelo": true,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Criar nova base": false
+      "bases:Criar nova base": true,
+      "omnisearch:Omnisearch": false
     }
   },
-  "active": "1d0910076c124ba9",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
-    "02_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-    "02_Sistema_Interno/Hub_de_Fotos/Checkpoints/Checkpoint - Ajustes nos Botoes do Card do Hub de Fotos (Editar no ML e Editor de Imagens do ML).md",
-    "02_Sistema_Interno/Hub_de_Fotos/Checkpoints",
-    "02_Sistema_Interno/Hub_de_Fotos",
-    "04_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
-    "04_Integracao_Mercado_Livre/Qualidade_Visual_de_Anuncios/Checkpoint — Tela de Visualizacao de Fotos dos Anuncios (Hub de Fotos).md",
-    "04_Integracao_Mercado_Livre/Qualidade_Visual_de_Anuncios",
-    "03_Integracao_Sysemp/Impostos_Entrada/Duvidas/Divergencia de Credito PIS COFINS Entrada no Soprador SB-630.md",
-    "Sem título.canvas",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/00_Indice.md",
-    "02_Sistema_Interno/Regras_de_Comportamento/Padrao de Robustez para Clientes de API Externa.md",
-    "04_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale).md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Checkpoint — Estudo da API do Mercado Livre (Sessao 26-27_08_2026).md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Consideracoes de Design da API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Boas Praticas para Uso da Plataforma do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Sistema de Atributos de Item na API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Recurso Items (GET) — Leitura de Detalhe de Anuncio na API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Endpoint Users Items Search (Scan) — Busca Completa de MLBs por Vendedor na API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Erro 403 (Forbidden) da API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Autenticacao e Autorizacao na API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Metodologia de Analise da Documentacao da API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints",
-    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos",
-    "04_Integracao_Mercado_Livre/Referencia_API",
-    "04_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais",
-    "04_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas",
-    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre.md",
-    "04_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/Autorizacao Inicial Nao Segue o Padrao Multi-Conta (Sem Prefixo MB SV).md",
-    "04_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos",
-    "05_Producao_de_Imagens_e_Videos/06_Criacao_de_Conteudo/Fotos/Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial.md",
-    "05_Producao_de_Imagens_e_Videos/05_Decisoes/Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto.md",
-    "05_Producao_de_Imagens_e_Videos/05_Decisoes/Visao Geral do Problema de Producao de Imagens e Videos para o Mercado Livre.md",
-    "02_Sistema_Interno/Agenda_Videos/Decisoes/Relatorio de Produtos Sem Video Restrito a Ausencia Total de Estrutura no Drive.md",
-    "05_Producao_de_Imagens_e_Videos/04_Produtos/Pulverizador Costal SS-20B Brudden.md",
-    "05_Producao_de_Imagens_e_Videos/03_Grafo/3_Como_Mostrar/Sugestões — Pistola de Pintura.md",
-    "05_Producao_de_Imagens_e_Videos/06_Criacao_de_Conteudo/Videos"
+    "01_Nucleo_Geral_Vault/00_Indice.md",
+    "00_Nucleo_Comportamento_Claude/00_Indice.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Preco Alvo E Rebate Disponiveis Antes De Ativar Promocao.md",
+    "Bases/Vault - Pendencias Abertas.base",
+    "02_Sistema_Interno/Agenda_Videos/Duvidas/Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Campanha Smart Continua Ativa Mesmo Com Anuncio Pausado.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/Roster De Campanha Sem Paginacao Implementada.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/Cache Nao Distingue Erro De Rede De Erro Real Da Api.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/Fosseis de Migracao no Hub de Anuncios.md",
+    "02_Sistema_Interno/Regras_de_Comportamento/Estrutura Modular de Scripts Python.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Aumento De Preco Remove Item De Campanhas Cofinanciadas Marketplace E Volume.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Rebate E Boost.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Pagina De Catalogo.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Fossil De Migracao.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Conceitos/Classificacao De Promocoes Com Rebate Vs Sem Rebate.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Nomenclatura Base Catalogo Simples Pagina De Catalogo.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Nao Rastrear Historico Catalogo Encerrado Via Family Id.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Filtrar Fosseis De Migracao Na Camada De Consumo.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Classificacao de Anuncio Usa Apenas 2 Campos.md",
+    "04_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Abandonar Excel Como Visualizacao Final.md",
+    "02_Sistema_Interno/Precificacao/Decisoes/Redesenho_Estados_Hub_Promocoes.md",
+    "02_Sistema_Interno/Precificacao/Decisoes/Hierarquia e Comportamentos de Recomendação de Precificação.md",
+    "02_Sistema_Interno/Precificacao/Decisoes/Formula de Margem e Rebate de Promocao.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Notificacoes Webhook Como Otimizacao Futura Bloqueada Por Falta De Servidor.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Mecanismo Contabil Do Rebate Classico Nao E Garantido Pela Documentacao.md",
+    "04_Integracao_Mercado_Livre/Referencia_API/Endpoints/Falta Endpoint De Vendas Por Data Para Conversao Em Janela.md",
+    "LEGADO/03_ML_Analytics_HUB/Descobertas/Roster De Campanha Nao E Confiavel Para Uso Programatico.md.tmp.34732.15c73321b3be",
+    "LEGADO/03_ML_Analytics_HUB/Descobertas/Endpoint Performance So Aceita MLBU Nao Aceita MLB.md.tmp.34732.b9f2faa3ff53",
+    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md.tmp.34680.9c8a122dd368",
+    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md.tmp.30988.3239d9630164",
+    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md.tmp.30988.d7b413215f72",
+    "Sem título.base",
+    "01_Nucleo_Geral_Vault/Definição do Núcleo Geral do Vault.md.tmp.19384.7e87f0c95c2f",
+    "02_Sistema_Interno/Conceitos",
+    "01_Nucleo_Geral_Vault",
+    "Sem título.canvas"
   ]
 }

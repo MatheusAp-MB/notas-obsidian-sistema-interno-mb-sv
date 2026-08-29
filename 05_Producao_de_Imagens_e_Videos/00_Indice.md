@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 22/08/2026
-atualizado_em: 24/08/2026 16:58
+atualizado_em: 29/08/2026 19:59
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -79,6 +79,8 @@ Classificação/identidade do produto — "o que ele é".
 | [[Muleta Axilar]] | conceito | ativa | 23/08/2026 | Tipo de apoio superior — filho de Muleta; eixo nunca ambíguo (axilar vs. antebraço). |
 | [[Pulverizador Gerador de Espuma (Snow Foam)]] | conceito | ativa | 23/08/2026 | Filho de Pulverizador — eixo de mecanismo (sistema integrado de geração de espuma), independente de energia/transporte. Confirmado com o Snow Chantilly Veneto. |
 | [[Uso em Estética Automotiva e Limpeza Doméstica]] | conceito | ativa | 23/08/2026 | Filho de Pulverizador, irmão de Uso em Jardim e Propriedade Rural — contexto de detalhamento automotivo/limpeza doméstica. Confirmado com o Snow Chantilly Veneto. |
+| [[Pistola de Pintura]] | conceito | ativa | 23/08/2026 | Nó raiz da categoria pistola de pintura — aplica tinta/fluido de acabamento por pulverização, alimentado por ar comprimido externo; diferente de Pulverizador (energia própria, sem compressor). |
+| [[Pistola de Pintura por Gravidade]] | conceito | ativa | 23/08/2026 | Sistema de alimentação — filho de Pistola de Pintura; eixo nunca ambíguo (Gravidade/Sucção/Pressurizado são sistemas distintos, sempre nós separados). |
 
 ## 03_Grafo/2_O_Que_Pode_Ter
 
@@ -107,6 +109,9 @@ Templates de característica — "o que ele pode ter", agnósticos de categoria.
 | [[Apoio de Axila]] | conceito | ativa | 23/08/2026 | Template ativado por Muleta Axilar. |
 | [[Empunhadura e Mecanismo de Acionamento]] | conceito | ativa | 23/08/2026 | Template ativado por Pulverizador de Mão; alça integrada, alavanca/gatilho, trava/regulador. |
 | [[Sistema de Geração de Espuma (Snow Foam)]] | conceito | ativa | 23/08/2026 | Template ativado por Pulverizador Gerador de Espuma (Snow Foam); presença/princípio do mecanismo, diluição/pH do produto químico recomendado. |
+| [[Alimentação Pneumática (Ar Comprimido)]] | conceito | ativa | 23/08/2026 | Template ativado por Pistola de Pintura; agnóstico de categoria, reaproveitável por qualquer ferramenta pneumática (lixadeira, chave de impacto). |
+| [[Bico e Padrão de Leque]] | conceito | ativa | 23/08/2026 | Template ativado por Pistola de Pintura; inclui diâmetro do bico e faixa de abertura do leque como dado. |
+| [[Restrição de Regime de Uso e Viscosidade]] | conceito | ativa | 23/08/2026 | Template ativado por Pistola de Pintura; cobre restrição de viscosidade do fluido e regime de uso (contínuo/industrial). |
 
 ## 03_Grafo/3_Como_Mostrar
 
@@ -128,6 +133,10 @@ Banco de sugestões (não regras) por gatilho — cada gatilho é um nó do Graf
 | [[Sugestões — Empunhadura e Mecanismo de Acionamento]] | conceito | ativa | 23/08/2026 | 2º gatilho de Grafo 2 do vault. Sugestões sobre alça, gesto de bombear e acionar a alavanca. Proposto. |
 | [[Cenário de Capa - Área de Estética Automotiva ou Limpeza Externa]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 1: Uso em Estética Automotiva e Limpeza Doméstica. Cenário de garagem/lava-rápido ou limpeza doméstica externa. Proposto. |
 | [[Sugestões — Pulverizador Gerador de Espuma (Snow Foam)]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 1: Pulverizador Gerador de Espuma (Snow Foam). Sugestões sobre mostrar a espuma em ação, não só o equipamento parado. Proposto. |
+| [[Cenário de Capa - Oficina de Pintura e Acabamento]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 1: Pistola de Pintura. Capa em ambiente de oficina real (bancada, peça sendo pintada ao fundo desfocada), sem pessoas. Proposto, ainda não testado. |
+| [[Sugestões — Alimentação Pneumática]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 2: Alimentação Pneumática. Mostrar conexão de entrada de ar e necessidade de compressor externo — 1º gatilho de Grafo 2 fora do domínio pulverizador/mobilidade. Proposto. |
+| [[Sugestões — Bico e Padrão de Leque]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 2: Bico e Padrão de Leque. Closeup do bico/capa de ar e diagrama da faixa de abertura de leque. Proposto. |
+| [[Sugestões — Pistola de Pintura]] | conceito | ativa | 23/08/2026 | Gatilho de Grafo 1: Pistola de Pintura. Padrão de leque em ação, contraste corpo cromado/componentes vermelhos, evitar contexto doméstico de baixo padrão. Proposto. |
 
 ## 04_Produtos
 

@@ -1,0 +1,363 @@
+/* --- FILE EXPLORER STYLES --- */
+
+.nav-file-title.colored-tag-file {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Strategy: Text Color (and new combinations) */
+.nav-files-container .nav-file-title.strategy-text,
+.nav-files-container .nav-file-title.strategy-dots-before-text,
+.nav-files-container .nav-file-title.strategy-dots-after-text {
+    color: var(--tag-file-color);
+}
+
+/* Keep the rule color through the pointer states.
+   Obsidian repaints a hovered nav item with
+   `body:not(.is-grabbing) .tree-item-self.is-clickable:hover` — plus the
+   `.is-active` / `.is-selected` hover variants — each scoring 0,4,1, which
+   beats the 0,3,0 rule above and resets the title to `--nav-item-color-hover`
+   while the pointer is over it. Re-assert the tag color at 0,5,1 so it wins
+   against all three. The unhovered `.is-active` / `.is-selected` rules score
+   only 0,2,0, so the rule above already covers those. */
+body:not(.is-grabbing) .nav-files-container .nav-file-title.strategy-text:hover,
+body:not(.is-grabbing) .nav-files-container .nav-file-title.strategy-dots-before-text:hover,
+body:not(.is-grabbing) .nav-files-container .nav-file-title.strategy-dots-after-text:hover {
+    color: var(--tag-file-color);
+}
+
+/* Strategy: Background Color */
+.nav-files-container .nav-file-title.strategy-background {
+    background-color: var(--tag-file-color);
+    border-radius: var(--radius-s);
+}
+
+/* --- DOTS SYSTEM --- */
+
+.tag-dots-container {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    z-index: 10;
+}
+
+.tag-dots-container.is-before-root { left: 0; justify-content: flex-end; }
+.tag-dots-container.is-before { margin-inline-start: calc(-1 * var(--size-4-6) + 1px); }
+.tag-dots-container.is-after { right: 0; justify-content: flex-end; }
+
+.tag-dot {
+    border-radius: 50%;
+    position: absolute;
+    border: 0.5px solid var(--background-primary);
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--dot-color);
+    z-index: calc(20 - var(--dot-index));
+}
+
+.tag-dots-container.is-before-root .tag-dot, .tag-dots-container.is-before .tag-dot {
+    right: calc(-16px + (var(--dot-index) * var(--dot-spacing, 4.5px)));
+}
+
+.tag-dots-container.is-after .tag-dot {
+    right: calc(10px + (var(--dot-index) * var(--dot-spacing, 4.5px)));
+}
+
+/* DOTS SIZE & SPACING OPTIONS */
+
+.tag-dots-container.dots-small { --dot-spacing: 4px; }
+.tag-dots-container.dots-small .tag-dot { width: 6px; height: 6px; }
+
+.tag-dots-container.dots-default { --dot-spacing: 4.5px; }
+.tag-dots-container.dots-default .tag-dot { width: 7px; height: 7px; }
+
+.tag-dots-container.dots-big { --dot-spacing: 5px; }
+.tag-dots-container.dots-big .tag-dot { width: 8px; height: 8px; }
+
+
+/* --- BASES --- */
+
+/* Bases draws a file name as an `.internal-link` inside `.markdown-rendered`,
+   which paints it `color: var(--link-color)` and swaps in `--link-color-hover`
+   on hover. Redefining those variables on the link itself, instead of setting
+   `color`, keeps the rule color through every link state without having to
+   outscore each of Obsidian's rules separately. */
+.bases-view .internal-link.colored-tag-base-file {
+    --link-color: var(--tag-file-color);
+    --link-color-hover: var(--tag-file-color);
+    --link-unresolved-color: var(--tag-file-color);
+}
+
+/* --- SETTINGS TAB STYLES --- */
+
+/* --- Declarative settings host (Obsidian 1.13+) ---
+   getSettingDefinitions() returns a single group holding one render-only row,
+   which hosts this plugin's entirely custom settings DOM. The rules below undo
+   the group/row chrome Obsidian applies around that host so the tab keeps the
+   layout it had before the declarative-settings migration. */
+
+/* The plugin draws its own cards, so blank the group's card shell. */
+.tags-color-files-settings-group > .setting-items {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+/* The host row is a bare container, not a setting row. Reaches 0,3,0 so it beats
+   Obsidian's `.setting-group .setting-item:not(.setting-item-heading)`. */
+.tags-color-files-settings-group .setting-item.tags-color-files-settings-anchor {
+    display: block;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.tags-color-files-settings-group .setting-item.tags-color-files-settings-anchor::before {
+    content: none;
+}
+
+/* Obsidian writes the definition's name/desc into the host row for search
+   indexing; the renderer draws its own heading and description, so hide it. */
+.tags-color-files-settings-anchor > .setting-item-info,
+.tags-color-files-settings-anchor > .setting-item-control {
+    display: none;
+}
+
+/* RESET — restores the standalone `.setting-item` card look this plugin's layout
+   was written against, undoing the flattening + dividers that
+   `.setting-group .setting-item:not(.setting-item-heading)` imposes on rows
+   nested inside a group.
+   BORDER: hardcoded 1px rather than `var(--setting-items-border-width)`, which
+   Obsidian defines as `0` globally — grouped rows are separated by dividers, not
+   outlines, so the variable left every option row borderless while the rule rows
+   below drew a 1px outline. Matching `.tag-color-setting-item` keeps the whole
+   tab consistent.
+   ORDERING: this rule scores 0,3,0, the same as Obsidian's. Any rule that
+   re-asserts a row inside the render root MUST stay BELOW this block, or file
+   order will silently undo it. */
+.tags-color-files-settings-root .setting-item:not(.setting-item-heading) {
+    border: 1px solid var(--setting-items-border-color);
+    background-color: var(--setting-items-background);
+    border-radius: var(--setting-items-radius);
+    padding: var(--size-4-4);
+    margin-bottom: var(--size-4-2);
+}
+
+.tags-color-files-settings-root .setting-item:not(.setting-item-heading)::before {
+    content: none;
+}
+
+/* Obsidian's base `.setting-item` top-aligns its control (align-items:
+   flex-start), which leaves dropdowns and buttons hanging at the top of rows
+   that have a multi-line description. This plugin's rows are laid out against
+   vertically centered controls, so restore that.
+   Narrow layouts are unaffected: the `@container (max-width: 400px)` rule turns
+   the row into a column and gives the info `align-self: flex-start` and the
+   control `width: 100%`, and the `.is-phone` rule scores 0,4,0 and still wins. */
+.tags-color-files-settings-root .setting-item:not(.setting-item-heading) {
+    align-items: center;
+}
+
+/* "Add rule" row: description on its own line, buttons filling the width below
+   it. Ties with the reset above at 0,3,0, so it MUST stay below it. */
+.tags-color-files-settings-root .setting-item.tag-add-rule-setting {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.tags-color-files-settings-root .setting-item.tag-add-rule-setting > .setting-item-info {
+    margin-inline-end: 0;
+}
+
+.tags-color-files-settings-root .setting-item.tag-add-rule-setting > .setting-item-control {
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* Equal halves; `max-content` keeps the icon + label from being squeezed, so a
+   button that no longer fits drops to its own full-width line instead. */
+.tags-color-files-settings-root .setting-item.tag-add-rule-setting > .setting-item-control button {
+    flex: 1 1 0;
+    min-width: max-content;
+    gap: var(--size-4-2);
+    --icon-size: var(--icon-s);
+    --icon-stroke: var(--icon-s-stroke-width);
+}
+
+/* Accent is a hover affordance here, not a permanent call-to-action, so neither
+   button carries .mod-cta. `--text-color` is the same hook Obsidian's own
+   `button.mod-cta` uses, so the label and the icon both follow. */
+.tags-color-files-settings-root .setting-item.tag-add-rule-setting > .setting-item-control button:hover {
+    background-color: var(--interactive-accent);
+    --text-color: var(--text-on-accent);
+}
+
+.plugin-description-container {
+    margin-bottom: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: -4px;
+}
+
+.tag-rules-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    gap: 8px;
+}
+
+.tag-rules-list .tag-color-setting-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border: 1px solid var(--setting-items-border-color);
+    border-radius: var(--setting-items-radius);
+    padding: 24px 16px;
+    background-color: var(--setting-items-background);
+}
+
+.tag-input-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: 1 1 180px;
+    min-width: 180px;
+    gap: 12px;
+}
+
+.tag-input-field-wrapper {
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.tag-color-setting-item .tag-color-picker-input {
+    appearance: none;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
+    flex: 0 0 24px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.tag-color-setting-item .tag-color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 50%;
+}
+
+.tag-color-setting-item .tag-color-picker-input::-webkit-color-swatch {
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 50%;
+}
+
+.tag-rules-list .tag-color-setting-item input[type="text"] {
+    width: 100%;
+    min-width: 180px;
+}
+
+.tag-rules-list .tag-color-setting-item input[type="text"].is-invalid {
+    border: 1px solid var(--text-error);
+}
+
+.tag-error-message {
+    color: var(--text-error);
+    font-size: var(--font-smallest);
+    visibility: hidden;
+    padding: 4px 16px 0;
+}
+
+.tag-error-message.is-visible {
+    visibility: visible;
+}
+
+.drag-handle {
+    color: var(--text-muted);
+    cursor: grab;
+    flex: 0 0 auto;
+}
+
+.tag-color-setting-item.is-dragging {
+    opacity: 1;
+    outline-color: var(--interactive-accent);
+    outline-style: solid;
+    outline-width: 2px;
+    border-radius: var(--input-radius);
+}
+
+.tag-reorder-arrows {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+}
+
+.tag-reorder-arrows .clickable-icon {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Operator combobox-button — mirrors Obsidian's .combobox-button .filter-operator.
+   These rules serve as fallback when Bases CSS is not injected, and also enforce
+   flex-shrink + cursor that Obsidian's base rule does not explicitly set. */
+.tag-color-setting-item .combobox-button.filter-operator {
+    flex-shrink: 0;
+    cursor: pointer;
+    /* Fallback values — Obsidian's Bases CSS takes over when Bases is loaded */
+    display: flex;
+    align-items: center;
+    gap: var(--size-2-2, 4px);
+    padding: 0 var(--size-2-3, 6px) 0 var(--size-4-2, 8px);
+    min-height: var(--input-height, 28px);
+    overflow: hidden;
+    white-space: nowrap;
+    border-style: solid;
+    border-color: var(--background-modifier-border);
+    border-radius: var(--input-radius);
+}
+
+.tag-color-setting-item .combobox-button.filter-operator:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.tag-color-setting-item .combobox-button .combobox-button-icon {
+    display: none;
+}
+
+.tag-color-setting-item .combobox-button:not(.mod-clearable) .combobox-clear-button {
+    display: none;
+}
+
+.tag-color-setting-item .combobox-button .combobox-button-chevron {
+    --icon-size: var(--icon-xs, 14px);
+    --icon-stroke: var(--icon-xs-stroke-width, 1.75);
+    display: flex;
+    align-items: center;
+}
+
+.tag-color-setting-item .combobox-button .combobox-button-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tag-folder-scope-input {
+    flex: 1 1 180px;
+    min-width: 0;
+}

@@ -1,0 +1,11 @@
+{
+  "generalRules": [
+    {
+      "tag": "tipo/checkpoint",
+      "color": "#4be2d0"
+    }
+  ],
+  "colorStrategy": "text",
+  "dotSize": "default",
+  "applyToBases": true
+}

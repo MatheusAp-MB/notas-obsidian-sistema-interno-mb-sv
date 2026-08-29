@@ -8,58 +8,74 @@
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "path:LEGADO  ",
+      "query": "path:\"00_Nucleo_Comportamento_Claude\"",
       "color": {
         "a": 1,
-        "rgb": 14701138
+        "rgb": 16156987
       }
     },
     {
-      "query": "path:02_Sistema_Interno  ",
+      "query": "path:\"01_Nucleo_Geral_Vault\"",
       "color": {
         "a": 1,
-        "rgb": 5419488
+        "rgb": 1357990
       }
     },
     {
-      "query": "path:03_Integracao_Sysemp  ",
+      "query": "path:\"02_Sistema_Interno\"",
       "color": {
         "a": 1,
-        "rgb": 3022847
+        "rgb": 3900150
       }
     },
     {
-      "query": "path:04_Integracao_Mercado_Livre  ",
+      "query": "path:\"03_Integracao_Sysemp\"",
       "color": {
         "a": 1,
-        "rgb": 16775490
+        "rgb": 6514417
       }
     },
     {
-      "query": "path:05_Producao_de_Imagens_e_Videos/04_Produtos  ",
+      "query": "path:\"04_Integracao_Mercado_Livre\"",
       "color": {
         "a": 1,
-        "rgb": 11533881
+        "rgb": 16498468
       }
     },
     {
-      "query": "path:05_Producao_de_Imagens_e_Videos",
+      "query": "path:\"05_Producao_de_Imagens_e_Videos\"",
       "color": {
         "a": 1,
-        "rgb": 5431473
+        "rgb": 7355382
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
       }
     }
   ],
-  "collapse-display": true,
-  "showArrow": false,
-  "textFadeMultiplier": 0,
-  "nodeSizeMultiplier": 1,
-  "lineSizeMultiplier": 1,
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": -1.1,
+  "nodeSizeMultiplier": 1.49614612345359,
+  "lineSizeMultiplier": 2.003951033098,
   "collapse-forces": false,
-  "centerStrength": 0.518713248970312,
-  "repelStrength": 10,
+  "centerStrength": 0.504631128959129,
+  "repelStrength": 15.1022619531356,
   "linkStrength": 1,
-  "linkDistance": 250,
-  "scale": 0.999999999999883,
-  "close": false
+  "linkDistance": 179,
+  "scale": 0.1846232622585398,
+  "close": true,
+  "cf-managed-queries": [
+    "path:\"00_Nucleo_Comportamento_Claude\"",
+    "path:\"01_Nucleo_Geral_Vault\"",
+    "path:\"02_Sistema_Interno\"",
+    "path:\"03_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Mercado_Livre\"",
+    "path:\"05_Producao_de_Imagens_e_Videos\"",
+    "path:\"Bases\""
+  ]
 }

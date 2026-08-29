@@ -1,0 +1,54 @@
+{
+  "biggerIcons": "mobile",
+  "clickableIcons": "desktop",
+  "showAllFileIcons": false,
+  "showAllFolderIcons": false,
+  "minimalFolderIcons": true,
+  "showMarkdownTabIcons": true,
+  "showTitleIcons": true,
+  "showTagPillIcons": true,
+  "showMenuActions": true,
+  "showSuggestionIcons": true,
+  "showQuickSwitcherIcons": true,
+  "showMoveFileIcons": true,
+  "showItemName": "desktop",
+  "useSearchKeywords": "on",
+  "maxSearchResults": 100,
+  "colorPicker1": "list",
+  "colorPicker2": "rgb",
+  "uncolorHover": true,
+  "uncolorDrag": true,
+  "uncolorSelect": true,
+  "uncolorQuick": true,
+  "maxBackups": 2,
+  "dialogState": {
+    "iconMode": true,
+    "emojiMode": false,
+    "rulePage": "file"
+  },
+  "appIcons": {},
+  "tabIcons": {},
+  "fileIcons": {},
+  "bookmarkIcons": {},
+  "tagIcons": {},
+  "propertyIcons": {},
+  "ribbonIcons": {},
+  "fileRules": [
+    {
+      "id": "7k4If",
+      "name": "Untitled rule",
+      "match": "all",
+      "conditions": [
+        {
+          "source": "property:tipo",
+          "operator": "is",
+          "value": "checkpoint"
+        }
+      ],
+      "enabled": true,
+      "icon": "lucide-list-todo",
+      "color": "orange"
+    }
+  ],
+  "folderRules": []
+}

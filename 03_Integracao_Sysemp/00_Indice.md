@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 28/08/2026 17:06
+atualizado_em: 29/08/2026 19:59
 relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa, Como Escrever Notas no Vault — Padrao Hiper-Didatico]
 ---
 
@@ -35,6 +35,7 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
+| [[Checkpoint — Exploracao de Dados Fiscais Sysemp]] | checkpoint | em_andamento | 07/08/2026 | Checkpoint em andamento da integração fiscal Sysemp — última atualização (14/08) oficializa Empresa Fantasia e FCP ST no pipeline de impostos de entrada (528 passed, 0 failures); histórico cobre pipeline de custo atual, dublê de precificação validado em produtos reais, modelagem de impostos por XML, sincronização incremental com watermark e correção de bug de ICMS ST fantasma. |
 | [[API Sysemp So Retorna a Ultima Nota Fiscal por Produto]] | descoberta | ativa | 07/08/2026 | Teoria inicial errada — corrigida: causa real era paginação não tratada (offset sempre 0), não comportamento da API. |
 | [[Paginacao do Endpoint Manifesto Nota Entrada]] | decisao | ativa | 07/08/2026 | Endpoint pagina (~100/página); `listar_periodo_completo()` loopa até página vazia. Validado: 100→578 registros no período real. |
 | [[Lista de CFOP Relevantes para Precificacao]] | decisao | ativa | 07/08/2026 | Custo de aquisição confiável em 1.102/2.102/1.403/2.403; retorno de conserto fora. Chegou a incluir bonificação (1.910/2.910) em 07/08 (11:26), mas isso foi revertido em 15/08 — ver [[Bonificacao Removida do Filtro de CFOP de Impostos de Entrada]]. |

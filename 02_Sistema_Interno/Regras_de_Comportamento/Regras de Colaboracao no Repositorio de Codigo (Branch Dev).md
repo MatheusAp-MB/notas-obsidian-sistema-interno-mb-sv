@@ -3,8 +3,11 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 25/08/2026 16:55
-relacionado: [Disciplina de Testes Automatizados, Status Manual Atual Ignora Historico Quando Participacao Nao Existe, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
+atualizado_em: 29/08/2026 19:51
+relacionado:
+  - Disciplina de Testes Automatizados
+  - Status Manual Atual Ignora Historico Quando Participacao Nao Existe
+  - Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)
 ---
 
 # Regras de Colaboração no Repositório de Código (branch dev)
@@ -51,11 +54,13 @@ Reincidiu uma 6ª vez em 25/08/2026, numa sessão do Cowork (produto diferente d
 
 Sempre que surgir dúvida sobre regra de negócio, convenção ou decisão de projeto, as notas do vault são a fonte de verdade primária. Se as notas não responderem, Claude pergunta ao usuário — nunca assume ou inventa.
 
-## LEGADO/ não é fonte de verdade
+## Conteúdo vindo do LEGADO (pasta removida em 29/08/2026)
 
-Arquivos dentro de `LEGADO/` são arquivo morto — consulta pontual apenas, nunca base para decisão ou premissa de trabalho atual.
+**Atualizado em 29/08/2026, 19:51 — `LEGADO/` não existe mais no vault.** As 43 notas que ainda tinham conteúdo real (principalmente aprendizados sobre a API do Mercado Livre) foram lidas uma a uma, reclassificadas nas pastas corretas dos mundos (`02_Sistema_Interno/`, `04_Integracao_Mercado_Livre/`) e marcadas com `tags: [Vindo_do_Legado]` — sem alterar conteúdo, data ou metadado original, exceto os poucos casos de frontmatter genuinamente quebrado. Só depois de a migração esvaziar a pasta por completo, o usuário apagou `LEGADO/` de vez.
 
-Incidente real (09/08/2026): questionado sobre ter executado código sozinho, Claude buscou a regra correspondente e achou (e citou) uma versão dela dentro de `LEGADO/01_Notas_Gerais/Regras/`, em vez de checar primeiro aqui em `02_Sistema_Interno/Regras_de_Comportamento/`. O conteúdo até coincidia, mas a fonte errada foi usada como base — o usuário corrigiu explicitamente ("VOCÊ NUNCA LÊ NADA DE LEGADO"). Daqui pra frente, qualquer dúvida sobre regra de comportamento é resolvida primeiro nesta pasta.
+Isso muda o tratamento: não existe mais um caminho `LEGADO/` pra consultar. Uma nota com a tag `Vindo_do_Legado` (busca: `tag:#Vindo_do_Legado`) não é "arquivo morto" — é dado real, só que não verificado/atualizado contra o estado atual do projeto. Ao encontrar uma dessas notas relevante pra uma pergunta atual (ex: um endpoint da API do ML), o conteúdo precisa ser conferido antes de virar premissa — e, uma vez confirmado, o ideal é a informação virar uma nota nova "de verdade" (sem a tag), deixando a nota antiga marcada como superada.
+
+**Histórico (regra original, válida enquanto `LEGADO/` ainda existia como pasta):** incidente real (09/08/2026) — questionado sobre ter executado código sozinho, Claude buscou a regra correspondente e achou (e citou) uma versão dela dentro de `LEGADO/01_Notas_Gerais/Regras/`, em vez de checar primeiro aqui em `02_Sistema_Interno/Regras_de_Comportamento/`. O conteúdo até coincidia, mas a fonte errada foi usada como base — o usuário corrigiu explicitamente ("VOCÊ NUNCA LÊ NADA DE LEGADO"). O princípio de fundo continua valendo mesmo sem a pasta existir: uma nota com `Vindo_do_Legado` nunca substitui a checagem nas regras/decisões "de verdade" do mundo correspondente.
 
 ## Mudança de código nunca em prosa — sempre diff exato ou arquivo completo
 

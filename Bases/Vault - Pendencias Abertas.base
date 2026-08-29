@@ -9,6 +9,9 @@ views:
       - file.name
       - dominio
       - atualizado_em
+    sort:
+      - property: atualizado_em
+        direction: ASC
   - type: table
     name: "Trabalho em andamento (tipo: checkpoint, status: em_andamento)"
     filters:
