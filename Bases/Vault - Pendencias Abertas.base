@@ -1,10 +1,10 @@
 views:
   - type: table
-    name: "Bugs em aberto (tipo: bug_conhecido, status: ativo)"
+    name: "Bugs em aberto (tipo: bug_conhecido, status: em_aberto)"
     filters:
       and:
         - tipo == "bug_conhecido"
-        - status == "ativo"
+        - status == "em_aberto"
     order:
       - file.name
       - dominio
@@ -31,11 +31,11 @@ views:
       file.name: 615
       note.atualizado_em: 159
   - type: table
-    name: "Duvidas ainda em aberto (tipo: duvida, status: ativa)"
+    name: "Duvidas ainda em aberto (tipo: duvida, status: em_aberto)"
     filters:
       and:
         - tipo == "duvida"
-        - status == "ativa"
+        - status == "em_aberto"
     order:
       - file.name
       - dominio

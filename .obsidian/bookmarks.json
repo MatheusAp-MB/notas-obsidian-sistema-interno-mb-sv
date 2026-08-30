@@ -59,7 +59,7 @@
             {
               "type": "search",
               "ctime": 1788040005000,
-              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -71,7 +71,7 @@
             {
               "type": "search",
               "ctime": 1788040006000,
-              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -139,7 +139,7 @@
             {
               "type": "search",
               "ctime": 1788040011500,
-              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -151,7 +151,7 @@
             {
               "type": "search",
               "ctime": 1788040012500,
-              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"01_Nucleo_Geral_Vault\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -219,7 +219,7 @@
             {
               "type": "search",
               "ctime": 1788040018000,
-              "query": "path:\"03_Sistema_Interno\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"03_Sistema_Interno\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -231,7 +231,7 @@
             {
               "type": "search",
               "ctime": 1788040019000,
-              "query": "path:\"03_Sistema_Interno\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"03_Sistema_Interno\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -299,7 +299,7 @@
             {
               "type": "search",
               "ctime": 1788040024500,
-              "query": "path:\"04_Integracao_Sysemp\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"04_Integracao_Sysemp\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -311,7 +311,7 @@
             {
               "type": "search",
               "ctime": 1788040025500,
-              "query": "path:\"04_Integracao_Sysemp\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"04_Integracao_Sysemp\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -379,7 +379,7 @@
             {
               "type": "search",
               "ctime": 1788040031000,
-              "query": "path:\"05_Integracao_Mercado_Livre\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"05_Integracao_Mercado_Livre\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -391,7 +391,7 @@
             {
               "type": "search",
               "ctime": 1788040032000,
-              "query": "path:\"05_Integracao_Mercado_Livre\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"05_Integracao_Mercado_Livre\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -459,7 +459,7 @@
             {
               "type": "search",
               "ctime": 1788040037500,
-              "query": "path:\"06_Producao_de_Imagens_e_Videos\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"06_Producao_de_Imagens_e_Videos\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -471,7 +471,7 @@
             {
               "type": "search",
               "ctime": 1788040038500,
-              "query": "path:\"06_Producao_de_Imagens_e_Videos\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"06_Producao_de_Imagens_e_Videos\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],
@@ -539,7 +539,7 @@
             {
               "type": "search",
               "ctime": 1788040044000,
-              "query": "path:\"Bases\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"ativo\"]",
+              "query": "path:\"Bases\" [\"tipo\":\"bug_conhecido\"] [\"status\":\"em_aberto\"]",
               "title": "Bugs em Aberto"
             },
             {
@@ -551,7 +551,7 @@
             {
               "type": "search",
               "ctime": 1788040045000,
-              "query": "path:\"Bases\" [\"tipo\":\"duvida\"] [\"status\":\"ativa\"]",
+              "query": "path:\"Bases\" [\"tipo\":\"duvida\"] [\"status\":\"em_aberto\"]",
               "title": "Dúvidas em Aberto"
             }
           ],

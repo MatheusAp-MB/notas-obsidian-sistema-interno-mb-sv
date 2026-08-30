@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 16/08/2026
-atualizado_em: 29/08/2026 23:10
+atualizado_em: 29/08/2026 23:26
 relacionado: [Estrutura e Convenções do Vault, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido]
 ---
 
@@ -534,7 +534,8 @@ Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padr
 - [x] Definir e aplicar cor + ícone por tipo (Camada 1 — `regras`, `conceitos`, `decisoes`, `duvidas`, `descobertas`, `bugs_conhecidos`, `checkpoints`, `tutoriais`) — **feito (29/08, 22:44)**, 35 pastas reais escritas em `customFolderColors`. Ver 6.10.
 - [x] Testar `applyToFiles` (estender estilo do tipo pros arquivos dentro da pasta, não só a pasta) — **feito e aprovado (29/08, 23:10)**, replicado nas 35. Ver 6.10.
 - [x] Investigar ícone colorido no Graph View (igual pastas) — **teto técnico real confirmado (29/08)**: motor nativo do Obsidian não suporta ícone por nó, só cor. Não é config pendente, é limite do produto. Ver 6.10.
-- [ ] Construir a "camada resumida" das 6 regras de `00_Nucleo_Comportamento_Claude/` — passo que ataca a causa raiz dos incidentes reais de violação de regra (ver autoavaliação em 6.6), ainda pausado.
+- [ ] Construir a "camada resumida" das 6 regras de `00_Nucleo_Comportamento_Claude/` — passo que ataca a causa raiz dos incidentes reais de violação de regra (ver autoavaliação em 6.6), ainda pausado. **Condição explícita do usuário (29/08, 23:26)**: continuar testando/usando o vault primeiro; só constrói essa camada se os erros de comportamento continuarem aparecendo na prática. Não é esquecido — é decisão consciente de esperar dado real antes de investir nisso.
+- [ ] Migrar as ~30+ notas antigas cujo `tipo`/`status` não bate com o vocabulário dos 9 tipos formalizado em 29/08 (21:12) — ex: `decisao` com `resolvida`/`proposta`/`pendente-validacao` em vez de `ativa`/`em_andamento`/`concluida`/`descartada`; `descoberta` com `corrigida`/`aberta` em vez de `ativa`/`confirmada`; drift de capitalização vindo do LEGADO (`Decisão`, `Bug Conhecido`). **Decisão do usuário (29/08, 23:26)**: sem varredura proativa — corrige nota por nota, só quando cada uma aparecer no caminho por outro motivo.
 - [x] Instalar e testar Graph Search Sync — **feito (29/08)**, funcionando. Ver 6.7.
 - [x] **Achado importante, registrado pra não esquecer**: busca nativa por property (`[tipo]: valor`) já organiza o Graph View hoje, sem depender da migração Caminho C — a migração de tag deixou de ser bloqueio pra navegação organizada, segue valendo só pelo ganho de cor visual e busca por `tag:`. Ver 6.7.
 - [x] Testar e instalar GraphFrontier — **feito e descartado (29/08)**: funcionava bem, mas é um grafo separado sem sincronia com cor/busca já configuradas no nativo. Desinstalado. Ver 6.8.
