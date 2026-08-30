@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 00:32
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Etapa 1-4 - Estudo do Produto, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Exemplo — Prompt (Modelo de Demonstracao)]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Etapa 1-4 - Estudo do Produto, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Exemplo — Prompt (Modelo de Demonstracao), Os 9 Tipos de Nota]
 resumo: Esqueleto de referência, explicado seção por seção, para prompt — o corpo da nota é a própria ferramenta a ser copiada e usada (não uma explicação sobre algo), com maturidade refletida no status (em_desenvolvimento/validado) e exemplo de execução real como prova.
 ---
 
@@ -17,7 +17,7 @@ resumo: Esqueleto de referência, explicado seção por seção, para prompt —
 
 ## Contexto — por que este modelo é diferente dos outros
 
-Pela definição já registrada em [[Estrutura e Convenções do Vault]], `prompt` é "texto de prompt pronto pra ser usado", com `status` refletindo maturidade — `em_desenvolvimento` (ainda sendo pensado/testado) até `validado` (testado e confirmado funcionando, nunca por suposição). Isso muda o que "exemplo" significa aqui, comparado aos outros modelos: não é um exemplo hipotético de uso, é a prova de que o prompt já rodou de verdade e funcionou — sem essa prova, o prompt não deveria estar marcado como `validado`.
+Pela definição já registrada em [[Os 9 Tipos de Nota]], `prompt` é "texto de prompt pronto pra ser usado", com `status` refletindo maturidade — `em_desenvolvimento` (ainda sendo pensado/testado) até `validado` (testado e confirmado funcionando, nunca por suposição). Isso muda o que "exemplo" significa aqui, comparado aos outros modelos: não é um exemplo hipotético de uso, é a prova de que o prompt já rodou de verdade e funcionou — sem essa prova, o prompt não deveria estar marcado como `validado`.
 
 ## As seções, explicadas 1 a 1
 
@@ -56,5 +56,5 @@ Os prompts da pipeline de produção de imagens (ex: [[Etapa 1-4 - Estudo do Pro
 ## Relacionado
 
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
-- [[Estrutura e Convenções do Vault]]
+- [[Os 9 Tipos de Nota]]
 - [[Etapa 1-4 - Estudo do Produto]]

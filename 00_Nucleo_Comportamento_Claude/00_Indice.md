@@ -3,13 +3,13 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 29/08/2026
-atualizado_em: 30/08/2026 01:55
-relacionado: [Estrutura e Convenções do Vault, Definição do Núcleo de Comportamento Claude]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Definição do Núcleo de Comportamento Claude, Regra do Índice Obrigatório]
 ---
 
 # Índice — Núcleo de Comportamento Claude
 
-Índice obrigatório deste mundo — 1 linha de resumo por nota. Atualizado junto da autorização de escrita de cada nota (ver [[Estrutura e Convenções do Vault]]).
+Índice obrigatório deste mundo — 1 linha de resumo por nota. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
@@ -22,5 +22,5 @@ relacionado: [Estrutura e Convenções do Vault, Definição do Núcleo de Compo
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
+- [[Regra do Índice Obrigatório]]
 - [[Definição do Núcleo de Comportamento Claude]]

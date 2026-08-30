@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 22/08/2026
-atualizado_em: 29/08/2026 19:59
-relacionado: [Estrutura e Convenções do Vault]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Regra do Índice Obrigatório]
 ---
 
 # Índice — Produção de Imagens e Vídeos

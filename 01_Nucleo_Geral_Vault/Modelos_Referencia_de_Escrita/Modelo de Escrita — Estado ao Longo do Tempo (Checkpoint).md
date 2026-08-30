@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 00:32
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Checkpoint (Modelo de Demonstracao)]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Checkpoint (Modelo de Demonstracao), Os 9 Tipos de Nota]
 resumo: Esqueleto de referência, explicado seção por seção, para checkpoint — não é um arco de pergunta/resposta única ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem uma verdade fixa ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), é um log vivo do estado de um trabalho de várias sessões, sobrescrito a cada rodada relevante até `status` virar `concluido`.
 ---
 
@@ -17,7 +17,7 @@ resumo: Esqueleto de referência, explicado seção por seção, para checkpoint
 
 ## Contexto — por que este modelo é diferente dos outros
 
-Pela regra já registrada em [[Estrutura e Convenções do Vault]], um checkpoint "é sobrescrita na mesma nota a cada atualização relevante" — ele não gera nota nova a cada sessão, a mesma nota cresce. Isso muda a forma de escrever: não faz sentido um "Contexto → Problema → Resposta" fixo, porque não existe 1 resposta final até o trabalho acabar (`status: concluido`). O que existe é um retrato do momento atual, mais um rastro de como se chegou até aqui — cada sessão nova soma ao histórico, nunca apaga o que já foi escrito antes.
+Pela regra já registrada em [[Os 9 Tipos de Nota]], um checkpoint "é sobrescrita na mesma nota a cada atualização relevante" — ele não gera nota nova a cada sessão, a mesma nota cresce. Isso muda a forma de escrever: não faz sentido um "Contexto → Problema → Resposta" fixo, porque não existe 1 resposta final até o trabalho acabar (`status: concluido`). O que existe é um retrato do momento atual, mais um rastro de como se chegou até aqui — cada sessão nova soma ao histórico, nunca apaga o que já foi escrito antes.
 
 ## As seções, explicadas 1 a 1
 
@@ -41,7 +41,7 @@ Checklist (`- [ ]` / `- [x]`) do que ainda falta, sem precisar reler a linha do 
 
 Outras notas conectadas — em especial, todo checkpoint que nasceu de uma `decisao` deveria linkar pra ela, e toda `descoberta` feita durante o trabalho merece nota própria linkada aqui, em vez de virar só um parágrafo perdido dentro da linha do tempo (ver [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)]]).
 
-Quando o trabalho termina de vez, `status` muda pra `concluido` — a nota não é apagada nem arquivada, continua existindo como registro final (mesma regra de [[Estrutura e Convenções do Vault]]).
+Quando o trabalho termina de vez, `status` muda pra `concluido` — a nota não é apagada nem arquivada, continua existindo como registro final (mesma regra de [[Os 9 Tipos de Nota]]).
 
 ## Exemplo real já existente no vault
 
@@ -54,5 +54,5 @@ Quando o trabalho termina de vez, `status` muda pra `concluido` — a nota não 
 ## Relacionado
 
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
-- [[Estrutura e Convenções do Vault]]
+- [[Os 9 Tipos de Nota]]
 - [[Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)]]

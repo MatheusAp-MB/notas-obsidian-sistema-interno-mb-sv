@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 00:32
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Fluxo Decomposicao de Problemas em Micro Etapas, Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Descoberta (Modelo de Demonstracao), Exemplo — Duvida (Modelo de Demonstracao), Exemplo — Bug Conhecido (Modelo de Demonstracao)]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Fluxo Decomposicao de Problemas em Micro Etapas, Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Descoberta (Modelo de Demonstracao), Exemplo — Duvida (Modelo de Demonstracao), Exemplo — Bug Conhecido (Modelo de Demonstracao), Ciclo de Vida de Dúvida e Bug Conhecido]
 resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que respondem uma pergunta ou resolvem um problema (decisao, descoberta, bug_conhecido, e duvida) — garantindo que o raciocínio entre "aqui está o problema" e "aqui está a resposta" nunca fique faltando, incluindo o ciclo de 2 notas de dúvida→decisão.
 ---
 
@@ -66,7 +66,7 @@ Lista de outras notas conectadas — o vault é uma rede, não uma lista, e é a
 
 ## Caso especial: dúvida — por que ela precisa de 2 notas, nunca 1 só
 
-`duvida` é o único tipo desta família que **nunca** ganha a seção "O que levou à resposta" nem "Resposta" dentro da própria nota, mesmo depois de resolvida. Isso já está registrado como regra em [[Estrutura e Convenções do Vault]]: "Dúvida resolvida: nunca edita a nota de dúvida virando decisão. Gera uma nota nova, `tipo: decisao`... A dúvida original muda `status` de `em_aberto` para `resolvida` e continua existindo."
+`duvida` é o único tipo desta família que **nunca** ganha a seção "O que levou à resposta" nem "Resposta" dentro da própria nota, mesmo depois de resolvida. Isso já está registrado como regra em [[Ciclo de Vida de Dúvida e Bug Conhecido]]: "Dúvida resolvida: nunca edita a nota de dúvida virando decisão. Gera uma nota nova, `tipo: decisao`... A dúvida original muda `status` de `em_aberto` para `resolvida` e continua existindo."
 
 Na prática, isso dá 2 estados bem diferentes pra mesma nota de dúvida, ao longo do tempo:
 
@@ -86,6 +86,6 @@ Na prática, isso dá 2 estados bem diferentes pra mesma nota de dúvida, ao lon
 ## Relacionado
 
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
-- [[Estrutura e Convenções do Vault]]
+- [[Ciclo de Vida de Dúvida e Bug Conhecido]]
 - [[Fluxo Decomposicao de Problemas em Micro Etapas]]
 - [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]]

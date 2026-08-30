@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 29/08/2026
-atualizado_em: 30/08/2026 01:55
-relacionado: [Estrutura e Convenções do Vault, Definição do Núcleo Geral do Vault]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Definição do Núcleo Geral do Vault, Estrutura de Pastas de um Mundo]
 ---
 
 # Definição do Núcleo de Comportamento Claude
@@ -19,7 +19,7 @@ A primeira versão desta nota (mesma data, mais cedo) tinha classificado **16 da
 
 Achado real, ao ler o conteúdo completo das 16 notas (não só o nome do arquivo): a maioria citava, no corpo da própria regra, coisa como o nome do repositório GitHub (`Projeto_Sistema_Interno_V2`), nomes de arquivo Python reais (`agenda_videos`, `orquestrador.py`), ou dizia literalmente "vale pra qualquer API construída **neste projeto**" — nenhuma dessas sobrevive ao teste real, que é "isso ainda faz sentido se o usuário me pedir pra escrever um e-mail, organizar uma pasta de fotos, ou trabalhar num projeto totalmente diferente?".
 
-Além disso, a própria [[Estrutura e Convenções do Vault]] **já previa isso antes desta reorganização existir** (linha ainda vigente): "Padrão de engenharia que atravessa mais de um mundo... mora em `02_Sistema_Interno/Regras_de_Comportamento/`". A primeira versão desta nota ignorou essa regra já estabelecida.
+Além disso, a própria "Estrutura e Convenções do Vault" **já previa isso antes desta reorganização existir** (linha ainda vigente): "Padrão de engenharia que atravessa mais de um mundo... mora em `02_Sistema_Interno/Regras_de_Comportamento/`". A primeira versão desta nota ignorou essa regra já estabelecida.
 
 ## Pra quê
 
@@ -69,9 +69,9 @@ Só entra em `00_Nucleo_Comportamento_Claude/` quem passa nas duas perguntas.
 - ✅ 2 regras movidas para `01_Nucleo_Geral_Vault/` (ver [[Definição do Núcleo Geral do Vault]]).
 - ⏳ **Pendente**: decidir se cria uma camada resumida (versão compacta, 1-3 linhas por regra) além destas notas completas — condição registrada em 29/08/2026, 23:26, no checkpoint [[Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)]]: só constrói se os erros de comportamento continuarem aparecendo na prática.
 - ✅ **Reescrita completa de 30/08/2026, 01:55** — as 4 regras marcadas como tendo exemplo específico de projeto foram tratadas: 3 (Fluxo, Disciplina de Refatoração, Nomenclatura) reescritas de forma genérica; 1 (Responsabilidade de Liderança) fundida dentro de Ciclo de Trabalho Calmo. Total: 6 → 5 regras, todas no modelo [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]], reforçadas com o que cada regra explicitamente **não** significa.
-- ✅ `Reducao de Comandos de Management e Rotina Vira Botao` **corrigida (29/08/2026, 20:28)** — o `tipo` já era `decisao` (não precisou mudar); movida de `Regras_de_Comportamento/` pra `Decisoes/`, pasta nova de nível de mundo (ver [[Estrutura e Convenções do Vault]]).
+- ✅ `Reducao de Comandos de Management e Rotina Vira Botao` **corrigida (29/08/2026, 20:28)** — o `tipo` já era `decisao` (não precisou mudar); movida de `Regras_de_Comportamento/` pra `Decisoes/`, pasta nova de nível de mundo (ver [[Estrutura de Pastas de um Mundo]]).
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
 - [[Definição do Núcleo Geral do Vault]]
+- [[Estrutura de Pastas de um Mundo]]

@@ -3,13 +3,15 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 16/08/2026
-atualizado_em: 29/08/2026 23:26
-relacionado: [Estrutura e Convenções do Vault, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido]
 ---
 
 # Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)
 
 ## Última atualização (29/08/2026, 19:51)
+
+**Adendo (30/08/2026, 13:33)**: a nota "Estrutura e Convenções do Vault" citada várias vezes ao longo deste checkpoint foi extraída em 9 notas de responsabilidade única e depois apagada (ver [[Registro dos Mundos Ativos]] e as demais notas de `01_Nucleo_Geral_Vault/`). As citações antigas acima continuam com o texto original, só sem o link (a nota-fonte não existe mais) — histórico preservado, sem reescrever o que já foi decidido em cada rodada.
 
 Continuação direta de 29/08 17:25. (10) **Bookmarks de busca criados de verdade**: estrutura simétrica por mundo × tipo (8 mundos × 8 tipos + subgrupo "Pendências Abertas" com 3 buscas por status, mesma pergunta repetida em todo mundo mesmo quando dá 0 resultado hoje) escrita direto em `bookmarks.json`, 88 marcadores no total — encerra o item em aberto da seção 6.9; (11) **LEGADO reclamado e removido**: as 43 notas com conteúdo real do LEGADO foram lidas, reclassificadas nos mundos corretos e marcadas `tags: [Vindo_do_Legado]` (ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]); com a pasta vazia, o usuário apagou `LEGADO/` de vez. Isso deixou órfãs as referências à pasta em 3 lugares de configuração — todas limpas agora: o grupo de bookmarks "LEGADO" (11 marcadores, removidos), a cor de pasta em `customFolderColors` (Colorful Folders) e o `colorGroup` correspondente no Graph View nativo (`graph.json`). Ver tabela da seção 6.5, linha `LEGADO` marcada como retirada.
 
@@ -22,7 +24,7 @@ Pesquisa feita direto na documentação oficial do Obsidian (`help.obsidian.md`)
 ## Por que isso importa pra ESTE vault especificamente
 
 > [!info] O maior trunfo que já temos, sem usar ainda
-> Toda nota deste vault já segue um frontmatter **rigidamente estruturado** — `tipo`, `dominio`, `status`, `criado`, `atualizado_em`, `relacionado` (ver [[Estrutura e Convenções do Vault]]). Isso não é comum na maioria dos vaults Obsidian por aí. E é exatamente o tipo de dado que os recursos de "banco de dados" do Obsidian (a seção **Bases**, abaixo) foram feitos pra consultar. Ou seja: o vault já tem a matéria-prima pronta há semanas — só falta a ferramenta certa pra explorar ela.
+> Toda nota deste vault já segue um frontmatter **rigidamente estruturado** — `tipo`, `dominio`, `status`, `criado`, `atualizado_em`, `relacionado` (ver "Estrutura e Convenções do Vault"). Isso não é comum na maioria dos vaults Obsidian por aí. E é exatamente o tipo de dado que os recursos de "banco de dados" do Obsidian (a seção **Bases**, abaixo) foram feitos pra consultar. Ou seja: o vault já tem a matéria-prima pronta há semanas — só falta a ferramenta certa pra explorar ela.
 
 ## Categoria 1 — Recursos NATIVOS (já vêm no Obsidian, zero instalação)
 
@@ -63,7 +65,7 @@ Esse bloco, sozinho, gera uma tabela ao vivo com **todo** `bug_conhecido` de **t
 **O que é**: plugin núcleo que insere um texto pré-definido (com variáveis como `{{date}}`, `{{time}}`, `{{title}}`) na nota ativa, através do comando "Inserir modelo" — que alguém aciona à mão, dentro do Obsidian. Fonte: [Templates — help.obsidian.md/plugins/templates](https://help.obsidian.md/plugins/templates).
 
 > [!failure] Reavaliado (16/08/2026, 23h) — não se aplica a este vault
-> A recomendação original assumia que alguém ia usar o comando "Inserir modelo" com as próprias mãos. O usuário deixou claro que isso nunca vai acontecer (princípio fundamental #1 em [[Estrutura e Convenções do Vault]]: "eu nunca vou escrever nenhuma nota a mão, vou apenas visualizar e ler elas"). Ou seja, o problema real nunca foi "como o usuário insere um modelo rápido" — é "como garantir que Claude sempre saiba exatamente o que criar e como criar, sozinho, sem errar". Esse problema **já está resolvido**, e não é o Templates que resolve: é [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]] (o padrão de escrita) somado a esta própria nota de convenções (o schema de frontmatter, pastas, tipos) — as 2 notas que Claude lê e segue toda vez antes de criar qualquer nota nova. O "modelo" deste vault não é um arquivo que se insere por comando; é a regra escrita que Claude aplica sozinho, toda vez.
+> A recomendação original assumia que alguém ia usar o comando "Inserir modelo" com as próprias mãos. O usuário deixou claro que isso nunca vai acontecer (princípio fundamental #1 em "Estrutura e Convenções do Vault": "eu nunca vou escrever nenhuma nota a mão, vou apenas visualizar e ler elas"). Ou seja, o problema real nunca foi "como o usuário insere um modelo rápido" — é "como garantir que Claude sempre saiba exatamente o que criar e como criar, sozinho, sem errar". Esse problema **já está resolvido**, e não é o Templates que resolve: é [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]] (o padrão de escrita) somado a esta própria nota de convenções (o schema de frontmatter, pastas, tipos) — as 2 notas que Claude lê e segue toda vez antes de criar qualquer nota nova. O "modelo" deste vault não é um arquivo que se insere por comando; é a regra escrita que Claude aplica sozinho, toda vez.
 >
 > `Modelos_Notas_Obsidian/padrao.md` continua existindo como referência rápida do schema de frontmatter, mas configurar o plugin núcleo Templates não entra mais na lista de prioridades — não resolve nenhum problema que já não esteja resolvido de outra forma.
 
@@ -106,7 +108,7 @@ Já adotamos callouts hoje (`warning`, `tip`, `danger`, `question`, `example`, `
 
 ## Categoria 2 — Plugins de comunidade (precisam ser instalados no Obsidian)
 
-Estes recursos **eu não posso instalar por vocês** — instalação de plugin é uma ação que só acontece dentro do próprio Obsidian (Configurações → Plugins de Comunidade → Procurar), pelo usuário, 1 única vez. Depois de instalado, o uso do recurso em si (escrever a consulta, por exemplo) continua sendo 100% Claude — não conflita com o princípio fundamental #3 de [[Estrutura e Convenções do Vault]].
+Estes recursos **eu não posso instalar por vocês** — instalação de plugin é uma ação que só acontece dentro do próprio Obsidian (Configurações → Plugins de Comunidade → Procurar), pelo usuário, 1 única vez. Depois de instalado, o uso do recurso em si (escrever a consulta, por exemplo) continua sendo 100% Claude — não conflita com o princípio fundamental #3 de "Estrutura e Convenções do Vault".
 
 | Plugin | O que faz | Veredito |
 |---|---|---|
@@ -121,7 +123,7 @@ O usuário perguntou diretamente: "eu ainda não entendi pra que ele serve ou on
 
 **O que é, em 1 frase**: uma linguagem de consulta (parecida com SQL) que lê o frontmatter das notas — igual Bases faz — mas com uma diferença estrutural importante: a consulta pode ficar **embutida dentro do corpo de qualquer nota comum**, não só dentro de um arquivo `.base` separado. Fonte: [github.com/blacksmithgu/obsidian-dataview](https://github.com/blacksmithgu/obsidian-dataview) — 9,2 mil estrelas no GitHub, projeto ativo, última versão em abril/2025.
 
-**Onde ajudaria, com um problema real deste vault**: hoje, toda vez que uma nota nova é criada ou fechada dentro de `03_Integracao_Sysemp/`, é preciso abrir `00_Indice.md` **à parte** e editar à mão a linha certa da tabela `Nota | Tipo | Status | Data | Resumo` (ver [[Estrutura e Convenções do Vault]]). É um passo manual, repetido toda vez, e que já ficou 1-2 notas atrasado em alguma sessão anterior por esquecimento.
+**Onde ajudaria, com um problema real deste vault**: hoje, toda vez que uma nota nova é criada ou fechada dentro de `03_Integracao_Sysemp/`, é preciso abrir `00_Indice.md` **à parte** e editar à mão a linha certa da tabela `Nota | Tipo | Status | Data | Resumo` (ver "Estrutura e Convenções do Vault"). É um passo manual, repetido toda vez, e que já ficou 1-2 notas atrasado em alguma sessão anterior por esquecimento.
 
 Se o Dataview estivesse instalado, essa tabela poderia nascer de uma consulta embutida direto dentro do próprio `00_Indice.md`, por exemplo:
 
@@ -142,7 +144,7 @@ Esse bloco sozinho, dentro da nota, gera uma tabela que se atualiza **sozinha** 
 
 ## Categoria 3 — Recursos pesquisados a pedido do usuário (16/08/2026)
 
-O usuário pediu pra investigar 5 links específicos. Pesquisa feita direto nas fontes (site oficial do plugin, página do plugin em `community.obsidian.md`, ou repositório no GitHub) — não veio de memória. Veredito de cada um, sempre confrontado com os 4 princípios fundamentais de [[Estrutura e Convenções do Vault]].
+O usuário pediu pra investigar 5 links específicos. Pesquisa feita direto nas fontes (site oficial do plugin, página do plugin em `community.obsidian.md`, ou repositório no GitHub) — não veio de memória. Veredito de cada um, sempre confrontado com os 4 princípios fundamentais de "Estrutura e Convenções do Vault".
 
 ### 3.1 — Iconize (ícones em arquivos, pastas e texto)
 
@@ -211,7 +213,7 @@ São exigências diferentes (percepção visual/clareza de leitura vs. indexaç�
 > [!danger] Regra não-negociável (28/08/2026) — critério de sucesso/veto pra qualquer proposta futura desta reestruturação
 > O vault serve 2 funções ao mesmo tempo, e a reestruturação não pode sacrificar uma pela outra:
 > 1. **Acumular conhecimento real** (a motivação nova desta rodada) — o vault vira o lugar onde pesquisa e trabalho se transformam em entendimento genuíno, não só registro de execução. Nas palavras do usuário: "não é mais sobre guardar informações, é sobre estudar e aprender... como um aluno que estuda sobre temas pra uma prova, e anota o conhecimento aprendido de forma organizada... como alguém que está pesquisando profundamente um tema e cria notas de conhecimento que se acumulam e o guiam durante sua pesquisa."
-> 2. **Guiar Claude-como-LLM através da execução** — regras de comportamento, checkpoints, contexto de frente de trabalho, limite claro do que fazer/não fazer. Isso já existe e já funciona hoje (ver [[Estrutura e Convenções do Vault]] e `02_Sistema_Interno/Regras_de_Comportamento/`) e precisa continuar funcionando **pelo menos tão bem quanto hoje — o usuário espera que fique ainda mais robusto e eficiente depois desta reestruturação, não o contrário.**
+> 2. **Guiar Claude-como-LLM através da execução** — regras de comportamento, checkpoints, contexto de frente de trabalho, limite claro do que fazer/não fazer. Isso já existe e já funciona hoje (ver "Estrutura e Convenções do Vault" e `02_Sistema_Interno/Regras_de_Comportamento/`) e precisa continuar funcionando **pelo menos tão bem quanto hoje — o usuário espera que fique ainda mais robusto e eficiente depois desta reestruturação, não o contrário.**
 >
 > Qualquer proposta desta reestruturação que deixe a leitura/escrita mais bonita ou didática, mas arrisque regra de comportamento perdida, checkpoint mal atualizado, ou navegação mais lenta em execução, **não é aceitável** — funciona como critério de veto, não como detalhe de acabamento.
 
@@ -245,7 +247,7 @@ Cada plugin foi analisado pela função/objetivo que cumpre, não pelo nome — 
 
 | Função/objetivo | Plugin confirmado | Observação |
 |---|---|---|
-| Nomenclatura de pastas/arquivos/tags | — (convenção, não plugin) | Já coberto por [[Estrutura e Convenções do Vault]] |
+| Nomenclatura de pastas/arquivos/tags | — (convenção, não plugin) | Já coberto por "Estrutura e Convenções do Vault" |
 | Agrupamento com responsabilidade clara | — (estrutura de pastas, não plugin) | Idem |
 | Cor de pasta (hierarquia estrutural) | Colorful Folders | Restrito só a essa função — ver 5.3 |
 | Cor por classificação semântica (`tipo`/`status`) | Tags Color Files | Depende de tag, não de property — ver 5.4 |
@@ -279,7 +281,7 @@ Levantamento real rodado no vault inteiro (29/08/2026, madrugada), via grep — 
 
 - 308 notas têm `tipo:`, 308 têm `status:` — cobertura completa, nenhuma nota órfã.
 - Única dependência real de leitura encontrada fora da própria doc de convenção: `Bases/Vault - Pendencias Abertas.base` (3 filtros: `tipo == "bug_conhecido"`, `tipo == "checkpoint"` + `status == "em_andamento"`, `tipo == "duvida"` + `status == "ativa"`) e o molde `Modelos_Notas_Obsidian/padrao.md` (só campos vazios). Nenhum outro script ou Dataview depende do formato atual.
-- **O vocabulário documentado já vazou na prática**: existem notas com `tipo: Bug Conhecido` e `tipo: Decisão` (capitalizado/acentuado, fora do padrão `snake_case` minúsculo), e com `tipo: diretriz` e `tipo: prompt` — **valores que não existem** na lista fechada documentada em [[Estrutura e Convenções do Vault]] (`regra|decisao|descoberta|duvida|bug_conhecido|conceito|checkpoint|tutorial`). O mesmo vale pra `status:` (`Ativo`, `Resolvido` capitalizados, fora do padrão).
+- **O vocabulário documentado já vazou na prática**: existem notas com `tipo: Bug Conhecido` e `tipo: Decisão` (capitalizado/acentuado, fora do padrão `snake_case` minúsculo), e com `tipo: diretriz` e `tipo: prompt` — **valores que não existem** na lista fechada documentada em "Estrutura e Convenções do Vault" (`regra|decisao|descoberta|duvida|bug_conhecido|conceito|checkpoint|tutorial`). O mesmo vale pra `status:` (`Ativo`, `Resolvido` capitalizados, fora do padrão).
 
 > [!warning] Pendência real, independente da decisão de plugin
 > Antes de migrar `tipo`/`status` pra tag (Caminho C), essas notas fora do padrão precisam ser resolvidas (decidir se `diretriz`/`prompt` são tipos novos legítimos, nunca documentados, ou erro de digitação a corrigir). Decisão explícita do usuário (29/08): **migração em etapas, sem pressa** — não é pra sofrer reescrevendo o vault inteiro de uma vez. Fica registrado como trabalho futuro, não bloqueia o teste dos plugins.
@@ -362,7 +364,7 @@ Confirmado direto na documentação oficial do plugin: Iconic só aceita os ~1.7
 
 ### 6.5 — Camada 3 (mundo): tabela final decidida e aplicada de verdade
 
-Cor e ícone por mundo, decididos junto com o usuário e escritos de verdade no `data.json` do Colorful Folders (`customFolderColors`, 29/08/2026, 15:30, com o Obsidian fechado durante a edição). **Atualizado em 29/08/2026, 22:20** — renumeração de mundo (ver [[Estrutura e Convenções do Vault]], seção "Os mundos") e novo núcleo criado:
+Cor e ícone por mundo, decididos junto com o usuário e escritos de verdade no `data.json` do Colorful Folders (`customFolderColors`, 29/08/2026, 15:30, com o Obsidian fechado durante a edição). **Atualizado em 29/08/2026, 22:20** — renumeração de mundo (ver "Estrutura e Convenções do Vault", seção "Os mundos") e novo núcleo criado:
 
 | Mundo | Cor (hex) | Ícone |
 |---|---|---|
@@ -473,7 +475,7 @@ Dúvida trazida pelo usuário: os "marcadores" do Obsidian permitem salvar busca
 > [!failure] Teto real encontrado — Graph View nativo não suporta ícone por nó, só cor
 > Usuário pediu ícone colorido no grafo, igual nas pastas. Confirmado por leitura direta do código: o motor de renderização do Graph View nativo do Obsidian desenha nó como círculo colorido, sem suporte a ícone customizado — e a função de sincronia do Colorful Folders (`syncGraphColors`) só mexe em cor, nunca em ícone. Nenhum dos plugins instalados (`iconic`, `iconoir-icons`, etc.) adiciona ícone a nó de grafo — todos atuam só em file explorer/aba/bookmark. **Teto real, não configuração incompleta**: grafo com cor sincronizada (já funciona) é o máximo possível; ícone dentro do nó não é alcançável com o que existe hoje.
 
-**Fecha a reestruturação visual "de fora da nota"** (29/08/2026, 23:10) — usuário confirmou explicitamente. Escopo do que foi coberto nesta rodada inteira (Categorias 4-6): renumeração de mundo + núcleo novo (`02_Nucleo_Engenharia_Repositorio`, ver [[Estrutura e Convenções do Vault]]), cor/ícone por mundo (Camada 3, 6.5) e por tipo (Camada 1, acima), física do grafo (6.8), bookmarks de busca (6.9), `applyToFiles` (acima). **Fica explicitamente fora deste escopo, ainda não iniciado**: melhoria visual **interna ao conteúdo de cada nota** (uso de callout, tabela, Mermaid dentro do corpo — ver seção 1.4 e [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]) — próxima frente de trabalho, distinta desta.
+**Fecha a reestruturação visual "de fora da nota"** (29/08/2026, 23:10) — usuário confirmou explicitamente. Escopo do que foi coberto nesta rodada inteira (Categorias 4-6): renumeração de mundo + núcleo novo (`02_Nucleo_Engenharia_Repositorio`, ver "Estrutura e Convenções do Vault"), cor/ícone por mundo (Camada 3, 6.5) e por tipo (Camada 1, acima), física do grafo (6.8), bookmarks de busca (6.9), `applyToFiles` (acima). **Fica explicitamente fora deste escopo, ainda não iniciado**: melhoria visual **interna ao conteúdo de cada nota** (uso de callout, tabela, Mermaid dentro do corpo — ver seção 1.4 e [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]) — próxima frente de trabalho, distinta desta.
 
 ## Prioridade recomendada (o que eu sugiro fazer primeiro)
 
@@ -488,7 +490,7 @@ Templates saiu desta lista — reavaliado como não necessário (ver seção 1.2
 
 ## Exemplo prático — a Base de verdade que já foi criada
 
-Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]), já criei um arquivo `.base` real, guardado em `Bases/Vault - Pendencias Abertas.base` (pasta oficializada em 16/08/2026 — ver [[Estrutura e Convenções do Vault]]). Ele tem 3 views prontas — "Bugs em aberto" (`tipo: bug_conhecido` + `status: ativo`), "Trabalho em andamento" (`tipo: checkpoint` + `status: em_andamento`) e "Dúvidas ainda em aberto" (`tipo: duvida` + `status: ativa`). Basta abrir esse arquivo dentro do Obsidian (depois de ativar o plugin núcleo **Bases** em Configurações) pra ver as 3 tabelas populadas ao vivo, com dado real do vault de hoje.
+Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]), já criei um arquivo `.base` real, guardado em `Bases/Vault - Pendencias Abertas.base` (pasta oficializada em 16/08/2026 — ver "Estrutura e Convenções do Vault"). Ele tem 3 views prontas — "Bugs em aberto" (`tipo: bug_conhecido` + `status: ativo`), "Trabalho em andamento" (`tipo: checkpoint` + `status: em_andamento`) e "Dúvidas ainda em aberto" (`tipo: duvida` + `status: ativa`). Basta abrir esse arquivo dentro do Obsidian (depois de ativar o plugin núcleo **Bases** em Configurações) pra ver as 3 tabelas populadas ao vivo, com dado real do vault de hoje.
 
 > [!success] Confirmado na prática (16/08, 22:52) — a Base funcionou de primeira
 > Ativado o plugin núcleo e aberto o arquivo: a view "Bugs em aberto" mostrou **0 resultado** (correto — não é erro, é porque todo `bug_conhecido` registrado neste vault já está com `status: corrigido`, nenhum aberto de verdade hoje) e a view "Trabalho em andamento" mostrou **7 resultados** reais (os 7 checkpoints com `status: em_andamento` do vault inteiro, de vários mundos diferentes, juntos numa tabela só). Confirma a promessa: nenhum "caçar pasta por pasta" foi necessário.
@@ -505,7 +507,7 @@ Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padr
 
 - [x] Ativar o plugin núcleo **Bases** e abrir o arquivo de exemplo — **feito e validado (16/08, 22:52)**, funcionou de primeira.
 - [x] Formato de data — **decidido (16/08, 23h): mantém `DD/MM/YYYY`**, sem migrar pra ISO. Ver callout resolvido na seção 1.1.
-- [x] Pasta `Bases/` na raiz do vault — **criada (16/08, 23h)**, arquivo de exemplo já movido pra dentro. Ver convenção oficial em [[Estrutura e Convenções do Vault]].
+- [x] Pasta `Bases/` na raiz do vault — **criada (16/08, 23h)**, arquivo de exemplo já movido pra dentro. Ver convenção oficial em "Estrutura e Convenções do Vault".
 - [ ] Instalar o Dataview (plugin de comunidade, requer ação manual sua — ver seção 2.1) — recomendado, não urgente.
 - [x] Investigar os 5 links pedidos (Iconize, Lucide, Excalidraw, Obsidian Projects, plugin de TODO) — **feito (16/08, 23h)**, nenhum recomendado pra adoção agora, ver "Categoria 3" e o veredito de cada um.
 - [x] MCP como ferramenta de busca (via Omnisearch) — **avaliado e descartado por ora (28/08)**, complexidade de configuração/uso maior que o ganho no momento. Ver seção 4.5.
@@ -542,10 +544,10 @@ Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padr
 - [x] Ajustar física do grafo nativo (repulsão, distância, tamanho, órfãos) — **feito (29/08, 16:44)**, resultado avaliado como excelente pelo usuário. Valores finais e ressalva sobre busca residual em 6.8.
 - [x] Investigar marcadores (Bookmarks) do Obsidian — busca vs. grafo — **feito e decidido (29/08, 17:25)**: bookmark de busca é o único caminho oficial (sustenta o hover-highlight do Graph Search Sync); bookmark de grafo descartado. Ver 6.9.
 - [x] Criar de fato os bookmarks de busca reutilizáveis — **feito (29/08, 19:51)**: 88 marcadores, estrutura simétrica mundo × tipo + subgrupo "Pendências Abertas" por status, igual em todo mundo mesmo quando dá 0 resultado. Ver 6.9.
-- [x] Limpar referências órfãs de `LEGADO/` após a pasta ser removida — **feito (29/08, 19:51)**: grupo de bookmarks, `customFolderColors` e `colorGroup` do Graph View, todos com o Obsidian fechado. Regra de comportamento e "Os mundos" também atualizadas (ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] e [[Estrutura e Convenções do Vault]]).
+- [x] Limpar referências órfãs de `LEGADO/` após a pasta ser removida — **feito (29/08, 19:51)**: grupo de bookmarks, `customFolderColors` e `colorGroup` do Graph View, todos com o Obsidian fechado. Regra de comportamento e "Os mundos" também atualizadas (ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] e "Estrutura e Convenções do Vault").
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
+- "Estrutura e Convenções do Vault"
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
 - [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]]

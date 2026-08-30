@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 00:32
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Conceito (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao)]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Conceito (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao), Os 9 Tipos de Nota]
 resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que estabelecem uma verdade permanente em vez de resolver uma pergunta pontual — descrevendo o que algo É (`conceito`) ou prescrevendo o que deve ser feito sempre (`regra`).
 ---
 
@@ -62,5 +62,5 @@ Outras notas conectadas — em especial, toda `regra` deveria linkar pro `concei
 ## Relacionado
 
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
-- [[Estrutura e Convenções do Vault]]
+- [[Os 9 Tipos de Nota]]
 - [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)]]

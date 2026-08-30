@@ -3,13 +3,13 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 29/08/2026 20:28
-relacionado: [Estrutura e Convenções do Vault]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
 # Índice — Sistema Interno
 
-Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Estrutura e Convenções do Vault]]).
+Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
 
 ## Regras_de_Comportamento
 
@@ -27,7 +27,7 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Estrutura Modular de Scripts Python]] | regra | ativa | 10/07/2026 | Fixada ordem obrigatória de 7 seções para todo script Python do ML Analytics HUB (Importações, Constantes, Importação de Dados, Trabalhando com Dados Brutos, Montagem de Saída, Aparência, Salvando/Entry Point), motivada pela dificuldade de manutenção do script anterior sem essa separação (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 ## Decisoes
 
-Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais de 1 contexto de negócio, mesma lógica de `Regras_de_Comportamento/`/`Conceitos/`/`Tutoriais/` (ver [[Estrutura e Convenções do Vault]]).
+Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais de 1 contexto de negócio, mesma lógica de `Regras_de_Comportamento/`/`Conceitos/`/`Tutoriais/` (ver [[Estrutura de Pastas de um Mundo]]).
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
@@ -35,7 +35,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 
 ## Conceitos
 
-Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/`/`Decisoes/`/`Tutoriais/` (ver [[Estrutura e Convenções do Vault]]).
+Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/`/`Decisoes/`/`Tutoriais/` (ver [[Estrutura de Pastas de um Mundo]]).
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
@@ -43,7 +43,7 @@ Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/
 
 ## Tutoriais
 
-Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, não pertence a nenhum contexto de negócio específico (ver [[Estrutura e Convenções do Vault]]).
+Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, não pertence a nenhum contexto de negócio específico (ver [[Estrutura de Pastas de um Mundo]]).
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
@@ -144,4 +144,5 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
+- [[Regra do Índice Obrigatório]]
+- [[Estrutura de Pastas de um Mundo]]

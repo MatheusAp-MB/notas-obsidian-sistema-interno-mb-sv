@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 23/08/2026
-atualizado_em: 24/08/2026 16:58
-relacionado: [Estrutura e Convenções do Vault, Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Etapa 1-4 - Estudo do Produto, Etapa 5 - Navegacao pelos Grafos, Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial, Visao Geral do Problema de Producao de Imagens e Videos para o Mercado Livre, Pipeline de Geracao Dinamica das 7 Fotos via Analise Dupla e Arvore de Categorias por Facets, Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro, Pipeline Completo Roda Numa Unica Conversa Cowork, Visibilidade Durante Fase de Teste, Task Obrigatoria por Etapa do Pipeline, Tags de Proveniencia de Dado, Isolamento Entre Produtos e Categorias no Grafo, Principio de Granularidade do Grafo 1, Eixos Que Nunca Podem Ficar Ambiguos, Protocolo de Feedback e Correcao, Perguntar Data e Hora Antes de Escrever no Vault, Perguntas Sempre em Texto Corrido, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Trava de Formato da Foto de Capa, Pulverizador Manual de Compressão Prévia Guarany 1,2L, Responsabilidade Unica por Foto (Fotos 2-7), Proibicao de Comparacao com Concorrentes, Camada Grafica Informativa (Fotos 2-7), Etapa 8 - Criacao (Fotos), Desejo de Compra na Camada Grafica (Fotos 2-7), _Indice do Grafo (Nos e Templates), _Molde - Documento Consolidado (Etapa 6), Pulverizador Snow Foam Chantilly Veneto SGT 2L, Pulverizador Gerador de Espuma (Snow Foam), Uso em Estética Automotiva e Limpeza Doméstica, Sistema de Geração de Espuma (Snow Foam), Pulverizador Manual Costal Brudden DAS G2 5L, _Pesquisa - Documentacao Oficial Veo 3.1, Gemini Omni e Google Flow, Regras de Prompt de Video - Fundamentado em Documentacao Oficial e Testes Reais]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Etapa 1-4 - Estudo do Produto, Etapa 5 - Navegacao pelos Grafos, Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial, Visao Geral do Problema de Producao de Imagens e Videos para o Mercado Livre, Pipeline de Geracao Dinamica das 7 Fotos via Analise Dupla e Arvore de Categorias por Facets, Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro, Pipeline Completo Roda Numa Unica Conversa Cowork, Visibilidade Durante Fase de Teste, Task Obrigatoria por Etapa do Pipeline, Tags de Proveniencia de Dado, Isolamento Entre Produtos e Categorias no Grafo, Principio de Granularidade do Grafo 1, Eixos Que Nunca Podem Ficar Ambiguos, Protocolo de Feedback e Correcao, Perguntar Data e Hora Antes de Escrever no Vault, Perguntas Sempre em Texto Corrido, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Trava de Formato da Foto de Capa, Pulverizador Manual de Compressão Prévia Guarany 1,2L, Responsabilidade Unica por Foto (Fotos 2-7), Proibicao de Comparacao com Concorrentes, Camada Grafica Informativa (Fotos 2-7), Etapa 8 - Criacao (Fotos), Desejo de Compra na Camada Grafica (Fotos 2-7), _Indice do Grafo (Nos e Templates), _Molde - Documento Consolidado (Etapa 6), Pulverizador Snow Foam Chantilly Veneto SGT 2L, Pulverizador Gerador de Espuma (Snow Foam), Uso em Estética Automotiva e Limpeza Doméstica, Sistema de Geração de Espuma (Snow Foam), Pulverizador Manual Costal Brudden DAS G2 5L, _Pesquisa - Documentacao Oficial Veo 3.1, Gemini Omni e Google Flow, Regras de Prompt de Video - Fundamentado em Documentacao Oficial e Testes Reais]
 ---
 
 # Leia Primeiro — Produção de Imagens e Vídeos
@@ -119,7 +119,7 @@ Mundo `05_Producao_de_Imagens_e_Videos/`, sem código associado ainda — só de
       Historico/                 — notas superadas, mantidas por rastreabilidade
 ```
 
-Ver [[Estrutura e Convenções do Vault]] pro schema de frontmatter (esse continua valendo — só a organização de pastas é própria deste mundo). Regra de perguntar data/hora antes de qualquer escrita/edição no vault vale integralmente aqui.
+Ver [[Schema de Frontmatter]] pro schema de frontmatter (esse continua valendo — só a organização de pastas é própria deste mundo). Regra de perguntar data/hora antes de qualquer escrita/edição no vault vale integralmente aqui.
 
 ## Numeração Canônica das Étapas (0-8) — confirmada 23/08/2026, SEM AMBIGUIDADE
 
@@ -254,7 +254,7 @@ Motivação do usuário: quer o vault funcionando como "segundo cérebro" no sen
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
+- [[Schema de Frontmatter]]
 - [[Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro]]
 - [[Visao Geral do Problema de Producao de Imagens e Videos para o Mercado Livre]]
 - [[Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto]]

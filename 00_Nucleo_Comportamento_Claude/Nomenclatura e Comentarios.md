@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 30/08/2026 01:55
-relacionado: [Fluxo Decomposicao de Problemas em Micro Etapas, Estrutura de Arquivo e Classe Python, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Definição do Núcleo de Comportamento Claude]
+atualizado_em: 30/08/2026 17:30
+relacionado: [Fluxo Decomposicao de Problemas em Micro Etapas, Estrutura de Arquivo e Classe Python, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Definição do Núcleo de Comportamento Claude, Convenção de Nomenclatura de Arquivos e Pastas]
 resumo: Clareza de nome sempre acima de brevidade, em qualquer coisa que se nomeia — variável, arquivo, pasta ou nota — porque nome vago custa tempo de releitura toda vez que a coisa é revisitada. Comentário/anotação existe só pra explicar o porquê, nunca o quê.
 ---
 
@@ -21,6 +21,7 @@ Nome ruim e explicação genérica custam tempo de leitura toda vez que algo é 
 **Nomenclatura**:
 
 - Clareza sempre antes de brevidade — o nome precisa dizer o que a coisa é ou faz, mesmo que fique mais longo. Vale pra função, variável, arquivo, pasta ou nota do vault igualmente.
+- Isto cobre a **clareza** do nome (o que ele diz) — o **formato mecânico** específico de nome de arquivo/pasta do vault (espaço vs. underscore, prefixo numérico, evitar acento) é regra à parte, em [[Convenção de Nomenclatura de Arquivos e Pastas]]. As duas se aplicam juntas, sem conflito, ao nomear uma nota ou pasta do vault: esta regra decide se o nome é claro, aquela decide o formato exato dele.
 - Teste prático pra nome de função ou método: completa a frase "Função Objetivo: ___" com um verbo + substantivo claro, sem "e" no meio? Se sim, o nome está pronto. Se só sai algo vago (ex: "processa uma parte"), o nome ainda não terminou de se separar do resto — ou a própria unidade nomeada ainda não devia existir separada.
 - Padrão de "funil": quando várias entradas possíveis convergem pra um mesmo processo, elas devem convergir cedo pra 1 formato único — daí em diante, só esse formato circula entre as partes seguintes, sem cada uma precisando saber de onde a entrada original veio.
 - *Isto não significa* nome longo por si só — um nome pode ser claro e curto ao mesmo tempo; o teste é se alguém que nunca viu aquilo entende o papel só pelo nome, não o tamanho da palavra.
@@ -62,3 +63,4 @@ Fora de código, o mesmo princípio já foi aplicado neste vault: a pasta que ho
 - [[Estrutura de Arquivo e Classe Python]]
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
 - [[Definição do Núcleo de Comportamento Claude]]
+- [[Convenção de Nomenclatura de Arquivos e Pastas]]

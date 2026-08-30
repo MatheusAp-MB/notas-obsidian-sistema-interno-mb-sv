@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 30/08/2026 02:04
+atualizado_em: 30/08/2026 13:33
 relacionado: [Disciplina de Testes Automatizados, Fluxo Decomposicao de Problemas em Micro Etapas, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Definição do Núcleo de Comportamento Claude]
 resumo: Regra dos Três — nada se generaliza, abstrai ou vira padrão oficial na 1ª nem na 2ª vez que aparece, só na 3ª. Nunca misturar uma mudança de comportamento com uma reorganização; reescrita grande sempre precisa de validação contra o resultado anterior.
 ---
@@ -38,7 +38,7 @@ A alternativa — generalizar já na primeira ocorrência, "pra não ter que rep
 
 **ANTES (generalizando cedo demais, fora de código)**: ao criar a primeira pasta de um mundo novo do vault, já se cria de imediato uma estrutura genérica completa de subpastas (`Regras/`, `Conceitos/`, `Decisoes/`, `Duvidas/`, etc.) — mesmo sem ainda saber se aquele mundo específico vai gerar conteúdo pra todas elas. Se só 2 das 8 subpastas nunca forem usadas, a estrutura genérica criada cedo demais vira ruído, sem nenhum ganho.
 
-**DEPOIS (esperando a repetição real, do jeito que este vault realmente formalizou o padrão)**: a estrutura de 8 subpastas por mundo (`Regras/Conceitos/Decisoes/...`) só virou convenção documentada em [[Estrutura e Convenções do Vault]] depois de já ter sido observada, de forma repetida, em mais de 1 mundo real (Sistema Interno, depois Integração Sysemp, depois Mercado Livre) — a Regra dos Três aplicada à própria organização do vault, não a código.
+**DEPOIS (esperando a repetição real, do jeito que este vault realmente formalizou o padrão)**: a estrutura de 8 subpastas por mundo (`Regras/Conceitos/Decisoes/...`) só virou convenção documentada em [[Estrutura de Pastas de um Mundo]] depois de já ter sido observada, de forma repetida, em mais de 1 mundo real (Sistema Interno, depois Integração Sysemp, depois Mercado Livre) — a Regra dos Três aplicada à própria organização do vault, não a código.
 
 **Aplicação em código**: a metodologia completa de testes automatizados (pytest, progressão por camada, formato de arquivo) só existe hoje, formalizada, em [[Disciplina de Testes Automatizados]] — porque "falta de teste automatizado" apareceu repetidamente como causa de dívida técnica antes de virar prioridade formal, não desde o primeiro dia do projeto.
 

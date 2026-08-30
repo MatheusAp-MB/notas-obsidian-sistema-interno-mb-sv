@@ -3,13 +3,13 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 29/08/2026 19:59
-relacionado: [Estrutura e Convenções do Vault, Padrao de Robustez para Clientes de API Externa]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Padrao de Robustez para Clientes de API Externa, Regra do Índice Obrigatório]
 ---
 
 # Índice — Integração Mercado Livre
 
-Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Estrutura e Convenções do Vault]]).
+Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
 
 Mundo criado em 06/08/2026, mesma lógica do `03_Integracao_Sysemp/`: API grande o suficiente pra justificar ser testada e documentada de forma isolada. Existe um projeto anterior e diferente (`03_ML_Analytics_HUB/`, congelado em `LEGADO/`) que serve de fonte de lições aprendidas sobre como blindar chamadas a essa mesma API, não de continuidade direta.
 
@@ -114,5 +114,5 @@ Nova frente aberta em 27/08/2026, 20:23 — foco do dia declarado pelo usuário:
 
 ## Relacionado
 
-- [[Estrutura e Convenções do Vault]]
+- [[Regra do Índice Obrigatório]]
 - [[Padrao de Robustez para Clientes de API Externa]]

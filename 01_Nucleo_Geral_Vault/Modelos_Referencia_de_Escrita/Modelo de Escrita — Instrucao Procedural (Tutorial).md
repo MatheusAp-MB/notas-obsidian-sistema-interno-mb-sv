@@ -3,8 +3,8 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 00:32
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Tutorial (Modelo de Demonstracao)]
+atualizado_em: 30/08/2026 13:33
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Tutorial (Modelo de Demonstracao), Os 9 Tipos de Nota]
 resumo: Esqueleto de referência, explicado seção por seção, para tutorial — não explica uma pergunta ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem fixa uma verdade ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), ensina uma sequência de ações pra um humano seguir, do início ao fim, até chegar num resultado concreto.
 ---
 
@@ -17,7 +17,7 @@ resumo: Esqueleto de referência, explicado seção por seção, para tutorial �
 
 ## Contexto — por que este modelo é diferente dos outros
 
-Pela definição já registrada em [[Estrutura e Convenções do Vault]], `tutorial` é "explicação passo a passo de um processo pra um humano seguir" — `status` fica sempre `ativa`, e quando o procedimento muda, a mesma nota é editada no lugar (nunca vira uma versão "obsoleta" guardada como histórico; se o procedimento parou de ser correto, a nota é apagada, não marcada). Isso é bem diferente de `checkpoint` (que guarda histórico de propósito, sessão por sessão) — um tutorial só existe enquanto reflete exatamente o jeito certo de fazer agora, sem rastro do jeito antigo.
+Pela definição já registrada em [[Os 9 Tipos de Nota]], `tutorial` é "explicação passo a passo de um processo pra um humano seguir" — `status` fica sempre `ativa`, e quando o procedimento muda, a mesma nota é editada no lugar (nunca vira uma versão "obsoleta" guardada como histórico; se o procedimento parou de ser correto, a nota é apagada, não marcada). Isso é bem diferente de `checkpoint` (que guarda histórico de propósito, sessão por sessão) — um tutorial só existe enquanto reflete exatamente o jeito certo de fazer agora, sem rastro do jeito antigo.
 
 ## As seções, explicadas 1 a 1
 
@@ -56,5 +56,5 @@ Outras notas conectadas — em especial, o `conceito` ou a `regra` que o tutoria
 ## Relacionado
 
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
-- [[Estrutura e Convenções do Vault]]
+- [[Os 9 Tipos de Nota]]
 - [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]]

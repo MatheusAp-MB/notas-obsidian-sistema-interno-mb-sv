@@ -62,6 +62,90 @@
         "a": 1,
         "rgb": 7041664
       }
+    },
+    {
+      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
+      "color": {
+        "a": 1,
+        "rgb": 6322314
+      }
+    },
+    {
+      "query": "path:\"00_Nucleo_Comportamento_Claude\"",
+      "color": {
+        "a": 1,
+        "rgb": 16156987
+      }
+    },
+    {
+      "query": "path:\"01_Nucleo_Geral_Vault\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357990
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno\"",
+      "color": {
+        "a": 1,
+        "rgb": 3900150
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Conceitos\"",
+      "color": {
+        "a": 1,
+        "rgb": 959977
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Decisoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 9647082
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Tutoriais\"",
+      "color": {
+        "a": 1,
+        "rgb": 7877903
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp\"",
+      "color": {
+        "a": 1,
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp/Regras\"",
+      "color": {
+        "a": 1,
+        "rgb": 10424889
+      }
+    },
+    {
+      "query": "path:\"05_Integracao_Mercado_Livre\"",
+      "color": {
+        "a": 1,
+        "rgb": 16498468
+      }
+    },
+    {
+      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
+      }
     }
   ],
   "collapse-display": true,
@@ -74,6 +158,20 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.09895430218636855,
-  "close": true
+  "scale": 0.38230109687698205,
+  "close": true,
+  "cf-managed-queries": [
+    "path:\"02_Nucleo_Engenharia_Repositorio\"",
+    "path:\"00_Nucleo_Comportamento_Claude\"",
+    "path:\"01_Nucleo_Geral_Vault\"",
+    "path:\"03_Sistema_Interno\"",
+    "path:\"03_Sistema_Interno/Conceitos\"",
+    "path:\"03_Sistema_Interno/Decisoes\"",
+    "path:\"03_Sistema_Interno/Tutoriais\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
+    "path:\"05_Integracao_Mercado_Livre\"",
+    "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"Bases\""
+  ]
 }
