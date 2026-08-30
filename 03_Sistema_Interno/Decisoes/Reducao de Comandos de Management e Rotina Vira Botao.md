@@ -36,7 +36,7 @@ Os 6 comandos `calcular_grade_precificacao_{amazon,magalu,ml,raia,shopee,tiktok}
 
 Existe precedente no próprio projeto: `agenda_videos/views.py` já tem o padrão (botão → URL → view fina → chama a função de negócio → recarrega fragmento da página). Mas esse padrão é síncrono — serve pra ações rápidas (1 produto, resposta na hora). `sincronizar_impostos_entrada`/`popular_banco` rodam minutos (a 1ª carga chegou a 8 min) — não cabem num request HTTP síncrono (trava o navegador, estoura timeout de gateway na AWS).
 
-**Decisão (15/08/2026):** resolver com thread em background + endpoint de status consultado por polling, reaproveitando o mesmo padrão que `servidor_agente.py` já usa (thread separada rodando a tarefa real). Sem introduzir fila de tarefa de verdade (Celery/Django-Q) por enquanto — o projeto nunca precisou disso até hoje, e a Regra dos Três (ver [[Disciplina de Refatoracao e Testes]]) pesa contra trazer essa complexidade nova sem 3 casos reais que justifiquem.
+**Decisão (15/08/2026):** resolver com thread em background + endpoint de status consultado por polling, reaproveitando o mesmo padrão que `servidor_agente.py` já usa (thread separada rodando a tarefa real). Sem introduzir fila de tarefa de verdade (Celery/Django-Q) por enquanto — o projeto nunca precisou disso até hoje, e a Regra dos Três (ver [[Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples]]) pesa contra trazer essa complexidade nova sem 3 casos reais que justifiquem.
 
 ## Inventário completo — 18 comandos, categoria e destino
 
@@ -71,7 +71,7 @@ Etapa 4 do pipeline de impostos de entrada (`persistir_selecionados_no_banco`, `
 ## Relacionado
 
 - [[Padrao de Qualidade e Clareza Estrutural do Repositorio]]
-- [[Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido]]
+- [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] — absorveu, em 30/08/2026, o conteúdo que antes vivia em "Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido".
 - [[Redesenho do Popular Banco - Fontes de Dados e Escopo]]
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
 - [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]]

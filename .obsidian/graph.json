@@ -36,38 +36,10 @@
       }
     },
     {
-      "query": "path:\"03_Sistema_Interno/Conceitos\"",
-      "color": {
-        "a": 1,
-        "rgb": 959977
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Decisoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 9647082
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Tutoriais\"",
-      "color": {
-        "a": 1,
-        "rgb": 7877903
-      }
-    },
-    {
       "query": "path:\"04_Integracao_Sysemp\"",
       "color": {
         "a": 1,
         "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
       }
     },
     {
@@ -102,20 +74,6 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.13873223932665738,
-  "close": true,
-  "cf-managed-queries": [
-    "path:\"00_Nucleo_Comportamento_Claude\"",
-    "path:\"01_Nucleo_Geral_Vault\"",
-    "path:\"02_Nucleo_Engenharia_Repositorio\"",
-    "path:\"03_Sistema_Interno\"",
-    "path:\"03_Sistema_Interno/Conceitos\"",
-    "path:\"03_Sistema_Interno/Decisoes\"",
-    "path:\"03_Sistema_Interno/Tutoriais\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
-    "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"06_Producao_de_Imagens_e_Videos\"",
-    "path:\"Bases\""
-  ]
+  "scale": 0.09895430218636855,
+  "close": true
 }

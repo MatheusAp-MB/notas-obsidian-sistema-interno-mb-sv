@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Checkpoint (Modelo de Demonstracao)]
-resumo: Esqueleto de referência, explicado seção por seção, para checkpoint — não é um arco de pergunta/resposta única, é um log vivo que é sobrescrito a cada sessão até o trabalho terminar.
+resumo: Esqueleto de referência, explicado seção por seção, para checkpoint — não é um arco de pergunta/resposta única ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem uma verdade fixa ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), é um log vivo do estado de um trabalho de várias sessões, sobrescrito a cada rodada relevante até `status` virar `concluido`.
 ---
 
 # Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint)
 
-**Resumo**: `checkpoint` é o único tipo cujo conteúdo muda de natureza a cada edição — não é uma pergunta que ganha resposta 1 vez só ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem uma verdade fixa ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]) — é o estado atual de um trabalho de várias sessões, reescrito por cima a cada rodada relevante, até `status` virar `concluido`.
+**Resumo**: esqueleto de referência, explicado seção por seção, para checkpoint — não é um arco de pergunta/resposta única ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem uma verdade fixa ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), é um log vivo do estado de um trabalho de várias sessões, sobrescrito a cada rodada relevante até `status` virar `concluido`.
 
 > [!info] Isto é um modelo de referência, não uma fôrma rígida
 > Um checkpoint pequeno, de 1 sessão só, pode não precisar de uma "linha do tempo" com várias datas — nesse caso ela vira só a seção "o que foi feito", sem histórico multi-data. O que não pode faltar é o leitor conseguir responder rápido: "onde isso está agora, e o que falta?"

@@ -4,14 +4,14 @@ dominio:
 status: ativa
 criado: 15/08/2026
 atualizado_em: 15/08/2026 01:39
-relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Estrutura de Arquivo e Classe Python, Nomenclatura e Comentarios, Modelagem de Objeto e Encapsulamento, Fluxo Decomposicao de Problemas em Micro Etapas, Reducao de Comandos de Management e Rotina Vira Botao]
+relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Estrutura de Arquivo e Classe Python, Nomenclatura e Comentarios, Modelagem de Objeto e Encapsulamento, Fluxo Decomposicao de Problemas em Micro Etapas, Reducao de Comandos de Management e Rotina Vira Botao]
 ---
 
 # Padrão de Qualidade e Clareza Estrutural do Repositório
 
 ## Contexto (15/08/2026, 01:39)
 
-Motivado por [[Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido]] — durante a revisão do setup de banco de dados (`core/management/commands/iniciar_banco.py` e sua cadeia de sub-funções), o usuário decidiu que não basta mais "código que funciona e está correto": quer uma revisão de ponta a ponta do repositório inteiro, contra um padrão explícito de clareza estrutural. Motivo declarado e prazo real: existe uma equipe agora (Cauã e Lucas) que vai lidar com este código na segunda-feira, e o usuário quer garantir — não supor — que o que chegar até eles nesse dia esteja visivelmente melhor, principalmente em legibilidade e compreensão.
+Motivado pelo mesmo contexto de liderança de TI descrito em [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] (nota que absorveu, em 30/08/2026, o conteúdo que antes vivia em "Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido") — durante a revisão do setup de banco de dados (`core/management/commands/iniciar_banco.py` e sua cadeia de sub-funções), o usuário decidiu que não basta mais "código que funciona e está correto": quer uma revisão de ponta a ponta do repositório inteiro, contra um padrão explícito de clareza estrutural. Motivo declarado e prazo real: existe uma equipe agora (Cauã e Lucas) que vai lidar com este código na segunda-feira, e o usuário quer garantir — não supor — que o que chegar até eles nesse dia esteja visivelmente melhor, principalmente em legibilidade e compreensão.
 
 ## Regra
 
@@ -34,7 +34,6 @@ Toda revisão de código a partir de agora é avaliada contra esta régua, além
 ## Relacionado
 
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
-- [[Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido]]
 - [[Estrutura de Arquivo e Classe Python]]
 - [[Nomenclatura e Comentarios]]
 - [[Modelagem de Objeto e Encapsulamento]]

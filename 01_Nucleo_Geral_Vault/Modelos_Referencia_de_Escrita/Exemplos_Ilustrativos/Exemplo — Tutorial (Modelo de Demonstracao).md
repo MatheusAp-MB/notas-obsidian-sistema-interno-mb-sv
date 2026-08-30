@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Instrucao Procedural (Tutorial), Exemplo — Checkpoint (Modelo de Demonstracao), Exemplo — Decisao (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo tutorial — como rodar a grade de precificação com o cache ativado e confirmar que ele está funcionando.
+resumo: Nota-modelo (demonstração) do tipo tutorial — como rodar a grade de precificação com o cache ativado (implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]]) e confirmar, com dado real, que a segunda chamada usa o resultado guardado em vez de recalcular (só funciona pra produtos de frete fixo).
 ---
 
 # Tutorial: Como Rodar a Grade de Precificação com Cache Ativado (Tutorial)
 
-**Resumo**: depois de seguir este tutorial, você vai conseguir rodar o cálculo da grade de precificação de um produto de frete fixo com o cache ativado (implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]]) e confirmar, com dado real, que a segunda chamada está usando o resultado guardado em vez de recalcular.
+**Resumo**: como rodar a grade de precificação com o cache ativado (implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]]) e confirmar, com dado real, que a segunda chamada usa o resultado guardado em vez de recalcular (só funciona pra produtos de frete fixo).
 
 > [!warning] Isto é uma nota-modelo, não um tutorial real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Instrucao Procedural (Tutorial)]]. Válido só pra produtos de frete fixo — ver limitação na seção "Armadilhas comuns".

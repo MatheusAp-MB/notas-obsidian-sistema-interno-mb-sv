@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Definicao e Norma (Conceito, Regra), Exemplo — Conceito (Modelo de Demonstracao), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Prompt (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo regra — todo cache precisa de estratégia de invalidação explícita e documentada, nunca silenciosa, com exemplo ANTES/DEPOIS.
+resumo: Nota-modelo (demonstração) do tipo regra — todo cache precisa de estratégia de invalidação explícita e documentada, nunca silenciosa (um cache que "some sozinho" sem ninguém saber quando ou por quê), com exemplo ANTES/DEPOIS.
 ---
 
 # Todo Cache Precisa de Estratégia de Invalidação Explícita, Nunca Silenciosa (Regra)
 
-**Resumo**: sempre que um sistema guarda um resultado computado pra evitar recalcular (um cache), precisa existir uma regra clara e documentada de quando esse valor guardado deixa de valer — nunca um cache que "some sozinho" sem ninguém saber exatamente quando ou por quê.
+**Resumo**: todo cache precisa de estratégia de invalidação explícita e documentada, nunca silenciosa (um cache que "some sozinho" sem ninguém saber quando ou por quê), com exemplo ANTES/DEPOIS.
 
 > [!warning] Isto é uma nota-modelo, não uma regra formalmente adotada no sistema real
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]] — usada como base fictícia pra decisão em [[Exemplo — Decisao (Modelo de Demonstracao)]] e pro prompt de auditoria em [[Exemplo — Prompt (Modelo de Demonstracao)]].

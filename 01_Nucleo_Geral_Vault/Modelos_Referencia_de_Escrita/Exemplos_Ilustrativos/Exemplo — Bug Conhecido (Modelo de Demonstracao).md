@@ -5,12 +5,12 @@ status: corrigido
 criado: 29/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Exemplo — Conceito (Modelo de Demonstracao), Fluxo Decomposicao de Problemas em Micro Etapas, Integridade e Fonte Unica de Dado]
-resumo: Nota-modelo (demonstração) do tipo bug_conhecido — o watermark de sincronização era gravado em horário local em vez de UTC, causando importação duplicada de notas fiscais no fim do dia.
+resumo: Nota-modelo (demonstração) do tipo bug_conhecido — o comando `sincronizar_impostos_entrada` gravava o watermark de sincronização (ver [[Exemplo — Conceito (Modelo de Demonstracao)]]) em horário local em vez de UTC, causando importação duplicada de notas fiscais no fim do dia; corrigido trocando `datetime.now()` por `datetime.now(timezone.utc)`.
 ---
 
 # Exemplo — Bug Conhecido (Modelo de Demonstração)
 
-**Resumo**: o comando `sincronizar_impostos_entrada` gravava o horário local do servidor em vez de UTC no watermark de sincronização (ver [[Exemplo — Conceito (Modelo de Demonstracao)]]), fazendo notas fiscais da última hora do dia serem importadas em duplicidade. A correção foi trocar `datetime.now()` por `datetime.now(timezone.utc)` em `_atualizar_watermark()`.
+**Resumo**: o comando `sincronizar_impostos_entrada` gravava o watermark de sincronização (ver [[Exemplo — Conceito (Modelo de Demonstracao)]]) em horário local em vez de UTC, causando importação duplicada de notas fiscais no fim do dia; corrigido trocando `datetime.now()` por `datetime.now(timezone.utc)`.
 
 > [!warning] Isto é uma nota-modelo, não um bug real
 > Criada em 29/08/2026, movida e revisada em 30/08/2026 pra dentro de `Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/` (antes vivia solta na raiz do vault). Só pra mostrar como fica o padrão hiper-didático seguindo o [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|modelo de arco de resolução]]. O bug descrito abaixo é fictício, inventado só pra ter conteúdo técnico real (Sysemp, ICMS, watermark) pra ilustrar cada regra — e serve de base pro conceito de watermark em [[Exemplo — Conceito (Modelo de Demonstracao)]] e pra história de cache usada nos outros 7 exemplos da pasta.

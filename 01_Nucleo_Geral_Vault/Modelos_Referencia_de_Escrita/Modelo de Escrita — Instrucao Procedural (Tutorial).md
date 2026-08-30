@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Tutorial (Modelo de Demonstracao)]
-resumo: Esqueleto de referência, explicado seção por seção, para tutorial — não explica uma pergunta nem fixa uma verdade, ensina uma sequência de ações até um resultado concreto.
+resumo: Esqueleto de referência, explicado seção por seção, para tutorial — não explica uma pergunta ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem fixa uma verdade ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), ensina uma sequência de ações pra um humano seguir, do início ao fim, até chegar num resultado concreto.
 ---
 
 # Modelo de Escrita — Instrução Procedural (Tutorial)
 
-**Resumo**: `tutorial` não responde uma pergunta como no [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]], nem fixa uma verdade como em [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]] — ele ensina uma sequência de ações pra um humano seguir, do início ao fim, até chegar num resultado concreto.
+**Resumo**: esqueleto de referência, explicado seção por seção, para tutorial — não explica uma pergunta ([[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]]) nem fixa uma verdade ([[Modelo de Escrita — Definicao e Norma (Conceito, Regra)|definição/norma]]), ensina uma sequência de ações pra um humano seguir, do início ao fim, até chegar num resultado concreto.
 
 > [!info] Isto é um modelo de referência, não uma fôrma rígida
 > Um tutorial de 2 passos não precisa forçar uma seção "Armadilhas comuns" vazia — ela só entra quando existe algo real que já deu errado antes. O que não pode faltar é o leitor conseguir seguir o passo a passo sem travar em nenhum ponto.

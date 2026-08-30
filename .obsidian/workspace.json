@@ -39,7 +39,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true,
+                "autoReveal": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "path:\"00_Nucleo_Comportamento_Claude\" [\"tipo\":\"regra\"]",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -77,7 +77,8 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -190,8 +191,24 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "ec074aab522cbfcf",
+  "active": "831c5854f3b0a630",
   "lastOpenFiles": [
+    "00_Nucleo_Comportamento_Claude/Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar).md",
+    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Definicao e Norma (Conceito, Regra).md.tmp.36256.0a75382fe389",
+    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Tutorial (Modelo de Demonstracao).md.tmp.36256.7081b9a676d9",
+    "00_Nucleo_Comportamento_Claude/Perguntas Sempre em Texto Corrido.md",
+    "00_Nucleo_Comportamento_Claude/Nomenclatura e Comentarios.md",
+    "00_Nucleo_Comportamento_Claude/Fluxo Decomposicao de Problemas em Micro Etapas.md",
+    "00_Nucleo_Comportamento_Claude/Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples.md",
+    "00_Nucleo_Comportamento_Claude/Definição do Núcleo de Comportamento Claude.md",
+    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
+    "00_Nucleo_Comportamento_Claude/00_Indice.md",
+    "00_Nucleo_Comportamento_Claude/Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples.md.tmp.36188.0f1bf40a6bbe",
+    "00_Nucleo_Comportamento_Claude/Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido.md",
+    "02_Nucleo_Engenharia_Repositorio/Padrao de Qualidade e Clareza Estrutural do Repositorio.md.tmp.7140.169424fae271",
+    "03_Sistema_Interno/Decisoes/Reducao de Comandos de Management e Rotina Vira Botao.md.tmp.7140.ba26dd776ef8",
+    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Bug Conhecido (Modelo de Demonstracao).md",
+    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Tutorial (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Regra (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Prompt (Modelo de Demonstracao).md",
@@ -200,11 +217,9 @@
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Conceito (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Checkpoint (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Artefato de Uso Direto (Prompt).md",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Bug Conhecido (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Instrucao Procedural (Tutorial).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Definicao e Norma (Conceito, Regra).md",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida).md",
     "Exemplo de Nota — Padrao Hiper-Didatico (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Decisao (Modelo de Demonstracao).md",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Regra (Modelo de Demonstracao).md.tmp.35988.5b61a58745c4",
@@ -213,21 +228,6 @@
     "06_Producao_de_Imagens_e_Videos/01_Pipeline/Etapa 1-4 - Estudo do Produto.md",
     "01_Nucleo_Geral_Vault/00_Indice.md.tmp.29440.ff83443b1c4d",
     "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Instrucao Procedural (Tutorial).md.tmp.29440.97406fee3e39",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita",
-    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
-    "Bases/Vault - Pendencias Abertas.base",
-    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md.tmp.28188.66f703df2b49",
-    "05_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/📚 Livros para Ler.md",
-    "📚 Livros para Ler.md",
-    "05_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos/Cache Nao Distingue Erro De Rede De Erro Real Da Api.md",
-    "Regras Gerais.md",
-    "02_Nucleo_Engenharia_Repositorio/Modelo Padrao de Arquivo de Teste.md",
-    "02_Nucleo_Engenharia_Repositorio/Padrao de Robustez para Clientes de API Externa.md",
-    "02_Nucleo_Engenharia_Repositorio/Modelagem de Objeto e Encapsulamento.md",
-    "02_Nucleo_Engenharia_Repositorio/Integridade e Fonte Unica de Dado.md",
-    "02_Nucleo_Engenharia_Repositorio/Disciplina de Testes Automatizados.md",
-    "03_Sistema_Interno/Tutoriais/Obsoletos",
-    "03_Sistema_Interno/Multi_Empresa/Duvidas",
     "Sem título.canvas"
   ]
 }

@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Etapa 1-4 - Estudo do Produto, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Exemplo — Prompt (Modelo de Demonstracao)]
-resumo: Esqueleto de referência, explicado seção por seção, para prompt — o corpo da nota é a própria ferramenta a ser copiada e usada, não uma explicação sobre algo.
+resumo: Esqueleto de referência, explicado seção por seção, para prompt — o corpo da nota é a própria ferramenta a ser copiada e usada (não uma explicação sobre algo), com maturidade refletida no status (em_desenvolvimento/validado) e exemplo de execução real como prova.
 ---
 
 # Modelo de Escrita — Artefato de Uso Direto (Prompt)
 
-**Resumo**: `prompt` é o único tipo em que o corpo da nota **é** a ferramenta, não uma explicação sobre ela — o texto principal precisa ficar pronto pra ser copiado e colado direto num contexto de execução (outra conversa, outro agente), sem precisar de tradução.
+**Resumo**: esqueleto de referência, explicado seção por seção, para prompt — o corpo da nota é a própria ferramenta a ser copiada e usada (não uma explicação sobre algo), com maturidade refletida no status (em_desenvolvimento/validado) e exemplo de execução real como prova.
 
 > [!info] Isto é um modelo de referência, não uma fôrma rígida
 > Um prompt curto e de uso único pode não precisar de uma seção "Como usar" separada — a instrução de uso cabe numa frase antes do bloco. O que não pode faltar é ficar óbvio onde o prompt começa e termina, sem mistura com comentário do autor.

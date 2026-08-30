@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Conceito (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao)]
-resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que estabelecem uma verdade permanente em vez de resolver uma pergunta pontual (conceito, regra).
+resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que estabelecem uma verdade permanente em vez de resolver uma pergunta pontual — descrevendo o que algo É (`conceito`) ou prescrevendo o que deve ser feito sempre (`regra`).
 ---
 
 # Modelo de Escrita — Definição e Norma (Conceito, Regra)
 
-**Resumo**: `conceito` e `regra` não têm uma pergunta pontual a resolver como no [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)|arco de resolução]] — elas existem pra fixar uma verdade que vale de forma permanente, seja descrevendo o que algo É (`conceito`) ou prescrevendo o que deve ser feito sempre (`regra`).
+**Resumo**: esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que estabelecem uma verdade permanente em vez de resolver uma pergunta pontual — descrevendo o que algo É (`conceito`) ou prescrevendo o que deve ser feito sempre (`regra`).
 
 > [!info] Isto é um modelo de referência, não uma fôrma rígida
 > As seções abaixo são um jeito de pensar a nota, não uma casca obrigatória. Uma regra simples, sem alternativa real descartada, pode não precisar da seção "Por que é assim" separada — ela vira 1 frase dentro de "O que diz". O que importa é o leitor nunca ficar sem saber por que a norma/definição é essa e não outra.

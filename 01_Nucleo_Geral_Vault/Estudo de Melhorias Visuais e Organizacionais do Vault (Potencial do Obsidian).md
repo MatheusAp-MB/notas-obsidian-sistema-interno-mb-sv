@@ -453,16 +453,16 @@ Dúvida trazida pelo usuário: os "marcadores" do Obsidian permitem salvar busca
 
 **Camada 1 aplicada de verdade**: cor + ícone por tipo de subpasta padrão, escritos em `customFolderColors` pra toda ocorrência já existente no vault (35 pastas, contadas via `find` — não chute):
 
-| Tipo | Cor (hex) | Ícone (Lucide) | Ocorrências |
-|---|---|---|---|
-| `Regras` | `#9F1239` | `scale` | 3 |
-| `Conceitos` | `#0EA5E9` | `lightbulb` | 3 |
-| `Decisoes` | `#9333EA` | `git-branch` | 8 |
-| `Duvidas` | `#EAB308` | `circle-help` | 3 |
-| `Descobertas` | `#16A34A` | `telescope` | 5 |
-| `Bugs_Conhecidos` | `#DC2626` | `bug` | 5 |
-| `Checkpoints` | `#475569` | `flag` | 6 |
-| `Tutoriais` | `#78350F` | `list-checks` | 2 |
+| Tipo              | Cor (hex) | Ícone (Lucide) | Ocorrências |
+| ----------------- | --------- | -------------- | ----------- |
+| `Regras`          | `#9F1239` | `scale`        | 3           |
+| `Conceitos`       | `#0EA5E9` | `lightbulb`    | 3           |
+| `Decisoes`        | `#9333EA` | `git-branch`   | 8           |
+| `Duvidas`         | `#EAB308` | `circle-help`  | 3           |
+| `Descobertas`     | `#16A34A` | `telescope`    | 5           |
+| `Bugs_Conhecidos` | `#DC2626` | `bug`          | 5           |
+| `Checkpoints`     | `#475569` | `flag`         | 6           |
+| `Tutoriais`       | `#78350F` | `list-checks`  | 2           |
 
 > [!warning] Limite técnico real, confirmado lendo o código-fonte do plugin — cor por tipo não é automática por nome
 > `customFolderColors` só casa por **caminho exato** (confirmado lendo `main.js`: a função `je()` só normaliza separador de pasta, nunca extrai nome-base) — não existe "toda pasta chamada `Bugs_Conhecidos`, onde quer que esteja" via cor. Cada uma das 35 ocorrências precisou da própria entrada. Existe uma feature separada (`customIconRules`, casamento por nome via regex) que cobre só ÍCONE automático por nome, nunca cor — e não foi usada aqui, pra não depender de 2 mecanismos diferentes. **Consequência prática, virou regra de processo**: toda vez que uma dessas 8 subpastas padrão for criada num contexto novo, a entrada correspondente em `customFolderColors` precisa ser adicionada no mesmo momento — não é automático, é disciplina.

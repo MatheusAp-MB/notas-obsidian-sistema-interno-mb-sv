@@ -5,12 +5,12 @@ status: concluida
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Exemplo — Duvida (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao), Exemplo — Checkpoint (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo decisao — resolve a dúvida sobre cachear a grade de precificação, com as alternativas consideradas e descartadas antes da escolha final.
+resumo: Nota-modelo (demonstração) do tipo decisao — resolve a dúvida em [[Exemplo — Duvida (Modelo de Demonstracao)]] sobre cachear a grade de precificação: sim, por 24 horas, com invalidação automática sempre que o custo do produto for alterado, com as alternativas consideradas e descartadas antes da escolha final (seguindo [[Exemplo — Regra (Modelo de Demonstracao)]]).
 ---
 
 # Decisão: Cachear a Grade de Precificação por 24h com Invalidação Explícita ao Alterar Custo (Decisão)
 
-**Resumo**: decisão fictícia que resolve a dúvida em [[Exemplo — Duvida (Modelo de Demonstracao)]] — sim, cachear por 24 horas, com invalidação automática sempre que o custo do produto for alterado, seguindo a regra registrada em [[Exemplo — Regra (Modelo de Demonstracao)]].
+**Resumo**: resolve a dúvida em [[Exemplo — Duvida (Modelo de Demonstracao)]] sobre cachear a grade de precificação: sim, por 24 horas, com invalidação automática sempre que o custo do produto for alterado, com as alternativas consideradas e descartadas antes da escolha final (seguindo [[Exemplo — Regra (Modelo de Demonstracao)]]).
 
 > [!warning] Isto é uma nota-modelo, não uma decisão real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)]].

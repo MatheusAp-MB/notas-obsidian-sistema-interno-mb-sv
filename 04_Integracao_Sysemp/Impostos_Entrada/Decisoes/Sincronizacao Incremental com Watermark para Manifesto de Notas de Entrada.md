@@ -41,7 +41,7 @@ Quando não existe `cobertura_ate` registrado (primeiro uso), o próprio `inicia
 
 ## Tabela dedicada "Sincronização com o ERP"
 
-Nova tabela no banco (o banco está sendo remodelado agora, junto de várias funções de precificação) — guarda o `cobertura_ate` e o que mais for decidido (ver "Em aberto"). Decisão explícita do usuário: essa tabela é **só** pra essa função específica (sincronizar dados de entrada do XML) — não generalizada pra outras futuras integrações Sysemp (Cadastro de Produtos, dados de saída), seguindo a Regra dos Três já estabelecida em [[Disciplina de Refatoracao e Testes]]: só generaliza quando a 2ª necessidade real aparecer, não antes.
+Nova tabela no banco (o banco está sendo remodelado agora, junto de várias funções de precificação) — guarda o `cobertura_ate` e o que mais for decidido (ver "Em aberto"). Decisão explícita do usuário: essa tabela é **só** pra essa função específica (sincronizar dados de entrada do XML) — não generalizada pra outras futuras integrações Sysemp (Cadastro de Produtos, dados de saída), seguindo a Regra dos Três já estabelecida em [[Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples]]: só generaliza quando a 2ª necessidade real aparecer, não antes.
 
 ## Implementado e validado (09/08/2026 20:50)
 

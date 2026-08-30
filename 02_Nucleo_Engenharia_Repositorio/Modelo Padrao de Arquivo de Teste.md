@@ -3,7 +3,7 @@ tipo: regra
 dominio: testes
 status: ativa
 criado: 02/08/2026
-relacionado: [Disciplina de Testes Automatizados, Disciplina de Refatoracao e Testes, Nomenclatura e Comentarios]
+relacionado: [Disciplina de Testes Automatizados, Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples, Nomenclatura e Comentarios]
 ---
 
 # Modelo Padrao de Arquivo de Teste
@@ -273,5 +273,5 @@ def test_dobro_caso_de_falha_proposital(tabela_resultados):
 ## Relacionado
 
 - [[Disciplina de Testes Automatizados]]
-- [[Disciplina de Refatoracao e Testes]]
+- [[Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples]]
 - [[Nomenclatura e Comentarios]]

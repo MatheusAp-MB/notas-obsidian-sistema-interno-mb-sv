@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Estrutura e Convenções do Vault, Fluxo Decomposicao de Problemas em Micro Etapas, Modelo de Escrita — Definicao e Norma (Conceito, Regra), Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Modelo de Escrita — Instrucao Procedural (Tutorial), Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Descoberta (Modelo de Demonstracao), Exemplo — Duvida (Modelo de Demonstracao), Exemplo — Bug Conhecido (Modelo de Demonstracao)]
-resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que respondem uma pergunta ou resolvem um problema (decisao, descoberta, bug_conhecido, e duvida) — incluindo o ciclo de 2 notas de dúvida→decisão.
+resumo: Esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que respondem uma pergunta ou resolvem um problema (decisao, descoberta, bug_conhecido, e duvida) — garantindo que o raciocínio entre "aqui está o problema" e "aqui está a resposta" nunca fique faltando, incluindo o ciclo de 2 notas de dúvida→decisão.
 ---
 
 # Modelo de Escrita — Arco de Resolução (Decisão, Descoberta, Bug Conhecido, Dúvida)
 
-**Resumo**: os tipos `decisao`, `descoberta`, `bug_conhecido` e `duvida` têm em comum uma pergunta ou problema central que precisa de resposta. A peça que mais falta em notas assim, escritas sem pensar nisso, é o raciocínio entre "aqui está o problema" e "aqui está a resposta" — este modelo existe pra garantir que essa ponte nunca fique faltando, e explica, seção por seção, o que cada uma precisa conter — não só o nome dela.
+**Resumo**: esqueleto de referência, explicado seção por seção com exemplo de cada tipo, para notas que respondem uma pergunta ou resolvem um problema (decisao, descoberta, bug_conhecido, e duvida) — garantindo que o raciocínio entre "aqui está o problema" e "aqui está a resposta" nunca fique faltando, incluindo o ciclo de 2 notas de dúvida→decisão.
 
 > [!info] Isto é um modelo de referência, não uma fôrma rígida
 > As seções abaixo são um jeito de pensar a nota, não uma casca obrigatória pra preencher campo por campo. Se a nota real não tiver uma alternativa descartada de verdade, por exemplo, essa parte encolhe pra 1 frase ou some — o que nunca pode faltar é o leitor entender o caminho até a resposta, não o nome exato da seção. Adapte ao que a nota precisa dizer.

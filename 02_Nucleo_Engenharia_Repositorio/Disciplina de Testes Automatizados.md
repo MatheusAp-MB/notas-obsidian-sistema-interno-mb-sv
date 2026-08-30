@@ -4,14 +4,14 @@ dominio: testes
 status: ativa
 criado: 02/08/2026
 atualizado_em: 09/08/2026 19:10
-relacionado: [Disciplina de Refatoracao e Testes, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167, Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]
+relacionado: [Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167, Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]
 ---
 
 # Disciplina de Testes Automatizados
 
 ## Por que existe
 
-O sistema precisa ser o MÁXIMO possível testável via pytest — não é um "quando sobrar tempo", é prioridade real (ver [[Disciplina de Refatoracao e Testes]], seção Regra dos Três: falta de teste é a causa nº 1 de dívida técnica).
+O sistema precisa ser o MÁXIMO possível testável via pytest — não é um "quando sobrar tempo", é prioridade real (ver [[Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples]], seção Regra dos Três: falta de teste é a causa nº 1 de dívida técnica).
 
 ## Pensar no teste antes da linha de código
 
@@ -143,7 +143,7 @@ Reescrita grande sem rede de segurança (teste) é o cenário de maior risco de 
 
 ## Relacionado
 
-- [[Disciplina de Refatoracao e Testes]]
+- [[Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples]]
 - [[Nomenclatura e Comentarios]]
 - [[Modelo Padrao de Arquivo de Teste]]
 - [[Conceitos de Pytest Live de Python 167]]

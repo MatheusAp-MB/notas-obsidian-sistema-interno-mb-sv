@@ -5,12 +5,12 @@ status: ativa
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Definicao e Norma (Conceito, Regra), Exemplo — Regra (Modelo de Demonstracao), Exemplo — Bug Conhecido (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo conceito — define o que é um "watermark de sincronização" e por que essa estratégia foi escolhida em vez de alternativas mais simples.
+resumo: Nota-modelo (demonstração) do tipo conceito — define o que é um "watermark de sincronização" (registro que guarda até onde a última busca de dados externos já cobriu) e por que essa estratégia foi escolhida em vez de alternativas mais simples; base do bug fictício em [[Exemplo — Bug Conhecido (Modelo de Demonstracao)]] e da regra de cache em [[Exemplo — Regra (Modelo de Demonstracao)]].
 ---
 
 # O que é um Watermark de Sincronização (Conceito)
 
-**Resumo**: watermark de sincronização é o registro que guarda até onde a última busca de dados externos já cobriu, pra próxima busca continuar exatamente dali. É a base do bug fictício em [[Exemplo — Bug Conhecido (Modelo de Demonstracao)]] e da regra de cache em [[Exemplo — Regra (Modelo de Demonstracao)]].
+**Resumo**: define o que é um "watermark de sincronização" (registro que guarda até onde a última busca de dados externos já cobriu) e por que essa estratégia foi escolhida em vez de alternativas mais simples; base do bug fictício em [[Exemplo — Bug Conhecido (Modelo de Demonstracao)]] e da regra de cache em [[Exemplo — Regra (Modelo de Demonstracao)]].
 
 > [!warning] Isto é uma nota-modelo, não a definição oficial do sistema real
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]]. O conceito de watermark aqui é genérico e simplificado, pensado só pra sustentar os outros exemplos fictícios da mesma família de notas.

@@ -5,12 +5,12 @@ status: confirmada
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Exemplo — Checkpoint (Modelo de Demonstracao), Exemplo — Decisao (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo descoberta — o cache da grade de precificação não reduz carga nenhuma pra produtos de frete variável, achado durante a implementação registrada no checkpoint.
+resumo: Nota-modelo (demonstração) do tipo descoberta — durante a implementação do cache registrada em [[Exemplo — Checkpoint (Modelo de Demonstracao)]], confirmado que produtos de frete variável (recalculado por transportadora a cada consulta) invalidam o próprio cache a cada consulta, então o cache implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]] não reduz carga nenhuma pra esse grupo.
 ---
 
 # O Cache da Grade de Precificação Não Reduz Carga Nenhuma Pros Produtos de Frete Variável (Descoberta)
 
-**Resumo**: durante os testes da sessão de 20/07/2026 do checkpoint [[Exemplo — Checkpoint (Modelo de Demonstracao)]], confirmado que produtos de frete variável (recalculado por transportadora a cada consulta) invalidam o próprio cache a cada consulta — o cache implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]] não ajuda esse grupo.
+**Resumo**: durante a implementação do cache registrada em [[Exemplo — Checkpoint (Modelo de Demonstracao)]], confirmado que produtos de frete variável (recalculado por transportadora a cada consulta) invalidam o próprio cache a cada consulta, então o cache implementado em [[Exemplo — Decisao (Modelo de Demonstracao)]] não reduz carga nenhuma pra esse grupo.
 
 > [!warning] Isto é uma nota-modelo, não uma descoberta real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)]].

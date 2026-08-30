@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 29/08/2026
-atualizado_em: 29/08/2026 20:28
+atualizado_em: 30/08/2026 01:55
 relacionado: [Estrutura e Convenções do Vault, Definição do Núcleo Geral do Vault]
 ---
 
@@ -41,19 +41,21 @@ Só entra em `00_Nucleo_Comportamento_Claude/` quem passa nas duas perguntas.
 
 `Perguntas Sempre em Texto Corrido` (não usar ferramenta de múltipla escolha) sobrevive às duas: não depende do vault existir, e vale exatamente igual se o usuário estiver pedindo ajuda com um projeto Python, um contrato, ou uma viagem. Já `Modelo Padrao de Arquivo de Teste` sobrevive à primeira (não fala do vault) mas falha na segunda — é um template de código pytest, não faz sentido nenhum fora de uma tarefa de teste automatizado em Python.
 
-## As 6 regras deste núcleo
+## As 5 regras deste núcleo
 
 | Regra | Por que passa nas 2 perguntas |
 |---|---|
 | Ciclo de Trabalho Calmo (Idealizar → Planejar → Executar → Analisar → Corrigir → Otimizar → Validar) | Método de trabalho sem nenhuma menção a código ou projeto específico — vale pra qualquer tarefa. |
 | Perguntas Sempre em Texto Corrido | Estilo de interação com o usuário, independente de produto, projeto ou assunto. |
 | Fluxo — Decomposição de Problemas em Micro-Etapas | Princípio de decompor problema grande em partes pequenas — vale pra pensar em qualquer problema, não só código. |
-| Disciplina de Refatoração e Testes (Regra dos Três, código limpo) | Princípio geral de engenharia de software — não amarrado a nenhum projeto específico. |
+| Disciplina de Refatoração (Regra dos Três, quando generalizar) | Princípio geral de tomada de decisão — não amarrado a nenhum projeto específico. |
 | Nomenclatura e Comentários | Clareza de nome e "comentário explica o porquê" — vale pra qualquer coisa que Claude nomeie ou documente. |
-| Responsabilidade de Liderança em TI Eleva o Padrão de Qualidade Exigido | Reforça o Ciclo de Trabalho Calmo com mais seriedade sempre que o trabalho tem peso real — princípio que se aplica além de 1 projeto só. |
 
-> [!info] Nota sobre as 4 últimas
-> Essas 4 ainda têm, no corpo do texto, exemplo específico do projeto Sistema Interno V2 (citado durante a explicação do motivo). O usuário confirmou que a classificação correta é `00` mesmo assim — o **princípio** é universal, ainda que o exemplo usado pra ilustrar seja de um projeto específico. Reescrever essas notas de forma mais genérica (sem o exemplo do projeto) é uma melhoria possível, ainda não feita.
+> [!success] Reescrita de 30/08/2026 — genericidade corrigida, e 1 fusão
+> A versão anterior desta tabela tinha 6 regras, e uma nota (`> [!info] Nota sobre as 4 últimas`) sinalizava que 4 delas ainda carregavam exemplo específico do projeto Sistema Interno V2 dentro do corpo do texto, como melhoria "possível, ainda não feita". Em 30/08/2026, isso foi resolvido em conjunto com uma auditoria mais profunda (pensada "1 nível acima", perguntando qual é a responsabilidade única de cada nota, não só onde havia sobreposição de superfície):
+> - **Fluxo, Disciplina de Refatoração e Nomenclatura** foram reescritas removendo o exemplo específico de projeto do corpo principal — o princípio agora é explicado em termos genéricos, com o exemplo de código mantido só como 1 ilustração entre outras (nunca mais como a única).
+> - **Responsabilidade de Liderança em TI Eleva o Padrão de Qualidade Exigido** deixou de existir como nota separada — seu conteúdo (o contexto de 14/08/2026, você virando responsável por TI e liderando Lucas/Cauã) foi absorvido dentro de **Ciclo de Trabalho Calmo**, porque na prática ela só reforçava a mesma regra com mais seriedade, sem responsabilidade própria distinta. Isso levou o total de 6 pra 5 regras.
+> - Todas as 5 foram reescritas no modelo [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]], com reforço "anti-falhas" — explicitando o que a regra **não** significa nos pontos onde já houve interpretação errada antes, não só o que ela significa.
 
 ## As 10 regras que ficam em `02_Sistema_Interno/Regras_de_Comportamento/` (sem mudança)
 
@@ -65,8 +67,8 @@ Só entra em `00_Nucleo_Comportamento_Claude/` quem passa nas duas perguntas.
 - ✅ 6 regras movidas fisicamente pra dentro dela.
 - ✅ 10 regras confirmadas e mantidas em `02_Sistema_Interno/Regras_de_Comportamento/`.
 - ✅ 2 regras movidas para `01_Nucleo_Geral_Vault/` (ver [[Definição do Núcleo Geral do Vault]]).
-- ⏳ **Pendente**: decidir se cria uma camada resumida (versão compacta, 1-3 linhas por regra) além destas 6 notas completas — discussão pausada a pedido do usuário até a movimentação física terminar.
-- ⏳ **Pendente**: avaliar reescrever as 4 regras marcadas acima de forma mais genérica, sem o exemplo específico do projeto.
+- ⏳ **Pendente**: decidir se cria uma camada resumida (versão compacta, 1-3 linhas por regra) além destas notas completas — condição registrada em 29/08/2026, 23:26, no checkpoint [[Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)]]: só constrói se os erros de comportamento continuarem aparecendo na prática.
+- ✅ **Reescrita completa de 30/08/2026, 01:55** — as 4 regras marcadas como tendo exemplo específico de projeto foram tratadas: 3 (Fluxo, Disciplina de Refatoração, Nomenclatura) reescritas de forma genérica; 1 (Responsabilidade de Liderança) fundida dentro de Ciclo de Trabalho Calmo. Total: 6 → 5 regras, todas no modelo [[Modelo de Escrita — Definicao e Norma (Conceito, Regra)]], reforçadas com o que cada regra explicitamente **não** significa.
 - ✅ `Reducao de Comandos de Management e Rotina Vira Botao` **corrigida (29/08/2026, 20:28)** — o `tipo` já era `decisao` (não precisou mudar); movida de `Regras_de_Comportamento/` pra `Decisoes/`, pasta nova de nível de mundo (ver [[Estrutura e Convenções do Vault]]).
 
 ## Relacionado

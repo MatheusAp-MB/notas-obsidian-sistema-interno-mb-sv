@@ -5,12 +5,12 @@ status: resolvida
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo duvida, já resolvida — mostra o ciclo completo de 2 notas (dúvida + decisão nova), preservando o rastro de quando a pergunta ainda estava em aberto.
+resumo: Nota-modelo (demonstração) do tipo duvida — pergunta fictícia sobre se compensa cachear a grade de precificação por 24 horas — já resolvida em [[Exemplo — Decisao (Modelo de Demonstracao)]]; mostra o ciclo completo de 2 notas (dúvida + decisão nova), preservando o rastro de quando a pergunta ainda estava em aberto.
 ---
 
 # Vale a Pena Cachear o Resultado da Grade de Precificação por 24 Horas? (Dúvida)
 
-**Resumo**: dúvida fictícia sobre se compensa guardar em cache o resultado do cálculo de grade de precificação por 24 horas, evitando recalcular a cada consulta — resolvida em [[Exemplo — Decisao (Modelo de Demonstracao)]].
+**Resumo**: pergunta fictícia sobre se compensa cachear a grade de precificação por 24 horas — já resolvida em [[Exemplo — Decisao (Modelo de Demonstracao)]]; mostra o ciclo completo de 2 notas (dúvida + decisão nova), preservando o rastro de quando a pergunta ainda estava em aberto.
 
 > [!warning] Isto é uma nota-modelo, não uma dúvida real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Arco de Resolucao (Decisao, Descoberta, Bug Conhecido, Duvida)]] — em especial o caso especial de dúvida, que nunca vira decisão na mesma nota.

@@ -376,10 +376,60 @@
       "textColor": "#B6927D",
       "textGradientEnd": "#00ffff",
       "iconColor": "#78350F"
+    },
+    "00_Nucleo_Comportamento_Claude/Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar).md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "00_Nucleo_Comportamento_Claude/Definição do Núcleo de Comportamento Claude.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "00_Nucleo_Comportamento_Claude/Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "00_Nucleo_Comportamento_Claude/Fluxo Decomposicao de Problemas em Micro Etapas.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "00_Nucleo_Comportamento_Claude/Nomenclatura e Comentarios.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "00_Nucleo_Comportamento_Claude/Perguntas Sempre em Texto Corrido.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
     }
   },
-  "presets": {},
+  "presets": {
+    "Preset_REGRAS": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139"
+    }
+  },
   "recentlyUsedIcons": [
+    "ri-scales-3-line",
     "tabler-settings-code",
     "bx-bxs-invader",
     "ri-questionnaire-line",

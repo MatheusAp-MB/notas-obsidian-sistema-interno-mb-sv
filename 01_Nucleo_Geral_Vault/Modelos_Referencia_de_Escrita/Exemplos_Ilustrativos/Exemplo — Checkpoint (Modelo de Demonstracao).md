@@ -5,12 +5,12 @@ status: em_andamento
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint), Exemplo — Decisao (Modelo de Demonstracao), Exemplo — Descoberta (Modelo de Demonstracao), Exemplo — Regra (Modelo de Demonstracao), Exemplo — Tutorial (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo checkpoint — acompanha a implementação, em andamento, da decisão de cachear a grade de precificação, incluindo a sessão em que a descoberta sobre frete variável aconteceu.
+resumo: Nota-modelo (demonstração) do tipo checkpoint — acompanha, em andamento, a implementação da decisão registrada em [[Exemplo — Decisao (Modelo de Demonstracao)]]: cache básico já funciona pra produtos de frete fixo, e a descoberta sobre frete variável ainda não tem solução definida (ver "Em aberto").
 ---
 
 # Checkpoint: Implementação do Cache de 24h na Grade de Precificação (Checkpoint)
 
-**Resumo**: implementação, em andamento, da decisão registrada em [[Exemplo — Decisao (Modelo de Demonstracao)]] — cache básico já funciona pra produtos de frete fixo; produtos de frete variável ainda não têm solução definida (ver "Em aberto").
+**Resumo**: acompanha, em andamento, a implementação da decisão registrada em [[Exemplo — Decisao (Modelo de Demonstracao)]]: cache básico já funciona pra produtos de frete fixo, e a descoberta sobre frete variável ainda não tem solução definida (ver "Em aberto").
 
 > [!warning] Isto é uma nota-modelo, não um checkpoint real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint)]]. As datas de sessão abaixo (10/07, 14/07, 20/07/2026) são fictícias, parte da história de exemplo — não é o dia real em que este arquivo foi escrito (30/08/2026).

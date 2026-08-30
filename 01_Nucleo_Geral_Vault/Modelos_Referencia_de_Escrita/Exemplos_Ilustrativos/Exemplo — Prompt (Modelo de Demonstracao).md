@@ -5,12 +5,12 @@ status: validado
 criado: 30/08/2026
 atualizado_em: 30/08/2026 00:32
 relacionado: [Modelo de Escrita — Artefato de Uso Direto (Prompt), Exemplo — Regra (Modelo de Demonstracao), Exemplo — Checkpoint (Modelo de Demonstracao)]
-resumo: Nota-modelo (demonstração) do tipo prompt — pede pro Claude auditar se a implementação do cache respeita a regra de invalidação explícita, com exemplo de execução real.
+resumo: Nota-modelo (demonstração) do tipo prompt — pede pro Claude auditar se uma nova função de cache respeita a regra registrada em [[Exemplo — Regra (Modelo de Demonstracao)]] (invalidação explícita, nunca silenciosa), com exemplo de execução real contra a implementação do checkpoint.
 ---
 
 # Prompt: Auditoria de Invalidação de Cache da Grade de Precificação (Prompt)
 
-**Resumo**: use este prompt sempre que uma nova função de cache for adicionada ao sistema de precificação, pra confirmar que ela respeita a regra registrada em [[Exemplo — Regra (Modelo de Demonstracao)]] (todo cache precisa de invalidação explícita, nunca silenciosa).
+**Resumo**: pede pro Claude auditar se uma nova função de cache respeita a regra registrada em [[Exemplo — Regra (Modelo de Demonstracao)]] (invalidação explícita, nunca silenciosa), com exemplo de execução real contra a implementação do checkpoint.
 
 > [!warning] Isto é uma nota-modelo, não um prompt real do sistema
 > Criada em 30/08/2026 só pra demonstrar o modelo de escrita [[Modelo de Escrita — Artefato de Uso Direto (Prompt)]].
