@@ -23,7 +23,7 @@
   "maxBackups": 2,
   "dialogState": {
     "iconMode": true,
-    "emojiMode": false,
+    "emojiMode": true,
     "rulePage": "file"
   },
   "appIcons": {},
@@ -38,13 +38,6 @@
       "id": "7k4If",
       "name": "Untitled rule",
       "match": "all",
-      "conditions": [
-        {
-          "source": "property:tipo",
-          "operator": "is",
-          "value": "checkpoint"
-        }
-      ],
       "enabled": true,
       "icon": "lucide-list-todo",
       "color": "orange"

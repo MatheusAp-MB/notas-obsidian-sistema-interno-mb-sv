@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 29/08/2026 19:59
+atualizado_em: 29/08/2026 20:28
 relacionado: [Estrutura e Convenções do Vault]
 ---
 
@@ -24,11 +24,18 @@ relacionado: [Estrutura e Convenções do Vault]
 | [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] | regra | ativa | 03/08/2026 | Sincronizar só quando pedido; editar/escrever/remover só com permissão; nunca criar tarefa/subagente sem autorização; vault é fonte de verdade; LEGADO/ é arquivo morto; código sempre como texto na conversa, nunca arquivo criado por Claude. **Atualizado 25/08, 16h55: 6º incidente confirmado** (agora também no Cowork, não só no Claude Code) — script `gerar_inventario_drive_magazine.py` entregue como arquivo criado (`Write`+`SendUserFile`) em vez de texto na conversa. |
 | [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Pacote `api_<nome>/core` com excecoes/protecao/cliente separados; transporte nunca sabe de negócio (validação mora no contexto por endpoint, acesso mora numa Facade); hierarquia de exceção própria; throttle proativo + backoff reativo com teto 30s; sem circuit breaker por padrão; log nunca leva dado sensível. |
 | [[Padrao de Qualidade e Clareza Estrutural do Repositorio]] | regra | ativa | 15/08/2026 | Régua nova pra revisão de código: estrutura/nome autoexplicativo, preservar POO/encapsulamento/dataclasses/log/cache já usados, comentário didático, responsabilidade única, consistência entre arquivos-irmãos, refatoração estrutural (renomear/mover/excluir) no escopo. Auditoria incremental, prazo real segunda-feira (Cauã/Lucas). |
-| [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev). `iniciar_banco`/`popular_banco` ficam CLI; `sincronizar_impostos_entrada` some quando virar etapa de `popular_banco`; os 6 `calcular_grade_precificacao_*` já são redundantes com `popular_banco` (achado real); rotina real vira botão via thread+polling (sem Celery); `agente_local/` já está correto (só `servidor_agente.py` é ponto de entrada real). Vários itens ainda pendentes de decisão. |
 | [[Estrutura Modular de Scripts Python]] | regra | ativa | 10/07/2026 | Fixada ordem obrigatória de 7 seções para todo script Python do ML Analytics HUB (Importações, Constantes, Importação de Dados, Trabalhando com Dados Brutos, Montagem de Saída, Aparência, Salvando/Entry Point), motivada pela dificuldade de manutenção do script anterior sem essa separação (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
+## Decisoes
+
+Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais de 1 contexto de negócio, mesma lógica de `Regras_de_Comportamento/`/`Conceitos/`/`Tutoriais/` (ver [[Estrutura e Convenções do Vault]]).
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev). `iniciar_banco`/`popular_banco` ficam CLI; `sincronizar_impostos_entrada` some quando virar etapa de `popular_banco`; os 6 `calcular_grade_precificacao_*` já são redundantes com `popular_banco` (achado real); rotina real vira botão via thread+polling (sem Celery); `agente_local/` já está correto (só `servidor_agente.py` é ponto de entrada real). Vários itens ainda pendentes de decisão. |
+
 ## Conceitos
 
-Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/`/`Tutoriais/` (ver [[Estrutura e Convenções do Vault]]).
+Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/`/`Decisoes/`/`Tutoriais/` (ver [[Estrutura e Convenções do Vault]]).
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|

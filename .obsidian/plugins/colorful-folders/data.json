@@ -23,25 +23,34 @@
       "applyToSubfolders": true,
       "applyToFiles": false
     },
-    "02_Sistema_Interno": {
+    "02_Nucleo_Engenharia_Repositorio": {
+      "hex": "#60788a",
+      "iconId": "tabler-settings-code",
+      "applyToSubfolders": true,
+      "applyToFiles": false,
+      "textColor": "#a8b5bf",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#60788a"
+    },
+    "03_Sistema_Interno": {
       "hex": "#3B82F6",
       "iconId": "server",
       "applyToSubfolders": true,
       "applyToFiles": false
     },
-    "03_Integracao_Sysemp": {
+    "04_Integracao_Sysemp": {
       "hex": "#6366F1",
       "iconId": "receipt",
       "applyToSubfolders": true,
       "applyToFiles": false
     },
-    "04_Integracao_Mercado_Livre": {
+    "05_Integracao_Mercado_Livre": {
       "hex": "#FBBF24",
       "iconId": "shopping-cart",
       "applyToSubfolders": true,
       "applyToFiles": false
     },
-    "05_Producao_de_Imagens_e_Videos": {
+    "06_Producao_de_Imagens_e_Videos": {
       "hex": "#703bf6",
       "iconId": "camera",
       "applyToSubfolders": true,
@@ -52,20 +61,327 @@
       "iconId": "database",
       "applyToSubfolders": true,
       "applyToFiles": false
-    }
-  },
-  "presets": {
-    "Decisoes": {
-      "hex": "#a2ff00",
-      "textColor": "#005208",
-      "textGradientEnd": "#00ffff",
-      "iconColor": "#a2ff00",
-      "iconId": "tabler-brain",
+    },
+    "03_Sistema_Interno/Agenda_Videos/Regras": {
+      "hex": "#9F1239",
+      "iconId": "scale",
+      "applyToSubfolders": true,
       "applyToFiles": true,
-      "applyToSubfolders": true
+      "textColor": "#CB7F94",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9F1239"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Regras": {
+      "hex": "#9F1239",
+      "iconId": "scale",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#CB7F94",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9F1239"
+    },
+    "04_Integracao_Sysemp/Regras": {
+      "hex": "#9F1239",
+      "iconId": "scale",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#CB7F94",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9F1239"
+    },
+    "03_Sistema_Interno/Conceitos": {
+      "hex": "#0EA5E9",
+      "iconId": "lightbulb",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#7DCEF3",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#0EA5E9"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Conceitos": {
+      "hex": "#0EA5E9",
+      "iconId": "lightbulb",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#7DCEF3",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#0EA5E9"
+    },
+    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos": {
+      "hex": "#0EA5E9",
+      "iconId": "lightbulb",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#7DCEF3",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#0EA5E9"
+    },
+    "03_Sistema_Interno/Agenda_Videos/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "03_Sistema_Interno/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "03_Sistema_Interno/Importacao_de_Dados/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "03_Sistema_Interno/Multi_Empresa/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "03_Sistema_Interno/Precificacao/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "04_Integracao_Sysemp/Cliente_HTTP/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "05_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes": {
+      "hex": "#9333EA",
+      "iconId": "git-branch",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#C591F4",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9333EA"
+    },
+    "03_Sistema_Interno/Agenda_Videos/Duvidas": {
+      "hex": "#EAB308",
+      "iconId": "circle-help",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#F4D67A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#EAB308"
+    },
+    "03_Sistema_Interno/Multi_Empresa/Duvidas": {
+      "hex": "#EAB308",
+      "iconId": "circle-help",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#F4D67A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#EAB308"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Duvidas": {
+      "hex": "#EAB308",
+      "iconId": "circle-help",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#F4D67A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#EAB308"
+    },
+    "03_Sistema_Interno/Agenda_Videos/Descobertas": {
+      "hex": "#16A34A",
+      "iconId": "telescope",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#81CD9D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#16A34A"
+    },
+    "03_Sistema_Interno/Importacao_de_Dados/Descobertas": {
+      "hex": "#16A34A",
+      "iconId": "telescope",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#81CD9D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#16A34A"
+    },
+    "04_Integracao_Sysemp/Cliente_HTTP/Descobertas": {
+      "hex": "#16A34A",
+      "iconId": "telescope",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#81CD9D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#16A34A"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Descobertas": {
+      "hex": "#16A34A",
+      "iconId": "telescope",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#81CD9D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#16A34A"
+    },
+    "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas": {
+      "hex": "#16A34A",
+      "iconId": "telescope",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#81CD9D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#16A34A"
+    },
+    "03_Sistema_Interno/Importacao_de_Dados/Bugs_Conhecidos": {
+      "hex": "#DC2626",
+      "iconId": "bug",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#EC8A8A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#DC2626"
+    },
+    "03_Sistema_Interno/Multi_Empresa/Bugs_Conhecidos": {
+      "hex": "#DC2626",
+      "iconId": "bug",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#EC8A8A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#DC2626"
+    },
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos": {
+      "hex": "#DC2626",
+      "iconId": "bug",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#EC8A8A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#DC2626"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos": {
+      "hex": "#db2525",
+      "iconId": "bug",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#ed8a8a",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#db2525"
+    },
+    "05_Integracao_Mercado_Livre/Cliente_HTTP/Bugs_Conhecidos": {
+      "hex": "#DC2626",
+      "iconId": "bug",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#EC8A8A",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#DC2626"
+    },
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "03_Sistema_Interno/Hub_de_Fotos/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "03_Sistema_Interno/Importacao_de_Dados/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "03_Sistema_Interno/Multi_Empresa/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "04_Integracao_Sysemp/Impostos_Entrada/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Checkpoints": {
+      "hex": "#475569",
+      "iconId": "flag",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569"
+    },
+    "03_Sistema_Interno/Tutoriais": {
+      "hex": "#78350F",
+      "iconId": "list-checks",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#B6927D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#78350F"
+    },
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais": {
+      "hex": "#78350F",
+      "iconId": "list-checks",
+      "applyToSubfolders": true,
+      "applyToFiles": true,
+      "textColor": "#B6927D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#78350F"
     }
   },
+  "presets": {},
   "recentlyUsedIcons": [
+    "tabler-settings-code",
+    "bx-bxs-invader",
     "ri-questionnaire-line",
     "ri-questionnaire-fill",
     "tabler-brain",

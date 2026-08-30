@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 16/08/2026
-atualizado_em: 29/08/2026 19:51
+atualizado_em: 29/08/2026 23:10
 relacionado: [Estrutura e Convenções do Vault, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido]
 ---
 
@@ -362,20 +362,24 @@ Confirmado direto na documentação oficial do plugin: Iconic só aceita os ~1.7
 
 ### 6.5 — Camada 3 (mundo): tabela final decidida e aplicada de verdade
 
-Cor e ícone por mundo, decididos junto com o usuário e escritos de verdade no `data.json` do Colorful Folders (`customFolderColors`, 29/08/2026, 15:30, com o Obsidian fechado durante a edição):
+Cor e ícone por mundo, decididos junto com o usuário e escritos de verdade no `data.json` do Colorful Folders (`customFolderColors`, 29/08/2026, 15:30, com o Obsidian fechado durante a edição). **Atualizado em 29/08/2026, 22:20** — renumeração de mundo (ver [[Estrutura e Convenções do Vault]], seção "Os mundos") e novo núcleo criado:
 
-| Mundo | Cor (hex) | Ícone (Lucide) |
+| Mundo | Cor (hex) | Ícone |
 |---|---|---|
-| `00_Nucleo_Comportamento_Claude` | `#f6893b` | `bot` |
-| `01_Nucleo_Geral_Vault` | `#14B8A6` | `book-open` |
-| `02_Sistema_Interno` | `#3B82F6` | `server` |
-| `03_Integracao_Sysemp` | `#6366F1` | `receipt` |
-| `04_Integracao_Mercado_Livre` | `#FBBF24` | `shopping-cart` |
-| `05_Producao_de_Imagens_e_Videos` | `#703bf6` | `camera` |
-| `Bases` | `#6B7280` | `database` |
+| `00_Nucleo_Comportamento_Claude` | `#f6893b` | `bot` (Lucide) |
+| `01_Nucleo_Geral_Vault` | `#14B8A6` | `book-open` (Lucide) |
+| `02_Nucleo_Engenharia_Repositorio` | `#60788a` | `tabler-settings-code` (Tabler) |
+| `03_Sistema_Interno` | `#3B82F6` | `server` (Lucide) |
+| `04_Integracao_Sysemp` | `#6366F1` | `receipt` (Lucide) |
+| `05_Integracao_Mercado_Livre` | `#FBBF24` | `shopping-cart` (Lucide) |
+| `06_Producao_de_Imagens_e_Videos` | `#703bf6` | `camera` (Lucide) |
+| `Bases` | `#6B7280` | `database` (Lucide) |
 | ~~`LEGADO`~~ | ~~`#4d0003`~~ | ~~`archive`~~ |
 
 > Linha mantida como registro histórico — `LEGADO/` foi removida do vault em 29/08/2026 (19:51); entrada retirada de `customFolderColors` (Colorful Folders) e do `colorGroup` correspondente em `graph.json`.
+
+> [!info] `02_Nucleo_Engenharia_Repositorio` (novo, 29/08/2026, 22:02-22:20)
+> Terceiro núcleo, irmão de `00_`/`01_` — reúne as 10 notas de engenharia de código (Python/Django/testes/GoF/API client/git) que antes moravam em `02_Sistema_Interno/Regras_de_Comportamento/`. Motivo: elas nunca foram exclusivas de `02_` — já valiam também pra `03_Sysemp`/`04_ML`, então por definição já eram "universais" (regra: nota que serve mais de 1 mundo é núcleo, não fica dentro de um mundo específico). Cor escolhida pra não repetir nenhum tom já usado (evitar verde, "chamativo demais" — usuário preferiu tom acinzentado/slate). Ícone sugerido por Claude (`code`, Lucide) foi trocado pelo usuário direto na interface do Obsidian, depois de ver como ficava — `tabler-settings-code` é a escolha final.
 
 Schema real confirmado lendo direto o código-fonte instalado do plugin (`main.js`, não a documentação — que não detalha isso) — chave é o `path` exato da pasta (pra pasta-raiz, é o próprio nome dela), valor é um objeto `{hex, iconId, applyToSubfolders: true, applyToFiles: false}`. `applyToFiles: false` mantém a decisão já tomada na seção 5.8 (cor só em pasta, nunca em arquivo individual — evita competir com Tags Color Files/Iconic).
 
@@ -445,6 +449,32 @@ Dúvida trazida pelo usuário: os "marcadores" do Obsidian permitem salvar busca
 
 **Implicação prática pra este vault**: dá pra criar uma coleção de bookmarks de busca reutilizáveis (`["tipo":"regra"]`, `["tipo":"checkpoint"]`, `["tipo":"decisao"]`, etc.), organizados num grupo de marcadores, virando atalhos de 1 clique pra qualquer filtro do grafo que já usamos hoje digitando à mão toda vez. Ainda não criados de fato — fica registrado como próximo passo natural, não urgente.
 
+### 6.10 — Camada 1 (tipo) decidida e aplicada; `applyToFiles` descoberto; teto real do Graph View encontrado — fecha a reestruturação visual externa (29/08/2026, 22:44-23:10)
+
+**Camada 1 aplicada de verdade**: cor + ícone por tipo de subpasta padrão, escritos em `customFolderColors` pra toda ocorrência já existente no vault (35 pastas, contadas via `find` — não chute):
+
+| Tipo | Cor (hex) | Ícone (Lucide) | Ocorrências |
+|---|---|---|---|
+| `Regras` | `#9F1239` | `scale` | 3 |
+| `Conceitos` | `#0EA5E9` | `lightbulb` | 3 |
+| `Decisoes` | `#9333EA` | `git-branch` | 8 |
+| `Duvidas` | `#EAB308` | `circle-help` | 3 |
+| `Descobertas` | `#16A34A` | `telescope` | 5 |
+| `Bugs_Conhecidos` | `#DC2626` | `bug` | 5 |
+| `Checkpoints` | `#475569` | `flag` | 6 |
+| `Tutoriais` | `#78350F` | `list-checks` | 2 |
+
+> [!warning] Limite técnico real, confirmado lendo o código-fonte do plugin — cor por tipo não é automática por nome
+> `customFolderColors` só casa por **caminho exato** (confirmado lendo `main.js`: a função `je()` só normaliza separador de pasta, nunca extrai nome-base) — não existe "toda pasta chamada `Bugs_Conhecidos`, onde quer que esteja" via cor. Cada uma das 35 ocorrências precisou da própria entrada. Existe uma feature separada (`customIconRules`, casamento por nome via regex) que cobre só ÍCONE automático por nome, nunca cor — e não foi usada aqui, pra não depender de 2 mecanismos diferentes. **Consequência prática, virou regra de processo**: toda vez que uma dessas 8 subpastas padrão for criada num contexto novo, a entrada correspondente em `customFolderColors` precisa ser adicionada no mesmo momento — não é automático, é disciplina.
+
+> [!success] Descoberta — `applyToFiles: true` estende o estilo do tipo pros arquivos dentro da pasta
+> Usuário testou pela interface do Obsidian (aba "Inheritance" do painel de estilo) em `04_Integracao_Sysemp/Impostos_Entrada/Bugs_Conhecidos/`, ativando "Apply to files". Resultado real, lido depois no `data.json`: `applyToFiles: false → true`, mais 3 campos novos auto-adicionados pelo painel — `textColor` (tom mais claro do `hex`, ~46% em direção ao branco, pra legibilidade), `iconColor` (igual ao `hex`) e `textGradientEnd` (`#00ffff`, constante fixa, função ainda não confirmada). Resultado visual aprovado pelo usuário — cada nota dentro da pasta passa a mostrar ícone + cor do próprio tipo, não só a pasta-mãe. Replicado nas outras 34 entradas calculando o mesmo `textColor` (mesma fórmula de mistura com branco) pra cada uma das 8 cores de tipo — sem precisar repetir o clique manual 34 vezes.
+
+> [!failure] Teto real encontrado — Graph View nativo não suporta ícone por nó, só cor
+> Usuário pediu ícone colorido no grafo, igual nas pastas. Confirmado por leitura direta do código: o motor de renderização do Graph View nativo do Obsidian desenha nó como círculo colorido, sem suporte a ícone customizado — e a função de sincronia do Colorful Folders (`syncGraphColors`) só mexe em cor, nunca em ícone. Nenhum dos plugins instalados (`iconic`, `iconoir-icons`, etc.) adiciona ícone a nó de grafo — todos atuam só em file explorer/aba/bookmark. **Teto real, não configuração incompleta**: grafo com cor sincronizada (já funciona) é o máximo possível; ícone dentro do nó não é alcançável com o que existe hoje.
+
+**Fecha a reestruturação visual "de fora da nota"** (29/08/2026, 23:10) — usuário confirmou explicitamente. Escopo do que foi coberto nesta rodada inteira (Categorias 4-6): renumeração de mundo + núcleo novo (`02_Nucleo_Engenharia_Repositorio`, ver [[Estrutura e Convenções do Vault]]), cor/ícone por mundo (Camada 3, 6.5) e por tipo (Camada 1, acima), física do grafo (6.8), bookmarks de busca (6.9), `applyToFiles` (acima). **Fica explicitamente fora deste escopo, ainda não iniciado**: melhoria visual **interna ao conteúdo de cada nota** (uso de callout, tabela, Mermaid dentro do corpo — ver seção 1.4 e [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]) — próxima frente de trabalho, distinta desta.
+
 ## Prioridade recomendada (o que eu sugiro fazer primeiro)
 
 | Ordem | Recurso | Esforço | Ganho | Status |
@@ -501,7 +531,9 @@ Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padr
 - [x] Definir framework de padronização por camadas (mundo → tipo, "maior pra menor") — **feito (29/08)**, ver 6.3.
 - [x] Confirmar limite de ícone customizado do Iconic — **feito (29/08)**: sem upload de SVG, só Lucide + emoji. Ver 6.4.
 - [x] Decidir e aplicar cor + ícone dos 8 mundos (Camada 3) — **feito e escrito no `data.json` (29/08, 15:30)**, ver 6.5.
-- [ ] Definir e aplicar cor + ícone por tipo (Camada 1 — `regra`, `decisao`, `descoberta`, `duvida`, `bug_conhecido`, `conceito`, `checkpoint`, `tutorial`) — próxima rodada depois da Camada 3.
+- [x] Definir e aplicar cor + ícone por tipo (Camada 1 — `regras`, `conceitos`, `decisoes`, `duvidas`, `descobertas`, `bugs_conhecidos`, `checkpoints`, `tutoriais`) — **feito (29/08, 22:44)**, 35 pastas reais escritas em `customFolderColors`. Ver 6.10.
+- [x] Testar `applyToFiles` (estender estilo do tipo pros arquivos dentro da pasta, não só a pasta) — **feito e aprovado (29/08, 23:10)**, replicado nas 35. Ver 6.10.
+- [x] Investigar ícone colorido no Graph View (igual pastas) — **teto técnico real confirmado (29/08)**: motor nativo do Obsidian não suporta ícone por nó, só cor. Não é config pendente, é limite do produto. Ver 6.10.
 - [ ] Construir a "camada resumida" das 6 regras de `00_Nucleo_Comportamento_Claude/` — passo que ataca a causa raiz dos incidentes reais de violação de regra (ver autoavaliação em 6.6), ainda pausado.
 - [x] Instalar e testar Graph Search Sync — **feito (29/08)**, funcionando. Ver 6.7.
 - [x] **Achado importante, registrado pra não esquecer**: busca nativa por property (`[tipo]: valor`) já organiza o Graph View hoje, sem depender da migração Caminho C — a migração de tag deixou de ser bloqueio pra navegação organizada, segue valendo só pelo ganho de cor visual e busca por `tag:`. Ver 6.7.

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 29/08/2026
-atualizado_em: 29/08/2026 14:00
+atualizado_em: 29/08/2026 20:28
 relacionado: [Estrutura e Convenções do Vault, Definição do Núcleo Geral do Vault]
 ---
 
@@ -67,7 +67,7 @@ Só entra em `00_Nucleo_Comportamento_Claude/` quem passa nas duas perguntas.
 - ✅ 2 regras movidas para `01_Nucleo_Geral_Vault/` (ver [[Definição do Núcleo Geral do Vault]]).
 - ⏳ **Pendente**: decidir se cria uma camada resumida (versão compacta, 1-3 linhas por regra) além destas 6 notas completas — discussão pausada a pedido do usuário até a movimentação física terminar.
 - ⏳ **Pendente**: avaliar reescrever as 4 regras marcadas acima de forma mais genérica, sem o exemplo específico do projeto.
-- ⏳ **Pendente**: corrigir o `tipo` de `Reducao de Comandos de Management e Rotina Vira Botao` (é decisão, não regra) e mover pra pasta correta dentro de `02_Sistema_Interno`.
+- ✅ `Reducao de Comandos de Management e Rotina Vira Botao` **corrigida (29/08/2026, 20:28)** — o `tipo` já era `decisao` (não precisou mudar); movida de `Regras_de_Comportamento/` pra `Decisoes/`, pasta nova de nível de mundo (ver [[Estrutura e Convenções do Vault]]).
 
 ## Relacionado
 
