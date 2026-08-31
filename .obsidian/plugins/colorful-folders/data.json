@@ -418,6 +418,252 @@
       "textGradientEnd": "#00ffff",
       "iconColor": "#9e1139",
       "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Aviso Proativo Para Notas no Obsidian.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Ciclo de Vida de Dúvida e Bug Conhecido.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Convenção da Pasta Bases.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Convenção de Nomenclatura de Arquivos e Pastas.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Critério para Criação de um Mundo Novo.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Definição do Núcleo Geral do Vault.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Estrutura de Pastas de um Mundo.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Perguntar Data e Hora Antes de Escrever no Vault.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Princípios Fundamentais do Vault.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Registro dos Mundos Ativos.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Regra do Índice Obrigatório.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Schema de Frontmatter.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md": {
+      "hex": "#475569",
+      "textColor": "#9CA3AE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#475569",
+      "iconId": "flag"
+    },
+    "01_Nucleo_Geral_Vault/Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro.md": {
+      "hex": "#0EA5E9",
+      "textColor": "#7DCEF3",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#0EA5E9",
+      "iconId": "lightbulb"
+    },
+    "01_Nucleo_Geral_Vault/Os 9 Tipos de Nota.md": {
+      "hex": "#0EA5E9",
+      "textColor": "#7DCEF3",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#0EA5E9",
+      "iconId": "lightbulb"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Definição do Núcleo de Engenharia Repositório.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Disciplina de Testes Automatizados.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Estrutura de Arquivo e Classe Python.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Integridade e Fonte Unica de Dado.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Modelagem de Objeto e Encapsulamento.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Modelo Padrao de Arquivo de Teste.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Padrao de Qualidade e Clareza Estrutural do Repositorio.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Padrao de Robustez para Clientes de API Externa.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Padroes de Projeto GoF Quando Usar.md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "02_Nucleo_Engenharia_Repositorio/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md": {
+      "hex": "#9e1139",
+      "textColor": "#cc8196",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#9e1139",
+      "iconId": "ri-scales-3-line"
+    },
+    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita": {
+      "hex": "#14b8a5",
+      "textColor": "#7ed9ce",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#14b8a5",
+      "applyToSubfolders": true,
+      "applyToFiles": true
+    },
+    "00_Nucleo_Comportamento_Claude/00_Indice_Comportamento_Claude.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "01_Nucleo_Geral_Vault/00_Indice_Geral_Vault.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "02_Nucleo_Engenharia_Repositorio/00_Indice_Engenharia_Repositorio.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "03_Sistema_Interno/00_Indice_Sistema_Interno.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "04_Integracao_Sysemp/00_Indice_Integracao_Sysemp.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "05_Integracao_Mercado_Livre/00_Indice_Integracao_Mercado_Livre.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "06_Producao_de_Imagens_e_Videos/00_Indice_Producao_de_Imagens_e_Videos.md": {
+      "hex": "#64748B",
+      "textColor": "#B8C2CE",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#64748B",
+      "iconId": "list-tree"
+    },
+    "README.md": {
+      "hex": "#D4AF37",
+      "textColor": "#E8CE7D",
+      "textGradientEnd": "#00ffff",
+      "iconColor": "#D4AF37",
+      "iconId": "home"
     }
   },
   "presets": {

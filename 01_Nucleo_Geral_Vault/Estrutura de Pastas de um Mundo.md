@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 13:26
+atualizado_em: 30/08/2026 19:54
 relacionado: [Registro dos Mundos Ativos, Convenção de Nomenclatura de Arquivos e Pastas, Regra do Índice Obrigatório]
 resumo: O padrão único de pastas usado por qualquer mundo ativo — um índice obrigatório na raiz, subpastas opcionais de nível de mundo (`Regras/`, `Tutoriais/`, `Conceitos/`, `Decisoes/`, sem contexto de negócio específico) e um ou mais Contextos, cada um com suas próprias subpastas por tipo — nenhuma subpasta de tipo é pré-criada vazia.
 ---
@@ -22,7 +22,8 @@ Todo mundo ativo segue exatamente esta estrutura:
 
 ```
 03_Sistema_Interno/
-  00_Indice.md                → índice obrigatório do mundo (ver [[Regra do Índice Obrigatório]])
+  00_Indice_Sistema_Interno.md → índice obrigatório do mundo, nomeado `00_Indice_<Nome do
+                                 Mundo>.md` (ver [[Regra do Índice Obrigatório]])
   Regras/                      → (opcional, criado sob demanda) regra que vale pro mundo
                                  inteiro mas não cruza pra outro mundo — se cruzar, vira
                                  nota do núcleo 02_Nucleo_Engenharia_Repositorio/, não

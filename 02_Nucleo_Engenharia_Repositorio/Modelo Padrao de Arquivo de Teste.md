@@ -3,6 +3,7 @@ tipo: regra
 dominio: testes
 status: ativa
 criado: 02/08/2026
+atualizado_em: 30/08/2026 18:25
 relacionado: [Disciplina de Testes Automatizados, Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples, Nomenclatura e Comentarios]
 ---
 
@@ -16,7 +17,7 @@ Validado rodando de verdade (`pytest -s`) em 3 cenários: teste que passa, teste
 
 ## Estrutura fixa (4 fases sempre comentadas)
 
-Todo teste, sem exceção, comenta e explica as 4 fases — mesmo quando uma fase não faz nada, o comentário explica por que não faz:
+Regra de sempre comentar as 4 fases (mesmo quando uma é no-op) em [[Disciplina de Testes Automatizados]] → seção "Visual". O que cada fase significa na prática:
 
 - **Setup** — monta contexto/entrada. Se vier pronto do `parametrize`, comenta que não há nada a montar.
 - **Exercise** — chama o SUT de verdade.
@@ -25,19 +26,19 @@ Todo teste, sem exceção, comenta e explica as 4 fases — mesmo quando uma fas
 
 ## match/case no SUT — só quando há cenário exclusivo real
 
-Usa `match/case` apenas quando existem cenários mutuamente exclusivos e enumeráveis (`classificar_numero` abaixo). Função sem branch (`dobro`) não ganha `match/case` forçado — não existe "caso" pra enumerar, só uma conta.
+Regra completa em [[Disciplina de Testes Automatizados]] → seção "match/case no SUT — só quando há cenário exclusivo real". Aplicação aqui: `classificar_numero` usa `match/case` (4 cenários mutuamente exclusivos); `dobro` não usa (sem branch, só uma conta).
 
 ## parametrize — sempre com `ids` explícito
 
-Nunca depende do id auto-gerado do pytest — vira ilegível pra valores complexos (datas, objetos). `ids=[...]` sempre escrito à mão, mesmo em exemplo simples.
+Regra completa em [[Disciplina de Testes Automatizados]] → seção "Visual". Aplicação aqui: `ids=[...]` escrito à mão nos 2 `parametrize` abaixo, mesmo em exemplo simples.
 
 ## Tabela com coluna Motivo — nunca mensagem de assert repetindo valor
 
-A tabela (`Teste | Entrada | Esperado | Motivo | Obtido | Status`) já mostra entrada/esperado/obtido — uma mensagem de assert que repete esses valores é redundante. `Motivo` existe pra registrar o "por causa disso" (regra de negócio), sempre presente e padronizada, nunca como mensagem avulsa de `assert`.
+Regra completa em [[Disciplina de Testes Automatizados]] → seção "Visual". Aplicação aqui: coluna `Motivo` preenchida em toda linha (ex: "dobro(x) sempre devolve x multiplicado por 2, sem exceção"), nunca mensagem de `assert` repetindo o que a tabela já mostra.
 
 ## Falha documentada com `@pytest.mark.xfail` — nunca remover do modelo
 
-Um modelo só com casos que passam prova só metade da estrutura. O arquivo mantém 1 teste permanentemente marcado `@pytest.mark.xfail(reason=...)`, com valor errado de propósito — prova que a tabela mostra `FALHOU` corretamente e que o pytest reporta falha esperada (`xfailed`) separada de falha real (`failed`) no resumo final.
+Regra completa em [[Disciplina de Testes Automatizados]] → seção "Visual". Aqui, especificamente: `test_dobro_caso_de_falha_proposital` é permanente neste arquivo-modelo — um modelo só com casos que passam provaria só metade da estrutura.
 
 ## Arquivos
 

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 16:18
+atualizado_em: 30/08/2026 19:59
 relacionado: [Definição do Núcleo Geral do Vault, Definição do Núcleo de Comportamento Claude, Estrutura de Pastas de um Mundo, Critério para Criação de um Mundo Novo]
 resumo: Lista viva dos mundos e núcleos ativos deste vault, com o que cada um reúne — inclui histórico de mundo removido (LEGADO) e da renumeração de pastas de 29/08/2026.
 ---
@@ -14,7 +14,7 @@ resumo: Lista viva dos mundos e núcleos ativos deste vault, com o que cada um r
 
 ## Contexto
 
-Com o vault crescendo (hoje 3 núcleos e 4 mundos ativos, além de 1 mundo já removido), surgiu a necessidade de um lugar único que responda rápido: "quais mundos/núcleos existem hoje, e o que cada um cobre?". Sem essa lista central, a resposta ficaria espalhada — só descobrível lendo `00_Indice.md` de cada mundo um por um. (O critério de quando algo novo merece virar mundo próprio mora em nota separada: [[Critério para Criação de um Mundo Novo]].)
+Com o vault crescendo (hoje 3 núcleos e 4 mundos ativos, além de 1 mundo já removido), surgiu a necessidade de um lugar único que responda rápido: "quais mundos/núcleos existem hoje, e o que cada um cobre?". Sem essa lista central, a resposta ficaria espalhada — só descobrível lendo o índice de cada mundo um por um. (O critério de quando algo novo merece virar mundo próprio mora em nota separada: [[Critério para Criação de um Mundo Novo]].)
 
 ## O que diz
 
@@ -38,7 +38,7 @@ Com o vault crescendo (hoje 3 núcleos e 4 mundos ativos, além de 1 mundo já r
 
 ## Por que é assim e não de outro jeito
 
-Manter texto solto por mundo (só dentro de cada `00_Indice.md`) faria a pergunta "quais mundos existem hoje, e o que cada um cobre?" exigir abrir um índice por vez — uma tabela central, numa nota só, responde isso numa leitura direta. Separar o critério de criação de mundo (regra, [[Critério para Criação de um Mundo Novo]]) da lista em si (registro, aqui) evita que esta nota precise ser lida inteira só pra confirmar 1 dado factual ("existe mundo pra X?") — quem só quer a lista não precisa passar pela justificativa do critério, e quem só quer entender o critério não precisa ler a tabela inteira.
+Manter texto solto por mundo (só dentro do índice de cada um) faria a pergunta "quais mundos existem hoje, e o que cada um cobre?" exigir abrir um índice por vez — uma tabela central, numa nota só, responde isso numa leitura direta. Separar o critério de criação de mundo (regra, [[Critério para Criação de um Mundo Novo]]) da lista em si (registro, aqui) evita que esta nota precise ser lida inteira só pra confirmar 1 dado factual ("existe mundo pra X?") — quem só quer a lista não precisa passar pela justificativa do critério, e quem só quer entender o critério não precisa ler a tabela inteira.
 
 ## Exemplo
 

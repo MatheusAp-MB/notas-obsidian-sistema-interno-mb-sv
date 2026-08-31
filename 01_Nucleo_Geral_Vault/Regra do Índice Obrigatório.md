@@ -3,14 +3,14 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 13:26
+atualizado_em: 30/08/2026 19:45
 relacionado: [Estrutura de Pastas de um Mundo, Schema de Frontmatter]
-resumo: Todo mundo precisa de um `00_Indice.md` na raiz, agrupado por contexto, com tabela `Nota | Tipo | Status | Data | Resumo` — `Resumo` é a conclusão real da nota em até ~25 palavras, atualizado na mesma autorização de escrita que gerou ou editou a nota.
+resumo: Todo mundo precisa de um índice na raiz, nomeado `00_Indice_<Nome do Mundo>.md` (nunca genérico), agrupado por contexto, com tabela `Nota | Tipo | Status | Data | Resumo` — `Resumo` é a conclusão real da nota em até ~25 palavras, atualizado na mesma autorização de escrita que gerou ou editou a nota.
 ---
 
 # Regra do Índice Obrigatório
 
-**Resumo**: todo mundo precisa de um `00_Indice.md` na raiz, agrupado por contexto, com tabela `Nota | Tipo | Status | Data | Resumo` — `Resumo` é a conclusão real da nota em até ~25 palavras, atualizado na mesma autorização de escrita que gerou ou editou a nota.
+**Resumo**: todo mundo precisa de um índice na raiz, nomeado `00_Indice_<Nome do Mundo>.md` (nunca genérico), agrupado por contexto, com tabela `Nota | Tipo | Status | Data | Resumo` — `Resumo` é a conclusão real da nota em até ~25 palavras, atualizado na mesma autorização de escrita que gerou ou editou a nota.
 
 ## Contexto
 
@@ -18,13 +18,15 @@ Sem um índice, encontrar uma nota específica dentro de um mundo com dezenas de
 
 ## O que diz
 
-- Obrigatório, um arquivo por mundo (`00_Indice.md` na raiz de cada mundo) — vale pra todo mundo, sem exceção, não só pro mundo onde a regra nasceu originalmente (`03_Sistema_Interno/`).
+- Obrigatório, um arquivo por mundo, na raiz, nomeado `00_Indice_<Nome do Mundo, sem o prefixo numérico>.md` (ex: `00_Indice_Sistema_Interno.md`, `00_Indice_Geral_Vault.md`) — o `00_` no início garante que ele sempre apareça primeiro na lista de arquivos da pasta; o nome do mundo depois existe pra identificar cada índice sem ambiguidade. Vale pra todo mundo, sem exceção, não só pro mundo onde a regra nasceu originalmente (`03_Sistema_Interno/`).
 - Agrupado por contexto (`##`), com uma tabela: `Nota | Tipo | Status | Data | Resumo`.
 - `Resumo` é a conclusão real da nota em até ~25 palavras — nunca uma descrição genérica da categoria (ex: nunca "registra uma decisão sobre X", sempre a decisão em si, resumida).
 - Sem coluna de `relacionado` — isso fica só dentro da nota em si, o índice não duplica esse campo.
 - Atualizado na mesma autorização de escrita da nota que o gerou — não é uma autorização separada. Ou seja: quando uma nota nova é escrita ou uma existente é editada de forma relevante, a linha correspondente no índice do mundo dela é atualizada no mesmo momento, sem pedir confirmação de novo só pra essa parte.
 
 ## Por que é assim e não de outro jeito
+
+Nome genérico e idêntico em todo mundo (`00_Indice.md` fixo) foi o padrão original, trocado em 30/08/2026 depois de ficar claro que 7 arquivos com nome exatamente igual, espalhados pelo vault, criam ambiguidade real — tanto pra busca/quick switcher do Obsidian quanto pra qualquer LLM que precise saber qual índice é qual sem depender só do caminho da pasta. Nomear cada um com o nome do mundo resolve isso sem perder a vantagem original do prefixo `00_` (aparecer sempre primeiro na pasta).
 
 Um resumo genérico por categoria (ex: toda linha de `bug_conhecido` dizendo só "registra um bug encontrado no sistema") foi descartado porque não ajuda em nada na prática — quem está escaneando o índice já sabe que aquela linha é um bug pela coluna `Tipo`; o que falta saber é QUAL bug, resumido o bastante pra decidir se vale abrir a nota inteira ou não. Atualizar o índice na mesma autorização (em vez de pedir confirmação separada) evita o risco real de a nota existir mas o índice ficar desatualizado — motivo prático: se fosse uma autorização à parte, ficaria fácil esquecer desse passo depois de escrever a nota em si.
 

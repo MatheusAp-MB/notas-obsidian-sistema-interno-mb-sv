@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 13:26
+atualizado_em: 30/08/2026 19:58
 relacionado: [Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian), Schema de Frontmatter]
 resumo: Todo arquivo `.base` (visão de banco de dados nativa do Obsidian, que lê o frontmatter das notas e monta tabela filtrada ao vivo) mora dentro de `Bases/` na raiz do vault, nunca solto — é pasta funcional, não é mundo, e não segue a numeração `0X_`.
 ---
@@ -20,7 +20,7 @@ Convenção aprovada pelo usuário em 16/08/2026, depois de uma prova de conceit
 
 Todo arquivo `.base` — formato YAML que define 1 ou mais `views` (tabela, lista, cartões ou mapa) sobre um filtro de `properties` — mora dentro de `Bases/`, direto na raiz do vault, nunca solto em outro lugar. `Bases/` é uma **pasta funcional**, não um mundo: não segue a numeração `0X_` usada por núcleo/mundo, porque não representa um assunto ou domínio de conteúdo, representa uma ferramenta de consulta.
 
-Uma Base não substitui o índice de um mundo (`00_Indice.md`) — o índice tem o "resumo em texto" de cada nota, que uma Base não escreve sozinha. O que a Base resolve é outro problema: "me mostra tudo que está com determinado status, de qualquer mundo, agora", sem precisar abrir e comparar vários `00_Indice.md` manualmente.
+Uma Base não substitui o índice de um mundo (`00_Indice_<Nome do Mundo>.md`) — o índice tem o "resumo em texto" de cada nota, que uma Base não escreve sozinha. O que a Base resolve é outro problema: "me mostra tudo que está com determinado status, de qualquer mundo, agora", sem precisar abrir e comparar vários índices manualmente.
 
 O nome do arquivo `.base` descreve a pergunta que ele responde, nunca um nome genérico tipo "visão 1" — ex: `Vault - Pendencias Abertas.base` responde "o que está aberto, em qualquer mundo, agora?".
 

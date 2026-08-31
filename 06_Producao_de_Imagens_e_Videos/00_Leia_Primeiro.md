@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 23/08/2026
-atualizado_em: 30/08/2026 13:33
+atualizado_em: 30/08/2026 20:00
 relacionado: [Grafo de Categorizacao em Duas Camadas e Base de Conhecimento do Produto, Etapa 1-4 - Estudo do Produto, Etapa 5 - Navegacao pelos Grafos, Regras de Prompt de Imagem - Fundamentado em Documentacao Oficial, Visao Geral do Problema de Producao de Imagens e Videos para o Mercado Livre, Pipeline de Geracao Dinamica das 7 Fotos via Analise Dupla e Arvore de Categorias por Facets, Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro, Pipeline Completo Roda Numa Unica Conversa Cowork, Visibilidade Durante Fase de Teste, Task Obrigatoria por Etapa do Pipeline, Tags de Proveniencia de Dado, Isolamento Entre Produtos e Categorias no Grafo, Principio de Granularidade do Grafo 1, Eixos Que Nunca Podem Ficar Ambiguos, Protocolo de Feedback e Correcao, Perguntar Data e Hora Antes de Escrever no Vault, Perguntas Sempre em Texto Corrido, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Trava de Formato da Foto de Capa, Pulverizador Manual de Compressão Prévia Guarany 1,2L, Responsabilidade Unica por Foto (Fotos 2-7), Proibicao de Comparacao com Concorrentes, Camada Grafica Informativa (Fotos 2-7), Etapa 8 - Criacao (Fotos), Desejo de Compra na Camada Grafica (Fotos 2-7), _Indice do Grafo (Nos e Templates), _Molde - Documento Consolidado (Etapa 6), Pulverizador Snow Foam Chantilly Veneto SGT 2L, Pulverizador Gerador de Espuma (Snow Foam), Uso em Estética Automotiva e Limpeza Doméstica, Sistema de Geração de Espuma (Snow Foam), Pulverizador Manual Costal Brudden DAS G2 5L, _Pesquisa - Documentacao Oficial Veo 3.1, Gemini Omni e Google Flow, Regras de Prompt de Video - Fundamentado em Documentacao Oficial e Testes Reais]
 ---
 
@@ -97,12 +97,12 @@ Essa mesma lacuna (prompt escrito por conteúdo, mas sem legenda prática de arq
 
 ## Onde isso vive
 
-Mundo `05_Producao_de_Imagens_e_Videos/`, sem código associado ainda — só design e vault. **Desde 23/08/2026 é um vault isolado**: a estrutura de pastas abaixo foi desenhada só pra este domínio, sem seguir a convenção do resto do vault (que organiza por tipo-de-nota — Decisoes/Regras/Conceitos — dentro de cada mundo). Aqui a organização é por Étapa/função do pipeline:
+Mundo `06_Producao_de_Imagens_e_Videos/`, sem código associado ainda — só design e vault. **Desde 23/08/2026 é um vault isolado**: a estrutura de pastas abaixo foi desenhada só pra este domínio, sem seguir a convenção do resto do vault (que organiza por tipo-de-nota — Decisoes/Regras/Conceitos — dentro de cada mundo). Aqui a organização é por Étapa/função do pipeline:
 
 ```
-05_Producao_de_Imagens_e_Videos/
+06_Producao_de_Imagens_e_Videos/
 ├── 00_Leia_Primeiro.md          — esta nota, ponto de entrada obrigatório
-├── 00_Indice.md                 — 1 linha de resumo por nota, agrupado por pasta
+├── 00_Indice_Producao_de_Imagens_e_Videos.md — 1 linha de resumo por nota, agrupado por pasta
 ├── 01_Pipeline/                 — Étapas já formalizadas como prompt autocontido
 ├── 02_Regras/
 │     Comportamento/             — como conduzir o pipeline (nível de processo)
@@ -148,12 +148,12 @@ Toda a disciplina operacional acumulada neste mundo — não só a decisão de a
 - [[Perguntas Sempre em Texto Corrido]]
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
 
-**Regras de comportamento específicas deste mundo** — `05_Producao_de_Imagens_e_Videos/02_Regras/Comportamento/`:
+**Regras de comportamento específicas deste mundo** — `06_Producao_de_Imagens_e_Videos/02_Regras/Comportamento/`:
 - [[Pipeline Completo Roda Numa Unica Conversa Cowork]] — a correção de arquitetura mais importante desta sessão, ver seção própria abaixo.
 - [[Visibilidade Durante Fase de Teste]]
 - [[Task Obrigatoria por Etapa do Pipeline]]
 
-**Regras de pensamento/domínio da Base de Conhecimento** — `05_Producao_de_Imagens_e_Videos/02_Regras/Pensamento/`:
+**Regras de pensamento/domínio da Base de Conhecimento** — `06_Producao_de_Imagens_e_Videos/02_Regras/Pensamento/`:
 - [[Tags de Proveniencia de Dado]] — [TEXTO] / [IMG] / [TEXTO+IMG] / dado ausente / N/A / [USUÁRIO].
 - [[Isolamento Entre Produtos e Categorias no Grafo]]
 - [[Principio de Granularidade do Grafo 1]]

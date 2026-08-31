@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 30/08/2026 13:33
+atualizado_em: 30/08/2026 17:58
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -11,20 +11,6 @@ relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 
 Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
 
-## Regras_de_Comportamento
-
-| Nota                                                | Tipo  | Status | Data       | Resumo                                                                                                                                                                                                                                             |
-| --------------------------------------------------- | ----- | ------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [[Estrutura de Arquivo e Classe Python]]            | regra | ativa  | 01/08/2026 | Ordem fixa de arquivo (imports→enum→classe) e de membros de classe (campos→Meta→dunders→fábrica→property→métodos), baseada na convenção Django real (Two Scoops).                                                                                  |
-| [[Modelagem de Objeto e Encapsulamento]]            | regra | ativa  | 01/08/2026 | Composição > herança; dado diferente = instância, comportamento diferente = subclasse; dataclass/Enum/type hints/Protocol; @property em vez de getter/setter.                                                                                      |
-| [[Integridade e Fonte Unica de Dado]]               | regra | ativa  | 01/08/2026 | Dono único por dado; nunca 2 formas de escrever o mesmo campo; pipeline limpa dado bruto na fronteira; banco é a única fonte confiável, cache nunca decide sozinho.                                                                                |
-| [[Padroes de Projeto GoF Quando Usar]]              | regra | ativa  | 01/08/2026 | Do catálogo de 23 padrões GoF, quais já usam (Memento, Facade), quais adotar sob demanda (Adapter, Abstract Factory), quais evitar (Singleton, signals, Flyweight, Visitor...).                                                                    |
-| [[Disciplina de Testes Automatizados]]              | regra | ativa  | 02/08/2026 | Pytest+pytest-django+pytest-cov; SUT/DOC (DOC real, nunca mock); progressão por Nível (0/2/3/4/5 — 5 é integração externa real, ex: Drive); tabela com Motivo + dado_bruto; log em arquivo; esperado sempre exato; ordenação por timestamp sempre com desempate; padrão Real+Simulado pra integração externa; acesso ao repo real via git. |
-| [[Modelo Padrao de Arquivo de Teste]]               | regra | ativa  | 02/08/2026 | Arquivo de referência com SUT, fixture e 3 tipos de resultado (passa, falha real, falha documentada via xfail) — implementa a Disciplina de Testes na prática.                                                                                     |
-| [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] | regra | ativa | 03/08/2026 | Sincronizar só quando pedido; editar/escrever/remover só com permissão; nunca criar tarefa/subagente sem autorização; vault é fonte de verdade; LEGADO/ é arquivo morto; código sempre como texto na conversa, nunca arquivo criado por Claude. **Atualizado 25/08, 16h55: 6º incidente confirmado** (agora também no Cowork, não só no Claude Code) — script `gerar_inventario_drive_magazine.py` entregue como arquivo criado (`Write`+`SendUserFile`) em vez de texto na conversa. |
-| [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Pacote `api_<nome>/core` com excecoes/protecao/cliente separados; transporte nunca sabe de negócio (validação mora no contexto por endpoint, acesso mora numa Facade); hierarquia de exceção própria; throttle proativo + backoff reativo com teto 30s; sem circuit breaker por padrão; log nunca leva dado sensível. |
-| [[Padrao de Qualidade e Clareza Estrutural do Repositorio]] | regra | ativa | 15/08/2026 | Régua nova pra revisão de código: estrutura/nome autoexplicativo, preservar POO/encapsulamento/dataclasses/log/cache já usados, comentário didático, responsabilidade única, consistência entre arquivos-irmãos, refatoração estrutural (renomear/mover/excluir) no escopo. Auditoria incremental, prazo real segunda-feira (Cauã/Lucas). |
-| [[Estrutura Modular de Scripts Python]] | regra | ativa | 10/07/2026 | Fixada ordem obrigatória de 7 seções para todo script Python do ML Analytics HUB (Importações, Constantes, Importação de Dados, Trabalhando com Dados Brutos, Montagem de Saída, Aparência, Salvando/Entry Point), motivada pela dificuldade de manutenção do script anterior sem essa separação (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 ## Decisoes
 
 Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais de 1 contexto de negócio, mesma lógica de `Regras_de_Comportamento/`/`Conceitos/`/`Tutoriais/` (ver [[Estrutura de Pastas de um Mundo]]).

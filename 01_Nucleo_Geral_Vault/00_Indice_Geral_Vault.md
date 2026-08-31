@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 29/08/2026
-atualizado_em: 30/08/2026 16:18
+atualizado_em: 30/08/2026 20:25
 relacionado: [Definição do Núcleo Geral do Vault]
 ---
 
@@ -28,7 +28,8 @@ relacionado: [Definição do Núcleo Geral do Vault]
 | [[Os 9 Tipos de Nota]] | conceito | ativa | 30/08/2026 | Definição, critério de distinção e status possível de cada um dos 9 valores aceitos em `tipo` — o vocabulário fechado que classifica toda nota do vault. |
 | [[Ciclo de Vida de Dúvida e Bug Conhecido]] | regra | ativa | 30/08/2026 | Dúvida resolvida gera nota nova de decisão (nunca reescreve a dúvida); bug corrigido fica na mesma nota, com seção Correção. |
 | [[Convenção da Pasta Bases]] | regra | ativa | 30/08/2026 | Todo arquivo `.base` mora em `Bases/` na raiz do vault — pasta funcional, não é mundo, não segue numeração `0X_`. |
-| [[Regra do Índice Obrigatório]] | regra | ativa | 30/08/2026 | Todo mundo tem `00_Indice.md` obrigatório, agrupado por contexto, com resumo real (não genérico) de até ~25 palavras por nota. |
+| [[Regra do Índice Obrigatório]] | regra | ativa | 30/08/2026 | Todo mundo tem índice obrigatório, nomeado `00_Indice_<Nome do Mundo>.md` (nunca genérico), agrupado por contexto, com resumo real (não genérico) de até ~25 palavras por nota. |
+| [[Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao)]] | checkpoint | concluido | 30/08/2026 | Nota auto-contida do fim de semana de reorganização dos núcleos 00_/01_/02_ — o quê/por quê/como, pra retomar em outro computador sem a conversa original. |
 
 ## Modelos_Referencia_de_Escrita
 

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 15/08/2026
-atualizado_em: 15/08/2026 01:39
+atualizado_em: 30/08/2026 18:12
 relacionado: [Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar), Estrutura de Arquivo e Classe Python, Nomenclatura e Comentarios, Modelagem de Objeto e Encapsulamento, Fluxo Decomposicao de Problemas em Micro Etapas, Reducao de Comandos de Management e Rotina Vira Botao]
 ---
 
@@ -38,3 +38,4 @@ Toda revisão de código a partir de agora é avaliada contra esta régua, além
 - [[Nomenclatura e Comentarios]]
 - [[Modelagem de Objeto e Encapsulamento]]
 - [[Fluxo Decomposicao de Problemas em Micro Etapas]]
+- [[Reducao de Comandos de Management e Rotina Vira Botao]]

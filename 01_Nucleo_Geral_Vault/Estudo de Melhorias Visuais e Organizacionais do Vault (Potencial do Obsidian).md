@@ -3,13 +3,15 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 16/08/2026
-atualizado_em: 30/08/2026 13:33
-relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido]
+atualizado_em: 30/08/2026 20:38
+relacionado: [Como Escrever Notas no Vault — Padrao Hiper-Didatico, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Definição do Núcleo de Comportamento Claude, Definição do Núcleo Geral do Vault, Perguntas Sempre em Texto Corrido, Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao)]
 ---
 
 # Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian)
 
-## Última atualização (29/08/2026, 19:51)
+## Última atualização (30/08/2026, 20:25)
+
+**Sessão de 30/08/2026**: 3 frentes concluídas nesta janela de trabalho, todas dentro do escopo desta nota (visual/organizacional) — detalhe completo na "Categoria 7", mais abaixo. Resumo rápido: (1) cor/ícone por tipo (Camada 1, já usada nas subpastas padrão desde a seção 6.10) estendida também pra núcleo sem subpasta de tipo (`00_`/`01_`/`02_`), 25 entradas novas em `customFolderColors`; (2) `README.md` criado na raiz do vault — ponto de entrada único ("boot") pra qualquer LLM/humano chegando aqui, com ordem obrigatória de leitura; (3) os 7 arquivos `00_Indice.md` (nome idêntico em 7 pastas, ambiguidade real de busca/quick switcher) renomeados pra `00_Indice_<Nome do Mundo>.md`, com toda regra/referência que descrevia o nome antigo já atualizada. Em paralelo, fora do escopo desta nota, uma reorganização de coerência bem maior aconteceu nos núcleos 00_/01_/02_ — ver [[Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao)]], não duplicada aqui (mesmo padrão da seção 6.6).
 
 **Adendo (30/08/2026, 13:33)**: a nota "Estrutura e Convenções do Vault" citada várias vezes ao longo deste checkpoint foi extraída em 9 notas de responsabilidade única e depois apagada (ver [[Registro dos Mundos Ativos]] e as demais notas de `01_Nucleo_Geral_Vault/`). As citações antigas acima continuam com o texto original, só sem o link (a nota-fonte não existe mais) — histórico preservado, sem reescrever o que já foi decidido em cada rodada.
 
@@ -477,6 +479,38 @@ Dúvida trazida pelo usuário: os "marcadores" do Obsidian permitem salvar busca
 
 **Fecha a reestruturação visual "de fora da nota"** (29/08/2026, 23:10) — usuário confirmou explicitamente. Escopo do que foi coberto nesta rodada inteira (Categorias 4-6): renumeração de mundo + núcleo novo (`02_Nucleo_Engenharia_Repositorio`, ver "Estrutura e Convenções do Vault"), cor/ícone por mundo (Camada 3, 6.5) e por tipo (Camada 1, acima), física do grafo (6.8), bookmarks de busca (6.9), `applyToFiles` (acima). **Fica explicitamente fora deste escopo, ainda não iniciado**: melhoria visual **interna ao conteúdo de cada nota** (uso de callout, tabela, Mermaid dentro do corpo — ver seção 1.4 e [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]) — próxima frente de trabalho, distinta desta.
 
+## Categoria 7 — Cor por tipo em núcleo sem subpasta, README de entrada e índice personalizado por mundo (30/08/2026)
+
+### 7.1 — Cor por tipo estendida pra `00_`/`01_`/`02_` (núcleo sem subpasta de tipo)
+
+A Camada 1 (cor/ícone por tipo, seção 6.10) só cobria as 8 subpastas padrão de mundo (`Regras/`, `Conceitos/`, `Decisoes/`, etc.) — mas `00_Nucleo_Comportamento_Claude/`, `01_Nucleo_Geral_Vault/` e `02_Nucleo_Engenharia_Repositorio/` não seguem essa estrutura: são núcleos, notas soltas direto na raiz, sem subpasta por tipo (ver [[Estrutura de Pastas de um Mundo]] — a regra é de mundo, núcleo não segue o mesmo padrão). Isso deixava as notas desses 3 núcleos sem cor/ícone nenhum.
+
+Resolvido adicionando entradas individuais por arquivo em `customFolderColors` (não por pasta, porque não existe subpasta de tipo aqui), reaproveitando as MESMAS cores já fixadas por tipo:
+
+| Tipo | Cor (hex) | Ícone |
+|---|---|---|
+| `regra` | `#9e1139` | `ri-scales-3-line` (Remix, o mesmo já usado em `00_Nucleo_Comportamento_Claude`) |
+| `conceito` | `#0EA5E9` | `lightbulb` |
+| `checkpoint` | `#475569` | `flag` |
+
+25 entradas novas no total (12 `regra` + 1 `checkpoint` + 2 `conceito` em `01_`, 10 `regra` em `02_` — `00_` já estava completo, foi a origem do padrão copiado). `00_Indice_<Nome do Mundo>.md` de cada núcleo ficou de fora de propósito, mesmo padrão que já valia antes — índice não é conteúdo, é navegação, não leva cor de tipo.
+
+### 7.2 — `README.md` criado na raiz do vault (o "boot" que faltava)
+
+Achado do usuário: depois de toda a reorganização dos núcleos 00_/01_/02_ (ver nota de reorganização linkada acima), não existia nenhum arquivo na raiz do vault dizendo por onde uma LLM nova (ou humano novo) deveria começar a ler — cada núcleo já sabia se autoexplicar, mas nada apontava pra eles na entrada. Analogia do próprio usuário: "é como o boot da placa mãe, que diz onde estão os drivers".
+
+`README.md` criado direto na raiz (fora de qualquer núcleo, porque fica acima de todos), com 4 passos de leitura obrigatória antes de qualquer tarefa: (1) `00_Nucleo_Comportamento_Claude/` inteiro — como agir; (2) notas-chave de `01_Nucleo_Geral_Vault/` — como o vault funciona; (3) `02_Nucleo_Engenharia_Repositorio/` — só se a tarefa envolver código; (4) "Registro dos Mundos Ativos" — pra achar qual mundo de negócio (`03_`-`06_`) serve a tarefa atual.
+
+**Duas decisões de exceção, deliberadas**: nome README.md (não segue a convenção espaço-sem-underscore de nota comum — é arquivo de infraestrutura de repositório, não conteúdo, reconhecido automaticamente pelo GitHub); e sem frontmatter (mesmo motivo — um bloco `---` cru apareceria feio na renderização do GitHub, e o arquivo não é "nota do vault" no sentido do Schema de Frontmatter).
+
+### 7.3 — Os 7 `00_Indice.md` renomeados por mundo, ambiguidade eliminada
+
+Achado do usuário, direto: 7 arquivos chamados exatamente `00_Indice.md`, 1 por núcleo/mundo, espalhados pelo vault — ambiguidade real de busca/quick switcher do Obsidian, e overhead real pra qualquer LLM que precisasse identificar qual índice é qual sem depender só do caminho da pasta. Renomeados (pelo próprio usuário, direto no sistema de arquivos) pra `00_Indice_<Nome do Mundo>.md` — ex: `00_Indice_Sistema_Interno.md`, `00_Indice_Geral_Vault.md` — mantendo o prefixo `00_` (garante que continua aparecendo primeiro na pasta).
+
+Como consequência, toda regra e referência que descrevia o nome antigo genérico foi corrigida: [[Regra do Índice Obrigatório]] (a fonte da regra), [[Estrutura de Pastas de um Mundo]] (árvore de exemplo), [[Convenção da Pasta Bases]] e [[Registro dos Mundos Ativos]] (menções tangenciais), o próprio índice de `01_` (linha de resumo da regra), `06_Producao_de_Imagens_e_Videos/00_Leia_Primeiro.md` (árvore própria daquele mundo — de quebra, corrigida também uma referência ao número antigo do mundo, `05_` em vez de `06_`, achado no caminho) e o `README.md` (seção 7.2 acima). Deixados de propósito sem alteração: notas tipo `checkpoint` (histórico, ponto no tempo, nunca reescritas) e 1 linha de changelog que era verdade no momento em que foi escrita.
+
+**Ícone/cor de índice e README aplicado (30/08/2026, 20:38)**: `list-tree`, cor cinza-azulada (`#64748B`) nos 7 índices; `home`, cor dourada (`#D4AF37`) no README — 8 entradas escritas em `customFolderColors` (Colorful Folders), com o Obsidian fechado durante a edição, mesmo procedimento já usado nas rodadas anteriores.
+
 ## Prioridade recomendada (o que eu sugiro fazer primeiro)
 
 | Ordem | Recurso | Esforço | Ganho | Status |
@@ -546,8 +580,14 @@ Pra não ficar só em teoria (regra 8 de [[Como Escrever Notas no Vault — Padr
 - [x] Criar de fato os bookmarks de busca reutilizáveis — **feito (29/08, 19:51)**: 88 marcadores, estrutura simétrica mundo × tipo + subgrupo "Pendências Abertas" por status, igual em todo mundo mesmo quando dá 0 resultado. Ver 6.9.
 - [x] Limpar referências órfãs de `LEGADO/` após a pasta ser removida — **feito (29/08, 19:51)**: grupo de bookmarks, `customFolderColors` e `colorGroup` do Graph View, todos com o Obsidian fechado. Regra de comportamento e "Os mundos" também atualizadas (ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]] e "Estrutura e Convenções do Vault").
 
+- [x] Estender cor/ícone por tipo (Camada 1) pros núcleos sem subpasta de tipo (`00_`/`01_`/`02_`) — **feito (30/08, 20:25)**: 25 entradas novas em `customFolderColors`, por arquivo, reaproveitando as cores já fixadas por tipo. Ver 7.1.
+- [x] Criar ponto de entrada único na raiz do vault ("boot" pra LLM/humano novo) — **feito (30/08, 20:01)**: `README.md`, 4 passos de leitura obrigatória. Ver 7.2.
+- [x] Resolver ambiguidade dos 7 `00_Indice.md` com nome idêntico — **feito (30/08, 20:01)**: renomeados pra `00_Indice_<Nome do Mundo>.md`, todas as referências corrigidas. Ver 7.3.
+- [x] Aplicar ícone/cor específico pra índice e README — **feito (30/08, 20:38)**: `list-tree` cinza-azulado (`#64748B`) nos 7 índices, `home` dourado (`#D4AF37`) no README. Ver 7.3.
+
 ## Relacionado
 
 - "Estrutura e Convenções do Vault"
 - [[Como Escrever Notas no Vault — Padrao Hiper-Didatico]]
 - [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]]
+- [[Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao)]]
