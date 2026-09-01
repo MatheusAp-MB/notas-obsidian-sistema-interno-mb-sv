@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "7912314e2c8350c4",
+        "id": "573bd272f00586ed",
         "type": "tabs",
         "children": [
           {
-            "id": "ec074aab522cbfcf",
+            "id": "d296c62848943bf6",
             "type": "leaf",
             "pinned": true,
             "state": {
@@ -39,7 +39,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false,
+                "autoReveal": true,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "[\"Atualizado_em\":01/09/2026]",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -77,11 +77,12 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 782.1666870117188
+    "width": 521.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -190,8 +191,17 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "ec074aab522cbfcf",
+  "active": "831c5854f3b0a630",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Revisao com Calma das Notas da Agenda de Videos - Pendencia Pos-Urgencia de Postagem.md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra.md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao).md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Postagem, Verificacao e Replicacao Autonomas da Agenda de Videos.md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos).md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
+    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
     "00_Nucleo_Comportamento_Claude/00_Indice_Comportamento_Claude.md",
     "01_Nucleo_Geral_Vault/Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao).md",
     "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
@@ -210,15 +220,6 @@
     "02_Nucleo_Engenharia_Repositorio/Definição do Núcleo de Engenharia Repositório.md",
     "01_Nucleo_Geral_Vault/Ciclo de Vida de Dúvida e Bug Conhecido.md",
     "01_Nucleo_Geral_Vault/Aviso Proativo Para Notas no Obsidian.md",
-    "01_Nucleo_Geral_Vault/Estrutura de Pastas de um Mundo.md",
-    "01_Nucleo_Geral_Vault/Evolucao do Controle de Contexto e Execucao - Do Prompt de Migracao ao Vault Como Segundo Cerebro.md",
-    "01_Nucleo_Geral_Vault/Os 9 Tipos de Nota.md",
-    "01_Nucleo_Geral_Vault/Perguntar Data e Hora Antes de Escrever no Vault.md",
-    "01_Nucleo_Geral_Vault/Princípios Fundamentais do Vault.md",
-    "01_Nucleo_Geral_Vault/Registro dos Mundos Ativos.md",
-    "01_Nucleo_Geral_Vault/Regra do Índice Obrigatório.md",
-    "01_Nucleo_Geral_Vault/Schema de Frontmatter.md",
-    "01_Nucleo_Geral_Vault/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md",
     "01_Nucleo_Geral_Vault/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md.tmp.34604.a7472c92ee52",
     "01_Nucleo_Geral_Vault/Aviso Proativo Para Notas no Obsidian.md.tmp.34604.94832eac7f1e",
     "01_Nucleo_Geral_Vault/Definição do Núcleo Geral do Vault.md.tmp.34604.65e513a88317",

@@ -3,11 +3,14 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 13/08/2026
-atualizado_em: 18/08/2026 10:11
+atualizado_em: 31/08/2026 09:07
 relacionado: [Flag Temporaria de Confirmacao em Replicar Video no ML, Fluxo Manual Antes do Automatizado, Percentual de Replicacao por Produto e Geral, Resolver Arquivo Da Ocorrencia Usava Formato Antigo Do Parser, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Contexto Geral - Retomada em Outro Computador (Agenda de Videos), Checkpoint Testes Automatizados Agenda Videos, Agente Local Tinha 3 Bugs Reais no Empacotamento e Uma Limitacao no Pausar-Cancelar, MLB Postado Real Substitui Chute e Postagem Vira 100% Autonoma, Verificar Aprovacao ou Recusa Automaticamente na Tela do Mercado Livre, Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]
 ---
 
 # Checklist Postagem e Replicação Automática — Fluxo Real Sem Gambiarra
+
+> [!warning] Nota em processo de substituição
+> A partir de 31/08/2026, 09h07, o acompanhamento de Postagem/Verificação/Replicação passou a ser feito em [[Checkpoint - Postagem, Verificacao e Replicacao Autonomas da Agenda de Videos]]. Esta nota fica preservada, sem edição de conteúdo, até a substituição ser validada — depois disso será excluída.
 
 > [!info] Englobada pelo plano mais amplo de 18/08/2026, 10h11
 > Esta nota continua válida como registro do que já foi validado até 13/08/2026 (Postagem ponta a ponta, bugs reais corrigidos, empacotamento `.exe`) e do que ficou pendente (Replicação sem validação ponta a ponta, possível execução travada). A partir de 18/08/2026, o plano ATIVO — que inclui esta pendência + a exigência de "tudo que a Magazine faz, a Samvale também faz" + a integração com o Drive + a análise de aprovação no ML — vive em [[Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao)]]. Leia aquela nota primeiro; volte aqui só pelo histórico detalhado abaixo.

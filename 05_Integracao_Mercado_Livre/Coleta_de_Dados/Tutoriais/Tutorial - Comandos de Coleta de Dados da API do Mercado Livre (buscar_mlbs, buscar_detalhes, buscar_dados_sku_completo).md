@@ -71,6 +71,7 @@ Cada comando também grava um arquivo de log próprio, em `integracao_mercado_li
 
 ```bash
 poetry run python manage.py buscar_mlbs --empresa magazine
+poetry run python manage.py buscar_mlbs --empresa samvale
 ```
 
 **O que você obtém**: `lista_mlbs.json`, com 1 registro por MLB encontrado — `{mlb, status, logistica, tipo, catalogo}`. Resultado real, validado em 26/08/2026: **Magazine — 5.640 MLBs encontrados**, em 35 das 168 combinações possíveis (as outras 133 combinações simplesmente não tinham nenhum anúncio daquele tipo), 0 combinação com erro, 132,9 segundos no total. Samvale também rodado e confirmado funcionando pelo usuário.
@@ -87,6 +88,7 @@ poetry run python manage.py buscar_mlbs --empresa magazine
 
 ```bash
 poetry run python manage.py buscar_detalhes --empresa magazine
+poetry run python manage.py buscar_detalhes --empresa samvale
 ```
 
 **O que você obtém**: `detalhes_mlbs.json`, 1 registro por variação do produto (um MLB com 3 variações de cor vira 3 registros). Resultado real, validado em 26/08/2026: **Magazine — 5.906 registros**, a partir de 5.640 MLBs processados (100%, 0 erros de lote, 0 erros de item), em 282 lotes, 165,3 segundos no total. **Samvale — 3.545 registros**, a partir de 3.280 MLBs (100%, 0 erros), 86,8 segundos. Nos 2 casos, o número de registros é maior que o de MLBs porque cada variação de produto vira 1 registro a mais.
