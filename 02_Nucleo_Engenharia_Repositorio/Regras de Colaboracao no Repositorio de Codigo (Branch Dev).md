@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 29/08/2026 19:51
+atualizado_em: 01/09/2026 20:42
 relacionado:
   - Disciplina de Testes Automatizados
   - Status Manual Atual Ignora Historico Quando Participacao Nao Existe
@@ -98,7 +98,7 @@ Substitua:
 
 **Retratação (17/08/2026, 10:48) — o registro de 16/08 estava errado; o formato de 14/08 é o único vigente:** em outra sessão/conversa, o usuário confirmou que o formato com "Arquivo:"/dois-pontos acima NUNCA foi o que ele queria — o correto sempre foi o formato de 14/08 (bloco abaixo), que é exatamente o que Claude vinha entregando antes da "correção" de 16/08. Não ficou claro por que o registro de 16/08 foi feito assim (possível interpretação equivocada de outro feedback numa sessão anterior, generalizada pra esta regra sem confirmar contra o usuário antes de escrever). O trecho de 16/08 acima fica mantido só como registro histórico do que foi (indevidamente) registrado — **não é mais válido a partir de agora.**
 
-**Formato definitivo (o mesmo de 14/08, reconfirmado em 17/08/2026):**
+**Formato de 14/08, reconfirmado em 17/08/2026 — SUPERADO em 01/09/2026, ver correção logo abaixo:**
 
 ```
 LOCALIZE
@@ -109,6 +109,22 @@ SUBSTITUA
 ```
 
 Identificação do arquivo de destino continua acontecendo — só que em texto normal antes do par (ex: "Arquivo `caminho/do/arquivo.py`:"), nunca como linha fixa dentro do próprio bloco, e sem dois-pontos depois de "LOCALIZE"/"SUBSTITUA".
+
+**Correção (01/09/2026, 20:42) — LOCALIZE e SUBSTITUA precisam ser 2 blocos de código totalmente separados, nunca os 2 dentro de 1 bloco só:** num projeto novo e separado (`07_Sistema_Relatorio_Devolucoes`), Claude entregou o par no formato de 14/08 (os 2 dentro do mesmo bloco de código, um embaixo do outro). O usuário corrigiu: "não é dessa forma... Você nunca coloca o localize e substitua dentro do [mesmo bloco]... o correto é: Localize: (bloco de código isolado) Substitua: (bloco de código isolado)." Testado o formato corrigido na mesma conversa e confirmado explicitamente: "é exatamente dessa maneira que voce me mandou que deve ser sempre."
+
+**Formato definitivo a partir de 01/09/2026:** arquivo identificado em texto normal antes (ex: "Arquivo `caminho/do/arquivo.py`:"), seguido de "Localize:" e "Substitua:" (agora COM dois-pontos — diferente da retratação de 17/08, que tinha removido), cada um com o **seu próprio bloco de código isolado**, nunca os 2 dentro do mesmo bloco:
+
+Localize:
+
+```
+<bloco de código, texto exato do arquivo real>
+```
+
+Substitua:
+
+```
+<bloco de código, texto novo>
+```
 
 **Lição pra evitar repetir isso:** qualquer "correção de regra" registrada no vault a partir de uma citação do usuário precisa ser conferida com cuidado antes de virar regra permanente — se a mesma regra for corrigida de novo pouco tempo depois (como aconteceu aqui, 16/08 → 17/08), é sinal de que a 1ª leitura não bateu com o que o usuário realmente queria.
 

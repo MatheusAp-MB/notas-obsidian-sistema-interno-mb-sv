@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "573bd272f00586ed",
+        "id": "c6f2a8dffd9c31a4",
         "type": "tabs",
         "children": [
           {
-            "id": "d296c62848943bf6",
+            "id": "b52b05f7ea280622",
             "type": "leaf",
             "pinned": true,
             "state": {
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "[\"Atualizado_em\":01/09/2026]",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -77,8 +77,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -191,8 +190,25 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
+    "07_Sistema_Relatorio_Devolucoes/Tutoriais",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo.md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md.tmp.25988.270215cac49d",
+    "02_Nucleo_Engenharia_Repositorio/Definição do Núcleo de Engenharia Repositório.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md.tmp.24348.d4adba52ffaf",
+    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md.tmp.40080.75bd75878559",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja.md",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes",
+    "07_Sistema_Relatorio_Devolucoes/Conceitos/Processo de Devolução de Produtos e os 3 Caminhos Possíveis.md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md",
+    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints",
+    "07_Sistema_Relatorio_Devolucoes/Conceitos",
+    "07_Sistema_Relatorio_Devolucoes",
     "03_Sistema_Interno/Agenda_Videos/Checkpoints/Revisao com Calma das Notas da Agenda de Videos - Pendencia Pos-Urgencia de Postagem.md",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
@@ -210,25 +226,8 @@
     "04_Integracao_Sysemp/00_Indice_Integracao_Sysemp.md",
     "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "02_Nucleo_Engenharia_Repositorio/00_Indice_Engenharia_Repositorio.md",
-    "01_Nucleo_Geral_Vault/00_Indice_Geral_Vault.md",
-    "README.md",
-    "02_Nucleo_Engenharia_Repositorio/Padrao de Qualidade e Clareza Estrutural do Repositorio.md",
     "02_Nucleo_Engenharia_Repositorio/Modelo Padrao de Arquivo de Teste.md.tmp.37392.a4f588c47c71",
-    "02_Nucleo_Engenharia_Repositorio/Estrutura Modular de Scripts Python.md",
-    "02_Nucleo_Engenharia_Repositorio/Disciplina de Testes Automatizados.md",
-    "02_Nucleo_Engenharia_Repositorio/Estrutura de Arquivo e Classe Python.md",
-    "02_Nucleo_Engenharia_Repositorio/Definição do Núcleo de Engenharia Repositório.md",
-    "01_Nucleo_Geral_Vault/Ciclo de Vida de Dúvida e Bug Conhecido.md",
-    "01_Nucleo_Geral_Vault/Aviso Proativo Para Notas no Obsidian.md",
     "01_Nucleo_Geral_Vault/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md.tmp.34604.a7472c92ee52",
-    "01_Nucleo_Geral_Vault/Aviso Proativo Para Notas no Obsidian.md.tmp.34604.94832eac7f1e",
-    "01_Nucleo_Geral_Vault/Definição do Núcleo Geral do Vault.md.tmp.34604.65e513a88317",
-    "06_Producao_de_Imagens_e_Videos/00_Leia_Primeiro.md.tmp.34604.a68d5d943212",
-    "04_Integracao_Sysemp/00_Indice.md.tmp.34604.bcab015cdc63",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Estado ao Longo do Tempo (Checkpoint).md.tmp.34604.3145271912dd",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Modelo de Escrita — Definicao e Norma (Conceito, Regra).md.tmp.36256.0a75382fe389",
-    "01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita/Exemplos_Ilustrativos/Exemplo — Tutorial (Modelo de Demonstracao).md.tmp.36256.7081b9a676d9",
-    "00_Nucleo_Comportamento_Claude/Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples.md.tmp.36188.0f1bf40a6bbe",
     "Sem título.canvas"
   ]
 }

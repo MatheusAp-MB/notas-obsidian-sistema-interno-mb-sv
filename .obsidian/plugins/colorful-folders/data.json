@@ -51,7 +51,7 @@
       "applyToFiles": false
     },
     "06_Producao_de_Imagens_e_Videos": {
-      "hex": "#703bf6",
+      "hex": "#EC4899",
       "iconId": "camera",
       "applyToSubfolders": true,
       "applyToFiles": false
@@ -664,6 +664,12 @@
       "textGradientEnd": "#00ffff",
       "iconColor": "#D4AF37",
       "iconId": "home"
+    },
+    "07_Sistema_Relatorio_Devolucoes": {
+      "hex": "#703bf6",
+      "iconId": "tabler-truck-return",
+      "applyToSubfolders": true,
+      "applyToFiles": false
     }
   },
   "presets": {
@@ -675,6 +681,7 @@
     }
   },
   "recentlyUsedIcons": [
+    "tabler-truck-return",
     "ri-scales-3-line",
     "tabler-settings-code",
     "bx-bxs-invader",

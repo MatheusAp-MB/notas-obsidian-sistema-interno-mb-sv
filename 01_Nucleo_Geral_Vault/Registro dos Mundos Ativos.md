@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 19:59
+atualizado_em: 01/09/2026 19:07
 relacionado: [Definição do Núcleo Geral do Vault, Definição do Núcleo de Comportamento Claude, Estrutura de Pastas de um Mundo, Critério para Criação de um Mundo Novo]
 resumo: Lista viva dos mundos e núcleos ativos deste vault, com o que cada um reúne — inclui histórico de mundo removido (LEGADO) e da renumeração de pastas de 29/08/2026.
 ---
@@ -29,6 +29,7 @@ Com o vault crescendo (hoje 3 núcleos e 4 mundos ativos, além de 1 mundo já r
 | `04_Integracao_Sysemp/` | Integração com a API do ERP Sysemp (dado fiscal) — código mora no mesmo repositório do Sistema Interno, na pasta `scripts_exploracao_ERP/`. |
 | `05_Integracao_Mercado_Livre/` | Integração com a API do Mercado Livre. |
 | `06_Producao_de_Imagens_e_Videos/` | Produção de fotos/vídeos de produto via IA — criado em 22/08/2026, sem relação de código com `03_Sistema_Interno/` (que só cuida do que acontece depois que o material já existe, ver `Agenda_Videos/`); ainda sem código associado, só diagnóstico do problema. |
+| `07_Sistema_Relatorio_Devolucoes/` | Sistema de Relatório de Devoluções — projeto novo, criado em 01/09/2026, completamente paralelo aos demais mundos ativos, sem conexão de código com eles. Escopo ainda em definição. |
 
 **Nunca duplicar convenção estrutural fora do lugar certo**: quando uma convenção nova do vault precisa ser definida (uma pasta nova, um campo de frontmatter novo, uma regra de nome nova), ela é adicionada na nota já responsável por aquele assunto dentre as notas deste núcleo — ex: um campo de frontmatter novo vai em [[Schema de Frontmatter]], uma subpasta de mundo nova vai em [[Estrutura de Pastas de um Mundo]] — nunca criada solta numa nota nova ou fora do lugar. Esta própria lista de mundos ativos segue a mesma lógica: um mundo novo vira 1 linha a mais na tabela acima, nunca um registro solto em outro canto do vault.
 

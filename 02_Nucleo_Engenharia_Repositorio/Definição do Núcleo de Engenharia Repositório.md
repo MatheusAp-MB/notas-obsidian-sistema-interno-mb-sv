@@ -3,15 +3,15 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 18:25
-relacionado: [Definição do Núcleo Geral do Vault, Definição do Núcleo de Comportamento Claude, Registro dos Mundos Ativos]
+atualizado_em: 01/09/2026 22:48
+relacionado: [Definição do Núcleo Geral do Vault, Definição do Núcleo de Comportamento Claude, Registro dos Mundos Ativos, Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]
 ---
 
 # Definição do Núcleo de Engenharia Repositório
 
 ## O quê
 
-`02_Nucleo_Engenharia_Repositorio/` é o mundo que reúne toda **convenção de engenharia de código** que serve **mais de 1 mundo de código ao mesmo tempo** — estrutura de arquivo/classe, modelagem de objeto, testes, colaboração em git, padrão de robustez de API. Diferente de uma regra presa a 1 mundo só (que fica dentro daquele mundo, ver [[Estrutura de Pastas de um Mundo]]), o que mora aqui vale igual em qualquer mundo que tenha código Python neste repositório — hoje `03_Sistema_Interno/`, `04_Integracao_Sysemp/`, `05_Integracao_Mercado_Livre/`.
+`02_Nucleo_Engenharia_Repositorio/` é o mundo que reúne toda **convenção de engenharia de código** que serve **mais de 1 mundo de código ao mesmo tempo** — estrutura de arquivo/classe, modelagem de objeto, testes, colaboração em git, padrão de robustez de API. Diferente de uma regra presa a 1 mundo só (que fica dentro daquele mundo, ver [[Estrutura de Pastas de um Mundo]]), o que mora aqui vale igual em qualquer mundo que tenha código Python — dentro do repositório `Projeto_Sistema_Interno_V2` (hoje `03_Sistema_Interno/`, `04_Integracao_Sysemp/`, `05_Integracao_Mercado_Livre/`) e, a partir de 01/09/2026, também em repositórios completamente separados (ver seção "Expansão de escopo" abaixo) — a convenção de engenharia é a mesma, independente de qual repositório o código mora.
 
 ## Por quê
 
@@ -45,6 +45,12 @@ Só entra em `02_Nucleo_Engenharia_Repositorio/` quem passa pelas 2 primeiras pe
 | [[Disciplina de Testes Automatizados]] | ✅ Confirmada | Metodologia de teste (pytest, níveis, SUT/DOC) igual em qualquer app/mundo do repositório. |
 | [[Modelo Padrao de Arquivo de Teste]] | ✅ Confirmada | Implementação de referência da disciplina acima — mesmo escopo, repositório inteiro. |
 
+## Expansão de escopo — outros repositórios (01/09/2026, 22:48)
+
+Até aqui, este núcleo só cobria mundos de código dentro do mesmo repositório (`Projeto_Sistema_Interno_V2`). Isso mudou quando o projeto `07_Sistema_Relatorio_Devolucoes` (repositório próprio, `Projeto-Sistema-Devolucao`, GitHub) começou a ganhar código de verdade — o usuário decidiu que o mesmo padrão de qualidade vale lá também, nas próprias palavras: *"Eu quero adotar o mesmo nível e padrão de qualidade neste repositório, quero usar tudo que já aprendemos nesse repositório. O único motivo de eu estar fazendo separado é não sujar aquele repo... aqui é livre e tranquilo, por isso é um projeto paralelo."*
+
+Ou seja: o repositório separado existe por motivo operacional (não misturar experimentação com o sistema em produção), nunca como justificativa pra um padrão de qualidade menor. A partir de agora, este núcleo vale como referência de engenharia pra qualquer repositório de código que o usuário trabalhe, não só o `Projeto_Sistema_Interno_V2`. Primeiro caso confirmado: [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]].
+
 ## Estado desta reorganização
 
 - ✅ Núcleo criado em 29/08/2026 (22:02-22:20), movendo as 10 notas de `03_Sistema_Interno/Regras_de_Comportamento/` pra cá (ver [[Registro dos Mundos Ativos]]).
@@ -59,3 +65,4 @@ Só entra em `02_Nucleo_Engenharia_Repositorio/` quem passa pelas 2 primeiras pe
 - [[Definição do Núcleo Geral do Vault]]
 - [[Definição do Núcleo de Comportamento Claude]]
 - [[Registro dos Mundos Ativos]]
+- [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]

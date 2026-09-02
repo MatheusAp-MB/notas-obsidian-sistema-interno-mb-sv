@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 30/08/2026 17:47
+atualizado_em: 01/09/2026 22:48
 relacionado: [Definição do Núcleo de Engenharia Repositório, Regra do Índice Obrigatório]
 ---
 
@@ -22,7 +22,7 @@ relacionado: [Definição do Núcleo de Engenharia Repositório, Regra do Índic
 | [[Padrao de Robustez para Clientes de API Externa]] | regra | ativa | 06/08/2026 | Todo cliente de API externa segue 3 camadas (transporte/contexto/facade), hierarquia de exceção própria, proteção dupla contra chamada excessiva, e nunca assume que 1 chamada trouxe tudo (paginação). |
 | [[Disciplina de Testes Automatizados]] | regra | ativa | 02/08/2026 | Teste nasce junto do planejamento, nunca depois; SUT/DOC sempre real (nunca mock, exceto integração externa); 5 níveis de progressão; Claude nunca executa código, só gera pro usuário rodar. |
 | [[Modelo Padrao de Arquivo de Teste]] | regra | ativa | 02/08/2026 | Implementação de referência das regras de Disciplina de Testes Automatizados — arquivo copiável com as 4 fases comentadas, `match/case` só com cenário real, e 1 caso `xfail` permanente. |
-| [[Definição do Núcleo de Engenharia Repositório]] | regra | ativa | 30/08/2026 | Define o que entra neste núcleo (convenção de engenharia que serve mais de 1 mundo de código ao mesmo tempo) e documenta a criação do núcleo em 29/08, junto dos pontos ainda em aberto da auditoria de coerência. |
+| [[Definição do Núcleo de Engenharia Repositório]] | regra | ativa | 30/08/2026 | Define o que entra neste núcleo (convenção de engenharia que serve mais de 1 mundo de código ao mesmo tempo); desde 01/09/2026, escopo expandido pra valer também em repositórios de código separados (1º caso: Sistema de Relatório de Devoluções). |
 
 ## Relacionado
 
