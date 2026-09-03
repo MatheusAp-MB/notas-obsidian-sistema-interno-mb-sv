@@ -192,6 +192,14 @@
   },
   "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo dos Geradores de Promocao.md",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Decisoes/Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok.md",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Bugs_Conhecidos/Marca com Barra Quebra Link de Download de Promocao.md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Bugs_Conhecidos",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Decisoes",
+    "03_Sistema_Interno/Geradores_de_Promocoes",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md",
     "07_Sistema_Relatorio_Devolucoes/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
@@ -207,10 +215,7 @@
     "07_Sistema_Relatorio_Devolucoes/Conceitos/Processo de Devolução de Produtos e os 3 Caminhos Possíveis.md",
     "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints",
-    "07_Sistema_Relatorio_Devolucoes/Conceitos",
-    "07_Sistema_Relatorio_Devolucoes",
     "03_Sistema_Interno/Agenda_Videos/Checkpoints/Revisao com Calma das Notas da Agenda de Videos - Pendencia Pos-Urgencia de Postagem.md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
     "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra.md",
     "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao).md",
@@ -223,11 +228,6 @@
     "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
     "06_Producao_de_Imagens_e_Videos/00_Indice_Producao_de_Imagens_e_Videos.md",
     "05_Integracao_Mercado_Livre/00_Indice_Integracao_Mercado_Livre.md",
-    "04_Integracao_Sysemp/00_Indice_Integracao_Sysemp.md",
-    "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
-    "02_Nucleo_Engenharia_Repositorio/00_Indice_Engenharia_Repositorio.md",
-    "02_Nucleo_Engenharia_Repositorio/Modelo Padrao de Arquivo de Teste.md.tmp.37392.a4f588c47c71",
-    "01_Nucleo_Geral_Vault/Como Escrever Notas no Vault — Padrao Hiper-Didatico.md.tmp.34604.a7472c92ee52",
     "Sem título.canvas"
   ]
 }

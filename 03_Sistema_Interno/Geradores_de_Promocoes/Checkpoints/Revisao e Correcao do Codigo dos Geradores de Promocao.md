@@ -1,0 +1,72 @@
+---
+tipo: checkpoint
+dominio: python
+status: em_andamento
+criado: 03/09/2026
+atualizado_em: 03/09/2026 11:18
+relacionado: [Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok, Marca com Barra Quebra Link de Download de Promocao]
+resumo: Revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. Só falta repetir essa revisão inteira no Modo Arquivo do TikTok.
+---
+
+# Revisão e Correção do Código dos Geradores de Promoção
+
+**Resumo**: revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. Só falta repetir essa revisão inteira no Modo Arquivo do TikTok.
+
+> [!warning] EM ANDAMENTO — Shopee 100% revisada, só falta o TikTok
+> Os 4 achados do Modo Arquivo da Shopee estão resolvidos: achados 1, 2 e 3 corrigidos, commitados (`94d3b17` e `2ac5009`) e testados com dado real; achado 4 (validação de desconto 0%/100%) confirmado pelo usuário como comportamento já correto — não precisou de nenhuma correção. Fica pendente, por conta do usuário e sem prazo definido, investigar melhor os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos na Shopee que já saíram do ERP). O único item de código que resta é repetir essa revisão inteira no Modo Arquivo do TikTok (mesma lógica, duplicada de propósito).
+
+## Linha do tempo
+
+**Sessão de 03/09/2026, manhã** — Depois de reorganizar o vault (criação do contexto `Geradores_de_Promocoes`, migrando pra lá as notas de arquitetura e do bug da barra que antes viviam soltas em `Precificacao`, reescritas no padrão hiper-didático — ver [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]] e [[Marca com Barra Quebra Link de Download de Promocao]]), começamos a revisar o código real do Modo Arquivo — por decisão do usuário, focando só na Shopee por agora, deixando o TikTok pra uma rodada futura. Toda a revisão foi feita só por leitura de código e conversa — nenhuma correção foi codada ou executada ainda, seguindo a regra de que o Claude nunca edita/executa código sozinho neste repositório.
+
+Achados desta sessão, 1 por 1:
+
+1. **Preço vazio/inválido quebra o request inteiro.** No Modo Arquivo, o método `processar_modo_arquivo()` (arquivo `shopee/funcoes_auxiliares/promocao/processador_promocao_shopee.py`) não tem a mesma salvaguarda que o Modo Grade tem contra preço não convertido — o Modo Grade troca um preço inválido por `Decimal('0')` antes de qualquer conta; o Modo Arquivo não troca por nada. Se 1 célula de preço no arquivo vier vazia ou num formato que `para_decimal_seguro()` não consiga converter (esse caso devolve `None`, não zero), a conta `calcular_preco_com_desconto()` quebra com um erro Python não tratado. Como a view `view_processar_promocao` não tem nenhum `try/except` envolvendo essa parte do processamento, o erro sobe cru e derruba o request inteiro — ou seja, TODAS as marcas selecionadas naquele envio falham, não só o produto com o preço problemático. **Confirmado como bug real. Correção escrita, aplicada e validada — ver sessões seguintes.**
+
+2. **Linha de início de leitura errada, confirmada com arquivo real.** A chamada `ler_linhas_planilha_robusta(arquivo, linha_cabecalho=3, primeira_linha_dado=6)`, em `view_processar_promocao`, assume que o dado de produto começa na linha 6 da planilha. O usuário baixou um arquivo real da Shopee durante esta sessão e confirmou que a linha 6 tem um texto de aviso escrito na própria coluna de preço — não é dado de produto — e o dado de verdade só começa na linha 7. Isso faria essa linha de aviso ser processada como se fosse 1 produto (com SKU em branco, então não bate com nenhum produto real, mas ia poluir a aba de linhas órfãs do achado 3 como se fosse uma linha órfã de verdade). **Confirmado pelo usuário com arquivo real. Correção escrita e aplicada — ver sessões seguintes.**
+
+3. **Linha do arquivo sem produto correspondente no catálogo é ignorada silenciosamente.** O cruzamento de hoje percorre os produtos do banco (`Produto.objects.filter(marca__in=...)`) e pergunta pro arquivo se cada um existe lá — nunca faz o caminho contrário. Uma linha do arquivo que não bate com nenhum produto das marcas selecionadas simplesmente nunca é olhada — não gera erro, não aparece em nenhuma aba de conferência, não deixa rastro nenhum. **Usuário decidiu que isso precisa ser informado.** Proposta discutida: uma aba nova no arquivo de conferência, listando SKU/preço/estoque de cada linha do arquivo que nunca foi puxada por nenhum produto do banco durante o cruzamento. Desenho aceito em conversa nesta sessão — implementação ainda não escrita (ver detalhe novo e desenho final nas sessões seguintes).
+
+4. **Validação de desconto — 0% e 100% são rejeitados.** A validação usa intervalo aberto (`0 < desconto_percentual < 100`), então um desconto de exatamente 0% ou exatamente 100% é recusado como inválido. **Confirmado pelo usuário como o comportamento esperado — ver sessão seguinte.**
+
+**Sessão de 03/09/2026, 10h23 — correção e validação dos achados 1 e 2** — Os achados 1 e 2 foram escritos como correção no formato de sempre (texto conversacional, "Arquivo: `caminho`" + blocos separados "Localize:"/"Substitua:" — o Claude nunca edita o repositório diretamente) e o usuário aplicou e commitou por conta própria (commit `94d3b17`, branch `dev`).
+
+O achado 1 precisou cascatear por 5 arquivos, não só o processador — pra não recriar o próprio problema do achado 3 (dado que desaparece sem deixar rastro), foi criada uma 5ª categoria de exceção (`preco_invalido`), passando pelos mesmos pontos que as outras 4 categorias já passavam: contagem no resumo geral (`processador_promocao_shopee.py`), contagem por marca na view (`views.py`), aba nova no Excel de conferência (`gerador_excel_promocao.py`), card e mini-tag na tela de resultado (`estrutura_resultado_promocao.html`), cor nova no CSS (`layout_gerar_promocao.css`).
+
+Depois do commit, o Claude sincronizou o clone local com `origin/dev` (fast-forward) e conferiu o diff real ponto a ponto contra os 11 pontos que tinha proposto — bateu exatamente, nenhum arquivo a mais nem a menos. Sintaxe Python validada com `py_compile`.
+
+Validação com dado real, em 2 rodadas: a 1ª rodada (arquivo real sem nenhum preço quebrado) confirmou que a tela nova não quebra nada e mostra 0 em "Preço inválido no arquivo" — esperado, já que não tinha nenhum caso pra pegar; e que o achado 2, sozinho, é praticamente invisível nessa rodada (505 "não encontrados", igual a antes), porque a linha 6 nunca batia com produto nenhum mesmo sem a correção — o efeito real só ficaria visível quando o achado 3 fosse implementado.
+
+Na 2ª rodada, o usuário editou deliberadamente 3 células de preço num arquivo real (uma vazia, uma só com um traço "-", uma com um valor visivelmente corrompido) e manteve 1 célula com vírgula decimal válida (formato brasileiro, ex: "2592,11") pra testar se a correção não confundia formatação diferente com dado inválido. Resultado: "Prontos" caiu de 784 pra 781 (exatamente −3) e "Preço inválido no arquivo" mostrou exatamente 3 — os 3 casos realmente quebrados foram pegos, e o caso da vírgula foi processado normalmente como preço válido. Nenhuma outra categoria (divergente, novo, não encontrado, estoque) mudou de valor, confirmando que a correção não afetou nada fora do que devia. **Achados 1 e 2: corrigidos, commitados e validados com dado real.**
+
+Durante essa revisão, foi descoberto um detalhe novo sobre o achado 3: o cabeçalho esperado do arquivo exportado da Shopee (`ID do Produto`, `SKU`, `Preço`, `Estoque do Vendedor`, `Variante Identificador`, `SKU de referência`) não tem nenhuma coluna de marca — então uma linha órfã não tem como ser associada a uma marca, e não pode ser agrupada "por marca" do jeito que as outras 4 abas de exceção já são.
+
+**Sessão de 03/09/2026, 11h04 — desenho final e correção do achado 3** — O usuário confirmou 2 pontos sobre o achado 3: (1) o arquivo exportado da Shopee traz mesmo a conta inteira, todas as marcas misturadas, não só as selecionadas naquele envio — confirmando a suspeita do Claude; e (2) o melhor caminho é comparar as linhas do arquivo contra o **catálogo inteiro** (todos os produtos, todas as marcas), não só as marcas selecionadas — uma linha que bate com produto de marca não selecionada é ignorada (esperado, não é problema); só é órfã de verdade a linha que não bate com produto nenhum, de marca nenhuma, no sistema inteiro. Como continua sem marca conhecida, as órfãs entram numa aba única por envio, não por marca — não existe outra forma de filtrar isso, uma aba só já resolve.
+
+Correção escrita no formato de sempre e aplicada pelo usuário (commit `2ac5009`, branch `dev`): lista nova `self.linhas_orfas` no processador (calculada no fim de `processar_modo_arquivo()`, comparando cada linha contra o SKU e o SKU de referência de todo `Produto.objects`, sem filtro de marca — linha sem SKU e sem SKU de referência fica de fora da checagem, decisão do Claude ainda não confirmada); gerador de Excel novo (`gerar_excel_linhas_orfas`, 1 aba só: ID do Produto, SKU, SKU de referência, preço, estoque); cache e view de download novos, sem marca na URL (`view_baixar_linhas_orfas`); rota nova em `urls.py`; bloco novo na tela de resultado (só aparece quando existe pelo menos 1 linha órfã); 3 regras de CSS novas pro estilo do bloco.
+
+Sincronizado e conferido ponto a ponto — os 10 pontos propostos bateram exatamente com o diff real, `tiktok/` confirmado intocado (nenhuma mudança), sintaxe validada com `py_compile`. Não foi possível rodar `manage.py check` do Django nesse ambiente (só tem o clone do código, sem o Django instalado).
+
+**Sessão de 03/09/2026, 11h13 — teste real do achado 3 e explicação dos 757 itens** — O usuário subiu um arquivo real e o bloco novo apareceu certo na tela: "Linhas do arquivo sem produto no catálogo (757)", com o botão de baixar e o texto explicativo, sem afetar nenhuma das outras métricas (784 prontos, 505 não encontrados, resto zerado — idêntico ao teste anterior). Antes de aceitar o número, o Claude foi conferir o model `Produto` (`produtos/models/produto.py`) pra garantir que a comparação usa a mesma fonte de dado que o resto da classe já usa — confirmado: campo `sku` existe, é único, e não há nenhum manager customizado filtrando `Produto.objects` por padrão (ex.: só produtos ativos) — é o mesmo `objects` usado em todo o resto do arquivo, só sem o filtro de marca.
+
+O usuário explicou o motivo provável do número: o banco (`Produto`) só traz produtos ativos no ERP — e faz tempo que não é feita uma limpeza dos anúncios na Shopee, então é esperado que existam muitos anúncios que já saíram do ERP mas nunca foram desativados/limpos na própria plataforma. Ou seja, os 757 provavelmente são, em boa parte, esse "ruído" acumulado — não um bug na comparação, e sim o próprio achado 3 finalmente dando visibilidade a um problema de dado que já existia silenciosamente antes. **Achado 3: corrigido, commitado e testado com dado real — o código está funcionando como desenhado.**
+
+Ficou pendente, por decisão do usuário: uma investigação melhor sobre exatamente o que são esses 757 itens, e confirmar se são mesmo anúncios inativos (a hipótese acima) — o usuário vai fazer essa análise com calma quando tiver tempo. Isso é limpeza/investigação de dado da Shopee, não é mais correção de código.
+
+**Sessão de 03/09/2026, 11h18 — achado 4 confirmado, sem necessidade de correção** — O Claude explicou em detalhe o que a validação `0 < desconto_percentual < 100` significa na prática (0% geraria um preço final idêntico ao da plataforma, sem desconto de verdade; 100% zeraria o preço, dando o produto de graça) e observou que o TikTok tem exatamente a mesma regra copiada (`tiktok/views.py`, linha 110), então a decisão vale pros 2 marketplaces quando o TikTok for revisado. O usuário confirmou que rejeitar os 2 extremos é o comportamento esperado — **nenhuma correção necessária no achado 4.**
+
+Com isso, os 4 achados desta rodada na Shopee estão resolvidos (3 corrigidos e testados, 1 confirmado como já correto). Fica pendente, sem prazo e por conta do usuário, a investigação de dado sobre os 757 itens órfãos do achado 3 — isso não bloqueia considerar a Shopee revisada. O próximo passo de código é repetir essa revisão inteira no Modo Arquivo do TikTok.
+
+## Em aberto
+
+- [x] Escrever e aplicar a correção do achado 1 (salvaguarda contra preço vazio/inválido no Modo Arquivo) — aplicada pelo usuário (commit `94d3b17`) e validada com dado real, inclusive com teste deliberado de preço quebrado (784→781 prontos, exatamente 3 casos pegos).
+- [x] Escrever e aplicar a correção do achado 2 (`primeira_linha_dado` de 6 pra 7) — aplicada pelo usuário (commit `94d3b17`); efeito visível de verdade só junto do achado 3.
+- [x] Fechar o desenho, escrever e testar a implementação do achado 3 (aba única de linhas órfãs, comparando contra o catálogo inteiro) — aplicada pelo usuário (commit `2ac5009`), conferida no código ponto a ponto e testada com arquivo real (757 linhas órfãs apareceram certo na tela nova).
+- [x] Confirmar com o usuário se a rejeição de desconto 0%/100% (achado 4) é o comportamento esperado — confirmado que sim, sem necessidade de correção.
+- [ ] Investigar com calma o que exatamente são os 757 itens encontrados pelo achado 3, e confirmar se são mesmo anúncios inativos (hipótese: produtos que saíram do ERP e nunca foram limpos/desativados na Shopee) — tarefa do usuário, de dado/limpeza de anúncio, não de código, sem prazo definido.
+- [ ] Repetir a mesma revisão (achados 1 a 4) no Modo Arquivo do TikTok (mesma lógica, duplicada de propósito no código — a regra do achado 4 já está confirmada igual pros 2 marketplaces; os outros 3 achados podem ou não se repetir lá).
+
+## Relacionado
+
+- [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]]
+- [[Marca com Barra Quebra Link de Download de Promocao]]

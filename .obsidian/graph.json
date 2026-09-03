@@ -22,31 +22,10 @@
       }
     },
     {
-      "query": "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-      "color": {
-        "a": 1,
-        "rgb": 1357989
-      }
-    },
-    {
       "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
       "color": {
         "a": 1,
         "rgb": 6322314
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp\"",
-      "color": {
-        "a": 1,
-        "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
       }
     },
     {
@@ -57,24 +36,10 @@
       }
     },
     {
-      "query": "path:\"03_Sistema_Interno/Conceitos\"",
+      "query": "path:\"04_Integracao_Sysemp\"",
       "color": {
         "a": 1,
-        "rgb": 959977
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Decisoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 9647082
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Tutoriais\"",
-      "color": {
-        "a": 1,
-        "rgb": 7877903
+        "rgb": 6514417
       }
     },
     {
@@ -85,17 +50,17 @@
       }
     },
     {
-      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 7355382
-      }
-    },
-    {
       "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
       "color": {
         "a": 1,
         "rgb": 15485081
+      }
+    },
+    {
+      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
       }
     },
     {
@@ -116,6 +81,6 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.2726859917359883,
+  "scale": 0.07058167567046002,
   "close": false
 }

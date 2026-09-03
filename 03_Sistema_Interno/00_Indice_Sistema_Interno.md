@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 30/08/2026 17:58
+atualizado_em: 03/09/2026 11:18
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -104,11 +104,19 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]] | decisao | ativa | 17/08/2026 | Shopee só tinha modo Grade pra gerar promoção — ganhou o modo Arquivo (preço já correto na plataforma + desconto manual, sem checar Grade/estoque/divergência), espelhando a arquitetura do TikTok. Validado com upload real. |
-| [[Marca com Barra Quebra Link de Download de Promocao]] | bug_conhecido | corrigido | 17/08/2026 | Marca real "DELLAMED/SUPERMEDY" quebrava `NoReverseMatch` no link de download (Shopee e TikTok, mesma rota) — conversor `str` da URL não aceita "/". Corrigido pra `path`; nome de arquivo também sanitizado (barra→hífen). |
 | [[Formula de Margem e Rebate de Promocao]] | Decisão | Ativo | 12/07/2026 | Fórmula "preço→margem" (direção inversa ao Goal Seek documentado) implementada em `calculo_margem.py`, validada em 3 casos reais contra a planilha oficial; rebate de promoção (só SMART confirmado com `meli_percentage`) abate direto da comissão via `rebate_valor=preco_original×meli_percentage/100` (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Hierarquia e Comportamentos de Recomendação de Precificação]] | Decisão | Ativo | 12/07/2026 | Definidos 4 buckets de recomendação (ganha catálogo × dentro/fora da margem mínima de 15%) e 3 comportamentos (Padrão, Busca-Lucro, Disputa) para a tela de Recomendação de Precificação de Catálogo; comportamento "Promocional" cogitado e descartado por ser idêntico ao Padrão (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Redesenho_Estados_Hub_Promocoes]] | decisao | pendente-validacao | 12/07/2026 | Redesenho separa Estado Atual de Ação Recomendada no Hub de Promoções, definindo 4 estados por MLB (Sem oportunidade, Candidato a participar, Oportunidade de troca, Otimizado) — só 2 exibem botão de ação; premissa de no máximo 1 promoção ativa por MLB ainda pendente de validação com o superior (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
+
+## Geradores_de_Promocoes
+
+Contexto novo (criado em 03/09/2026) — reorganização do que antes vivia solto em `Precificacao`, separando o padrão de geração manual de promoção (upload de arquivo da própria plataforma + desconto manual, sem cálculo de margem) do motor de recomendação automática do Mercado Livre, que continua em `Precificacao` (assuntos diferentes, apesar do nome parecido). Migração concluída: as 2 notas abaixo saíram da tabela de `Precificacao` e os 2 arquivos antigos (`Precificacao/Decisoes/` e `Precificacao/Bugs_Conhecidos/`) já foram apagados fisicamente pelo usuário e a exclusão foi conferida. A pasta `Precificacao/Bugs_Conhecidos/` ficou vazia depois disso — sem problema, mas pendente de o usuário decidir se quer apagá-la também.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]] | decisao | ativa | 17/08/2026 | Shopee só tinha modo Grade pra gerar promoção — ganhou o modo Arquivo (preço já correto na plataforma + desconto manual, sem checar Grade/estoque/divergência), espelhando ponto a ponto a arquitetura já validada do TikTok (desde 23/07/2026). Validado com upload real. |
+| [[Marca com Barra Quebra Link de Download de Promocao]] | bug_conhecido | corrigido | 17/08/2026 | Marca real "DELLAMED/SUPERMEDY" quebrava `NoReverseMatch` no link de download (Shopee e TikTok, mesma rota) — conversor `str` da URL não aceita "/". Corrigido pra `path`; nome de arquivo também sanitizado (barra→hífen). |
+| [[Revisao e Correcao do Codigo dos Geradores de Promocao]] | checkpoint | em_andamento | 03/09/2026 | Revisão do Modo Arquivo da Shopee concluída: os 4 achados resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 — desconto 0%/100% — confirmado como já correto). Fica pendente, por conta do usuário, investigar os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos). Só falta repetir a revisão no Modo Arquivo do TikTok. |
 
 ## Importacao_de_Dados
 
