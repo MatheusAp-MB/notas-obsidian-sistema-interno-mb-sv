@@ -3,16 +3,16 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 01/09/2026
-atualizado_em: 02/09/2026 03:14
+atualizado_em: 03/09/2026 07:23
 relacionado: [Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja, Definição do Núcleo de Engenharia Repositório, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET, Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]
 ---
 
 # Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial
 
-**Resumo do estado atual**: a arquitetura de entrega do app está 100% validada e fixada (ver [[Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja]]) — era o requisito mais crítico do projeto, e não tem mais pendência nele. A restrição de banco de dados foi refinada: SQLite está liberado (zero instalação), o que não pode é complexidade tipo MySQL/Workbench. O projeto passou a seguir o mesmo padrão de qualidade de código do [[Definição do Núcleo de Engenharia Repositório|núcleo de engenharia]] do Sistema Interno, mesmo sendo repositório separado — a separação é só operacional. Falta todo o resto da solução: catálogo de peças, telas, e relatório final.
+**Resumo do estado atual**: o rascunho completo (catálogo de peças, telas de Produtos e Nova Devolução, geração de PDF) foi apresentado em 03/09/2026 e **100% aprovado**, rodando em modo desenvolvimento (`runserver`) numa rede local (LAN) — funcionou sem nenhum problema nesse modo. A partir de agora, o projeto deixa de ser prova de conceito e passa a ser desenvolvido como sistema real e robusto. O empacotamento como `.exe` segue sendo a única frente sem confirmação: 2 bugs reais de empacotamento foram encontrados e já têm correção proposta (ver linha do tempo, 03/09/2026), mas o build nunca chegou a ser recompilado com elas — o computador disponível tem HD muito lento, tornando cada ciclo de compilação do PyInstaller impraticável por ora. Não é "não funciona", é "ainda não foi possível testar direito".
 
-> [!success] Requisito crítico de entrega fechado — resto da implementação ainda por construir
-> Base de contexto e restrições fechada em 01/09/2026, 19:49. Arquitetura de entrega (app → Django) validada e decidida em 01/09/2026, 21:13 (ver nota de decisão linkada). Ainda faltam: catálogo de peças, telas, e relatório final.
+> [!success] Rascunho 100% aprovado — projeto vira desenvolvimento real
+> Apresentado e aprovado em 03/09/2026, 07:23, rodando via `runserver` em LAN. Pendência real restante: confirmar o `.exe` empacotado — 2 correções já diagnosticadas e propostas, ainda não testadas (HD lento do computador disponível impede o ciclo de build por ora).
 
 ## Linha do tempo
 
@@ -56,6 +56,15 @@ Na sequência, discutida e fechada uma reestruturação maior do fluxo de telas 
 
 **02/09/2026, 03:14** — Fechado o rascunho funcional da tela "Nova Devolução" + geração real do PDF de devolução, implementado ponto a ponto e testado a cada passo pelo usuário — detalhe completo em [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]] (nota de decisão nova, não duplicado aqui): busca real de produto/peças por código de barras, foto de produto e de peça exibidas na tela, lógica completa de quantidade/déficit (os 4 cenários), correção de um aviso de "confirmar reenvio" trocando o formulário pra GET, geração do PDF via `xhtml2pdf` com fotos incluídas (sem salvar nada no banco), e um ajuste visual final (fonte/espaçamento/fotos maiores, data em dd/mm/aaaa, removida a linha "Gerado em"). Usuário confirmou: "esta perfeito para um rascunho". Criado tutorial de como compilar e testar tanto em modo desenvolvimento quanto pelo `.exe` empacotado — ver [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]]; o teste com o `.exe` de verdade ainda não foi feito, fica pra amanhã.
 
+**03/09/2026, 07:23** — Retomado o trabalho depois de uma sessão de testes do `.exe` empacotado que tinha ficado sem fechamento formal no vault (a sessão terminou sem tempo de atualizar antes de sair) — registrado agora, de forma retroativa, pra não perder o achado. 2 bugs reais de empacotamento foram encontrados nessa sessão, ambos exclusivos do `.exe` (nunca aparecem rodando via `runserver`):
+
+1. **Import dinâmico do reportlab não detectado pelo PyInstaller**: ao abrir a tela de "Nova Devolução" dentro do `.exe`, o servidor caía com `ModuleNotFoundError: No module named 'reportlab.graphics.barcode.code128'`. Causa: o `xhtml2pdf` carrega, por baixo dos panos, um módulo do `reportlab` que monta suas classes de código de barras importando por string em tempo de execução (não um `import` escrito literalmente no código) — o PyInstaller só empacota o que consegue enxergar analisando o texto do código, então esse tipo de import passa despercebido. Correção proposta (ainda não testada): acrescentar a flag `--collect-submodules=reportlab.graphics.barcode` no comando de build do PyInstaller, forçando o empacotamento do subpacote inteiro.
+2. **Banco de dados do `.exe` sem migração aplicada**: depois de corrigir o bug acima, apareceu um 2º erro, `django.db.utils.OperationalError: no such table: devolucoes_produto`, ao abrir a tela "Produtos". Causa confirmada direto no código real (`launcher.py`, clonado do GitHub só pra leitura, sem sincronizar/editar/executar nada): o caminho do banco em `%APPDATA%\SistemaDevolucoes\` já está correto (bug antigo do `BASE_DIR`, ver entrada de 02/09/2026 01:06, continua resolvido), mas o `launcher.py` nunca chama a migração do Django contra esse banco — então um banco novo (1ª execução, ou depois de recompilar) fica sem nenhuma tabela criada. Correção proposta (ainda não testada): chamar `call_command("migrate", verbosity=0)` dentro do `launcher.py`, antes de subir o servidor — e, como o carregamento de management commands do Django também usa import dinâmico (mesmo motivo do bug 1), acrescentar também a flag `--collect-submodules=django.core.management.commands` no build, de forma preventiva.
+
+Nenhuma das 2 correções chegou a ser recompilada nem testada — faltou tempo antes da apresentação de hoje, e o computador disponível tem HD muito lento, o que torna cada ciclo de build do PyInstaller impraticável por ora. Por isso o `.exe` segue com status **desconhecido**, não **quebrado** — é diferente de um teste que já rodou e falhou.
+
+Pra hoje, a apresentação do rascunho foi feita rodando via `runserver` (modo desenvolvimento, dentro do VS Code), acessada por outro dispositivo na mesma rede local (mesmo Wi-Fi/LAN, pelo IP da máquina + porta, ex: `10.0.0.123:8000`) — funcionou sem nenhum problema, os 3 fluxos principais (Produtos, Catálogo, Nova Devolução + PDF) foram demonstrados normalmente. Resultado: o rascunho foi **100% aprovado**. A partir de agora, o projeto deixa de ser só uma prova de conceito — vai ser desenvolvido como sistema real e robusto.
+
 ## Em aberto
 
 - [x] Arquitetura de entrega do "app" — **fechada e decidida** (ver [[Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja]]). Sem pendência.
@@ -68,7 +77,7 @@ Na sequência, discutida e fechada uma reestruturação maior do fluxo de telas 
     - [x] JS novo (`script_nova_devolucao.js`) com a lógica completa de status (não simplificada — os 4 cenários reais)
     - [x] View/lógica de geração do PDF (template dedicado + `xhtml2pdf`), incluindo as fotos, devolvida direto como resposta HTTP — sem salvar nada no banco
     - [x] Testado com produto real do catálogo, incluindo fotos — usuário validou como "perfeito para um rascunho"
-    - [ ] Testar o PDF de dentro do `.exe` empacotado (só testado até agora em `runserver`) — ver [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]]
+    - [ ] Testar o `.exe` empacotado com as 2 correções propostas em 03/09/2026 (chamada de `migrate` automática no `launcher.py` + as 2 flags `--collect-submodules` no build do PyInstaller) — bloqueado por ora pelo HD lento do computador disponível, ver linha do tempo 03/09/2026 e [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]]
     - [ ] Ainda fora de escopo, por decisão do usuário: botão "Folha resumida", e qualquer persistência/histórico de devoluções
 
 ## Relacionado

@@ -116,22 +116,6 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.5359795996225575,
-  "close": false,
-  "cf-managed-queries": [
-    "path:\"00_Nucleo_Comportamento_Claude\"",
-    "path:\"01_Nucleo_Geral_Vault\"",
-    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-    "path:\"02_Nucleo_Engenharia_Repositorio\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
-    "path:\"03_Sistema_Interno\"",
-    "path:\"03_Sistema_Interno/Conceitos\"",
-    "path:\"03_Sistema_Interno/Decisoes\"",
-    "path:\"03_Sistema_Interno/Tutoriais\"",
-    "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"06_Producao_de_Imagens_e_Videos\"",
-    "path:\"Bases\""
-  ]
+  "scale": 0.2726859917359883,
+  "close": false
 }

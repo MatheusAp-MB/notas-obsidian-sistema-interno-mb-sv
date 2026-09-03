@@ -190,8 +190,9 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md",
     "07_Sistema_Relatorio_Devolucoes/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "07_Sistema_Relatorio_Devolucoes/Tutoriais",
@@ -204,7 +205,6 @@
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes",
     "07_Sistema_Relatorio_Devolucoes/Conceitos/Processo de Devolução de Produtos e os 3 Caminhos Possíveis.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md",
     "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints",
     "07_Sistema_Relatorio_Devolucoes/Conceitos",

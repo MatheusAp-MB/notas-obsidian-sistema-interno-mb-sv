@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/09/2026
-atualizado_em: 02/09/2026 03:14
+atualizado_em: 03/09/2026 07:23
 relacionado: [Regra do Índice Obrigatório]
 ---
 
@@ -23,7 +23,7 @@ Mundo criado em 01/09/2026 — projeto novo, completamente paralelo aos demais m
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 02/09/2026 | Catálogo, Produtos e edição de produto prontos. Nova Devolução funcional + PDF real gerado (rascunho validado pelo usuário) — falta testar dentro do .exe. |
+| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 03/09/2026 | Rascunho apresentado e 100% aprovado via runserver em LAN — projeto vira desenvolvimento real. .exe com 2 bugs de empacotamento diagnosticados, correção proposta ainda não testada (HD lento). |
 
 ## Decisoes
 
