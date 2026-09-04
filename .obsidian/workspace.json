@@ -18,8 +18,23 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "4c458d5849e6cc35",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -53,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "Revisao e Correcao do Codigo dos Geradores de Promocao",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -81,7 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 521.5
+    "width": 582.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -190,8 +205,10 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "b52b05f7ea280622",
+  "active": "4c458d5849e6cc35",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Shopee.md",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok.md",
     "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo dos Geradores de Promocao.md",
     "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints",
     "03_Sistema_Interno/Geradores_de_Promocoes/Decisoes/Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok.md",
@@ -226,8 +243,6 @@
     "00_Nucleo_Comportamento_Claude/00_Indice_Comportamento_Claude.md",
     "01_Nucleo_Geral_Vault/Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao).md",
     "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
-    "06_Producao_de_Imagens_e_Videos/00_Indice_Producao_de_Imagens_e_Videos.md",
-    "05_Integracao_Mercado_Livre/00_Indice_Integracao_Mercado_Livre.md",
     "Sem título.canvas"
   ]
 }

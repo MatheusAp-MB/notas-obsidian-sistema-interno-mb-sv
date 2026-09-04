@@ -3,17 +3,17 @@ tipo: checkpoint
 dominio: python
 status: em_andamento
 criado: 03/09/2026
-atualizado_em: 03/09/2026 11:18
-relacionado: [Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok, Marca com Barra Quebra Link de Download de Promocao]
-resumo: Revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. Só falta repetir essa revisão inteira no Modo Arquivo do TikTok.
+atualizado_em: 04/09/2026 08:33
+relacionado: [Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok, Marca com Barra Quebra Link de Download de Promocao, Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]
+resumo: Revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. A mesma revisão foi espelhada pro TikTok — ver [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]].
 ---
 
-# Revisão e Correção do Código dos Geradores de Promoção
+# Revisão e Correção do Código do Gerador de Promoção - Shopee
 
-**Resumo**: revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. Só falta repetir essa revisão inteira no Modo Arquivo do TikTok.
+**Resumo**: revisão de código do Modo Arquivo da Shopee — os 4 achados dessa rodada estão resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 confirmado como comportamento já correto, sem necessidade de correção). Fica pendente, por decisão do usuário, uma investigação de dado (não de código) sobre os 757 itens órfãos encontrados pelo achado 3. A mesma revisão foi espelhada pro TikTok — ver [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]].
 
-> [!warning] EM ANDAMENTO — Shopee 100% revisada, só falta o TikTok
-> Os 4 achados do Modo Arquivo da Shopee estão resolvidos: achados 1, 2 e 3 corrigidos, commitados (`94d3b17` e `2ac5009`) e testados com dado real; achado 4 (validação de desconto 0%/100%) confirmado pelo usuário como comportamento já correto — não precisou de nenhuma correção. Fica pendente, por conta do usuário e sem prazo definido, investigar melhor os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos na Shopee que já saíram do ERP). O único item de código que resta é repetir essa revisão inteira no Modo Arquivo do TikTok (mesma lógica, duplicada de propósito).
+> [!warning] EM ANDAMENTO — só falta a investigação de dado dos 757 itens (tarefa do usuário)
+> Os 4 achados do Modo Arquivo da Shopee estão resolvidos: achados 1, 2 e 3 corrigidos, commitados (`94d3b17` e `2ac5009`) e testados com dado real; achado 4 (validação de desconto 0%/100%) confirmado pelo usuário como comportamento já correto — não precisou de nenhuma correção. Fica pendente, por conta do usuário e sem prazo definido, investigar melhor os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos na Shopee que já saíram do ERP). Não há mais nenhum item de código pendente nesta nota — a revisão do TikTok agora tem checkpoint próprio, ver [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]].
 
 ## Linha do tempo
 
@@ -55,7 +55,9 @@ Ficou pendente, por decisão do usuário: uma investigação melhor sobre exatam
 
 **Sessão de 03/09/2026, 11h18 — achado 4 confirmado, sem necessidade de correção** — O Claude explicou em detalhe o que a validação `0 < desconto_percentual < 100` significa na prática (0% geraria um preço final idêntico ao da plataforma, sem desconto de verdade; 100% zeraria o preço, dando o produto de graça) e observou que o TikTok tem exatamente a mesma regra copiada (`tiktok/views.py`, linha 110), então a decisão vale pros 2 marketplaces quando o TikTok for revisado. O usuário confirmou que rejeitar os 2 extremos é o comportamento esperado — **nenhuma correção necessária no achado 4.**
 
-Com isso, os 4 achados desta rodada na Shopee estão resolvidos (3 corrigidos e testados, 1 confirmado como já correto). Fica pendente, sem prazo e por conta do usuário, a investigação de dado sobre os 757 itens órfãos do achado 3 — isso não bloqueia considerar a Shopee revisada. O próximo passo de código é repetir essa revisão inteira no Modo Arquivo do TikTok.
+Com isso, os 4 achados desta rodada na Shopee estão resolvidos (3 corrigidos e testados, 1 confirmado como já correto). Fica pendente, sem prazo e por conta do usuário, a investigação de dado sobre os 757 itens órfãos do achado 3 — isso não bloqueia considerar a Shopee revisada.
+
+**Sessão de 04/09/2026, 08h33 — checkpoint dividido por marketplace** — Depois de retomar a sessão em outro dia (a Shopee funcionando corretamente em produção, sem o usuário ainda ter olhado a fundo os 757 itens) e mirar a mesma revisão pro TikTok, o usuário decidiu que o checkpoint único ficaria melhor dividido em 1 nota por marketplace, em vez de continuar crescendo como uma nota só cobrindo os 2. Esta nota passou a existir só pro histórico e as pendências da Shopee; a análise e as correções do TikTok passaram a viver em [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]], nota nova e independente (mesmo padrão "Estado ao Longo do Tempo", começando pela análise de código já feita).
 
 ## Em aberto
 
@@ -64,9 +66,9 @@ Com isso, os 4 achados desta rodada na Shopee estão resolvidos (3 corrigidos e 
 - [x] Fechar o desenho, escrever e testar a implementação do achado 3 (aba única de linhas órfãs, comparando contra o catálogo inteiro) — aplicada pelo usuário (commit `2ac5009`), conferida no código ponto a ponto e testada com arquivo real (757 linhas órfãs apareceram certo na tela nova).
 - [x] Confirmar com o usuário se a rejeição de desconto 0%/100% (achado 4) é o comportamento esperado — confirmado que sim, sem necessidade de correção.
 - [ ] Investigar com calma o que exatamente são os 757 itens encontrados pelo achado 3, e confirmar se são mesmo anúncios inativos (hipótese: produtos que saíram do ERP e nunca foram limpos/desativados na Shopee) — tarefa do usuário, de dado/limpeza de anúncio, não de código, sem prazo definido.
-- [ ] Repetir a mesma revisão (achados 1 a 4) no Modo Arquivo do TikTok (mesma lógica, duplicada de propósito no código — a regra do achado 4 já está confirmada igual pros 2 marketplaces; os outros 3 achados podem ou não se repetir lá).
 
 ## Relacionado
 
 - [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]]
 - [[Marca com Barra Quebra Link de Download de Promocao]]
+- [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]]

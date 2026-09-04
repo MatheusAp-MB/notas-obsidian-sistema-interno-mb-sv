@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 03/09/2026 11:18
+atualizado_em: 04/09/2026 11:25
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -116,7 +116,8 @@ Contexto novo (criado em 03/09/2026) — reorganização do que antes vivia solt
 |---|---|---|---|---|
 | [[Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok]] | decisao | ativa | 17/08/2026 | Shopee só tinha modo Grade pra gerar promoção — ganhou o modo Arquivo (preço já correto na plataforma + desconto manual, sem checar Grade/estoque/divergência), espelhando ponto a ponto a arquitetura já validada do TikTok (desde 23/07/2026). Validado com upload real. |
 | [[Marca com Barra Quebra Link de Download de Promocao]] | bug_conhecido | corrigido | 17/08/2026 | Marca real "DELLAMED/SUPERMEDY" quebrava `NoReverseMatch` no link de download (Shopee e TikTok, mesma rota) — conversor `str` da URL não aceita "/". Corrigido pra `path`; nome de arquivo também sanitizado (barra→hífen). |
-| [[Revisao e Correcao do Codigo dos Geradores de Promocao]] | checkpoint | em_andamento | 03/09/2026 | Revisão do Modo Arquivo da Shopee concluída: os 4 achados resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 — desconto 0%/100% — confirmado como já correto). Fica pendente, por conta do usuário, investigar os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos). Só falta repetir a revisão no Modo Arquivo do TikTok. |
+| [[Revisao e Correcao do Codigo do Gerador de Promocao - Shopee]] | checkpoint | em_andamento | 03/09/2026 | Revisão do Modo Arquivo da Shopee concluída: os 4 achados resolvidos (1, 2 e 3 corrigidos, commitados e testados com dado real; achado 4 — desconto 0%/100% — confirmado como já correto). Fica pendente, por conta do usuário, investigar os 757 itens órfãos que o achado 3 revelou (provável ruído de anúncios antigos). |
+| [[Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok]] | checkpoint | em_andamento | 04/09/2026 | Espelhando a revisão da Shopee pro Modo Arquivo do TikTok — os 4 achados concluídos: achado 1 corrigido (`44e7513`/`32976ca`), achado 2 confirmado sem bug, achado 3 corrigido (`21184de`, linhas órfãs + listagem incompleta) e achado 4 já resolvido por extensão, todos validados com dado real e com upload real aceito pelo TikTok Shop. Pendente, não crítico, investigar possível inversão dos rótulos com_afiliado/sem_afiliado. |
 
 ## Importacao_de_Dados
 
