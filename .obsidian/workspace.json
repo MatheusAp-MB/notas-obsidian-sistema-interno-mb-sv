@@ -18,23 +18,8 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
-          },
-          {
-            "id": "4c458d5849e6cc35",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -205,10 +190,30 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "4c458d5849e6cc35",
+  "active": "b52b05f7ea280622",
   "lastOpenFiles": [
-    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Shopee.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Definição do Núcleo de Engenharia Repositório.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Padroes de Projeto GoF Quando Usar.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Padrao de Robustez para Clientes de API Externa.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Padrao de Qualidade e Clareza Estrutural do Repositorio.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Modelo Padrao de Arquivo de Teste.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Modelagem de Objeto e Encapsulamento.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Integridade e Fonte Unica de Dado.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Estrutura de Arquivo e Classe Python.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Disciplina de Testes Automatizados.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras",
+    "02_Nucleo_Engenharia_Repositorio/Conceitos/Sistema de Devoluções e Sistema Interno V2 — Mesma Empresa, Times Diferentes (Escritório e Barracão), Separação Hoje é Só de Rede.md",
+    "02_Nucleo_Engenharia_Repositorio/Conceitos",
+    "_to_delete/Sistema de Devoluções é o Mesmo Time do Sistema Interno V2 — Separação é Só de Rede, Não Organizacional (RENOMEADA, ver nota corrigida).md",
+    "07_Sistema_Relatorio_Devolucoes/Conceitos/Sistema de Devoluções e Sistema Interno V2 — Mesma Empresa, Times Diferentes (Escritório e Barracão), Separação Hoje é Só de Rede.md",
+    "07_Sistema_Relatorio_Devolucoes/Conceitos/Sistema de Devoluções é o Mesmo Time do Sistema Interno V2 — Separação é Só de Rede, Não Organizacional.md",
     "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Tiktok.md",
+    "_to_delete/atualizar_checkpoint_04_09_2026.py",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador).md",
+    "_to_delete/sed1M4B3t",
+    "_to_delete/atualizar_checkpoint_04_09.py",
+    "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo do Gerador de Promocao - Shopee.md",
     "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints/Revisao e Correcao do Codigo dos Geradores de Promocao.md",
     "03_Sistema_Interno/Geradores_de_Promocoes/Checkpoints",
     "03_Sistema_Interno/Geradores_de_Promocoes/Decisoes/Shopee Ganha Modo Arquivo de Promocao Igual ao TikTok.md",
@@ -222,27 +227,7 @@
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "07_Sistema_Relatorio_Devolucoes/Tutoriais",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md.tmp.25988.270215cac49d",
     "02_Nucleo_Engenharia_Repositorio/Definição do Núcleo de Engenharia Repositório.md",
-    "02_Nucleo_Engenharia_Repositorio/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md.tmp.24348.d4adba52ffaf",
-    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md.tmp.40080.75bd75878559",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes",
-    "07_Sistema_Relatorio_Devolucoes/Conceitos/Processo de Devolução de Produtos e os 3 Caminhos Possíveis.md",
-    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Revisao com Calma das Notas da Agenda de Videos - Pendencia Pos-Urgencia de Postagem.md",
-    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra.md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Correcao de Ponta a Ponta da Agenda de Videos (Drive Postagem Aprovacao ML Replicacao).md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Postagem, Verificacao e Replicacao Autonomas da Agenda de Videos.md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint - Portal do Drive (Upload Manual de Video Real pra Marca-EAN-Videos).md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checkpoint Testes Automatizados Agenda Videos.md",
-    "03_Sistema_Interno/Agenda_Videos/Checkpoints/Contexto Geral - Retomada em Outro Computador (Agenda de Videos).md",
-    "00_Nucleo_Comportamento_Claude/00_Indice_Comportamento_Claude.md",
-    "01_Nucleo_Geral_Vault/Contexto Geral - Retomada em Outro Computador (Reorganizacao dos Nucleos de Definicao).md",
-    "01_Nucleo_Geral_Vault/Estudo de Melhorias Visuais e Organizacionais do Vault (Potencial do Obsidian).md",
     "Sem título.canvas"
   ]
 }

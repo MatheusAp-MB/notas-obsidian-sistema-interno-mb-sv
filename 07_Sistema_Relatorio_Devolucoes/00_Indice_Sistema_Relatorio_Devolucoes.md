@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/09/2026
-atualizado_em: 03/09/2026 07:23
+atualizado_em: 04/09/2026 21:25
 relacionado: [Regra do Índice Obrigatório]
 ---
 
@@ -23,7 +23,7 @@ Mundo criado em 01/09/2026 — projeto novo, completamente paralelo aos demais m
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 03/09/2026 | Rascunho apresentado e 100% aprovado via runserver em LAN — projeto vira desenvolvimento real. .exe com 2 bugs de empacotamento diagnosticados, correção proposta ainda não testada (HD lento). |
+| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 04/09/2026 | Rascunho apresentado e 100% aprovado via runserver em LAN, validado por usuária final e superior — projeto vira desenvolvimento real. .exe com 2 bugs diagnosticados (correção ainda não testada); bloqueio de hardware (HD lento) resolvido com PC novo. |
 
 ## Decisoes
 
@@ -32,6 +32,7 @@ Mundo criado em 01/09/2026 — projeto novo, completamente paralelo aos demais m
 | [[Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja]] | decisao | concluida | 01/09/2026 | App entregue como .exe (PyInstaller onedir+noconsole), tela HTML de carregamento instantânea e ícone de bandeja (pystray) — validado ponta a ponta. |
 | [[Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo]] | decisao | concluida | 02/09/2026 | Tela "Produtos" nova (listagem+cadastro com foto), edição de dados do produto embutida no catálogo, e navegação simples entre as 2 telas diretas. |
 | [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]] | decisao | concluida | 02/09/2026 | Nova Devolução busca produto/peças reais, cobre os 4 cenários de conferência, e gera PDF de verdade via xhtml2pdf — sem salvar no banco, fluxo por GET. Rascunho validado. |
+| [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]] | decisao | concluida | 04/09/2026 | Banco muda de SQLite pra MySQL (padrão do Sistema Interno V2); modelo de entrega final fica pasta (--onedir) + atalho, sem instalador. Setup do MySQL manual só na 1ª vez, migrations automáticas depois. |
 
 ## Tutoriais
 
