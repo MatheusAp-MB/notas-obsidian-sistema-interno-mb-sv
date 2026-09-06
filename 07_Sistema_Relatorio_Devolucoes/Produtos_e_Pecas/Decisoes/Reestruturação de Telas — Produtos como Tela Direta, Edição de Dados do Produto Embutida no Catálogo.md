@@ -3,7 +3,7 @@ tipo: decisao
 dominio: python
 status: concluida
 criado: 02/09/2026
-atualizado_em: 02/09/2026 02:31
+atualizado_em: 04/09/2026 22:00
 relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]
 ---
 
@@ -39,6 +39,10 @@ Fluxo de telas do app fixado assim:
 2. **Tela "Produtos"** (`/produtos/`, view `produtos`): lista todos os produtos (foto, nome, marca, EAN), cada card leva pro catálogo daquele produto via EAN. Botão "Cadastrar produto" abre formulário inline (nome, marca, EAN, foto) — view `cadastrar_produto` ajustada pra aceitar foto e redirecionar de volta pra "Produtos" (antes redirecionava pro catálogo).
 3. **Tela de Catálogo/peças**: ganhou seção "Dados do produto" (nome/marca/EAN/foto editáveis, view nova `editar_produto`) e um link "← Voltar para Produtos". A busca por EAN continua igual, mas o card de "produto não encontrado" perdeu o formulário de cadastro embutido — só mostra a mensagem e o link de volta pra Produtos.
 4. **Navegação**: menu simples no topo (Nova Devolução | Produtos) presente nas 3 telas, com destaque visual da aba ativa (a tela de catálogo conta como "Produtos" ativo, por ser sub-tela desse fluxo).
+
+## Atualização — mobile-first confirmado (04/09/2026)
+
+Na revisão do mundo pra achar ruído entre rascunho e sistema robusto, o usuário confirmou: as 3 telas aqui definidas (Produtos, Catálogo/peças, Nova Devolução) são **mobile-first**, mas também precisam funcionar bem no PC — não é UX exclusiva de 1 dispositivo. Hoje só a tela de Catálogo recebeu uma passada de responsividade voltada a mobile (grade de tamanho fixo, card em largura total, área de toque maior — ver linha do tempo de 02/09/2026 em [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]); Produtos e Nova Devolução ainda não foram revisadas com esse critério — pendência registrada no checkpoint do mundo.
 
 ## Relacionado
 

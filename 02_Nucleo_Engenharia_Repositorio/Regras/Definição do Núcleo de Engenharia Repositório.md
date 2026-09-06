@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 05/09/2026
+atualizado_em: 04/09/2026 22:00
 relacionado: [Estrutura de Pastas de um Mundo, Definição do Núcleo Geral do Vault, Definição do Núcleo de Comportamento Claude, Registro dos Mundos Ativos, Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Sistema de Devoluções e Sistema Interno V2 — Mesma Empresa, Times Diferentes (Escritório e Barracão), Separação Hoje é Só de Rede]
 ---
 
@@ -66,7 +66,7 @@ A partir de agora, este núcleo também guarda `tipo: conceito` e `tipo: decisao
 - ✅ **Resolvida**: a sobreposição entre "Estrutura Modular de Scripts Python" (LEGADO, nunca verificada) e [[Estrutura de Arquivo e Classe Python]] (atual), achado da auditoria de coerência de 30/08/2026, foi resolvida pelo usuário apagando a nota do LEGADO (30/08/2026, 17:47) por considerá-la inútil. [[Estrutura de Arquivo e Classe Python]] segue como a única convenção deste tipo no núcleo.
 - ✅ **Resolvida**: a duplicação de conteúdo entre [[Disciplina de Testes Automatizados]] e [[Modelo Padrao de Arquivo de Teste]] — as 5 regras da seção "Visual" que eram reafirmadas em prosa no Modelo (match/case, `ids` do parametrize, tabela/Motivo, `xfail`, 4 fases) agora linkam de volta pra Disciplina como fonte única, mantendo só a aplicação concreta de cada uma. Frontmatter do Modelo também ganhou o campo `atualizado_em`, que faltava (30/08/2026, 18:25).
 - ✅ **Resolvida**: a divergência entre o `relacionado` do frontmatter e a seção "Relacionado" do corpo em [[Padrao de Qualidade e Clareza Estrutural do Repositorio]] — faltava `Reducao de Comandos de Management e Rotina Vira Botao` no corpo, adicionado (30/08/2026, 18:12).
-- ✅ **Reorganizado em pastas por tipo** (05/09/2026) — as 9 notas de regra e esta própria definição (também `tipo: regra`) movidas pra `Regras/`; `Conceitos/` já existia desde 04/09/2026. Segue a mesma lógica dos mundos reais (`03_Sistema_Interno/`, `07_Sistema_Relatorio_Devolucoes/`), onde só o índice fica solto na raiz — nenhuma exceção pro fato desta nota ser a definição do núcleo. Índice reescrito em tabelas agrupadas por `##` (Regras/Conceitos), corrigindo violação da própria [[Regra do Índice Obrigatório]] (era 1 tabela única, sem agrupamento).
+- ✅ **Reorganizado em pastas por tipo** (04/09/2026) — as 9 notas de regra e esta própria definição (também `tipo: regra`) movidas pra `Regras/`; `Conceitos/` já existia desde 04/09/2026. Segue a mesma lógica dos mundos reais (`03_Sistema_Interno/`, `07_Sistema_Relatorio_Devolucoes/`), onde só o índice fica solto na raiz — nenhuma exceção pro fato desta nota ser a definição do núcleo. Índice reescrito em tabelas agrupadas por `##` (Regras/Conceitos), corrigindo violação da própria [[Regra do Índice Obrigatório]] (era 1 tabela única, sem agrupamento).
 
 ## Relacionado
 

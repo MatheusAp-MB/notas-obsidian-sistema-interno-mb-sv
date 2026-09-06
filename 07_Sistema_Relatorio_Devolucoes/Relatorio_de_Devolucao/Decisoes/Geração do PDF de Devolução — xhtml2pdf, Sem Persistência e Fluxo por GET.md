@@ -1,15 +1,15 @@
 ---
 tipo: decisao
 dominio: python
-status: concluida
+status: em_andamento
 criado: 02/09/2026
-atualizado_em: 02/09/2026 03:14
+atualizado_em: 04/09/2026 22:00
 relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]
 ---
 
 # Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET
 
-**Resumo**: a tela "Nova Devolução" passou de formulário estático pra funcional de ponta a ponta: busca produto/peças reais do catálogo pelo código de barras, cobre os 4 cenários reais de conferência de peça (não recebida, parcial com déficit calculado, completa, completa com anotação), e gera um PDF de verdade com esses dados — sem salvar nada no banco, é gerado e servido na hora, execução única. Deixado explícito pelo usuário: este é um **rascunho aprovado**, não a versão final — o visual já foi ajustado uma vez (fonte/espaçamento/imagens maiores, data em dd/mm/aaaa, removida a linha "Gerado em"), mas pode evoluir mais.
+**Resumo**: a tela "Nova Devolução" passou de formulário estático pra funcional de ponta a ponta: busca produto/peças reais do catálogo pelo código de barras, cobre os 4 cenários reais de conferência de peça (não recebida, parcial com déficit calculado, completa, completa com anotação), e gera um PDF de verdade com esses dados. Na época (02/09/2026), era gerado e servido na hora, execução única, sem salvar nada no banco — **isso já não vale mais** (04/09/2026: confirmado que devoluções vão ser persistidas, ver seção "Reabertura" abaixo). Ficou explícito então que era um rascunho, não a versão final — o visual já tinha sido ajustado uma vez (fonte/espaçamento/imagens maiores, data em dd/mm/aaaa, removida a linha "Gerado em"), mas ainda evoluiria mais, como está evoluindo agora.
 
 > [!success] Decidido e implementado — 02/09/2026, 03:14
 > Testado com produto e peças reais do catálogo, incluindo fotos de produto e de peça aparecendo corretamente dentro do PDF. Usuário validou o resultado como "perfeito para um rascunho".
@@ -37,11 +37,17 @@ Antes de qualquer código, foram gerados e aprovados 3 mockups em sequência: (1
 ## Decisão
 
 Arquitetura do relatório de devolução fixada, como rascunho validado:
-- **Sem persistência**: nenhuma tabela nova de "Devolução" foi criada — o PDF é gerado a partir do que está no formulário no momento do clique, é uma execução única, não fica salvo nem reaberto depois.
+- **Sem persistência (válido só pro rascunho, revertido em 04/09/2026 — ver seção "Reabertura" abaixo)**: nenhuma tabela nova de "Devolução" foi criada — o PDF era gerado a partir do que estava no formulário no momento do clique, execução única, não ficava salvo nem reaberto depois.
 - **Fluxo por GET**: tanto a busca do produto quanto a geração do PDF são ações `GET` (query string), não `POST` — evita o aviso de reconfirmação do navegador e mantém consistência com o padrão já usado em Catálogo/Produtos.
 - **`xhtml2pdf` como biblioteca de PDF**: Python puro, sem dependência de sistema — ainda não testado dentro do `.exe` empacotado (só em `runserver` até agora), ver [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]].
 - **Lógica de quantidade/déficit implementada por completo** (não a versão simplificada cogitada inicialmente): peça de quantidade 1 é um checkbox; peça de quantidade maior que 1 vira "quantos vieram", com o déficit calculado dos dois lados (JS pra feedback visual, servidor pra montar o PDF de verdade).
-- **Em aberto, deliberadamente fora desta rodada**: botão "Folha resumida" (segue sem funcionar), qualquer forma de salvar/histórico de devoluções, e revisão de UX mais a fundo — o próprio usuário confirmou que essa é uma versão de rascunho, não a final.
+- **Em aberto, deliberadamente fora desta rodada**: botão "Folha resumida" (segue sem funcionar), e revisão de UX mais a fundo — o próprio usuário confirmou que essa é uma versão de rascunho, não a final. Persistência/histórico deixou de estar nesta lista — ver "Reabertura" abaixo.
+
+## Reabertura — persistência confirmada (04/09/2026)
+
+Na revisão do mundo inteiro pra achar ruído entre rascunho e sistema robusto, ficou confirmado pelo usuário: devoluções **vão sim ser persistidas** — "certeza que irão ser persistidas". O "sem persistência" acima valia só enquanto rascunho descartável; não vale mais.
+
+Ainda **não decidido** (fica pra quando for desenhado com calma): o schema de como fica esse histórico — 1 model `Devolucao` novo, o que exatamente ele guarda por peça conferida (situação, quantidade recebida, anotação, foto no momento?), se guarda o PDF gerado ou só os dados que o geraram, e como isso convive com o fluxo atual por GET/sem salvar nada (que provavelmente muda pra POST, já que passa a gravar estado). Fica marcado aqui como ponto em aberto do checkpoint do mundo, não implementado ainda.
 
 ## Relacionado
 

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 30/08/2026
-atualizado_em: 05/09/2026
+atualizado_em: 04/09/2026 22:00
 relacionado: [Definição do Núcleo de Engenharia Repositório, Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -11,7 +11,7 @@ relacionado: [Definição do Núcleo de Engenharia Repositório, Regra do Índic
 
 Índice obrigatório deste núcleo — 1 linha de resumo por nota, agrupado por tipo. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
 
-Reorganizado em pastas por tipo (05/09/2026) — mesma lógica das exceções de nível de mundo (ver [[Estrutura de Pastas de um Mundo]]): `Regras/` reúne a convenção de engenharia (o "como", inclusive esta própria definição do núcleo); `Conceitos/` reúne o contexto de negócio que atravessa mundos (o "porquê") — ver [[Definição do Núcleo de Engenharia Repositório]]. Até aqui os 10 arquivos ficavam soltos direto na raiz, em 1 tabela única sem agrupamento — violação da própria [[Regra do Índice Obrigatório]], corrigida agora.
+Reorganizado em pastas por tipo (04/09/2026) — mesma lógica das exceções de nível de mundo (ver [[Estrutura de Pastas de um Mundo]]): `Regras/` reúne a convenção de engenharia (o "como", inclusive esta própria definição do núcleo); `Conceitos/` reúne o contexto de negócio que atravessa mundos (o "porquê") — ver [[Definição do Núcleo de Engenharia Repositório]]. Até aqui os 10 arquivos ficavam soltos direto na raiz, em 1 tabela única sem agrupamento — violação da própria [[Regra do Índice Obrigatório]], corrigida agora.
 
 ## Regras
 

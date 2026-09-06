@@ -1,6 +1,6 @@
 {
   "collapse-filter": true,
-  "search": "Revisao e Correcao do Codigo dos Geradores de Promocao",
+  "search": "path:07_Sistema_Relatorio_Devolucoes  ",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -36,34 +36,6 @@
       }
     },
     {
-      "query": "path:\"03_Sistema_Interno\"",
-      "color": {
-        "a": 1,
-        "rgb": 3900150
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Decisoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 9647082
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Conceitos\"",
-      "color": {
-        "a": 1,
-        "rgb": 959977
-      }
-    },
-    {
-      "query": "path:\"03_Sistema_Interno/Tutoriais\"",
-      "color": {
-        "a": 1,
-        "rgb": 7877903
-      }
-    },
-    {
       "query": "path:\"04_Integracao_Sysemp\"",
       "color": {
         "a": 1,
@@ -78,10 +50,31 @@
       }
     },
     {
-      "query": "path:\"05_Integracao_Mercado_Livre\"",
+      "query": "path:\"03_Sistema_Interno\"",
       "color": {
         "a": 1,
-        "rgb": 16498468
+        "rgb": 3900150
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Conceitos\"",
+      "color": {
+        "a": 1,
+        "rgb": 959977
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Decisoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 9647082
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno/Tutoriais\"",
+      "color": {
+        "a": 1,
+        "rgb": 7877903
       }
     },
     {
@@ -92,10 +85,10 @@
       }
     },
     {
-      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "query": "path:\"05_Integracao_Mercado_Livre\"",
       "color": {
         "a": 1,
-        "rgb": 7355382
+        "rgb": 16498468
       }
     },
     {
@@ -103,6 +96,13 @@
       "color": {
         "a": 1,
         "rgb": 7041664
+      }
+    },
+    {
+      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
       }
     }
   ],
@@ -116,22 +116,22 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.07058167567046002,
-  "close": false,
+  "scale": 1.47698609806854,
+  "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
     "path:\"01_Nucleo_Geral_Vault\"",
     "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"02_Nucleo_Engenharia_Repositorio\"",
-    "path:\"03_Sistema_Interno\"",
-    "path:\"03_Sistema_Interno/Decisoes\"",
-    "path:\"03_Sistema_Interno/Conceitos\"",
-    "path:\"03_Sistema_Interno/Tutoriais\"",
     "path:\"04_Integracao_Sysemp\"",
     "path:\"04_Integracao_Sysemp/Regras\"",
-    "path:\"05_Integracao_Mercado_Livre\"",
+    "path:\"03_Sistema_Interno\"",
+    "path:\"03_Sistema_Interno/Conceitos\"",
+    "path:\"03_Sistema_Interno/Decisoes\"",
+    "path:\"03_Sistema_Interno/Tutoriais\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"Bases\""
+    "path:\"05_Integracao_Mercado_Livre\"",
+    "path:\"Bases\"",
+    "path:\"07_Sistema_Relatorio_Devolucoes\""
   ]
 }
