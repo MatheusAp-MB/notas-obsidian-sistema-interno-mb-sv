@@ -1,18 +1,18 @@
 ---
 tipo: decisao
 dominio: python
-status: em_andamento
+status: concluida
 criado: 05/09/2026
-atualizado_em: 05/09/2026 16:44
-relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]
+atualizado_em: 06/09/2026 14:54
+relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador), core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]
 ---
 
 # Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)
 
 **Resumo**: depois de fechada a migração pra MySQL + arquitetura multi-empresa (ver [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]), o usuário decidiu pausar toda outra frente (persistência de devoluções, auditoria mobile-first, pontos de melhoria do superior ainda não detalhados) pra focar 100% em fechar uma base estrutural sólida: organização correta de HTML/CSS/JS, herança real de template (`{% extends %}`) e uma tela "home" de verdade com navbar + seletores de módulo — tudo espelhando o padrão já usado no Sistema Interno V2, em vez de continuar com a estrutura improvisada de rascunho.
 
-> [!warning] Em andamento — escopo definido, implementação ainda não iniciada (05/09/2026, 16:44)
-> 3 pontos decididos pelo usuário como prioridade única, antes de qualquer outra melhoria: (1) organizar arquivos HTML/CSS/JS soltos incorretamente (ex: `loading.html` na raiz do projeto); (2) template base compartilhado com `{% extends %}`, eliminando a repetição de `<head>`/nav em cada tela; (3) tela "home" real, com navbar e quadradinhos seletores de módulo. Falta inspecionar a estrutura real do Sistema Interno V2 antes de detalhar os passos técnicos de cada ponto.
+> [!success] Concluída — 3 pontos fechados e validados tela por tela (06/09/2026, 14:54)
+> `loading.html` organizado fora da árvore Django; template base (`{% extends %}`) implementado com sidebar + toolbar (ajuste em relação ao plano original, que previa navbar — o Sistema Interno V2 usa sidebar, não navbar); tela home criada com quadradinhos de módulo; as 3 telas reais migradas, eliminando a duplicação de `<head>`/nav e de CSS por página. Durante a execução apareceu uma 4ª frente não prevista — ver [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]].
 
 ## Contexto
 
@@ -35,21 +35,24 @@ Diferente de outras decisões deste mundo (ex: [[Sistema Vira Real — MySQL com
 ## Decisão
 
 - **Prioridade 100% nesta reforma estrutural**, pausando explicitamente: pontos de melhoria do superior (ainda não detalhados), persistência de devoluções (schema do model `Devolucao`), e auditoria mobile-first de Produtos/Nova Devolução. Nenhum desses 3 itens é descartado — só adiado até esta base fechar.
-- **3 frentes da reforma**, nenhuma iniciada ainda:
-    1. Organizar corretamente todo HTML/CSS/JS do projeto (a começar por `loading.html`, hoje solto na raiz).
-    2. Introduzir template base compartilhado via `{% extends %}`, eliminando a duplicação de `<head>`/nav entre as telas.
-    3. Criar uma tela "home" real — navbar + quadradinhos seletores de módulo — como base sólida de navegação do sistema, no lugar de abrir direto em Nova Devolução.
+- **3 frentes da reforma, todas concluídas em 06/09/2026**:
+    1. Organizar corretamente todo HTML/CSS/JS do projeto — `loading.html` movido pra `launcher_recursos/`, com `launcher.py` e `gerar_exe.py` atualizados junto.
+    2. Template base compartilhado via `{% extends %}`, eliminando a duplicação de `<head>`/nav entre as telas — e também a duplicação de CSS por página, que ficou redundante depois da migração.
+    3. Tela "home" real — sidebar + toolbar + quadradinhos seletores de módulo (Nova Devolução, Produtos) — como base sólida de navegação; URL raiz movida pra home, Nova Devolução ganhou path próprio (`/nova-devolucao/`).
+
+Durante a execução, surgiu uma 4ª frente não prevista: o app `core` dividia o nome com a pasta de settings do projeto (criado desde o início como `django-admin startproject core`), o que travava dar ao app `core` seu próprio `urls.py`. Corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv` — ver [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]].
 
 ## Em aberto
 
-- [ ] Decidir como inspecionar a estrutura real do Sistema Interno V2 (clone read-only, ou descrição do usuário) — passo prévio a qualquer plano técnico detalhado
-- [ ] Organizar HTML/CSS/JS soltos ou mal posicionados (`loading.html` na raiz é o caso já identificado; conferir se há mais, uma vez vista a estrutura de referência)
-- [ ] Desenhar e implementar o template base (`{% extends %}`), migrando as 3 telas existentes pra herdar dele
-- [ ] Desenhar e implementar a tela "home" (navbar + quadradinhos seletores de módulo), incluindo decidir a nova URL raiz e pra onde Nova Devolução se move
-- [ ] Validar, tela por tela, que nada quebrou depois da migração pra template base (Produtos, Nova Devolução, Catálogo)
+- [x] Decidir como inspecionar a estrutura real do Sistema Interno V2 — feito via clone read-only, autorizado explicitamente pelo usuário
+- [x] Organizar HTML/CSS/JS soltos ou mal posicionados — `loading.html` movido pra `launcher_recursos/`, referências em `launcher.py`/`gerar_exe.py` atualizadas
+- [x] Desenhar e implementar o template base (`{% extends %}`), migrando as 3 telas existentes pra herdar dele
+- [x] Desenhar e implementar a tela "home" (sidebar + toolbar + quadradinhos seletores de módulo — não navbar, ver nota no callout), incluindo mover a URL raiz e o path de Nova Devolução
+- [x] Validar, tela por tela, que nada quebrou depois da migração pra template base (Produtos, Nova Devolução, Catálogo) — incluindo a troca de empresa entre MAGAZINE e SAMVALE
 
 ## Relacionado
 
 - [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]
 - [[Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo]]
 - [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]]
+- [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]]

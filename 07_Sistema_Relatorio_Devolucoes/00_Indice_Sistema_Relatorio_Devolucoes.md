@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 05/09/2026 17:46
+atualizado_em: 06/09/2026 14:54
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -20,7 +20,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]] | decisao | em_andamento | 05/09/2026 | 2 bancos MySQL, driver `mysqlclient` e troca de empresa/alias samvale — todos validados de ponta a ponta. Falta só operação: setup na máquina de produção (barracão). |
-| [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] | decisao | em_andamento | 05/09/2026 | Foco 100% atual: organizar HTML/CSS/JS soltos, criar template base (`{% extends %}`) e tela home (navbar + quadradinhos), espelhando o Sistema Interno V2. Escopo definido; implementação ainda não iniciada. |
+| [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] | decisao | concluida | 06/09/2026 | Organização de arquivos, template base (`{% extends %}`, sidebar+toolbar) e tela home implementados e validados nas 3 telas reais, espelhando o Sistema Interno V2. |
 
 ## Checkpoints
 
@@ -28,7 +28,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 05/09/2026 | MySQL e troca de empresa/alias samvale validados de ponta a ponta. Foco atual (05/09) é 100% na reforma estrutural. Falta ainda: setup no PC de produção (barracão) e pontos de melhoria do superior (não detalhados). |
+| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 06/09/2026 | MySQL, multiempresa e reforma estrutural validados de ponta a ponta. Falta: setup no PC de produção (barracão) e pontos de melhoria do superior (não detalhados, liberados pra retomar). |
 
 ## Produtos_e_Pecas
 
@@ -55,6 +55,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[2 Bugs Reais no .exe Empacotado — Import Dinâmico do reportlab e Migração Não Chamada]] | descoberta | ativa | 05/09/2026 | `reportlab.graphics.barcode` e `django.core.management.commands` usam import dinâmico por string — PyInstaller não detecta sozinho, precisou flag explícita; migração do Django não era chamada pelo `launcher.py`, banco novo ficava sem tabela. |
 | [[PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não]] | descoberta | ativa | 05/09/2026 | `--collect-submodules=core` não funcionava pra módulo só referenciado por string única (`MIDDLEWARE`/`DATABASE_ROUTERS`) — a flag certa nesse caso é `--hidden-import` no módulo exato; `--collect-submodules` serve pra pacote tipo plugin. |
 | [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]] | descoberta | ativa | 05/09/2026 | `BASE_DIR` aponta pra pasta recriada a cada build dentro do `.exe` — 1ª correção (`%APPDATA%` condicional por `sys.frozen`) funcionou mas o usuário rejeitou o resultado; solução final: caminho fixo via variável `DADOS_DIR` no `.env`, igual em qualquer ambiente. |
+| [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]] | descoberta | ativa | 06/09/2026 | `core` era pasta de settings do Django *e* app compartilhado ao mesmo tempo (`startproject core`) — travava separar o `urls.py` do app. Corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv`. |
 
 ## Relacionado
 

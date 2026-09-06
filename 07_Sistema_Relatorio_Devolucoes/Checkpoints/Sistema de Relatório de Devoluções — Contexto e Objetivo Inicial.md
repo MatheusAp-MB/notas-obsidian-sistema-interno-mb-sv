@@ -3,16 +3,16 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 01/09/2026
-atualizado_em: 05/09/2026 17:46
-relacionado: [Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador), Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2), Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Checkpoint - Catálogo de Peças e Tela de Produtos, Checkpoint - Tela de Nova Devolução e Geração do PDF, Checkpoint - Empacotamento e Entrega do .exe]
+atualizado_em: 06/09/2026 14:54
+relacionado: [Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador), Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2), Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Checkpoint - Catálogo de Peças e Tela de Produtos, Checkpoint - Tela de Nova Devolução e Geração do PDF, Checkpoint - Empacotamento e Entrega do .exe, core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]
 ---
 
 # Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial
 
-**Resumo do estado atual**: mundo criado em 01/09/2026 pra resolver a dor dos caminhos 2 e 3 da devolução (ver [[Processo de Devolução de Produtos e os 3 Caminhos Possíveis]]). Rascunho completo apresentado e 100% aprovado em 03/09/2026. Virada pra sistema real fechada em 04-05/09/2026: banco muda pra MySQL (2 bancos, 1 por empresa) e arquitetura multi-empresa replicada do Sistema Interno V2 — detalhe completo em [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]]. Testado de ponta a ponta em 05/09/2026, incluindo a troca de empresa. O que resta dessa frente é só operação (setup em produção), não mais mecanismo. A partir de 05/09/2026 (16:44), o foco muda pra uma reforma estrutural do projeto — ver [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]].
+**Resumo do estado atual**: mundo criado em 01/09/2026 pra resolver a dor dos caminhos 2 e 3 da devolução (ver [[Processo de Devolução de Produtos e os 3 Caminhos Possíveis]]). Rascunho completo apresentado e 100% aprovado em 03/09/2026. Virada pra sistema real fechada em 04-05/09/2026: banco muda pra MySQL (2 bancos, 1 por empresa) e arquitetura multi-empresa replicada do Sistema Interno V2 — detalhe completo em [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]]. Testado de ponta a ponta em 05/09/2026, incluindo a troca de empresa. Reforma estrutural (organização de arquivos, template base com extends, tela home) fechada em 06/09/2026 — ver [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]]. O que resta é operação (setup em produção) e os pontos de melhoria do superior, ainda não detalhados.
 
-> [!success] MySQL + multiempresa validados de ponta a ponta — migração pra sistema real fechada
-> O que resta não é mais mecanismo, é operação: setup do MySQL na máquina de produção (barracão), atalho do Windows (ver [[Checkpoint - Empacotamento e Entrega do .exe]]) e reavaliar o pin do Django `6.0.6` quando o MySQL de lá for definido.
+> [!success] Reforma estrutural fechada — base sólida validada de ponta a ponta
+> MySQL, multiempresa e a reforma estrutural (app `core`, template base, tela home, URLs) estão todos validados. O que resta não é mais mecanismo, é operação/pendência externa: setup do MySQL na máquina de produção (barracão), atalho do Windows (ver [[Checkpoint - Empacotamento e Entrega do .exe]]), reavaliar o pin do Django `6.0.6`, e os pontos de melhoria do superior (ainda não detalhados).
 
 ## Linha do tempo
 
@@ -24,12 +24,14 @@ relacionado: [Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atal
 
 **05/09/2026** — `mysqlclient` validado dentro do `.exe` empacotado (detalhe técnico de PyInstaller em [[Checkpoint - Empacotamento e Entrega do .exe]]). Corrigido o caminho de banco/mídia pra pasta fixa via `.env` (ver [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]]). Testada a troca de empresa (alias `samvale`) de ponta a ponta via `python launcher.py`: implementado `core/context_processors.py` + view/URL `trocar_empresa` + seletor na navegação — SAMVALE e MAGAZINE mostrando cada um só o próprio catálogo, isolamento confirmado nas 2 direções. Fecha a arquitetura multi-empresa por completo. Às 16:44, decidido pausar toda outra frente pra focar 100% numa reforma estrutural — ver [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]].
 
+**06/09/2026** — Reforma estrutural fechada: `loading.html` organizado fora da árvore Django; template base implementado com sidebar + toolbar (ajuste em relação ao plano original, que previa navbar — o Sistema Interno V2 usa sidebar); tela home criada com quadradinhos de módulo (Nova Devolução, Produtos); as 3 telas reais migradas pra herdar do template base, eliminando duplicação de `<head>`/nav e de CSS por página; URLs reorganizadas (`/` agora é a home, Nova Devolução move pra `/nova-devolucao/`). No meio do caminho apareceu uma descoberta não prevista: o app `core` dividia nome com a pasta de settings do projeto (criado como `django-admin startproject core`), travando a separação de `urls.py` — corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv` (ver [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]]). Tudo validado tela por tela, incluindo a troca de empresa entre MAGAZINE e SAMVALE.
+
 ## Em aberto
 
 - [ ] Setup manual do MySQL Server + criação do banco (schema) na máquina de produção (barracão) — feito só em desenvolvimento até agora
 - [ ] Reavaliar o pin do Django `6.0.6` quando o MySQL da máquina de produção for definido
-- [ ] Pontos de melhoria passados pelo superior em 04/09/2026 — ainda não detalhados. **Pausado em 05/09/2026**, foco 100% na reforma estrutural
-- [ ] Reforma estrutural — ver [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] pro checklist próprio
+- [ ] Pontos de melhoria passados pelo superior em 04/09/2026 — ainda não detalhados. Estava pausado até a reforma estrutural fechar; liberado pra retomar a partir de 06/09/2026
+- [x] Reforma estrutural — ver [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] (concluída em 06/09/2026)
 
 ## Relacionado
 
@@ -39,3 +41,4 @@ relacionado: [Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atal
 - [[Checkpoint - Catálogo de Peças e Tela de Produtos]]
 - [[Checkpoint - Tela de Nova Devolução e Geração do PDF]]
 - [[Checkpoint - Empacotamento e Entrega do .exe]]
+- [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]]

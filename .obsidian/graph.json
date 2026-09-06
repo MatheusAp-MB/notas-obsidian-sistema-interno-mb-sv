@@ -36,20 +36,6 @@
       }
     },
     {
-      "query": "path:\"04_Integracao_Sysemp\"",
-      "color": {
-        "a": 1,
-        "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
-      }
-    },
-    {
       "query": "path:\"03_Sistema_Interno\"",
       "color": {
         "a": 1,
@@ -78,10 +64,17 @@
       }
     },
     {
-      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
+      "query": "path:\"04_Integracao_Sysemp\"",
       "color": {
         "a": 1,
-        "rgb": 15485081
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp/Regras\"",
+      "color": {
+        "a": 1,
+        "rgb": 10424889
       }
     },
     {
@@ -92,10 +85,10 @@
       }
     },
     {
-      "query": "path:\"Bases\"",
+      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
       "color": {
         "a": 1,
-        "rgb": 7041664
+        "rgb": 15485081
       }
     },
     {
@@ -103,6 +96,13 @@
       "color": {
         "a": 1,
         "rgb": 7355382
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
       }
     }
   ],
@@ -116,22 +116,22 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 1.47698609806854,
+  "scale": 2.0707092497451467,
   "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
     "path:\"01_Nucleo_Geral_Vault\"",
     "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"02_Nucleo_Engenharia_Repositorio\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
-    "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"Bases\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\""
+    "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"07_Sistema_Relatorio_Devolucoes\"",
+    "path:\"Bases\""
   ]
 }

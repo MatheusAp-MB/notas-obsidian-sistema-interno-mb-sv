@@ -18,8 +18,23 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "24ea8dc8a9ca9366",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -81,7 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 936.8333740234375
+    "width": 550.8333740234375
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -190,8 +205,11 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "b52b05f7ea280622",
+  "active": "24ea8dc8a9ca9366",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo.md",
+    "_tmp_fechar_reforma.py",
+    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Reais no .exe Empacotado — Import Dinâmico do reportlab e Migração Não Chamada.md",
@@ -212,7 +230,6 @@
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Decisoes",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Conceitos",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2).md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo.md",
     "03_Sistema_Interno/Agenda_Videos/Checkpoints/Checklist Postagem e Replicacao Automatica - Fluxo Real Sem Gambiarra.md",
@@ -226,8 +243,6 @@
     "02_Nucleo_Engenharia_Repositorio/Regras/Modelagem de Objeto e Encapsulamento.md",
     "02_Nucleo_Engenharia_Repositorio/Regras/Integridade e Fonte Unica de Dado.md",
     "02_Nucleo_Engenharia_Repositorio/Regras/Estrutura de Arquivo e Classe Python.md",
-    "02_Nucleo_Engenharia_Repositorio/Regras/Disciplina de Testes Automatizados.md",
-    "02_Nucleo_Engenharia_Repositorio/Conceitos/Sistema de Devoluções e Sistema Interno V2 — Mesma Empresa, Times Diferentes (Escritório e Barracão), Separação Hoje é Só de Rede.md",
     "Sem título.canvas"
   ]
 }
