@@ -1,6 +1,6 @@
 {
   "collapse-filter": true,
-  "search": "path:07_Sistema_Relatorio_Devolucoes  ",
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -104,6 +104,13 @@
         "a": 1,
         "rgb": 7041664
       }
+    },
+    {
+      "query": "path:\"Claude outputs\"",
+      "color": {
+        "a": 1,
+        "rgb": 13430271
+      }
     }
   ],
   "collapse-display": true,
@@ -116,7 +123,7 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 2.0707092497451467,
+  "scale": 0.19450022690614488,
   "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
@@ -132,6 +139,7 @@
     "path:\"05_Integracao_Mercado_Livre\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
     "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"Bases\""
+    "path:\"Bases\"",
+    "path:\"Claude outputs\""
   ]
 }

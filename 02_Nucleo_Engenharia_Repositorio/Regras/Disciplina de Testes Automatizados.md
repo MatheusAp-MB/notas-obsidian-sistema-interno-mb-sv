@@ -3,8 +3,8 @@ tipo: regra
 dominio: testes
 status: ativa
 criado: 02/08/2026
-atualizado_em: 09/08/2026 19:10
-relacionado: [Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167, Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]
+atualizado_em: 06/09/2026 23:02
+relacionado: [Disciplina de Refatoracao - Quando Generalizar e Quando Deixar Simples, Nomenclatura e Comentarios, Estrutura de Arquivo e Classe Python, Modelo Padrao de Arquivo de Teste, Conceitos de Pytest Live de Python 167, Regras de Colaboracao no Repositorio de Codigo (Branch Dev), Listagem de Produtos Agrupada por Marca e Grupo com Busca ao Vivo e Carrossel Horizontal]
 ---
 
 # Disciplina de Testes Automatizados
@@ -137,6 +137,10 @@ Durante o planejamento da sincronização incremental com o Sysemp (mundo `03_In
 
 O usuário identificou a violação, apontou que a leitura inicial da regra tinha sido feita em `LEGADO/` (que não é fonte de verdade — ver [[Regras de Colaboracao no Repositorio de Codigo (Branch Dev)]]) em vez de aqui, e pediu a releitura correta. Correção: nenhuma execução própria daqui em diante, nem mesmo pra validar hipótese rápida ou lógica isolada — a validação sempre é entregue como texto pro usuário rodar.
 
+## Incidente real (06/09/2026) — reincidência, 1º caso fora do Sistema Interno V2
+
+Durante a implementação da listagem de Produtos agrupada por Marca/Grupo (ver [[Listagem de Produtos Agrupada por Marca e Grupo com Busca ao Vivo e Carrossel Horizontal]], repositório separado `Projeto-Sistema-Devolucao`, mundo `07_Sistema_Relatorio_Devolucoes`), Claude montou um ambiente Django + Playwright isolado (models espelhados num app descartável, banco SQLite em memória, template real renderizado de verdade) e **rodou ele sozinho** — inclusive um navegador headless pra testar busca e agrupamento — antes de entregar o código, reportando ao usuário "testei de ponta a ponta... antes de te passar". Mesmo padrão exato do incidente de 09/08/2026, agora confirmado num repositório diferente: ambiente isolado e dado sintético não são exceção válida — a regra proíbe qualquer execução própria, ponto final. Identificado pelo próprio Claude, ao reler esta nota a pedido do usuário ("releia o readme"), não apontado por ele diretamente desta vez. Reforça, pela 2ª vez confirmada, que "é só pra verificar" continua sendo a racionalização mais comum pra essa violação — e que a regra vale igual em qualquer repositório, não só onde ela nasceu.
+
 ## Motivo
 
 Reescrita grande sem rede de segurança (teste) é o cenário de maior risco de regressão silenciosa — e este projeto reescreve grande com frequência, de propósito.
@@ -147,3 +151,4 @@ Reescrita grande sem rede de segurança (teste) é o cenário de maior risco de 
 - [[Nomenclatura e Comentarios]]
 - [[Modelo Padrao de Arquivo de Teste]]
 - [[Conceitos de Pytest Live de Python 167]]
+- [[Listagem de Produtos Agrupada por Marca e Grupo com Busca ao Vivo e Carrossel Horizontal]]

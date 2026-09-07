@@ -3,16 +3,17 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 01/09/2026 20:42
+atualizado_em: 06/09/2026 23:02
 relacionado:
   - Disciplina de Testes Automatizados
   - Status Manual Atual Ignora Historico Quando Participacao Nao Existe
   - Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)
+  - Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown
 ---
 
 # Regras de Colaboração no Repositório de Código (branch dev)
 
-Regras vigentes desde que o trabalho passou a usar o clone real do repositório `https://github.com/MatheusAp-MB/Projeto_Sistema_Interno_V2`, sempre na branch `dev`. Valem enquanto esse repositório for a fonte do código sendo testado/discutido.
+Regras vigentes desde que o trabalho passou a usar o clone real do repositório `https://github.com/MatheusAp-MB/Projeto_Sistema_Interno_V2`, sempre na branch `dev`. Valem enquanto esse repositório for a fonte do código sendo testado/discutido — e, desde 01/09/2026, também em qualquer outro repositório de código que o usuário trabalhe (ver [[Definição do Núcleo de Engenharia Repositório]], seção "Expansão de escopo").
 
 ## Sincronizar só quando pedido
 
@@ -48,7 +49,11 @@ Reincidiu uma 4ª vez em 15/08/2026 (14:30), na versão mais grave até agora �
 
 Reincidiu uma 5ª vez em 22/08/2026, durante a entrega de um arquivo de teste novo do Portal do Drive (`test_nivel_4__view_portal_drive_sincronizar.py`): Claude usou a ferramenta de criar arquivo pra salvar o teste na pasta de output do sandbox e apresentou como card de arquivo (`present_files`), em vez de colar o código como texto na mensagem — o mesmo erro de fundo dos incidentes de 05/08 e 09/08, mesmo já reforçado 2 vezes que "é só rascunho"/"scratchpad" não é exceção. O usuário pediu pra reler as regras de comportamento sem apontar o erro específico ("acho que voce fez coisa errada"), exigindo autodiagnóstico antes da confirmação. Corrigido na hora: o arquivo inteiro foi re-entregue como texto puro na conversa, e a disciplina foi mantida sem desvio no resto da sessão (~10 arquivos de teste novos, todos como texto, inclusive verificação de sintaxe feita só via `ast.parse` sobre stdin, nunca escrevendo em disco).
 
-Reincidiu uma 6ª vez em 25/08/2026, numa sessão do Cowork (produto diferente do Claude Code onde os 5 incidentes anteriores aconteceram, mas mesmo repositório real, mesma regra — a regra não é específica de uma interface): ao entregar o script novo `scripts_dev/gerar_inventario_drive_magazine.py` (relatório de produtos sem vídeo + correção do critério `tem_video_real` — ver [[Relatorio de Produtos Sem Video Restrito a Ausencia Total de Estrutura no Drive]]), Claude usou a ferramenta de criar arquivo (`Write`) pra salvar o script dentro do clone-sandbox próprio, e em seguida a ferramenta de apresentar arquivo (`SendUserFile`) pra entregá-lo como card — em vez de colar o código como texto na própria mensagem, do início ao fim. Mesmo padrão de fundo dos 5 incidentes anteriores. Diferença desta vez: a sessão era uma CONTINUAÇÃO pós-compactação de contexto — a releitura desta pasta de regras (que deveria acontecer antes de agir num repositório de código real) não tinha acontecido ainda quando o arquivo foi criado. Identificado pelo próprio Claude, não pelo usuário — só na sessão seguinte, ao reler o vault a pedido do usuário (motivo: migração de computador). Corrigido de forma retroativa: o código completo foi registrado como texto dentro da nota de decisão linkada acima, mas o correto desde o início era ter sido colado como texto direto na conversa. **Já são 6 incidentes confirmados desta mesma regra — é o ponto mais reincidente de todas as regras deste arquivo, agora confirmado em 2 produtos diferentes (Claude Code e Cowork), o que indica que a causa não é a ferramenta disponível, e sim o hábito de recorrer a ela por conveniência.**
+Reincidiu uma 6ª vez em 25/08/2026, numa sessão do Cowork (produto diferente do Claude Code onde os 5 incidentes anteriores aconteceram, mas mesmo repositório real, mesma regra — a regra não é específica de uma interface): ao entregar o script novo `scripts_dev/gerar_inventario_drive_magazine.py` (relatório de produtos sem vídeo + correção do critério `tem_video_real` — ver [[Relatorio de Produtos Sem Video Restrito a Ausencia Total de Estrutura no Drive]]), Claude usou a ferramenta de criar arquivo (`Write`) pra salvar o script dentro do clone-sandbox próprio, e em seguida a ferramenta de apresentar arquivo (`SendUserFile`) pra entregá-lo como card — em vez de colar o código como texto na própria mensagem, do início ao fim. Mesmo padrão de fundo dos 5 incidentes anteriores. Diferença desta vez: a sessão era uma CONTINUAÇÃO pós-compactação de contexto — a releitura desta pasta de regras (que deveria acontecer antes de agir num repositório de código real) não tinha acontecido ainda quando o arquivo foi criado. Identificado pelo próprio Claude, não pelo usuário — só na sessão seguinte, ao reler o vault a pedido do usuário (motivo: migração de computador). Corrigido de forma retroativa: o código completo foi registrado como texto dentro da nota de decisão linkada acima, mas o correto desde o início era ter sido colado como texto direto na conversa.
+
+Reincidiu uma 7ª vez em 06/09/2026, agora no repositório separado `Projeto-Sistema-Devolucao` (mundo `07_Sistema_Relatorio_Devolucoes`, 1º caso confirmado fora do `Projeto_Sistema_Interno_V2`): ao entregar os mockups e os arquivos reais da regra de negócio Marca/Produto e da listagem de Produtos agrupada (ver [[Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown]]) — `produto_form.html`, `script_produto_form.js`, `layout_produto_form.css`, `produtos.html`, `layout_produtos.css`, `script_produtos.js`, entre outros — Claude usou a ferramenta de criar arquivo e apresentou cada um como card via `SendUserFile`, em vez de colar o código como texto na própria mensagem. Mesmo padrão de fundo dos 6 incidentes anteriores, agora confirmado fora do repositório onde a regra nasceu — reforça que ela vale pra qualquer repositório de código real, exatamente como a expansão de escopo do núcleo de engenharia já previa (ver [[Definição do Núcleo de Engenharia Repositório]]). Identificado pelo próprio Claude, ao reler esta pasta de regras a pedido do usuário ("releia o readme"), não apontado por ele diretamente desta vez.
+
+**Já são 7 incidentes confirmados desta mesma regra — agora em 3 produtos/repositórios diferentes (Claude Code, Cowork, e 2 repositórios de código distintos), o que reforça que a causa não é a ferramenta disponível nem o projeto específico, e sim o hábito de recorrer à criação de arquivo por conveniência.**
 
 ## O vault é a fonte de verdade
 
@@ -135,3 +140,4 @@ Substitua:
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]]
 - [[Reorganizacao de Nomenclatura de Campos XML e Cadastro na API Sysemp]]
 - [[Relatorio de Produtos Sem Video Restrito a Ausencia Total de Estrutura no Drive]]
+- [[Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown]]

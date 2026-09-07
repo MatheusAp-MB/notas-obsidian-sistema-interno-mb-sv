@@ -3,11 +3,14 @@ tipo: decisao
 dominio: python
 status: concluida
 criado: 02/09/2026
-atualizado_em: 04/09/2026 22:00
-relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]
+atualizado_em: 07/09/2026 01:00
+relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Checkpoint - Repensando o Catalogo de Pecas (Peca Independente de Produto)]
 ---
 
 # Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo
+
+> [!warning] Parcialmente superada (07/09/2026) — peça deixa de pertencer a 1 produto só
+> Esta decisão fixou peça como parte do catálogo de 1 produto só (implicitamente `ForeignKey`). Isso está sendo revisado: peça vira entidade independente, ligada a produto(s) por vínculo próprio. O resto desta nota (tela Produtos, edição de produto embutida no catálogo, navegação) continua valendo — ver [[Checkpoint - Repensando o Catalogo de Pecas (Peca Independente de Produto)]] pro que está mudando.
 
 **Resumo**: o fluxo de uso diário passa a ter 2 telas diretas — "Nova Devolução" e "Produtos" (nova) — em vez de depender só da busca por código de barras pra chegar num produto. A tela de Produtos lista os produtos cadastrados (foto, nome, marca, EAN) e concentra o cadastro de produto novo (com foto própria do produto, campo novo no model). A busca por código de barras na tela de catálogo/peças continua existindo, mas perde a criação inline "cadastre aqui se não existir" — cadastro passa a acontecer só pela tela de Produtos. Dentro da tela de catálogo/peças (aberta a partir de um produto), foi adicionada uma seção "Dados do produto" pra editar nome/marca/EAN/foto do produto sem precisar de tela separada. Um menu simples no topo (Nova Devolução | Produtos) navega entre as 2 telas diretas.
 
