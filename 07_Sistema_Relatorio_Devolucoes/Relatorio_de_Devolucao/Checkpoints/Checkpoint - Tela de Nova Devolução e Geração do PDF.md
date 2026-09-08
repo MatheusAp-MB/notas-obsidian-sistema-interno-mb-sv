@@ -1,18 +1,18 @@
 ---
 tipo: checkpoint
 dominio:
-status: em_andamento
+status: concluido
 criado: 05/09/2026
-atualizado_em: 05/09/2026 17:46
-relacionado: [Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET, Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]
+atualizado_em: 08/09/2026 03:07
+relacionado: [Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET, Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução, Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]
 ---
 
 # Checkpoint - Tela de Nova Devolução e Geração do PDF
 
-**Resumo do estado atual**: tela "Nova Devolução" e geração de PDF implementadas e validadas como rascunho — detalhe completo em [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]]. Persistência de devolução foi confirmada como necessária (04/09/2026), mas o schema ainda não foi desenhado. **Pausado em 05/09/2026** — foco 100% na reforma estrutural do projeto.
+**Resumo do estado atual**: fase de rascunho (01-05/09/2026) documentada nesta nota, coberta em detalhe em [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]]. Todos os itens que ficaram em aberto aqui (schema de persistência, fluxo GET→POST, versão final do relatório) foram resolvidos depois, na retomada de 07-08/09/2026 — ver [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]] pro fluxo de UX definido e [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] pra linha do tempo completa da implementação real.
 
-> [!warning] Em andamento, pausado
-> Falta: desenhar schema de persistência (e decidir GET→POST), auditoria mobile-first da tela Nova Devolução.
+> [!success] Concluído — 08/09/2026
+> Esta nota permanece como registro histórico da fase de rascunho (01-05/09/2026). O sistema real — persistência, conferência de peça mobile, relatório impresso — está documentado em [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]] e [[Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]].
 
 ## Linha do tempo
 
@@ -26,18 +26,22 @@ Fechado o rascunho funcional completo — detalhe em [[Geração do PDF de Devol
 
 **04/09/2026** — Revisão geral reabriu 2 pontos: persistência de devolução **vai existir** (schema ainda não decidido — o que cada peça conferida guarda, se salva o PDF ou só os dados); fluxo por GET provavelmente muda pra POST, já que vai gravar estado. Confirmado também: Nova Devolução ainda não passou pela auditoria mobile-first que o Catálogo já teve.
 
+**05/09/2026** — Pausado pra focar 100% na reforma estrutural do projeto (ver [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]).
+
+**07-08/09/2026** — Retomado: fluxo de UX e campos idealizados por completo (ver [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]]), layout do relatório fechado (ver [[Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]]) e tudo implementado com persistência real — schema desenhado e implementado, conferência de peça mobile funcionando, relatório gerado via view de impressão do navegador (não mais `xhtml2pdf`).
+
 ## Em aberto
 
-- [ ] Desenhar schema do model `Devolucao` (situação por peça, quantidade recebida, anotação, foto — replicado por empresa/banco)
-- [ ] Decidir se o PDF fica salvo (arquivo) ou é sempre remontado a partir dos dados salvos
-- [ ] Reavaliar fluxo GET→POST da tela Nova Devolução, já que vai passar a gravar estado
-- [ ] Auditoria mobile-first da tela Nova Devolução (mesmo critério já aplicado ao Catálogo)
-- [ ] Botão "Folha resumida" — fora de escopo por decisão do usuário
-
-*(os 4 primeiros itens acima estão **pausados em 05/09/2026**, foco 100% na reforma estrutural)*
+- [x] Desenhar schema do model `Devolucao` (situação por peça, quantidade recebida, anotação, foto — replicado por empresa/banco) — feito em 07-08/09/2026, ver [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]]
+- [x] Decidir se o PDF fica salvo (arquivo) ou é sempre remontado a partir dos dados salvos — decidido: nunca salvo como arquivo, sempre renderizado sob demanda a partir dos dados salvos
+- [x] Reavaliar fluxo GET→POST da tela Nova Devolução, já que vai passar a gravar estado — feito: telas que gravam estado (conferência de peça, entre outras) usam POST
+- [x] Botão "Folha resumida" — decisão superada: o layout final decidido em 07/09/2026 é sempre 1 folha A4 única (ver [[Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]]), não existe mais a distinção entre folha "resumida" e "completa"
+- [ ] Auditoria mobile-first da tela Nova Devolução (mesmo critério já aplicado ao Catálogo) — **ainda não confirmada**, segue em aberto
 
 ## Relacionado
 
 - [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]]
 - [[Processo de Devolução de Produtos e os 3 Caminhos Possíveis]]
 - [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]
+- [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]]
+- [[Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]]

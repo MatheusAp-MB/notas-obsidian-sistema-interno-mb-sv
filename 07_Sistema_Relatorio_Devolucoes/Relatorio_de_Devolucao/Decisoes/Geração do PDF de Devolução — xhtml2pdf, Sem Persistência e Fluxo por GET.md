@@ -1,13 +1,16 @@
 ---
 tipo: decisao
 dominio: python
-status: em_andamento
+status: descartada
 criado: 02/09/2026
-atualizado_em: 04/09/2026 22:00
-relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]
+atualizado_em: 08/09/2026 03:07
+relacionado: [Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial, Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo, Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe), Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador]
 ---
 
 # Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET
+
+> [!failure] Substituída em 08/09/2026 — biblioteca `xhtml2pdf` abandonada
+> A geração do relatório passou a usar uma view de impressão do navegador (HTML + CSS moderno + Ctrl+P), sem nenhuma biblioteca de PDF — motivo completo e nova arquitetura em [[Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador]]. Esta nota continua existindo como registro histórico do rascunho original (02/09/2026) e da decisão de persistência (04/09/2026, seção "Reabertura" abaixo) — a persistência em si **não** foi invalidada, só o mecanismo de geração de PDF mudou.
 
 **Resumo**: a tela "Nova Devolução" passou de formulário estático pra funcional de ponta a ponta: busca produto/peças reais do catálogo pelo código de barras, cobre os 4 cenários reais de conferência de peça (não recebida, parcial com déficit calculado, completa, completa com anotação), e gera um PDF de verdade com esses dados. Na época (02/09/2026), era gerado e servido na hora, execução única, sem salvar nada no banco — **isso já não vale mais** (04/09/2026: confirmado que devoluções vão ser persistidas, ver seção "Reabertura" abaixo). Ficou explícito então que era um rascunho, não a versão final — o visual já tinha sido ajustado uma vez (fonte/espaçamento/imagens maiores, data em dd/mm/aaaa, removida a linha "Gerado em"), mas ainda evoluiria mais, como está evoluindo agora.
 
@@ -49,8 +52,11 @@ Na revisão do mundo inteiro pra achar ruído entre rascunho e sistema robusto, 
 
 Ainda **não decidido** (fica pra quando for desenhado com calma): o schema de como fica esse histórico — 1 model `Devolucao` novo, o que exatamente ele guarda por peça conferida (situação, quantidade recebida, anotação, foto no momento?), se guarda o PDF gerado ou só os dados que o geraram, e como isso convive com o fluxo atual por GET/sem salvar nada (que provavelmente muda pra POST, já que passa a gravar estado). Fica marcado aqui como ponto em aberto do checkpoint do mundo, não implementado ainda.
 
+*(Nota: o schema de persistência citado acima foi desenhado e implementado em 07-08/09/2026 — models `Devolucao`, `ConferenciaPeca` e `FotoConferenciaPeca`, fluxo por POST — ver [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] e [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]] pro detalhe completo. `xhtml2pdf` em si foi abandonado nesse mesmo momento — ver callout no topo desta nota.)*
+
 ## Relacionado
 
 - [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]]
 - [[Reestruturação de Telas — Produtos como Tela Direta, Edição de Dados do Produto Embutida no Catálogo]]
 - [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]]
+- [[Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador]]

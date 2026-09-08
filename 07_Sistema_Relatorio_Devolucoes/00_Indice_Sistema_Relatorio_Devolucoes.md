@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 07/09/2026 01:00
+atualizado_em: 08/09/2026 03:07
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -28,7 +28,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 06/09/2026 | MySQL, multiempresa, reforma estrutural, CRUD de Marca/Grupo Fornecedor e listagem de Produtos agrupada validados de ponta a ponta. Falta: setup no PC de produção e pontos de melhoria do superior. |
+| [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
 
 ## Produtos_e_Pecas
 
@@ -47,8 +47,13 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Processo de Devolução de Produtos e os 3 Caminhos Possíveis]] | conceito | ativa | 01/09/2026 | Todo produto devolvido segue 1 de 3 caminhos conforme a condição física: venda comum, venda como usado, ou troca (reservado, fora de venda). |
-| [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]] | decisao | em_andamento | 04/09/2026 | Nova Devolução busca produto/peças reais e gera PDF via xhtml2pdf. Reaberto (04/09): devoluções vão ser persistidas — schema, fluxo GET→POST e o que fica salvo ainda não desenhados. |
-| [[Checkpoint - Tela de Nova Devolução e Geração do PDF]] | checkpoint | em_andamento | 05/09/2026 | Tela Nova Devolução e PDF validados como rascunho. **Pausado em 05/09/2026** — foco na reforma estrutural. Falta: schema de persistência, GET→POST, auditoria mobile-first. |
+| [[Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET]] | decisao | descartada | 08/09/2026 | Rascunho original (02/09) com `xhtml2pdf` e persistência reaberta em 04/09 — biblioteca `xhtml2pdf` abandonada em 08/09/2026, substituída por view de impressão do navegador. |
+| [[Checkpoint - Tela de Nova Devolução e Geração do PDF]] | checkpoint | concluido | 08/09/2026 | Registro histórico da fase de rascunho (01-05/09). Todos os itens em aberto (schema, GET→POST, versão final) resolvidos na retomada de 07-08/09. |
+| [[Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]] | checkpoint | concluido | 08/09/2026 | Fluxo de UX (2 fases, PC + celular) e campos idealizados em 07/09, implementados por completo em 08/09: persistência real, conferência de peça mobile, relatório impresso. |
+| [[Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça]] | decisao | concluida | 08/09/2026 | Layout de 1 página fechado (07/09) e implementado (08/09), com 2 rodadas extras: 5 campos que faltavam (venda, motivo, mediação) e 4 melhorias de impressão (paginação, tags CLIENTE/INTERNO, datas, centralização). |
+| [[Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador]] | decisao | concluida | 08/09/2026 | `xhtml2pdf` abandonado (não suporta o CSS moderno do layout aprovado) — relatório vira view Django comum com CSS de impressão, PDF gerado pelo próprio navegador (Ctrl+P). |
+| [[Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição]] | bug_conhecido | corrigido | 08/09/2026 | `TIME_ZONE` em UTC desde o início do projeto, sem conversão de exibição — afetava o "gerado em" do relatório e o "criada em" de devoluções pendentes. Corrigido pra `America/Sao_Paulo`. |
+| [[Form Aninhado Quebrava Layout e Botão Salvar na Tela de Conferência]] | bug_conhecido | corrigido | 08/09/2026 | `<form>` do botão de excluir foto aninhado dentro do form principal (inválido em HTML5) — navegador fechava o form principal cedo demais, quebrando layout e botão Salvar. Corrigido com `formaction`/`formmethod`. |
 
 ## Arquitetura_de_Entrega
 
