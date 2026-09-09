@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 09/09/2026 02:07
+atualizado_em: 09/09/2026 12:00
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -54,6 +54,9 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador]] | decisao | concluida | 08/09/2026 | `xhtml2pdf` abandonado (não suporta o CSS moderno do layout aprovado) — relatório vira view Django comum com CSS de impressão, PDF gerado pelo próprio navegador (Ctrl+P). |
 | [[Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição]] | bug_conhecido | corrigido | 08/09/2026 | `TIME_ZONE` em UTC desde o início do projeto, sem conversão de exibição — afetava o "gerado em" do relatório e o "criada em" de devoluções pendentes. Corrigido pra `America/Sao_Paulo`. |
 | [[Form Aninhado Quebrava Layout e Botão Salvar na Tela de Conferência]] | bug_conhecido | corrigido | 08/09/2026 | `<form>` do botão de excluir foto aninhado dentro do form principal (inválido em HTML5) — navegador fechava o form principal cedo demais, quebrando layout e botão Salvar. Corrigido com `formaction`/`formmethod`. |
+| [[Colar Linha do ERP Adaptável a Nomes de Coluna Diferentes]] | decisao | concluida | 09/09/2026 | Preenchimento automático do "Colar linha do ERP" por nome de coluna (nunca posição), com aliases por campo — resolve MAGAZINE (48 colunas) vs SAMVALE (50, nomes diferentes) sem travar quando um campo não bate. |
+| [[Tab Apagado pelo trim() Desalinhava o Colar Linha do ERP]] | bug_conhecido | corrigido | 09/09/2026 | `trim()` apagava o Tab na borda da linha colada (coluna vazia no início/fim), desalinhando todos os valores. Corrigido trocando Tab por separador `\|SEP\|` antes de qualquer trim. |
+| [[O .exe em Segundo Plano Disputava a Porta do runserver]] | bug_conhecido | corrigido | 09/09/2026 | `.exe` aberto em segundo plano competia pela porta com o `runserver`, fazendo correções corretas no código parecerem sem efeito nenhum. Descoberto pelo próprio usuário. |
 
 ## Arquitetura_de_Entrega
 
