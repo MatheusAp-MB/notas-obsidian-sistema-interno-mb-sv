@@ -192,6 +192,12 @@
   },
   "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local.md",
+    "07_Sistema_Relatorio_Devolucoes/sed3vdYOY",
+    "07_Sistema_Relatorio_Devolucoes/sedfdlxoo",
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Checkpoints/sedmGWOBe",
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/sedQyr73B",
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Empilhados na Abertura Automática pelo IP da Rede — CWD Errado no .env e Query String Perdida na URL de Arquivo Local.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Form Aninhado Quebrava Layout e Botão Salvar na Tela de Conferência.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos",
@@ -224,19 +230,13 @@
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Bugs_Conhecidos/Busca de Produtos Comparava Frase Inteira em Vez de Tokenizar por Palavra.md",
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Decisoes/Listagem de Produtos Agrupada por Marca e Grupo com Busca ao Vivo e Carrossel Horizontal.md",
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Bugs_Conhecidos/Perda Silenciosa da Marca ao Digitar Texto Livre Nao Cadastrado.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Bugs_Conhecidos",
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Decisoes/Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown.md",
-    "Claude outputs/script_produtos.js",
-    "Claude outputs/layout_produtos.css",
-    "Claude outputs/produtos.html",
     "Claude outputs/logo.jpg",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo.md",
     "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Reais no .exe Empacotado — Import Dinâmico do reportlab e Migração Não Chamada.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Checkpoints/Checkpoint - Empacotamento e Entrega do .exe.md",
     "Sem título.canvas"
   ]
 }

@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 08/09/2026 03:07
+atualizado_em: 09/09/2026 02:07
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -61,11 +61,12 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 |---|---|---|---|---|
 | [[Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja]] | decisao | concluida | 01/09/2026 | App entregue como .exe (PyInstaller onedir+noconsole), tela HTML de carregamento instantânea e ícone de bandeja (pystray) — validado ponta a ponta. |
 | [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]] | tutorial | ativa | 05/09/2026 | Passo a passo pra testar em dev (`runserver` vs `python launcher.py`) e gerando o `.exe` (`gerar_exe`); banco e mídia agora compartilhados entre dev e `.exe` (mesmo `.env`, sem distinção de ambiente). |
-| [[Checkpoint - Empacotamento e Entrega do .exe]] | checkpoint | em_andamento | 05/09/2026 | Arquitetura de entrega fechada e validada de ponta a ponta, incluindo `mysqlclient` e caminho de dados fixo. Falta só o atalho do Windows. |
+| [[Checkpoint - Empacotamento e Entrega do .exe]] | checkpoint | em_andamento | 09/09/2026 | Empacotamento fechado, incluindo abertura automática pelo IP da rede (acesso pelo celular). Falta reverter a tela de carregamento (hoje em diagnóstico) e criar o atalho do Windows. |
 | [[2 Bugs Reais no .exe Empacotado — Import Dinâmico do reportlab e Migração Não Chamada]] | descoberta | ativa | 05/09/2026 | `reportlab.graphics.barcode` e `django.core.management.commands` usam import dinâmico por string — PyInstaller não detecta sozinho, precisou flag explícita; migração do Django não era chamada pelo `launcher.py`, banco novo ficava sem tabela. |
 | [[PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não]] | descoberta | ativa | 05/09/2026 | `--collect-submodules=core` não funcionava pra módulo só referenciado por string única (`MIDDLEWARE`/`DATABASE_ROUTERS`) — a flag certa nesse caso é `--hidden-import` no módulo exato; `--collect-submodules` serve pra pacote tipo plugin. |
 | [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]] | descoberta | ativa | 05/09/2026 | `BASE_DIR` aponta pra pasta recriada a cada build dentro do `.exe` — 1ª correção (`%APPDATA%` condicional por `sys.frozen`) funcionou mas o usuário rejeitou o resultado; solução final: caminho fixo via variável `DADOS_DIR` no `.env`, igual em qualquer ambiente. |
 | [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]] | descoberta | ativa | 06/09/2026 | `core` era pasta de settings do Django *e* app compartilhado ao mesmo tempo (`startproject core`) — travava separar o `urls.py` do app. Corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv`. |
+| [[2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local]] | descoberta | ativa | 09/09/2026 | `.exe` sempre abria em `127.0.0.1`, mesmo com `IPV4_LOCAL` certo no `.env` — 2 bugs empilhados: `.env` não encontrado por depender do CWD do processo, e query string descartada numa URL `file://`. Corrigido: caminho do `.env` via `sys.executable`, dado embutido direto no HTML (sem query string). Confirmado funcionando pelo celular. |
 
 ## Relacionado
 

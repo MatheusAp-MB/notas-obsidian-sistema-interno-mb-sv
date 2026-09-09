@@ -123,7 +123,7 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.19450022690614488,
+  "scale": 0.19450022690614469,
   "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
