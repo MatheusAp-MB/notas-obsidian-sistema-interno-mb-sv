@@ -1,6 +1,6 @@
 {
   "collapse-filter": true,
-  "search": "",
+  "search": "primeiro preço",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -99,17 +99,17 @@
       }
     },
     {
-      "query": "path:\"Bases\"",
-      "color": {
-        "a": 1,
-        "rgb": 7041664
-      }
-    },
-    {
       "query": "path:\"Claude outputs\"",
       "color": {
         "a": 1,
         "rgb": 13430271
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
       }
     }
   ],
@@ -124,5 +124,22 @@
   "linkStrength": 1,
   "linkDistance": 179,
   "scale": 0.09895430218636374,
-  "close": true
+  "close": true,
+  "cf-managed-queries": [
+    "path:\"00_Nucleo_Comportamento_Claude\"",
+    "path:\"01_Nucleo_Geral_Vault\"",
+    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
+    "path:\"02_Nucleo_Engenharia_Repositorio\"",
+    "path:\"03_Sistema_Interno\"",
+    "path:\"03_Sistema_Interno/Conceitos\"",
+    "path:\"03_Sistema_Interno/Decisoes\"",
+    "path:\"03_Sistema_Interno/Tutoriais\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
+    "path:\"05_Integracao_Mercado_Livre\"",
+    "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"07_Sistema_Relatorio_Devolucoes\"",
+    "path:\"Claude outputs\"",
+    "path:\"Bases\""
+  ]
 }

@@ -1,18 +1,18 @@
 ---
 tipo: bug_conhecido
 dominio: python
-status: em_aberto
+status: corrigido
 criado: 10/09/2026
-atualizado_em: 10/09/2026 13:55
-relacionado: [Checkpoint - Inicio da Validacao Exaustiva de Precificacao, Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido)]
+atualizado_em: 10/09/2026 16:58
+relacionado: [Checkpoint - Inicio da Validacao Exaustiva de Precificacao, Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido), Bug Conhecido - Grade de Precificacao ML Nunca Grava Nem Limpa Linha Quando o Calculo Nao Resolve, Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia]
 ---
 
 # Bug Conhecido: FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90
 
-**Resumo**: depois de preencher os 4 campos fiscais de saída e recalcular as grades, as fórmulas de Raia e Magalu passaram a levantar 8 erros de assert (2 produtos × 4 margens cada), sempre com a mesma mensagem: "margem obtida ficou ABAIXO da margem-alvo". A causa mecânica foi confirmada logo de início por leitura de código: o "FIXO" dessas 2 fórmulas fica negativo quando o crédito fiscal de entrada (ICMS+PIS+COFINS) é maior que custo+coleta+armazenagem — e quando isso acontece, o arredondamento RoundUp90 (que deveria só aumentar a margem) na verdade diminui, quebrando a garantia que o assert cobra. **O que faltava era o "porquê" do crédito ficar desproporcional — isso já está confirmado (ver atualização de 10/09, 13:55 abaixo), com dado real da nota fiscal.**
+**Resumo**: depois de preencher os 4 campos fiscais de saída e recalcular as grades, as fórmulas de Raia e Magalu passaram a levantar 8 erros de assert (2 produtos × 4 margens cada), sempre com a mesma mensagem: "margem obtida ficou ABAIXO da margem-alvo". A causa mecânica foi confirmada logo de início por leitura de código: o "FIXO" dessas 2 fórmulas fica negativo quando o crédito fiscal de entrada (ICMS+PIS+COFINS) é maior que custo+coleta+armazenagem — e quando isso acontece, o arredondamento RoundUp90 (que deveria só aumentar a margem) na verdade diminui, quebrando a garantia que o assert cobra.
 
-> [!success] Causa raiz CONFIRMADA com dado real (10/09/2026, 13:55) — falta decidir e aplicar a correção
-> Não é a hipótese de diferimento de ICMS ST que estava sendo cogitada — os 2 produtos não estão em regime ST. A causa real: `produto.custo` e `produto.custo_com_boni` estão os dois zerados/vazios pros 2 SKUs problemáticos, o que faz o `custo_final` da fórmula colapsar pra só o crédito de IPI por unidade, enquanto os créditos de ICMS/PIS/COFINS continuam em tamanho real (vindos da nota fiscal de verdade). Detalhe completo na seção "Causa Raiz Confirmada com Dado Real" abaixo. Falta: (1) decidir a correção (nível de dado vs. nível de fórmula); (2) levantar se outros produtos ativos têm o mesmo problema de cadastro.
+> [!success] CORRIGIDO — 10/09/2026, 16:44 — guarda aplicada, testada em produção, 0 erros de assert
+> Causa raiz confirmada com dado real (13:55). Correção de fórmula aplicada e rodada nos 2 bancos (MAGAZINE + SAMVALE, 6 marketplaces cada) — ver "Correção Aplicada" abaixo. O problema de DADO por trás (produtos com custo zerado) continua existindo e agora gera "SEM CÁLCULO" em vez de crash — alcance real medido em [[Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia]]. Corrigir esse dado é tarefa operacional separada, não mais um bug de código.
 
 ## Contexto
 
@@ -56,15 +56,28 @@ Enquanto isso, o crédito de ICMS de entrada é calculado certo, a partir da bas
 
 **Conclusão**: não é bug de fórmula. `fixo = coleta + armazenagem + custo_final − créditos` calcula certo em cima de um `custo_final` que, pra esses 2 produtos, é artificial (só o pedaço de IPI) por falta de cadastro de custo. É um problema de **dado** (cadastro de custo incompleto pra esses SKUs), não de lógica de precificação.
 
-## O que ainda falta pra fechar
+## Nota sobre `custo_com_boni`
 
-A causa raiz já está confirmada — o que falta agora:
+Confirmado pelo usuário (10/09/2026): `custo_com_boni` é um campo **"pausado" por decisão de negócio** no momento — não é bug nem falha de sincronização estar vazio na maioria dos produtos, é esperado hoje. Isso significa que, na prática, o problema real por trás do FIXO negativo (e do SEM CÁLCULO em geral) está quase sempre em `custo` (o campo sincronizado do ERP) vir zerado, não em `custo_com_boni` — que já era esperado estar vazio pra quase todo o catálogo. Relevante pra interpretar os números de [[Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia]]: o filtro "custo E custo_com_boni zerados" usado lá é, na prática, dominado pela condição `custo=0` — `custo_com_boni` vazio raramente é o fator diferenciador, porque já está vazio na maioria dos produtos, pausado ou não.
 
-1. **Decidir a correção**: nível de dado (preencher `custo`/`custo_com_boni` desses produtos na origem, ou impedir que o sistema gere preço pra produto sem custo cadastrado) vs. nível de fórmula (guard no `goal_seek.py` pra `FIXO` negativo, como segurança extra mesmo que o dado nunca devesse chegar zerado).
-2. **Levantar o alcance real**: a amostra validada é só 3 produtos (`EANS_TESTE`), 2 deles com esse problema. Falta checar quantos produtos ativos no sistema têm `custo` e `custo_com_boni` zerados/nulos ao mesmo tempo — pra saber se é caso isolado desses 2 SKUs ou sintoma de uma falha maior de sincronização do ERP.
+## Correção Aplicada (10/09/2026, 16:44)
+
+**Decisão**: mesmo sendo problema de dado, era preciso um guard de fórmula — sem ele, qualquer produto com o mesmo cadastro incompleto (não só esses 2) derruba `calcular_todas_as_grades_precificacao` inteiro com `AssertionError`, travando o recálculo de TODOS os produtos, não só do problemático.
+
+**O que foi feito**: guarda matemática adicionada nas 3 funções de `precificacao/funcoes_auxiliares/goal_seek.py` (`resolver_preco_por_margem`, `resolver_preco_com_frete_fixo`, `resolver_preco_por_faixa_comissao`). A garantia do RoundUp90 (arredondar pra cima só AUMENTA a margem) só vale matematicamente quando `(frete + fixo − rebate)` é positivo — quando esse total fica negativo, a relação margem×preço se inverte, e arredondar pra cima DIMINUI a margem. Agora, nesse caso, as 3 funções devolvem "sem solução" (`None`/pula a faixa) em vez de estourar o assert — o mesmo sinal que já usavam pra outros casos de "não resolveu" (ex: `denominador <= 0`). Isso alinha o comportamento de Raia/Magalu com o que ML/Shopee/TikTok/Amazon já faziam de fato (absorver silenciosamente, sem crash) — só que agora **visível**, porque a linha correspondente passa a ser gravada como `resolvida=False` (ver [[Bug Conhecido - Grade de Precificacao ML Nunca Grava Nem Limpa Linha Quando o Calculo Nao Resolve]], corrigido na mesma sessão).
+
+**Testado em produção**: `calcular_todas_as_grades_precificacao` rodado nas 2 empresas (MAGAZINE + SAMVALE), 6 marketplaces cada — **0 erros de assert** nas 12 execuções, contra os 8 originais que abriram essa investigação.
+
+## O que ainda fica em aberto (não é mais bug de código — é dado)
+
+1. **Corrigir o cadastro**: os SKUs com `custo`/`custo_com_boni` zerados continuam sem gerar preço (`SEM CÁLCULO`, corretamente — não dá pra precificar sem custo real). Corrigir de verdade é preencher esses campos na origem (ERP/Admin).
+2. **Alcance real medido**: não são só os 2 SKUs originais — são **287 produtos no MAGAZINE e 158 no SAMVALE** com alguma margem/variação em SEM CÁLCULO no ML. Boa parte (200 no MAGAZINE, todos os 158 no SAMVALE) já é explicada por custo ou dimensão zerados. Detalhe completo, com a metodologia e os números por empresa, em [[Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia]].
+3. **Investigar a causa da falha de sincronização**: por que esses produtos específicos ficaram sem custo importado do ERP — é caso isolado ou sintoma de falha maior no `importar_produtos_erp.py`? Não investigado ainda.
 
 ## Relacionado
 
 - [[Checkpoint - Inicio da Validacao Exaustiva de Precificacao]]
 - [[Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido)]]
 - [[Campos Fiscais de Saida no Codigo - 4 Existem Vazios, CST e Tabela por UF Nao Existem]]
+- [[Bug Conhecido - Grade de Precificacao ML Nunca Grava Nem Limpa Linha Quando o Calculo Nao Resolve]]
+- [[Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia]]
