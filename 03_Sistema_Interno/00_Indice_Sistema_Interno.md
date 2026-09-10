@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 04/09/2026 11:25
+atualizado_em: 10/09/2026 11:34
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -26,6 +26,7 @@ Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Conceitos de Pytest Live de Python 167]] | conceito | ativa | 02/08/2026 | Conhecimento geral de pytest do deck "Live de Python #167": as 4 fases de todo teste (Setup/Exercise/Assert/TearDown), conceitos de SUT/Fixture/Contexto, marks (skip/skipif/xfail/parametrize com `ids=` explícito) — e correção de atribuição: o termo "DOC" não vem deste deck, vem do livro xUnit Test Patterns. |
+| [[Dois Sistemas Paralelos - Projeto Interno V2 e We Stack]] | conceito | ativa | 10/09/2026 | Existem 2 sistemas paralelos e distintos: Projeto Interno V2 (sistema próprio, documentado neste vault) e We Stack (sistema de terceiros, pago, código fora do controle interno). Escopo atual do Projeto Interno V2 é 100% precificação (custo→preço); cálculo de margem/"Central de Promoções" que hoje roda no We Stack é aplicação futura. |
 
 ## Tutoriais
 
@@ -107,6 +108,9 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 | [[Formula de Margem e Rebate de Promocao]] | Decisão | Ativo | 12/07/2026 | Fórmula "preço→margem" (direção inversa ao Goal Seek documentado) implementada em `calculo_margem.py`, validada em 3 casos reais contra a planilha oficial; rebate de promoção (só SMART confirmado com `meli_percentage`) abate direto da comissão via `rebate_valor=preco_original×meli_percentage/100` (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Hierarquia e Comportamentos de Recomendação de Precificação]] | Decisão | Ativo | 12/07/2026 | Definidos 4 buckets de recomendação (ganha catálogo × dentro/fora da margem mínima de 15%) e 3 comportamentos (Padrão, Busca-Lucro, Disputa) para a tela de Recomendação de Precificação de Catálogo; comportamento "Promocional" cogitado e descartado por ser idêntico ao Padrão (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Redesenho_Estados_Hub_Promocoes]] | decisao | pendente-validacao | 12/07/2026 | Redesenho separa Estado Atual de Ação Recomendada no Hub de Promoções, definindo 4 estados por MLB (Sem oportunidade, Candidato a participar, Oportunidade de troca, Otimizado) — só 2 exibem botão de ação; premissa de no máximo 1 promoção ativa por MLB ainda pendente de validação com o superior (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
+| [[Checkpoint - Inicio da Validacao Exaustiva de Precificacao]] | checkpoint | em_andamento | 10/09/2026 | Puxada pela Camada 2 de [[Checkpoint - Inicio da Estrutura de Impostos de Saida|Impostos de Saída]] — validar "o preço mudou" não bastou, decidido auditar os 6 marketplaces ponta a ponta. Mapa de variações internas por marketplace confirmado no código (ML: Clássico/Premium; TikTok: sem_afiliado/com_afiliado; Amazon: dba/fba; Magalu/Raia/Shopee: nenhuma). Plano de 7 etapas definido: padronizar auditoria (`passos()`) nas 5 fórmulas que não têm, depois construir Duble robusto novo cobrindo os 6 marketplaces × variações × margens × 3 produtos de teste. |
+| [[Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido)]] | descoberta | confirmada | 10/09/2026 | Script didático `scripts_exploracao_ERP/duble_precificacao_ml.py` (já existente, EAN de referência 7908050719121) está quebrado desde 16/08/2026 — lê `produto.pis_cofins`, campo removido do banco naquela data (substituído por `pis_percentual`/`cofins_percentual` separados). Também cobre só ML/Clássico/Padrão. Será substituído por um Duble novo, robusto, cobrindo os 6 marketplaces. |
+| [[Bug Conhecido - FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90]] | bug_conhecido | em_aberto | 10/09/2026 | Grades RAIA/MAGALU vieram com 8 erros de assert (2 produtos × 4 margens) após a Camada 1 de Impostos de Saída. Causa mapeada no código: `fixo = coleta+armazenagem+custo_final−créditos de entrada` pode ficar negativo, e nesse caso o RoundUp90 reduz a margem em vez de aumentar, quebrando a garantia do assert. Falta confirmar com dado real se é pré-existente e decidir a correção. |
 
 ## Geradores_de_Promocoes
 
@@ -136,6 +140,17 @@ Contexto novo (criado em 03/09/2026) — reorganização do que antes vivia solt
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Checkpoint - Ajustes nos Botoes do Card do Hub de Fotos (Editar no ML e Editor de Imagens do ML)]] | checkpoint | concluido | 28/08/2026 | Tela "Hub de Fotos" (chegou via sync com `origin/dev`, commit `2aa6fb0`) ganhou 2 ajustes pedidos "ponto a ponto", os 2 CONCLUÍDOS e validados com clique real. **Ponto 1 (09:15)**: botão "Editar no ML" (era `href="#"`) corrigido com o link real, baseado no MLBU (`user_product_id` da API, achado que ele nunca era persistido — campo novo `mlbu` criado em `VariacaoAnuncioMercadoLivre`, mapeado na importação, exposto em `info_variacao()`, botão só aparece quando existe). **Ponto 2 (09:37)**: botão novo "Abrir no Editor de Imagens do ML" — link real bem mais complexo (MLBU + token de sessão + ID de foto específica), mas testado e confirmado que uma versão simplificada (só o MLB puro + callback genérico) funciona 100% — implementado sem precisar de model/migração nova. Ambos os pontos validados antes de codar (script dev pro Ponto 1, teste manual de URL colada pro Ponto 2). |
+
+## Impostos_Saida
+
+Contexto novo (aberto em 10/09/2026) — impostos de saída (ICMS, PIS/COFINS), hoje calculados fora do sistema (planilha "Busca Legal"). Fica em `03_Sistema_Interno/`, não em `04_Integracao_Sysemp/` (onde mora `Impostos_Entrada/`), porque hoje não depende da API do Sysemp.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Inicio da Estrutura de Impostos de Saida]] | checkpoint | em_andamento | 10/09/2026 | Plano de 6 camadas definido. Camada 1 (preencher os 4 campos fiscais existentes) implementada e rodada nas 2 empresas (651 MAGAZINE + 389 SAMVALE) — falta validar com calma, ponto a ponto (Camada 2), o que puxou a frente [[Checkpoint - Inicio da Validacao Exaustiva de Precificacao|Validação Exaustiva de Precificação]]. |
+| [[Estrutura da Planilha Busca Legal de Impostos de Saida]] | descoberta | confirmada | 10/09/2026 | Planilha Busca Legal validada e liberada: 1 linha por produto (EAN), PIS/COFINS/CST fixos por produto, ICMS variando por UF de destino (27 colunas) — `ICMS` = alíquota de SP (origem), `ICMS MÉDIA` = média das outras 26 UFs, confirmada por conta exata. Campo vazio é dado real (ex: gasolina, monofásico), nunca lacuna. |
+| [[Decisao - We Stack e Referencia, Sistema Calcula ICMS de Saida pela UF Real de Cada Venda]] | decisao | concluida | 10/09/2026 | Analisada a planilha de referência "Cálculo final We Stack" (cálculo de margem juntando entrada+saída+ML, sistema de terceiros — ver [[Dois Sistemas Paralelos - Projeto Interno V2 e We Stack]]): seu ICMS líquido de venda usava a média das 26 UFs de destino. Decidido: quando essa funcionalidade for implementada no Projeto Interno V2 (futuro — hoje o foco é só precificação), o cálculo deve usar a alíquota da UF de destino real de cada venda, não a média. |
+| [[Campos Fiscais de Saida no Codigo - 4 Existem Vazios, CST e Tabela por UF Nao Existem]] | descoberta | confirmada | 10/09/2026 | Repositório sincronizado e analisado: `Produto` já tem 4 campos fiscais de saída (`icms_saida_sp`, `icms_saida_media`, `pis_percentual`, `cofins_percentual`), lidos pelas 6 fórmulas de precificação, mas sempre vazios (nenhum código grava neles). CST de saída e a tabela de ICMS por UF de destino não existem em lugar nenhum. Trabalho segue em 6 camadas (preencher → validar → criar CST → validar → criar tabela por UF → testar). |
 
 ## Relacionado
 

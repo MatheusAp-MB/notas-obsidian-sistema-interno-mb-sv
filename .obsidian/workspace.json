@@ -18,6 +18,20 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "48339ade4b5f9d62",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "README"
+            }
           }
         ]
       }
@@ -192,26 +206,38 @@
   },
   "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "README.md",
+    "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Modal de Auditoria ML Lia Campos Que Nao Existem Mais (Mesma Causa do Duble Quebrado).md",
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Grade de Precificacao ML Nunca Grava Nem Limpa Linha Quando o Calculo Nao Resolve.md",
+    "Claude outputs/mockup_tela_auditoria.html",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "Claude outputs/Duble_Precificacao_MOCKUP.xlsx",
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90.md",
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos",
+    "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido).md",
+    "03_Sistema_Interno/Precificacao/Descobertas",
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Inicio da Validacao Exaustiva de Precificacao.md",
+    "03_Sistema_Interno/Precificacao/Checkpoints",
+    "03_Sistema_Interno/Impostos_Saida/Descobertas/Campos Fiscais de Saida no Codigo - 4 Existem Vazios, CST e Tabela por UF Nao Existem.md",
+    "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
+    "03_Sistema_Interno/Conceitos/Dois Sistemas Paralelos - Projeto Interno V2 e We Stack.md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - We Stack e Referencia, Sistema Calcula ICMS de Saida pela UF Real de Cada Venda.md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes",
+    "03_Sistema_Interno/Impostos_Saida/Descobertas/Estrutura da Planilha Busca Legal de Impostos de Saida.md",
+    "03_Sistema_Interno/Impostos_Saida/Descobertas",
+    "03_Sistema_Interno/Impostos_Saida/Checkpoints/Checkpoint - Inicio da Estrutura de Impostos de Saida.md",
+    "03_Sistema_Interno/Impostos_Saida/Checkpoints",
+    "03_Sistema_Interno/Impostos_Saida",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local.md",
     "07_Sistema_Relatorio_Devolucoes/sed3vdYOY",
-    "07_Sistema_Relatorio_Devolucoes/sedfdlxoo",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Checkpoints/sedmGWOBe",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/sedQyr73B",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Empilhados na Abertura Automática pelo IP da Rede — CWD Errado no .env e Query String Perdida na URL de Arquivo Local.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Form Aninhado Quebrava Layout e Botão Salvar na Tela de Conferência.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador.md",
-    "Claude outputs/relatorio_melhorias_mockup.html",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "Rascunho da modelagem.md",
-    "Claude outputs/mockup_devolucoes_pendentes_e_conferencia.html",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução.md",
-    "README.md",
-    "Claude outputs/mockup_vincular_pecas_produto.html",
-    "Claude outputs/mockup_gaveta_pecas.html",
-    "Claude outputs",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
@@ -224,19 +250,7 @@
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Análise do UX Flow da Responsável pela Devolução.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial.md",
     "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Checkpoint - Desenho da Gaveta de Peças e Modais de Ação.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Decisoes/Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Conceitos/Processo de Devolução de Produtos e os 3 Caminhos Possíveis.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Checkpoint - Repensando o Catalogo de Pecas (Peca Independente de Produto).md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Bugs_Conhecidos/Busca de Produtos Comparava Frase Inteira em Vez de Tokenizar por Palavra.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Decisoes/Listagem de Produtos Agrupada por Marca e Grupo com Busca ao Vivo e Carrossel Horizontal.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Bugs_Conhecidos/Perda Silenciosa da Marca ao Digitar Texto Livre Nao Cadastrado.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Decisoes/Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown.md",
     "Claude outputs/logo.jpg",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Tutoriais/Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe).md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo.md",
-    "07_Sistema_Relatorio_Devolucoes/00_Indice_Sistema_Relatorio_Devolucoes.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen.md",
     "Sem título.canvas"
   ]
 }
