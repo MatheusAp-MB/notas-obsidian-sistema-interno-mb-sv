@@ -29,13 +29,6 @@
       }
     },
     {
-      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
-      "color": {
-        "a": 1,
-        "rgb": 6322314
-      }
-    },
-    {
       "query": "path:\"03_Sistema_Interno\"",
       "color": {
         "a": 1,
@@ -78,6 +71,13 @@
       }
     },
     {
+      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
+      "color": {
+        "a": 1,
+        "rgb": 6322314
+      }
+    },
+    {
       "query": "path:\"05_Integracao_Mercado_Livre\"",
       "color": {
         "a": 1,
@@ -92,17 +92,17 @@
       }
     },
     {
-      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 7355382
-      }
-    },
-    {
       "query": "path:\"Claude outputs\"",
       "color": {
         "a": 1,
         "rgb": 13430271
+      }
+    },
+    {
+      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
       }
     },
     {
@@ -129,17 +129,17 @@
     "path:\"00_Nucleo_Comportamento_Claude\"",
     "path:\"01_Nucleo_Geral_Vault\"",
     "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-    "path:\"02_Nucleo_Engenharia_Repositorio\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
     "path:\"04_Integracao_Sysemp\"",
     "path:\"04_Integracao_Sysemp/Regras\"",
+    "path:\"02_Nucleo_Engenharia_Repositorio\"",
     "path:\"05_Integracao_Mercado_Livre\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\"",
     "path:\"Claude outputs\"",
+    "path:\"07_Sistema_Relatorio_Devolucoes\"",
     "path:\"Bases\""
   ]
 }
