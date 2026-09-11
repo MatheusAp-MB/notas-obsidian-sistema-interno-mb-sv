@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup v6 — Tela de Auditoria de Precificação (tabela de itens + %/R$)</title>
+<style>
+  :root {
+    --navy: #16233f; --navy-2: #1e3159;
+    --blue: #2f5fd1; --blue-bg: #eaf0fd; --blue-ink: #1d4ed8;
+    --amber-bg: #fdf1de; --amber-ink: #92600a;
+    --teal-bg: #e3f6f3; --teal-ink: #0f6e63;
+    --slate-bg: #eef0f4; --slate-ink: #495062;
+    --orange-bg: #fff1e2;
+    --green: #157a35; --green-bg: #e8f6ec; --green-border: #b7e2bd;
+    --red: #b02318; --red-bg: #fdecea; --red-border: #f3c2bc;
+    --ink: #1a2036; --ink-soft: #454d61; --ink-mid: #6b7386;
+    --line: #e3e6ee; --bg: #f2f4f8; --card: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 15px; line-height: 1.5; padding: 28px 16px 60px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  b { font-weight: 700; }
+
+  .ribbon { background: #2a2340; color: #ecdfff; border-radius: 10px; padding: 10px 16px;
+    font-size: 12.5px; margin-bottom: 18px; line-height: 1.5; }
+  .ribbon b { color: #fff; }
+
+  .header { background: linear-gradient(135deg, var(--navy), var(--navy-2)); border-radius: 14px 14px 0 0;
+    padding: 16px 20px; display: flex; align-items: center; gap: 14px; color: #fff; }
+  .thumb { width: 52px; height: 52px; border-radius: 10px; background: var(--orange-bg);
+    display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .header-info { flex: 1; min-width: 0; }
+  .chips { display: flex; gap: 6px; margin-bottom: 5px; }
+  .chip { font-size: 10px; font-weight: 700; letter-spacing: .3px; padding: 2px 7px; border-radius: 5px;
+    background: rgba(255,255,255,.16); color: #fff; }
+  .titulo-produto { font-size: 15px; font-weight: 700; margin: 2px 0 5px; }
+  .meta-produto { font-size: 12.5px; color: #d3daea; }
+  .meta-produto b { color: #fff; }
+
+  .veredito { padding: 14px 20px; display: flex; align-items: flex-start; gap: 11px;
+    border-bottom: 1px solid var(--line); background: var(--card); }
+  .veredito.ok { background: var(--green-bg); }
+  .veredito-icone { font-size: 20px; line-height: 1; margin-top: 1px; }
+  .veredito-texto b { display: block; font-size: 14.5px; margin-bottom: 4px; color: var(--green); }
+  .veredito-sub { font-size: 13px; color: var(--ink-soft); }
+
+  .card { background: var(--card); padding: 4px 0 20px; }
+  .card + .card { margin-top: 10px; border-radius: 14px; }
+  .card:last-of-type { border-radius: 0 0 14px 14px; }
+  .secao-titulo { font-size: 11.5px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase;
+    color: var(--ink-mid); padding: 18px 20px 9px; }
+  .secao-sub { font-size: 12px; color: var(--ink-mid); padding: 0 20px 8px; margin-top: -6px; }
+
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .2px;
+    padding: 1.5px 7px; border-radius: 20px; white-space: nowrap; }
+  .tag-produto { background: var(--amber-bg); color: var(--amber-ink); }
+  .tag-nf { background: var(--blue-bg); color: var(--blue-ink); }
+  .tag-saida { background: var(--teal-bg); color: var(--teal-ink); }
+  .tag-config { background: var(--slate-bg); color: var(--slate-ink); }
+  .tag-calc { background: var(--navy); color: #fff; }
+  .mini-form { color: var(--ink-mid); font-size: 11px; font-weight: 400; display: block; margin-top: 2px; }
+
+  .bloco-produto { margin: 0 20px 4px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .bloco-produto-cabecalho { width: 100%; display: flex; align-items: center; gap: 10px; padding: 11px 14px;
+    background: #fafbfd; border: none; cursor: pointer; font-family: inherit; text-align: left; }
+  .bloco-produto-titulo { flex: 1; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .bloco-produto-resumo { font-size: 12.5px; color: var(--ink-mid); }
+  .bloco-produto-seta { color: var(--ink-mid); font-size: 13px; transition: transform .15s ease; }
+  .bloco-produto[data-estado="expandido"] .bloco-produto-seta { transform: rotate(90deg); }
+  .bloco-produto-corpo { display: none; padding: 12px 14px 14px; border-top: 1px solid var(--line); }
+  .bloco-produto[data-estado="expandido"] .bloco-produto-corpo { display: block; }
+  .input-linha { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 3.5px 0; font-size: 13px; flex-wrap: wrap; }
+  .input-linha .k { color: var(--ink-soft); }
+  .input-linha .v { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---------- TABELA ÚNICA DE ITENS (NOVO) ---------- */
+  .tabela-wrap { padding: 0 20px 6px; overflow-x: auto; }
+  table.tabela-itens { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 560px; }
+  table.tabela-itens thead th { text-align: left; font-size: 10.5px; text-transform: uppercase; letter-spacing: .3px;
+    color: var(--ink-mid); padding: 6px 8px; border-bottom: 2px solid var(--line); position: sticky; top: 0; background: var(--card); }
+  table.tabela-itens thead th.num { text-align: right; }
+  table.tabela-itens tbody td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.tabela-itens tr.grupo td { background: var(--slate-bg); font-weight: 700; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .3px; color: var(--navy); padding: 6px 8px; }
+  table.tabela-itens td.item { color: var(--ink); }
+  table.tabela-itens td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  table.tabela-itens td.num.vazio { color: var(--ink-mid); font-weight: 400; font-style: italic; }
+  table.tabela-itens tr.subtotal td { background: #fafbfd; font-weight: 700; color: var(--navy); }
+  table.tabela-itens tr.destaque td { background: var(--green-bg); font-weight: 700; color: var(--green); }
+
+  .passos { padding: 0 20px; }
+  .passo { border-bottom: 1px solid var(--line); }
+  .passo:last-child { border-bottom: none; }
+  .passo-linha { width: 100%; display: flex; align-items: center; gap: 10px; padding: 12px 4px;
+    background: none; border: none; cursor: pointer; font-family: inherit; text-align: left; }
+  .passo-linha:hover { background: #fafbfd; }
+  .passo-num { width: 21px; height: 21px; border-radius: 50%; background: var(--blue-bg); color: var(--blue-ink);
+    font-size: 11.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .passo-label { flex: 1; font-size: 14px; color: var(--ink); font-weight: 600; }
+  .passo-resultado { font-size: 14px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; text-align: right; }
+  .passo-resultado .sub { display: block; font-size: 11.5px; font-weight: 600; color: var(--ink-mid); }
+  .passo-seta { color: var(--ink-mid); font-size: 13px; transition: transform .15s ease; width: 14px; text-align: center; }
+  .passo[data-estado="expandido"] .passo-seta { transform: rotate(90deg); }
+  .passo-detalhe { display: none; padding: 2px 4px 16px 33px; }
+  .passo[data-estado="expandido"] .passo-detalhe { display: block; }
+
+  .inputs-box { border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px; margin-bottom: 10px; background: #fbfbfd; }
+
+  .passo-abstrata { font-size: 11.5px; color: var(--ink-mid); margin-bottom: 5px; }
+  .passo-conta { font-size: 14px; color: var(--ink); margin-bottom: 3px; font-variant-numeric: tabular-nums; }
+  .passo-conta b { color: var(--navy); font-weight: 700; }
+  .passo-conta-pct { font-size: 12.5px; color: var(--ink-mid); margin-bottom: 9px; font-variant-numeric: tabular-nums; }
+  .passo-conta-pct b { color: var(--navy); font-weight: 700; }
+
+  table.saida { width: calc(100% - 40px); margin: 6px 20px 0; border-collapse: collapse; }
+  table.saida td { padding: 8px 4px; font-size: 13.5px; border-bottom: 1px solid var(--line); color: var(--ink-soft); }
+  table.saida td.valor { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
+  table.saida td.valor .sub { display: block; font-size: 12px; font-weight: 600; color: var(--ink-mid); }
+  table.saida tr:last-child td { border-bottom: none; }
+  table.saida tr.destaque td { font-weight: 700; font-size: 16px; color: var(--navy); }
+  table.saida tr.destaque td:first-child { color: var(--navy); font-size: 14px; }
+  table.saida tr.destaque td.valor .sub { color: var(--green); font-weight: 700; }
+
+  /* ---------- FÓRMULA COMPLETA (NOVO) ---------- */
+  .formula-box { margin: 8px 20px 4px; border: 1.5px solid var(--navy); border-radius: 10px; padding: 16px 18px;
+    background: #fafbfe; }
+  .formula-titulo { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+    color: var(--navy); margin-bottom: 10px; }
+  .formula-linha { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 12.5px; color: var(--ink-soft); line-height: 1.8; padding: 3px 0; white-space: pre-wrap; word-break: break-word; }
+  .formula-linha b { color: var(--navy); }
+  .formula-linha.resultado { font-size: 14.5px; color: var(--navy); font-weight: 700; border-top: 1px dashed var(--line); margin-top: 8px; padding-top: 10px; }
+  .formula-linha.resultado b { color: var(--green); }
+
+  .nota-rodape { font-size: 11.5px; color: var(--ink-mid); text-align: center; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="ribbon">🧪 <b>MOCKUP v6</b> — 2 blocos novos em relação ao v5: (1) tabela única de todos os itens, agrupada por tipo, logo abaixo dos dados do produto; (2) todo valor percentual passa a mostrar o R$ equivalente ao lado (Passo 5, Passo 6 e Resultado). Fórmula completa adicionada no final. Só o cenário OK está montado aqui — mesmo padrão vale pro cenário com alerta depois de aprovado. Estilo mantido igual ao v5, sem retrabalho visual.</div>
+
+  <div class="header">
+    <div class="thumb">🧴</div>
+    <div class="header-info">
+      <div class="chips"><span class="chip">BRUDDEN</span><span class="chip">PULVERIZAÇÃO</span></div>
+      <div class="titulo-produto">PULVERIZADOR COSTAL ELÉTRICO E MANUAL BRUDDEN SS20-B 20L</div>
+      <div class="meta-produto">EAN <b>7908050719121</b> · SKU <b>F7908050719121.001</b> · Mercado Livre · Clássico · Margem Padrão (15%)</div>
+    </div>
+  </div>
+
+  <div class="veredito ok">
+    <div class="veredito-icone">✅</div>
+    <div class="veredito-texto">
+      <b>Sem inconsistências detectadas</b>
+      <div class="veredito-sub">Dado bate com a nota fiscal e o cadastro, cálculo dentro do esperado.</div>
+    </div>
+  </div>
+
+  <div class="bloco-produto" data-estado="colapsado" id="produto">
+    <button class="bloco-produto-cabecalho" onclick="toggleBlocoProduto(this)">
+      <span class="bloco-produto-titulo">📦 Dados do Produto</span>
+      <span class="bloco-produto-resumo">custo R$ 238,16 · dimensões completas</span>
+      <span class="bloco-produto-seta">›</span>
+    </button>
+    <div class="bloco-produto-corpo">
+      <div class="input-linha"><span class="k">Custo <span class="tag tag-produto">Produto</span></span><span class="v">R$ 238,16</span></div>
+      <div class="input-linha"><span class="k">Custo com bonificação <span class="tag tag-produto">Produto</span></span><span class="v">— vazio (usa o custo)</span></div>
+      <div class="input-linha"><span class="k">Altura × Largura × Comprimento <span class="tag tag-produto">Produto</span></span><span class="v">24 × 44 × 57 cm</span></div>
+      <div class="input-linha"><span class="k">Peso físico / Peso cúbico <span class="tag tag-produto">Produto</span></span><span class="v">— / 10,032 kg</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- NOVO: TABELA ÚNICA DE TODOS OS ITENS, AGRUPADA POR TIPO -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <div class="secao-titulo">Todos os itens usados no cálculo</div>
+    <div class="secao-sub">Cada valor, isolado, do jeito que aparece na planilha de referência — pra comparar linha a linha.</div>
+    <div class="tabela-wrap">
+      <table class="tabela-itens">
+        <thead>
+          <tr><th>Item</th><th>Como foi obtido</th><th class="num">Valor em R$</th><th class="num">Valor em %</th></tr>
+        </thead>
+        <tbody>
+
+          <tr class="grupo"><td colspan="4">1. Produto / Custo base</td></tr>
+          <tr><td class="item">Custo do produto</td><td><span class="tag tag-produto">Produto</span></td><td class="num">R$ 238,16</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Custo com bonificação</td><td><span class="tag tag-produto">Produto</span> <span class="mini-form">vazio — usa o custo</span></td><td class="num">R$ 238,16</td><td class="num vazio">—</td></tr>
+
+          <tr class="grupo"><td colspan="4">2. Dimensões e peso</td></tr>
+          <tr><td class="item">Altura</td><td><span class="tag tag-produto">Produto</span></td><td class="num">24 cm</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Largura</td><td><span class="tag tag-produto">Produto</span></td><td class="num">44 cm</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Comprimento</td><td><span class="tag tag-produto">Produto</span></td><td class="num">57 cm</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Peso físico</td><td><span class="tag tag-produto">Produto</span></td><td class="num vazio">vazio</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Peso cúbico</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">24×44×57 ÷ 1.000.000 × fator</span></td><td class="num">10,032 kg</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Peso usado (maior entre físico e cúbico)</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">10,032 kg</td><td class="num vazio">—</td></tr>
+
+          <tr class="grupo"><td colspan="4">3. Créditos fiscais de entrada (NF)</td></tr>
+          <tr><td class="item">IPI</td><td><span class="tag tag-nf">NF</span> <span class="mini-form">R$ 0,00 na nota ÷ 900 unid.</span></td><td class="num">R$ 0,00</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Crédito ICMS entrada</td><td><span class="tag tag-nf">NF</span> <span class="mini-form">CST 51 — diferimento estadual</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+          <tr><td class="item">Crédito PIS entrada</td><td><span class="tag tag-nf">NF</span> <span class="mini-form">R$ 111.244,54 × 2,00% ÷ 900 unid.</span></td><td class="num">R$ 2,47</td><td class="num">2,00%</td></tr>
+          <tr><td class="item">Crédito COFINS entrada</td><td><span class="tag tag-nf">NF</span> <span class="mini-form">R$ 111.244,54 × 9,60% ÷ 900 unid.</span></td><td class="num">R$ 11,87</td><td class="num">9,60%</td></tr>
+
+          <tr class="grupo"><td colspan="4">4. Frete de entrada (CIF/FOB)</td></tr>
+          <tr><td class="item">Frete CIF/FOB</td><td><span class="tag tag-produto">Produto</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+
+          <tr class="grupo"><td colspan="4">5. Coleta e armazenagem</td></tr>
+          <tr><td class="item">Metro cúbico</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">24×44×57 ÷ 1.000.000</span></td><td class="num">0,06019 m³</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Fator de coleta</td><td><span class="tag tag-config">Config geral</span></td><td class="num">71,995</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Coleta</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">0,06019 m³ × 71,995</span></td><td class="num">R$ 4,33</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Faixa de armazenagem (valor/dia)</td><td><span class="tag tag-config">Config</span> <span class="mini-form">faixa pela dimensão</span></td><td class="num">R$ 0,05</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Período de armazenagem</td><td><span class="tag tag-config">Config geral</span></td><td class="num">30 dias</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Armazenagem</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">R$ 0,05 × 30 dias</span></td><td class="num">R$ 1,50</td><td class="num vazio">—</td></tr>
+
+          <tr class="grupo"><td colspan="4">6. Comissão</td></tr>
+          <tr><td class="item">Comissão</td><td><span class="tag tag-config">Config</span> <span class="mini-form">tipo de anúncio: Clássico</span></td><td class="num">R$ 62,87</td><td class="num">12,00%</td></tr>
+
+          <tr class="grupo"><td colspan="4">7. Impostos de saída</td></tr>
+          <tr><td class="item">ICMS saída</td><td><span class="tag tag-saida">Saída</span> <span class="mini-form">alíquota média do produto</span></td><td class="num">R$ 35,68</td><td class="num">6,81%</td></tr>
+          <tr><td class="item">PIS saída</td><td><span class="tag tag-saida">Saída</span></td><td class="num">R$ 8,64</td><td class="num">1,65%</td></tr>
+          <tr><td class="item">COFINS saída</td><td><span class="tag tag-saida">Saída</span></td><td class="num">R$ 39,82</td><td class="num">7,60%</td></tr>
+
+          <tr class="grupo"><td colspan="4">8. Taxas (soma)</td></tr>
+          <tr class="subtotal"><td class="item">Taxa total</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">comissão + impostos de saída</span></td><td class="num">R$ 147,01</td><td class="num">28,06%</td></tr>
+          <tr><td class="item">Margem-alvo</td><td><span class="tag tag-config">Config</span> <span class="mini-form">grade Padrão</span></td><td class="num">R$ 78,59</td><td class="num">15,00%</td></tr>
+          <tr><td class="item">Denominador</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">1 − taxa − margem-alvo</span></td><td class="num vazio">— (fator)</td><td class="num vazio">—</td></tr>
+
+          <tr class="grupo"><td colspan="4">9. Frete de saída (Mercado Livre)</td></tr>
+          <tr><td class="item">Peso usado pra faixa</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">10,032 kg</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Frete final usado (faixa FreteML)</td><td><span class="tag tag-config">Config</span> → <span class="tag tag-calc">Calculado</span></td><td class="num">R$ 68,65</td><td class="num vazio">—</td></tr>
+
+          <tr class="grupo"><td colspan="4">10. Resultado</td></tr>
+          <tr class="subtotal"><td class="item">Custo final</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 238,16</td><td class="num vazio">—</td></tr>
+          <tr class="subtotal"><td class="item">FIXO</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 229,66</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Rebate de promoção</td><td><span class="tag tag-calc">Calculado</span> <span class="mini-form">sem campanha ativa</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+          <tr class="subtotal"><td class="item">Preço exato (antes de arredondar)</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 523,89</td><td class="num vazio">—</td></tr>
+          <tr class="destaque"><td class="item">Preço final (arredondado ,90)</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 523,90</td><td class="num vazio">—</td></tr>
+          <tr><td class="item">Margem exata (antes de arredondar)</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 78,58</td><td class="num">15,00%</td></tr>
+          <tr class="destaque"><td class="item">Margem final</td><td><span class="tag tag-calc">Calculado</span></td><td class="num">R$ 78,58</td><td class="num">15,00%</td></tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PASSO A PASSO — igual ao v5, com Passo 5/6/Resultado em %+R$ -->
+  <!-- ============================================================ -->
+  <div class="card">
+    <div class="secao-titulo">Passo a passo</div>
+    <div class="passos">
+
+      <div class="passo" data-estado="colapsado" id="passo-1">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">1</span><span class="passo-label">Custo final</span>
+          <span class="passo-resultado">R$ 238,16</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Custo com bonificação <span class="tag tag-produto">Produto</span></span><span class="v">R$ 238,16</span></div>
+            <div class="input-linha"><span class="k">IPI <span class="tag tag-nf">NF</span></span><span class="v">R$ 0,00</span></div>
+            <div class="input-linha"><span class="k">Frete CIF/FOB <span class="tag tag-produto">Produto</span></span><span class="v">R$ 0,00 (0,00%)</span></div>
+          </div>
+          <div class="passo-abstrata">custo_com_boni + IPI + frete CIF/FOB</div>
+          <div class="passo-conta">R$ 238,16 + R$ 0,00 + R$ 0,00 = <b>R$ 238,16</b></div>
+        </div>
+      </div>
+
+      <div class="passo" data-estado="colapsado" id="passo-2">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">2</span><span class="passo-label">Coleta</span>
+          <span class="passo-resultado">R$ 4,33</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Metro cúbico <span class="tag tag-calc">Calculado</span></span><span class="v">0,06019 m³</span></div>
+            <div class="input-linha"><span class="k">Fator de coleta <span class="tag tag-config">Config</span></span><span class="v">71,995</span></div>
+          </div>
+          <div class="passo-abstrata">metro cúbico × fator de coleta</div>
+          <div class="passo-conta">0,06019 m³ × 71,995 = <b>R$ 4,33</b></div>
+        </div>
+      </div>
+
+      <div class="passo" data-estado="colapsado" id="passo-3">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">3</span><span class="passo-label">Armazenagem</span>
+          <span class="passo-resultado">R$ 1,50</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Faixa selecionada (pela dimensão) <span class="tag tag-config">Config</span></span><span class="v">R$ 0,05/dia</span></div>
+            <div class="input-linha"><span class="k">Período de armazenagem <span class="tag tag-config">Config</span></span><span class="v">30 dias</span></div>
+          </div>
+          <div class="passo-abstrata">valor diário da faixa × período de armazenagem</div>
+          <div class="passo-conta">R$ 0,05 × 30 dias = <b>R$ 1,50</b></div>
+        </div>
+      </div>
+
+      <div class="passo" data-estado="colapsado" id="passo-4">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">4</span><span class="passo-label">FIXO</span>
+          <span class="passo-resultado">R$ 229,66</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Coleta <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 4,33</span></div>
+            <div class="input-linha"><span class="k">Armazenagem <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 1,50</span></div>
+            <div class="input-linha"><span class="k">Custo final <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 238,16</span></div>
+            <div class="input-linha"><span class="k">Crédito ICMS <span class="tag tag-nf">NF</span></span><span class="v">R$ 0,00</span></div>
+            <div class="input-linha"><span class="k">Crédito PIS <span class="tag tag-nf">NF</span></span><span class="v">R$ 2,47</span></div>
+            <div class="input-linha"><span class="k">Crédito COFINS <span class="tag tag-nf">NF</span></span><span class="v">R$ 11,87</span></div>
+          </div>
+          <div class="passo-abstrata">coleta + armazenagem + custo final − crédito ICMS − crédito PIS − crédito COFINS</div>
+          <div class="passo-conta">R$ 4,33 + R$ 1,50 + R$ 238,16 − R$ 0,00 − R$ 2,47 − R$ 11,87 = <b>R$ 229,66</b></div>
+        </div>
+      </div>
+
+      <!-- PASSO 5 — AGORA COM R$ AO LADO DE CADA % (NOVO) -->
+      <div class="passo" data-estado="expandido" id="passo-5">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">5</span><span class="passo-label">Taxa</span>
+          <span class="passo-resultado">28,06%<span class="sub">R$ 147,01</span></span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Comissão <span class="tag tag-config">Config</span></span><span class="v">12,00% · R$ 62,87</span></div>
+            <div class="input-linha"><span class="k">ICMS Saída <span class="tag tag-saida">Saída</span></span><span class="v">6,81% · R$ 35,68</span></div>
+            <div class="input-linha"><span class="k">PIS Saída <span class="tag tag-saida">Saída</span></span><span class="v">1,65% · R$ 8,64</span></div>
+            <div class="input-linha"><span class="k">COFINS Saída <span class="tag tag-saida">Saída</span></span><span class="v">7,60% · R$ 39,82</span></div>
+          </div>
+          <div class="passo-abstrata">comissão + ICMS saída + PIS saída + COFINS saída (% sobre o preço final)</div>
+          <div class="passo-conta-pct">12,00% + 6,81% + 1,65% + 7,60% = <b>28,06%</b></div>
+          <div class="passo-conta">R$ 62,87 + R$ 35,68 + R$ 8,64 + R$ 39,82 = <b>R$ 147,01</b></div>
+        </div>
+      </div>
+
+      <!-- PASSO 6 — MARGEM-ALVO AGORA TAMBÉM EM R$ (NOVO) -->
+      <div class="passo" data-estado="colapsado" id="passo-6">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">6</span><span class="passo-label">Denominador</span>
+          <span class="passo-resultado">0,5694</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Taxa total <span class="tag tag-calc">Calculado</span></span><span class="v">28,06% · R$ 147,01</span></div>
+            <div class="input-linha"><span class="k">Margem-alvo (grade Padrão) <span class="tag tag-config">Config</span></span><span class="v">15,00% · R$ 78,59</span></div>
+          </div>
+          <div class="passo-abstrata">1 − taxa − margem-alvo <span class="mini-form" style="display:inline">(denominador é um fator, não tem R$ próprio — os 2 valores que o compõem já aparecem em R$ acima)</span></div>
+          <div class="passo-conta">1 − 28,06% − 15,00% = <b>0,5694</b></div>
+        </div>
+      </div>
+
+      <div class="passo" data-estado="colapsado" id="passo-7">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">7</span><span class="passo-label">Faixa de frete</span>
+          <span class="passo-resultado">R$ 68,65</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Peso usado <span class="tag tag-calc">Calculado</span></span><span class="v">10,032 kg</span></div>
+            <div class="input-linha"><span class="k">Tabela de frete por peso <span class="tag tag-config">Config</span></span><span class="v">FreteML</span></div>
+          </div>
+          <div class="passo-abstrata">peso → faixa de peso na tabela FreteML</div>
+          <div class="passo-conta">10,032 kg → faixa correspondente = <b>R$ 68,65</b></div>
+        </div>
+      </div>
+
+      <div class="passo" data-estado="colapsado" id="passo-8">
+        <button class="passo-linha" onclick="togglePasso(this)">
+          <span class="passo-num">8</span><span class="passo-label">Preço exato</span>
+          <span class="passo-resultado">R$ 523,89</span><span class="passo-seta">›</span>
+        </button>
+        <div class="passo-detalhe">
+          <div class="inputs-box">
+            <div class="input-linha"><span class="k">Frete <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 68,65</span></div>
+            <div class="input-linha"><span class="k">FIXO <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 229,66</span></div>
+            <div class="input-linha"><span class="k">Rebate de promoção <span class="tag tag-calc">Calculado</span></span><span class="v">R$ 0,00</span></div>
+            <div class="input-linha"><span class="k">Denominador <span class="tag tag-calc">Calculado</span></span><span class="v">0,5694</span></div>
+          </div>
+          <div class="passo-abstrata">(frete + FIXO − rebate) ÷ denominador</div>
+          <div class="passo-conta">(R$ 68,65 + R$ 229,66 − R$ 0,00) ÷ 0,5694 = <b>R$ 523,89</b></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RESULTADO — margem exata e margem final agora também em R$ (NOVO) -->
+    <div class="secao-titulo">Resultado</div>
+    <table class="saida">
+      <tr><td>Preço exato</td><td class="valor">R$ 523,89</td></tr>
+      <tr><td>Margem exata (antes do arredondamento)</td><td class="valor">15,00%<span class="sub">R$ 78,58</span></td></tr>
+      <tr class="destaque"><td>Preço final (arredondado pra ,90)</td><td class="valor">R$ 523,90</td></tr>
+      <tr class="destaque"><td>Margem final</td><td class="valor">15,00% ≥ meta<span class="sub">R$ 78,58 de lucro</span></td></tr>
+      <tr><td>Custo de frete final</td><td class="valor">R$ 68,65</td></tr>
+    </table>
+
+    <!-- ============================================================ -->
+    <!-- NOVO: FÓRMULA COMPLETA, DO INÍCIO AO FIM, TUDO SUBSTITUÍDO -->
+    <!-- ============================================================ -->
+    <div class="formula-box">
+      <div class="formula-titulo">Fórmula completa — abstrata e com todos os números substituídos</div>
+
+      <div class="formula-linha">preço = (frete + FIXO − rebate) ÷ (1 − taxa − margem-alvo)</div>
+      <div class="formula-linha">onde FIXO = coleta + armazenagem + custo_final − crédito_ICMS − crédito_PIS − crédito_COFINS</div>
+      <div class="formula-linha">onde custo_final = custo_com_boni + IPI + frete_CIF/FOB</div>
+      <div class="formula-linha">onde taxa = comissão + ICMS_saída + PIS_saída + COFINS_saída</div>
+
+      <div class="formula-linha" style="margin-top:10px">preço = (R$ 68,65 + [R$ 4,33 + R$ 1,50 + (R$ 238,16 + R$ 0,00 + R$ 0,00) − R$ 0,00 − R$ 2,47 − R$ 11,87] − R$ 0,00) ÷ (1 − (12,00% + 6,81% + 1,65% + 7,60%) − 15,00%)</div>
+      <div class="formula-linha">preço = (R$ 68,65 + R$ 229,66 − R$ 0,00) ÷ 0,5694</div>
+      <div class="formula-linha">preço = R$ 298,31 ÷ 0,5694 = <b>R$ 523,89</b> (preço exato)</div>
+      <div class="formula-linha resultado">preço final = RoundUp90(R$ 523,89) = <b>R$ 523,90</b> · margem final = <b>15,00% (R$ 78,58)</b></div>
+    </div>
+  </div>
+
+  <div class="nota-rodape">Mockup v6 — dados reais do Duble (10/09/2026), mesmo produto do v5 cenário OK. Layout ainda não é o código final.</div>
+</div>
+
+<script>
+function togglePasso(btn) {
+  var passo = btn.closest('.passo');
+  passo.dataset.estado = passo.dataset.estado === 'expandido' ? 'colapsado' : 'expandido';
+}
+function toggleBlocoProduto(btn) {
+  var bloco = btn.closest('.bloco-produto');
+  bloco.dataset.estado = bloco.dataset.estado === 'expandido' ? 'colapsado' : 'expandido';
+}
+</script>
+</body>
+</html>

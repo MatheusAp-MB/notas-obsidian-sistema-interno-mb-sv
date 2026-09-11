@@ -20,20 +20,21 @@
             }
           },
           {
-            "id": "c14bbb5e16a3141f",
+            "id": "201830790574227a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+                "file": "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
+              "title": "Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo)"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -95,7 +96,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 686.5
+    "width": 686.5,
+    "collapsed": true
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -204,12 +206,18 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "201830790574227a",
   "lastOpenFiles": [
+    "Claude outputs/diff_auditoria_v6.patch",
+    "Claude outputs/diff_auditoria_v6.md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "Claude outputs/mockup_tela_auditoria_v6.html",
+    "Claude outputs/B7E48800",
+    "Claude outputs/~$Tabela_Frete_Mercado_Livre.xlsx",
+    "Claude outputs/Tabela_Frete_Mercado_Livre.xlsx",
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML.md",
     "03_Sistema_Interno/Precificacao/Duvidas/Duvida - Margens Absurdas Aparecem Filtradas no Log de Recomendacao de Precificacao da Magazine.md",
     "03_Sistema_Interno/Precificacao/Duvidas",
-    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML.md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "02_Nucleo_Engenharia_Repositorio/Regras/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
     "README.md",
     "Claude outputs/organizar_e_verificar_divergencias_dimensoes_envio.py",
@@ -223,16 +231,12 @@
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90.md",
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Duble de Precificacao Existente Esta Quebrado (Campo pis_cofins Removido).md",
-    "03_Sistema_Interno/Precificacao/Descobertas",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Inicio da Validacao Exaustiva de Precificacao.md",
-    "03_Sistema_Interno/Precificacao/Checkpoints",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Campos Fiscais de Saida no Codigo - 4 Existem Vazios, CST e Tabela por UF Nao Existem.md",
     "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "03_Sistema_Interno/Conceitos/Dois Sistemas Paralelos - Projeto Interno V2 e We Stack.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - We Stack e Referencia, Sistema Calcula ICMS de Saida pela UF Real de Cada Venda.md",
-    "03_Sistema_Interno/Impostos_Saida/Decisoes",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Estrutura da Planilha Busca Legal de Impostos de Saida.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas",
     "03_Sistema_Interno/Impostos_Saida/Checkpoints/Checkpoint - Inicio da Estrutura de Impostos de Saida.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Empilhados na Abertura Automática pelo IP da Rede — CWD Errado no .env e Query String Perdida na URL de Arquivo Local.md",
@@ -240,8 +244,6 @@
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do Relatório de Devolução — Migração de xhtml2pdf para View de Impressão do Navegador.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
-    "Rascunho da modelagem.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
