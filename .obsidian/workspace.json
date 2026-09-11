@@ -20,21 +20,7 @@
             }
           },
           {
-            "id": "48339ade4b5f9d62",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "README"
-            }
-          },
-          {
-            "id": "3dddfc914b9b10ac",
+            "id": "c14bbb5e16a3141f",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -47,8 +33,7 @@
               "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +67,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "primeiro preço",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -106,12 +91,11 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 550.8333740234375
+    "width": 686.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -220,15 +204,21 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "3dddfc914b9b10ac",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Precificacao/Duvidas/Duvida - Margens Absurdas Aparecem Filtradas no Log de Recomendacao de Precificacao da Magazine.md",
+    "03_Sistema_Interno/Precificacao/Duvidas",
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML.md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "02_Nucleo_Engenharia_Repositorio/Regras/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
+    "README.md",
+    "Claude outputs/organizar_e_verificar_divergencias_dimensoes_envio.py",
+    "Claude outputs/teste.py",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design.md",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Alcance Real do SEM CALCULO na Grade ML Apos Correcao de Persistencia.md",
-    "README.md",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Modal de Auditoria ML Lia Campos Que Nao Existem Mais (Mesma Causa do Duble Quebrado).md",
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Grade de Precificacao ML Nunca Grava Nem Limpa Linha Quando o Calculo Nao Resolve.md",
     "Claude outputs/mockup_tela_auditoria.html",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "Claude outputs/Duble_Precificacao_MOCKUP.xlsx",
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90.md",
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos",
@@ -244,10 +234,7 @@
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Estrutura da Planilha Busca Legal de Impostos de Saida.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas",
     "03_Sistema_Interno/Impostos_Saida/Checkpoints/Checkpoint - Inicio da Estrutura de Impostos de Saida.md",
-    "03_Sistema_Interno/Impostos_Saida/Checkpoints",
-    "03_Sistema_Interno/Impostos_Saida",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local.md",
-    "07_Sistema_Relatorio_Devolucoes/sed3vdYOY",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/2 Bugs Empilhados na Abertura Automática pelo IP da Rede — CWD Errado no .env e Query String Perdida na URL de Arquivo Local.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Form Aninhado Quebrava Layout e Botão Salvar na Tela de Conferência.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Bugs_Conhecidos/Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição.md",
@@ -255,7 +242,6 @@
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Layout do Relatório de Devolução — Folha A4 Única, Faixa Horizontal e Fotos de Peça.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "Rascunho da modelagem.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
@@ -264,8 +250,6 @@
     "Claude outputs/repro_v2_nova_marca.png",
     "Claude outputs/repro_v2_topo.png",
     "Claude outputs/repro_depois_topo.png",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Checklist de Implementação — Gaveta de Peças e Modais de Ação.md",
-    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Análise do UX Flow da Responsável pela Devolução.md",
     "Claude outputs/logo.jpg",
     "Sem título.canvas"
   ]

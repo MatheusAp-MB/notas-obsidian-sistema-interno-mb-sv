@@ -1,12 +1,82 @@
 {
   "collapse-filter": true,
-  "search": "primeiro preço",
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
   "showOrphans": true,
   "collapse-color-groups": false,
   "colorGroups": [
+    {
+      "query": "path:\"00_Nucleo_Comportamento_Claude\"",
+      "color": {
+        "a": 1,
+        "rgb": 16156987
+      }
+    },
+    {
+      "query": "path:\"01_Nucleo_Geral_Vault\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357990
+      }
+    },
+    {
+      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
+      "color": {
+        "a": 1,
+        "rgb": 6322314
+      }
+    },
+    {
+      "query": "path:\"03_Sistema_Interno\"",
+      "color": {
+        "a": 1,
+        "rgb": 3900150
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp\"",
+      "color": {
+        "a": 1,
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"05_Integracao_Mercado_Livre\"",
+      "color": {
+        "a": 1,
+        "rgb": 16498468
+      }
+    },
+    {
+      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
+      "color": {
+        "a": 1,
+        "rgb": 15485081
+      }
+    },
+    {
+      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
+      }
+    },
+    {
+      "query": "path:\"Claude outputs\"",
+      "color": {
+        "a": 1,
+        "rgb": 13430271
+      }
+    },
     {
       "query": "path:\"00_Nucleo_Comportamento_Claude\"",
       "color": {
@@ -123,8 +193,8 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.09895430218636374,
-  "close": true,
+  "scale": 0.09895430218636338,
+  "close": false,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
     "path:\"01_Nucleo_Geral_Vault\"",
