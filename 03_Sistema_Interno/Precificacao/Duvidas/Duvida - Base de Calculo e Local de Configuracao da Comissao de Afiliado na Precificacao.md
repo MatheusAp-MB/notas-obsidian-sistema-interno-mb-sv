@@ -1,18 +1,18 @@
 ---
 tipo: duvida
 dominio: 
-status: em_aberto
+status: resolvida
 criado: 11/09/2026
-atualizado_em: 11/09/2026 18:53
-relacionado: [Grade de Precificacao ML Usa Apenas FULL vs Nao-FULL, Nunca os 7 Tipos Logisticos Separados]
+atualizado_em: 11/09/2026 19:24
+relacionado: [Grade de Precificacao ML Usa Apenas FULL vs Nao-FULL, Nunca os 7 Tipos Logisticos Separados, Preco Gera Margem x Margem Gera Preco - Direcoes Opostas Entre a Planilha do Superior e o Goal Seek do Sistema, Comissao de Afiliado na Precificacao - Base de Calculo, Local de Configuracao e Escopo do Prefixo de SKU]
 ---
 
 # Dúvida: Base de Cálculo e Local de Configuração da Comissão de Afiliado na Precificação
 
-**Resumo**: comissão de afiliado (ex: 8% já definido pro TikTok) é um custo extra, configurável por plataforma, somado à comissão normal sem mudar a lógica de margem — detectado pelo prefixo "1" no SKU (`1F(ean).001` vs. `F(ean).001` comum). Falta confirmar a base de cálculo dos 8%, onde esse campo deve morar na configuração, e se o prefixo do SKU é convenção universal ou varia por plataforma.
+**Resumo**: comissão de afiliado (ex: 8% já definido pro TikTok) é um custo extra, configurável por plataforma, somado à comissão normal sem mudar a lógica de margem — detectado pelo prefixo "1" no SKU (`1F(ean).001` vs. `F(ean).001` comum). Resolvida em 11/09/2026 — ver [[Comissao de Afiliado na Precificacao - Base de Calculo, Local de Configuracao e Escopo do Prefixo de SKU]].
 
-> [!question] EM ABERTO — pontos-chave já confirmados, 3 perguntas específicas restantes
-> A mecânica geral (custo extra, configurável por plataforma, sem mudar margem) já está validada com Matheus em 11/09/2026. Faltam 3 confirmações específicas antes de fechar a implementação — ver "A pergunta" abaixo.
+> [!success] RESOLVIDA — a resposta completa está em nota separada, não aqui
+> As 3 perguntas (base de cálculo, local de configuração, escopo do prefixo de SKU) foram todas respondidas e consolidadas em [[Comissao de Afiliado na Precificacao - Base de Calculo, Local de Configuracao e Escopo do Prefixo de SKU]]. O raciocínio completo mora na nota de decisão, não aqui. Esta nota continua existindo como registro de como a dúvida surgiu e evoluiu antes de ser resolvida.
 
 ## Contexto
 
@@ -20,11 +20,10 @@ A grade de precificação do ML está sendo redesenhada pra incluir um eixo de A
 
 ## A pergunta
 
-Três pontos específicos ainda sem resposta:
+Dois pontos específicos ainda sem resposta (a 3ª pergunta original, sobre base de cálculo, já foi respondida — ver "O que já se sabe"):
 
-1. **Base de cálculo**: os 8% do TikTok (e o que vier de outras plataformas) incidem sobre o preço de venda — a mesma base da comissão normal do marketplace — ou sobre outra base (ex: valor líquido após a comissão do marketplace)? Isso muda o resultado final do preço, não é só uma questão de exibição.
-2. **Local de configuração**: faz sentido um campo `comissao_afiliado` direto na configuração geral do Marketplace (junto com sigla 'ML', 'TikTok' etc.), já que é configurável por plataforma e não por tipo de anúncio — ou Matheus imagina esse campo em outro lugar?
-3. **Escopo do prefixo de SKU**: o prefixo "1" (`F(ean).001` → `1F(ean).001`) é uma convenção própria do sistema interno, válida em qualquer marketplace, ou é uma marcação que muda dependendo da plataforma (ex: TikTok usa esse prefixo, mas outro marketplace usa outra marcação)?
+1. **Local de configuração**: faz sentido um campo `comissao_afiliado` direto na configuração geral do Marketplace (junto com sigla 'ML', 'TikTok' etc.), já que é configurável por plataforma e não por tipo de anúncio — ou Matheus imagina esse campo em outro lugar?
+2. **Escopo do prefixo de SKU**: o prefixo "1" (`F(ean).001` → `1F(ean).001`) é uma convenção própria do sistema interno, válida em qualquer marketplace, ou é uma marcação que muda dependendo da plataforma (ex: TikTok usa esse prefixo, mas outro marketplace usa outra marcação)?
 
 ## O que já se sabe até agora
 
@@ -32,8 +31,10 @@ Três pontos específicos ainda sem resposta:
 - TikTok: 8% já definido. ML e as demais plataformas ainda não têm valor confirmado.
 - Não muda a fórmula/lógica de margem — é só um custo extra somado ao cálculo, sempre que aplicável (confirmado por Matheus: "sempre tem esse x% a mais pra ser pago de comissão pro afiliado").
 - Cada percentual de comissão (marketplace, afiliado) fica registrado separado, sem somar os percentuais antes do cálculo — mesmo padrão já usado no sistema pra créditos fiscais de entrada (`CreditosFiscaisEntradaParaPrecificacao` mantém ICMS/IPI/PIS/COFINS como campos distintos, nunca fundidos num total genérico).
-- Matematicamente, se a base de cálculo for a mesma (preço de venda) pros dois percentuais, manter os valores separados ou somar antes do cálculo dá o mesmo preço final — a separação existe pra rastreabilidade/exibição, não pra mudar o resultado. Isso só deixa de ser verdade se a resposta da pergunta 1 for "bases diferentes".
+- **Base de cálculo confirmada (11/09/2026)**: analisando a `Planilha_REFERENCIA_PRECIFICAÇÃO_Reduzida.xlsx` do superior de Matheus, os 4 casos encontrados (ML Clássico, ML Premium, TikTok, Shopee) usam sempre `Preço_de_venda_do_proprio_tipo_anuncio_ou_marketplace × 8%` — nunca uma base cruzada ou líquida. A confusão inicial (2 colunas de preço do ML pareciam usar bases diferentes) era só a direção oposta de cálculo da planilha do superior, não um erro real — ver [[Preco Gera Margem x Margem Gera Preco - Direcoes Opostas Entre a Planilha do Superior e o Goal Seek do Sistema]]. Na prática, isso significa que a fórmula do sistema deve usar o mesmo preço que o Goal Seek daquele tipo de anúncio já está resolvendo — nunca um preço de outro tipo de anúncio.
 
 ## Relacionado
 
 - [[Grade de Precificacao ML Usa Apenas FULL vs Nao-FULL, Nunca os 7 Tipos Logisticos Separados]]
+- [[Preco Gera Margem x Margem Gera Preco - Direcoes Opostas Entre a Planilha do Superior e o Goal Seek do Sistema]]
+- [[Comissao de Afiliado na Precificacao - Base de Calculo, Local de Configuracao e Escopo do Prefixo de SKU]]
