@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICMS de Saída por NCM — Sistema Interno MB/SV</title>
+<style>
+    :root {
+        --navy: #1e3a5f;
+        --navy-dark: #16293f;
+        --azul: #1d4ed8;
+        --azul-bg: #dbeafe;
+        --verde: #1a8a5f;
+        --verde-bg: #e6f5ee;
+        --ambar-bg: #fffbeb;
+        --ambar-texto: #b45309;
+        --ambar-borda: #fde68a;
+        --cinza-100: #f5f7fa;
+        --cinza-200: #e8ecf1;
+        --cinza-400: #b8c2cf;
+        --cinza-600: #5b6b7d;
+        --cinza-800: #2c3846;
+        --borda: #dde3ea;
+        --branco: #ffffff;
+        --sombra: 0 1px 3px rgba(30, 58, 95, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--cinza-100);
+        color: var(--cinza-800);
+        font-size: 14px;
+    }
+
+    .topbar {
+        background: var(--navy);
+        color: #fff;
+        padding: 14px 24px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .topbar .sistema { font-size: 12px; opacity: 0.65; letter-spacing: 0.03em; text-transform: uppercase; }
+    .topbar h1 { font-size: 17px; margin: 0; font-weight: 600; }
+    .topbar .badge-mockup {
+        margin-left: auto;
+        background: var(--ambar-bg);
+        color: var(--ambar-texto);
+        border: 1px solid var(--ambar-borda);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 5px;
+    }
+
+    .pagina {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    .aviso-mockup {
+        background: var(--ambar-bg);
+        border: 1px solid var(--ambar-borda);
+        color: var(--ambar-texto);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 12.5px;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .painel {
+        background: var(--branco);
+        border: 1px solid var(--borda);
+        border-radius: 10px;
+        box-shadow: var(--sombra);
+        margin-bottom: 20px;
+    }
+    .painel-titulo {
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--borda);
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--navy);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .painel-corpo { padding: 18px; }
+
+    /* Legenda de origem do dado */
+    .legenda {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 12.5px;
+        color: var(--cinza-600);
+    }
+    .legenda-item { display: flex; align-items: center; gap: 7px; }
+    .chip { width: 13px; height: 13px; border-radius: 3px; display: inline-block; flex-shrink: 0; }
+    .chip-importado { background: var(--cinza-200); border: 1px solid var(--cinza-400); }
+    .chip-calculado { background: var(--verde-bg); border: 1px solid var(--verde); }
+
+    /* Calculadora */
+    .calc-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr auto;
+        gap: 14px;
+        align-items: end;
+    }
+    label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--cinza-600);
+        margin-bottom: 6px;
+    }
+    select, input {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid var(--borda);
+        border-radius: 7px;
+        font-size: 13.5px;
+        background: var(--branco);
+        color: var(--cinza-800);
+        font-family: inherit;
+    }
+    select:focus, input:focus { outline: 2px solid var(--azul); outline-offset: 1px; }
+
+    .btn-calcular {
+        background: var(--navy);
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 7px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .btn-calcular:hover { background: var(--navy-dark); }
+
+    .resultado-calc {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-radius: 8px;
+        background: var(--cinza-100);
+        border: 1px dashed var(--cinza-400);
+        font-size: 13px;
+        color: var(--cinza-600);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 22px;
+    }
+    .resultado-calc.preenchido {
+        background: var(--verde-bg);
+        border: 1px solid var(--verde);
+        color: var(--cinza-800);
+    }
+    .resultado-calc .valor-grande {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--verde);
+        font-variant-numeric: tabular-nums;
+    }
+    .resultado-calc .origem-tag {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: var(--verde);
+        color: #fff;
+    }
+
+    /* Matriz */
+    .matriz-wrap {
+        overflow-x: auto;
+        border-radius: 8px;
+        border: 1px solid var(--borda);
+    }
+    table.matriz {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 12.5px;
+        font-variant-numeric: tabular-nums;
+    }
+    table.matriz th, table.matriz td {
+        padding: 8px 10px;
+        text-align: center;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--borda);
+        border-right: 1px solid #eef1f5;
+    }
+    table.matriz thead th {
+        background: var(--cinza-100);
+        color: var(--cinza-600);
+        font-weight: 700;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    table.matriz th.col-ncm, table.matriz td.col-ncm {
+        text-align: left;
+        position: sticky;
+        left: 0;
+        background: var(--branco);
+        z-index: 1;
+        border-right: 2px solid var(--borda);
+        min-width: 210px;
+    }
+    table.matriz thead th.col-ncm { background: var(--cinza-100); z-index: 3; }
+    table.matriz td.col-ncm .ncm-codigo { font-weight: 700; color: var(--navy); font-family: "SF Mono", Menlo, monospace; }
+    table.matriz td.col-ncm .ncm-desc { display: block; font-size: 11px; color: var(--cinza-600); font-weight: 400; margin-top: 1px; }
+
+    table.matriz td.col-uf, table.matriz th.col-uf { min-width: 52px; color: var(--cinza-800); }
+    table.matriz th.col-media, table.matriz td.col-media {
+        background: var(--verde-bg);
+        font-weight: 700;
+        color: var(--verde);
+        border-left: 2px solid var(--verde);
+        min-width: 90px;
+    }
+    table.matriz thead th.col-media { background: #d7f0e3; }
+
+    table.matriz tbody tr:hover td:not(.col-media) { background: #f7f9fb; }
+    table.matriz tbody tr:hover td.col-ncm { background: #f7f9fb; }
+
+    td.destacada {
+        background: var(--ambar-bg) !important;
+        outline: 2px solid var(--ambar-texto);
+        outline-offset: -2px;
+        position: relative;
+    }
+
+    .rodape-nota {
+        font-size: 11.5px;
+        color: var(--cinza-600);
+        margin-top: 10px;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+        .calc-grid { grid-template-columns: 1fr; }
+        .painel-corpo { padding: 14px; }
+        .pagina { padding: 14px; }
+    }
+</style>
+</head>
+<body>
+
+    <div class="topbar">
+        <span class="sistema">Sistema Interno MB/SV</span>
+        <h1>ICMS de Saída por NCM</h1>
+        <span class="badge-mockup">Mockup — v1</span>
+    </div>
+
+    <div class="pagina">
+
+        <div class="aviso-mockup">
+            <strong>Dados de exemplo</strong> — esta tela ainda não existe no sistema real. 8 NCMs e alíquotas fictícias, só pra revisão do layout e da mecânica de consulta. Nada aqui vem do banco.
+        </div>
+
+        <!-- Calculadora -->
+        <div class="painel">
+            <div class="painel-titulo">Consultar ICMS por NCM + UF</div>
+            <div class="painel-corpo">
+                <div class="calc-grid">
+                    <div>
+                        <label for="input-ncm">NCM do produto</label>
+                        <select id="input-ncm">
+                            <option value="">Selecione um NCM…</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="input-uf">UF de destino</label>
+                        <select id="input-uf">
+                            <option value="">Selecione uma UF…</option>
+                            <option value="MEDIA">Média Ponderada</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn-calcular" onclick="calcular()">Consultar</button>
+                    </div>
+                </div>
+
+                <div id="resultado-calculadora" class="resultado-calc">
+                    Selecione o NCM e a UF pra ver a alíquota de ICMS de saída.
+                </div>
+            </div>
+        </div>
+
+        <!-- Matriz -->
+        <div class="painel">
+            <div class="painel-titulo">
+                Tabela completa
+                <span style="margin-left:auto; font-weight:400;">
+                    <span class="legenda">
+                        <span class="legenda-item"><span class="chip chip-importado"></span> importado (Systax / fonte externa)</span>
+                        <span class="legenda-item"><span class="chip chip-calculado"></span> calculado pelo sistema</span>
+                    </span>
+                </span>
+            </div>
+            <div class="painel-corpo">
+                <div class="matriz-wrap">
+                    <table class="matriz" id="tabela-matriz">
+                        <thead>
+                            <tr id="linha-cabecalho">
+                                <th class="col-ncm">NCM</th>
+                                <!-- colunas de UF geradas por JS -->
+                                <th class="col-media">Média<br>Ponderada</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-matriz">
+                            <!-- linhas geradas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <p class="rodape-nota">
+                    A coluna <strong>Média Ponderada</strong> nunca vem de planilha — é calculada pelo próprio sistema a partir das 27 alíquotas importadas: <code>SP × 50% + (média das outras 26 UFs) × 50%</code>. Se um NCM novo entrar sem alguma UF preenchida, a célula aparece em branco e a média não é calculada (nunca finge um valor que não existe).
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    const UFS = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+
+    // Função Objetivo: dados de exemplo — 1 linha por NCM, 27 aliquotas brutas (%).
+    // Em produção isso viria do import (dado bruto), nunca digitado aqui.
+    const DADOS_EXEMPLO = [
+        { ncm: "90211010", desc: "Aparelhos ortopédicos", aliquotas: {AC:6.0,AL:6.0,AM:6.0,AP:5.0,BA:5.0,CE:5.0,DF:5.0,ES:5.0,GO:5.0,MA:5.0,MG:6.0,MS:6.0,MT:6.0,PA:6.0,PB:6.0,PE:7.0,PI:7.0,PR:7.0,RJ:7.0,RN:7.0,RO:7.0,RR:6.0,RS:6.0,SC:6.0,SE:6.0,SP:9.5,TO:6.0} },
+        { ncm: "39269090", desc: "Outras obras de plástico", aliquotas: {AC:7.0,AL:7.0,AM:7.0,AP:6.0,BA:6.0,CE:6.0,DF:6.0,ES:6.0,GO:6.0,MA:6.0,MG:7.0,MS:7.0,MT:7.0,PA:7.0,PB:7.0,PE:8.0,PI:8.0,PR:8.0,RJ:8.0,RN:8.0,RO:8.0,RR:7.0,RS:7.0,SC:7.0,SE:7.0,SP:11.0,TO:7.0} },
+        { ncm: "61091000", desc: "Camiseta de algodão", aliquotas: {AC:4.0,AL:4.0,AM:4.0,AP:4.0,BA:4.0,CE:4.0,DF:4.0,ES:4.0,GO:4.0,MA:4.0,MG:4.5,MS:4.5,MT:4.5,PA:4.5,PB:4.5,PE:5.0,PI:5.0,PR:5.0,RJ:5.0,RN:5.0,RO:5.0,RR:4.5,RS:4.5,SC:4.5,SE:4.5,SP:7.0,TO:4.5} },
+        { ncm: "84713012", desc: "Notebook / portátil", aliquotas: {AC:6.5,AL:6.5,AM:6.5,AP:5.5,BA:5.5,CE:5.5,DF:5.5,ES:5.5,GO:5.5,MA:5.5,MG:6.5,MS:6.5,MT:6.5,PA:6.5,PB:6.5,PE:7.5,PI:7.5,PR:7.5,RJ:7.5,RN:7.5,RO:7.5,RR:6.5,RS:6.5,SC:6.5,SE:6.5,SP:10.0,TO:6.5} },
+        { ncm: "21069090", desc: "Preparações alimentícias", aliquotas: {AC:5.0,AL:5.0,AM:5.0,AP:4.5,BA:4.5,CE:4.5,DF:4.5,ES:4.5,GO:4.5,MA:4.5,MG:5.0,MS:5.0,MT:5.0,PA:5.0,PB:5.0,PE:6.0,PI:6.0,PR:6.0,RJ:6.0,RN:6.0,RO:6.0,RR:5.0,RS:5.0,SC:5.0,SE:5.0,SP:8.0,TO:5.0} },
+        { ncm: "33049910", desc: "Cosméticos / cremes", aliquotas: {AC:null,AL:6.0,AM:6.0,AP:5.0,BA:5.0,CE:5.0,DF:5.0,ES:5.0,GO:5.0,MA:5.0,MG:6.0,MS:6.0,MT:6.0,PA:6.0,PB:6.0,PE:7.0,PI:7.0,PR:7.0,RJ:7.0,RN:7.0,RO:null,RR:6.0,RS:6.0,SC:6.0,SE:6.0,SP:9.5,TO:6.0} },
+        { ncm: "87141090", desc: "Peças de motocicleta", aliquotas: {AC:7.5,AL:7.5,AM:7.5,AP:6.5,BA:6.5,CE:6.5,DF:6.5,ES:6.5,GO:6.5,MA:6.5,MG:7.5,MS:7.5,MT:7.5,PA:7.5,PB:7.5,PE:8.5,PI:8.5,PR:8.5,RJ:8.5,RN:8.5,RO:8.5,RR:7.5,RS:7.5,SC:7.5,SE:7.5,SP:12.0,TO:7.5} },
+        { ncm: "94036000", desc: "Móveis de madeira", aliquotas: {AC:6.0,AL:6.0,AM:6.0,AP:5.0,BA:5.0,CE:5.0,DF:5.0,ES:5.0,GO:5.0,MA:5.0,MG:6.0,MS:6.0,MT:6.0,PA:6.0,PB:6.0,PE:7.0,PI:7.0,PR:7.0,RJ:7.0,RN:7.0,RO:7.0,RR:6.0,RS:6.0,SC:6.0,SE:6.0,SP:9.5,TO:6.0} },
+    ];
+
+    // Função Objetivo: calcula a média ponderada (SP 50% + média das outras 26 UFs 50%),
+    // igual à decisão já registrada. Se faltar SP ou faltar TODA a base de "outras UFs", devolve null.
+    function calcularMediaPonderada(aliquotas) {
+        const sp = aliquotas["SP"];
+        const outras = UFS.filter(uf => uf !== "SP").map(uf => aliquotas[uf]).filter(v => v !== null && v !== undefined);
+        if (sp === null || sp === undefined || outras.length === 0) return null;
+        const mediaOutras = outras.reduce((a, b) => a + b, 0) / outras.length;
+        return (sp * 0.5) + (mediaOutras * 0.5);
+    }
+
+    function formatarPct(v) {
+        if (v === null || v === undefined) return "—";
+        return v.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 2 }) + "%";
+    }
+
+    function montarTabela() {
+        const cabecalho = document.getElementById("linha-cabecalho");
+        const colMedia = cabecalho.querySelector(".col-media");
+        UFS.forEach(uf => {
+            const th = document.createElement("th");
+            th.className = "col-uf";
+            th.textContent = uf;
+            cabecalho.insertBefore(th, colMedia);
+        });
+
+        const corpo = document.getElementById("corpo-matriz");
+        DADOS_EXEMPLO.forEach(linha => {
+            const tr = document.createElement("tr");
+            tr.dataset.ncm = linha.ncm;
+
+            const tdNcm = document.createElement("td");
+            tdNcm.className = "col-ncm";
+            tdNcm.innerHTML = `<span class="ncm-codigo">${linha.ncm}</span><span class="ncm-desc">${linha.desc}</span>`;
+            tr.appendChild(tdNcm);
+
+            UFS.forEach(uf => {
+                const td = document.createElement("td");
+                td.className = "col-uf";
+                td.dataset.uf = uf;
+                td.textContent = formatarPct(linha.aliquotas[uf]);
+                tr.appendChild(td);
+            });
+
+            const media = calcularMediaPonderada(linha.aliquotas);
+            const tdMedia = document.createElement("td");
+            tdMedia.className = "col-media";
+            tdMedia.dataset.uf = "MEDIA";
+            tdMedia.textContent = formatarPct(media);
+            tr.appendChild(tdMedia);
+
+            corpo.appendChild(tr);
+        });
+    }
+
+    function montarSelects() {
+        const selectNcm = document.getElementById("input-ncm");
+        DADOS_EXEMPLO.forEach(linha => {
+            const opt = document.createElement("option");
+            opt.value = linha.ncm;
+            opt.textContent = `${linha.ncm} — ${linha.desc}`;
+            selectNcm.appendChild(opt);
+        });
+
+        const selectUf = document.getElementById("input-uf");
+        const optMedia = selectUf.querySelector('option[value="MEDIA"]');
+        UFS.forEach(uf => {
+            const opt = document.createElement("option");
+            opt.value = uf;
+            opt.textContent = uf;
+            selectUf.insertBefore(opt, optMedia);
+        });
+    }
+
+    function limparDestaque() {
+        document.querySelectorAll("td.destacada").forEach(td => td.classList.remove("destacada"));
+    }
+
+    function calcular() {
+        const ncm = document.getElementById("input-ncm").value;
+        const uf = document.getElementById("input-uf").value;
+        const resultado = document.getElementById("resultado-calculadora");
+        limparDestaque();
+
+        if (!ncm || !uf) {
+            resultado.className = "resultado-calc";
+            resultado.textContent = "Selecione o NCM e a UF pra ver a alíquota de ICMS de saída.";
+            return;
+        }
+
+        const linha = DADOS_EXEMPLO.find(l => l.ncm === ncm);
+        let valor;
+        if (uf === "MEDIA") {
+            valor = calcularMediaPonderada(linha.aliquotas);
+        } else {
+            valor = linha.aliquotas[uf];
+        }
+
+        resultado.className = "resultado-calc preenchido";
+        if (valor === null || valor === undefined) {
+            resultado.innerHTML = `<span>Nenhuma alíquota importada pra <strong>${ncm}</strong> em <strong>${uf}</strong> ainda.</span>`;
+        } else {
+            const tagOrigem = uf === "MEDIA" ? "calculado" : "importado";
+            resultado.innerHTML = `
+                <span class="valor-grande">${formatarPct(valor)}</span>
+                <span>ICMS de saída — NCM <strong>${ncm}</strong> (${linha.desc}), UF <strong>${uf === "MEDIA" ? "Média Ponderada" : uf}</strong></span>
+                <span class="origem-tag">${tagOrigem}</span>
+            `;
+            const tr = document.querySelector(`tr[data-ncm="${ncm}"]`);
+            if (tr) {
+                const td = tr.querySelector(`td[data-uf="${uf}"]`);
+                if (td) {
+                    td.classList.add("destacada");
+                    td.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+                }
+            }
+        }
+    }
+
+    montarTabela();
+    montarSelects();
+</script>
+
+</body>
+</html>

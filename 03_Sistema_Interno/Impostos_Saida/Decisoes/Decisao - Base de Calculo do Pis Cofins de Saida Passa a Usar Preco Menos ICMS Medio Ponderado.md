@@ -3,8 +3,8 @@ tipo: decisao
 dominio: python
 status: ativa
 criado: 12/09/2026
-atualizado_em: 12/09/2026 13:02
-relacionado: [Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao, Descoberta - Planilha We Stack Refeita Confirma Pontos do Sistema Interno e Revela Bug no Calculo de Cofins, Descoberta - Comparacao Sistema Interno x Planilha We Stack no Calculo de Margem (Calcular Margem)]
+atualizado_em: 12/09/2026 21:12
+relacionado: [Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao, Descoberta - Planilha We Stack Refeita Confirma Pontos do Sistema Interno e Revela Bug no Calculo de Cofins, Descoberta - Comparacao Sistema Interno x Planilha We Stack no Calculo de Margem (Calcular Margem), Decisao - Campos Fiscais de Saida no Produto Passam a Ser Alimentados pelas Tabelas Normalizadas (Fonte Unica), Nao Mais Direto da Planilha]
 ---
 
 # Decisão: Base de Cálculo do PIS/COFINS de Saída Passa a Ser `Preço − (Preço × ICMS_MÉDIA Ponderada)`
@@ -34,12 +34,14 @@ A `ICMS_MÉDIA` usada é a **ponderada** (SP×50% + média das outras 26 UFs×50
 
 Hoje, `pis_saida_valor = preco_final * pis_saida_percentual / 100` e o equivalente pra COFINS estão idênticos nos 6 marketplaces (`precificacao/funcoes_auxiliares/<marketplace>/formula_precificacao*.py`) e em `mercado_livre/funcoes_auxiliares/calculo_margem.py` — nenhum desconta ICMS da base. Essa fórmula está incorreta pela decisão acima e precisa de correção nos 7 pontos (6 marketplaces + cálculo de margem), pra usar `(preco_final − preco_final×icms_medio_ponderado) × percentual`. Nenhuma alteração de código foi feita — fica pendente até Matheus pedir o diff.
 
-## Pendência de implementação (ainda em aberto)
+## Pendência de implementação — resolvida em 12/09/2026, 21:12
 
-O campo `Produto.icms_saida_media` hoje guarda a média simples das 26 UFs (sem SP). Pra essa fórmula funcionar com a ponderada, falta decidir: o próprio campo passa a guardar o valor ponderado (mudando o que `preencher_impostos_saida` grava, e mudando também o resultado de `calcular_margem()` que já lê esse campo pra ICMS de saída), ou é criado um campo novo separado pra não perder a média simples em nenhum outro uso? Essa decisão de implementação ainda não foi tomada.
+> [!success] Resolvida
+> O campo `Produto.icms_saida_media` continua o mesmo (não vira campo novo) — só passa a ser alimentado pela Média Ponderada (`calcular_media_ponderada()`, já existente em `exibicao_icms_por_ncm.py`, calculada em cima das 27 linhas de `IcmsNcmUf`) em vez do valor cru da coluna "ICMS MÉDIA" da planilha. Faz parte de uma decisão maior — os campos fiscais de saída do `Produto` passam a ser alimentados pelas tabelas normalizadas (fonte única), não mais direto da planilha. Ver [[Decisao - Campos Fiscais de Saida no Produto Passam a Ser Alimentados pelas Tabelas Normalizadas (Fonte Unica), Nao Mais Direto da Planilha]].
 
 ## Relacionado
 
 - [[Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao]]
 - [[Descoberta - Planilha We Stack Refeita Confirma Pontos do Sistema Interno e Revela Bug no Calculo de Cofins]]
 - [[Descoberta - Comparacao Sistema Interno x Planilha We Stack no Calculo de Margem (Calcular Margem)]]
+- [[Decisao - Campos Fiscais de Saida no Produto Passam a Ser Alimentados pelas Tabelas Normalizadas (Fonte Unica), Nao Mais Direto da Planilha]]
