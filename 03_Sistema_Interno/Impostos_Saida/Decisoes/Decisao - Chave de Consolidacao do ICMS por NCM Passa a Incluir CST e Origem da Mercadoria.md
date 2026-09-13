@@ -3,7 +3,7 @@ tipo: decisao
 dominio: python
 status: ativa
 criado: 13/09/2026
-atualizado_em: 13/09/2026 06:11
+atualizado_em: 13/09/2026 06:35
 relacionado: [Decisao - Import Tratado do Busca Legal para ICMS por NCM Rejeita Qualquer Divergencia entre EANs do Mesmo NCM, Descoberta - PIS e COFINS Sao Funcao de NCM + CST, e CST Diverge nos Mesmos EANs ja Rejeitados no ICMS, Descoberta - Primeira Importacao Real do ICMS por NCM na MAGAZINE (6 NCMs Rejeitados, Maioria na UF AC), Estrutura da Planilha Busca Legal de Impostos de Saida, Decisao - PIS e COFINS de Saida por NCM Serao Armazenados em Tabela Normalizada, Uma Linha por NCM e CST, Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas]
 ---
 
@@ -54,15 +54,17 @@ Os 4 NCMs da MAGAZINE com esse sinal (CST diferente no mesmo EAN que diverge no 
 | `84248229` | Aparelhos de irrigação/horticultura (Tramontina) | 1 EAN em CST `00` contra 5 em CST `20` | Mesmo Convênio 52/91 — já confirmado com dado real (tabela acima) |
 | `90211010` | Artigos e aparelhos ortopédicos | 1 EAN em CST `00` contra 16 em CST `40` | Convênio ICMS 126/2010 — muleta/órtese/prótese com isenção total (0%) vs. item esportivo (ex.: joelheira de compressão) sob o mesmo NCM, tributado integralmente |
 
-> [!warning] Ressalva ainda não verificada
-> O Gemini alertou que `84137080` e `84243010` (bombas e lavadoras de alta pressão) aparecem na tabela nacional de Substituição Tributária em vários estados (CEST citado como exemplo: `21.099.00`) — ou seja, pode existir algum EAN nesses 2 grupos com **CST `60`** (ICMS-ST) que ainda não apareceu na amostra que analisamos. Antes de considerar esses 2 NCMs 100% fechados, vale conferir a planilha real em busca de alguma linha com CST `60` neles.
+> [!success] Confirmado 13/09/2026, 06:35 — sem CST 60 escondido
+> Rodado o script `teste_verificar_cst_pendente.py` (read-only, reaproveita `ler_linhas_planilha_impostos_saida`) contra a planilha real da MAGAZINE: `84137080` (6 EANs: 5 em CST `20`, 1 em CST `00`) e `84243010` (25 EANs: 22 em CST `20`, 3 em CST `00`) — nenhum EAN em CST `60` (ICMS-ST) em nenhum dos dois. A ressalva anterior está descartada: os 4 NCMs da MAGAZINE (`84137080`, `84243010`, `84248229`, `90211010`) estão 100% explicados por CST, sem complicação de Substituição Tributária.
+>
+> Achado extra, confirmado por Matheus: o catálogo atual da MAGAZINE só tem 3 regimes reais de CST de saída — `00` (tributação integral), `20` (redução de base) e `40` (isenção) — fora a anomalia de cadastro `--` já conhecida (ver [[Descoberta - Camada 1 Reescrita para Fonte Unica (NCM+CST), Bug de Escopo do Loop Corrigido, Validacao Final Sem Divergencias]]). Não existe `60` em nenhum lugar do catálogo hoje — a chave nova não precisa de tratamento especial de ICMS-ST agora, mas o campo continua genérico (aceita qualquer CST) porque o catálogo pode mudar.
 
-> [!warning] Os 2 NCMs da SAMVALE ainda não foram testados pra esse sinal
-> A investigação de CST-diverge-com-ICMS de 12/09/2026 só rodou contra a MAGAZINE. Os 2 NCMs rejeitados na SAMVALE (`95066200`, UF MG; `90192020`, UF DF — ver [[Descoberta - Primeira Importacao Real do ICMS por NCM na MAGAZINE (6 NCMs Rejeitados, Maioria na UF AC)]]) ainda não foram conferidos pra saber se também têm CST divergente entre os EANs discrepantes. Precisa rodar a mesma checagem lá antes de assumir que são o mesmo padrão.
+> [!success] Confirmado 13/09/2026, 06:35 — SAMVALE sem sinal de CST, continuam erro de cadastro
+> Mesmo script, contra a planilha real da SAMVALE: `95066200` (21 EANs, todos em CST `00`) e `90192020` (17 EANs, todos em CST `00`) — CST único em ambos, nenhuma divergência. Confirma que os 2 NCMs da SAMVALE NÃO são explicados por CST — continuam sendo divergência genuína de cadastro, exatamente como os outros 2 da MAGAZINE (`84244100`, `84249010`).
 
 ## O que continua sendo erro real de cadastro (não muda com essa decisão)
 
-Nem todo NCM rejeitado tem esse sinal. Dois NCMs da MAGAZINE — `84244100` e `84249010` — **não mostraram CST divergente** na investigação de 12/09/2026, o que indica que continuam sendo divergência genuína de cadastro, sem explicação fiscal legítima conhecida até agora. Isso inclui, especificamente, o NCM `84244100` — que é exatamente o caso do produto `F7908050719121.001` que disparou toda a construção da Auditoria Fiscal (Camadas A-D, ver [[Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas]]). Ou seja: mesmo depois dessa correção de chave, esse caso específico continua precisando de revisão do Financeiro/Contabilidade — a nova chave não resolve tudo, só remove os falsos positivos.
+Nem todo NCM rejeitado tem esse sinal. Dois NCMs da MAGAZINE — `84244100` e `84249010` — **não mostraram CST divergente** na investigação de 12/09/2026, o que indica que continuam sendo divergência genuína de cadastro, sem explicação fiscal legítima conhecida até agora. Isso inclui, especificamente, o NCM `84244100` — que é exatamente o caso do produto `F7908050719121.001` que disparou toda a construção da Auditoria Fiscal (Camadas A-D, ver [[Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas]]). O mesmo foi confirmado em 13/09/2026, 06:35 pros 2 NCMs da SAMVALE (`95066200`, `90192020`) — CST único, sem esse sinal (ver callout acima). Ou seja: mesmo depois dessa correção de chave, esses 4 casos específicos continuam precisando de revisão do Financeiro/Contabilidade — a nova chave não resolve tudo, só remove os falsos positivos.
 
 ## A chave de validação definitiva
 
@@ -92,10 +94,9 @@ Em nenhum momento dessa investigação — nem na conversa com o Gemini, nem nes
 ## O que ainda falta
 
 - Confirmação explícita de Matheus antes de qualquer diff real no código (Ciclo de Trabalho Calmo — isso aqui é só a etapa de Idealizar/Planejar).
-- Conferir na planilha real se `84137080`/`84243010` têm alguma linha com CST `60` (ICMS-ST) que ainda não apareceu na amostra analisada.
-- Rodar a mesma checagem de "CST diverge no mesmo EAN que diverge no ICMS" contra os 2 NCMs rejeitados da SAMVALE (`95066200`, `90192020`), que ainda não foram testados.
+- Verificação de dado concluída em 13/09/2026, 06:35 (ver callouts acima, seção "A descoberta") — sem CST `60` escondido na MAGAZINE, e os 2 NCMs da SAMVALE confirmados sem sinal de CST (continuam erro de cadastro real).
 - Decidir onde a nova auditoria de Origem XML vs. Cadastro vai morar no sistema (Camada nova, ou parte de alguma tela já existente).
-- Depois de implementado: `84244100`, `84249010` (MAGAZINE) e, até prova em contrário, `95066200`/`90192020` (SAMVALE) continuam como responsabilidade do Financeiro/Contabilidade — não são resolvidos por essa mudança de chave.
+- Depois de implementado: `84244100`, `84249010` (MAGAZINE) e `95066200`/`90192020` (SAMVALE) continuam como responsabilidade do Financeiro/Contabilidade — confirmado em 13/09/2026, 06:35, não são resolvidos por essa mudança de chave.
 
 ## Relacionado
 
