@@ -18,8 +18,23 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "ce60132a7832565a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -190,10 +205,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "ce60132a7832565a",
   "lastOpenFiles": [
-    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria.md",
+    "03_Sistema_Interno/Impostos_Saida/Duvidas/Duvida - Tabelas de Grupo Rejeitado do PIS-COFINS por NCM+CST Ainda Sem Validacao com Dado Real.md",
+    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Estrutura da Tela de Console de ICMS por NCM e Preencher Impostos de Saida.md",
     "Claude outputs/diffs_auditoria_fiscal_camadas_A_D_2026-09-13.md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria.md",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas.md",
     "Claude outputs/mockup_tela_auditoria_fiscal_v2.html",
@@ -226,8 +243,6 @@
     "03_Sistema_Interno/Conceitos/Dois Sistemas Paralelos - Projeto Interno V2 e We Stack.md",
     "03_Sistema_Interno/Impostos_Saida/Duvidas/Duvida - We Stack Precisa de Coleta Armazenagem e Credito de Pis Cofins de Entrada para Calcular Margem Real.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Comparacao Sistema Interno x Planilha We Stack no Calculo de Margem (Calcular Margem).md",
-    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Base de Calculo do Pis Cofins de Saida Passa a Usar Preco Menos ICMS Medio Ponderado.md",
-    "03_Sistema_Interno/Precificacao/Decisoes/Decisao - Custo com Bonificacao Fica Sempre None por Enquanto, Sem Refatorar Codigo.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
