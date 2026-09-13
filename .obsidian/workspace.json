@@ -18,23 +18,8 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
-          },
-          {
-            "id": "aef9b553c8076605",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -207,7 +192,9 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria.md",
     "Claude outputs/diffs_auditoria_fiscal_camadas_A_D_2026-09-13.md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas.md",
     "Claude outputs/mockup_tela_auditoria_fiscal_v2.html",
     "Claude outputs/mockup_tela_auditoria_fiscal_v1.html",
@@ -219,7 +206,6 @@
     "03_Sistema_Interno/sed7JEz5t",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto nos 4 Campos Recalculados, Migration Corrigida e Confirmado com Banco Recriado do Zero Absoluto.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Explicacao Didatica do Resultado Final de Impostos de Saida para Financeiro e Superior.md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Camada 1 Reescrita para Fonte Unica (NCM+CST), Bug de Escopo do Loop Corrigido, Validacao Final Sem Divergencias.md",
     "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
     "05_Integracao_Mercado_Livre/00_Indice_Integracao_Mercado_Livre.md",
@@ -242,7 +228,6 @@
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Comparacao Sistema Interno x Planilha We Stack no Calculo de Margem (Calcular Margem).md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Base de Calculo do Pis Cofins de Saida Passa a Usar Preco Menos ICMS Medio Ponderado.md",
     "03_Sistema_Interno/Precificacao/Decisoes/Decisao - Custo com Bonificacao Fica Sempre None por Enquanto, Sem Refatorar Codigo.md",
-    "03_Sistema_Interno/Conceitos/Sistema Interno V2 Sera a Fonte da Verdade - Papel, Motivo e Limitacao de Cada Fonte de Precificacao.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",

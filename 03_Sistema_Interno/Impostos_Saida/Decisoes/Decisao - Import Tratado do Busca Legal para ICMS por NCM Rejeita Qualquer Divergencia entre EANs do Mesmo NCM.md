@@ -14,6 +14,9 @@ relacionado: [Decisao - ICMS por NCM Sera Armazenado em Tabela Normalizada, Uma 
 > [!success] Ativa — 12/09/2026
 > Confirmado com exemplos concretos (ver abaixo) que divergência inclui "preenchido vs em branco", não só "valor diferente vs valor diferente". A rejeição é sempre do NCM inteiro, nunca parcial por UF.
 
+> [!warning] Atualização (13/09/2026, 06:11) — Chave de agrupamento revisada
+> Esta decisão fica **parcialmente substituída** por [[Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria]]: agrupar só por `NCM` (como descrito abaixo) mistura produtos que legitimamente têm alíquotas diferentes por CST ou Origem da Mercadoria — não é sempre divergência de cadastro. A regra de persistência (nunca comparar com o que já está gravado, sempre sobrescrever, nunca apagar o que não veio na rodada) continua valendo sem mudança; só a chave de agrupamento muda, de `NCM` para `NCM + CST + Origem`.
+
 ## Contexto
 
 Com a fonte de dados definida (Busca Legal é a fonte real — ver [[Estrutura da Planilha Busca Legal de Impostos de Saida]]) e o modelo de armazenamento decidido (`IcmsNcmUf` normalizado), faltava decidir como tratar o dado entre a leitura da planilha (por EAN) e a gravação no banco (por NCM). A planilha reduzida `TABELA SAIDA POR UF - REDUZIDA.xlsx` (raiz do vault) foi analisada como amostra real do que será importado — confirma coluna a coluna a estrutura já documentada (`NCM` na coluna C, `ICMS` = alíquota de SP duplicada, `ICMS MÉDIA` = média simples das outras 26, 27 UFs em ordem alfabética de AC a TO) e mostrou, nos 3 grupos de NCM repetido da amostra (3, 4 e 2 produtos), 100% de consistência entre os EANs — nenhuma divergência real na amostra, mas a regra de tratamento precisa cobrir o caso em que ela existir.

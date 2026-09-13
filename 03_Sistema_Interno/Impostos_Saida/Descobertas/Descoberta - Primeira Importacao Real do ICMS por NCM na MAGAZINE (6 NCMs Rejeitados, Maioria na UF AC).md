@@ -14,6 +14,9 @@ relacionado: [Decisao - Import Tratado do Busca Legal para ICMS por NCM Rejeita 
 > [!success] Confirmada — 12/09/2026
 > Pipeline (model + import tratado + persistência) rodou ponta a ponta contra dado real nas 2 empresas, aplicando a regra de divergência exatamente como desenhada — incluindo o caso "preenchido vs em branco" (NCM 84249010, UF PI, na MAGAZINE). Matheus decidiu deixar os NCMs divergentes de fora em ambas as empresas por enquanto: só o Financeiro/Contabilidade tem o conhecimento fiscal pra saber qual valor está certo em cada divergência — não é uma decisão que um desenvolvedor deveria tomar sozinho.
 
+> [!warning] Atualização (13/09/2026, 06:11) — 4 desses 8 NCMs não são erro de cadastro
+> Ver [[Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria]]: uma consulta externa (Gemini), cruzada com o achado de CST desta própria nota (seção "Atualização 12/09/2026 17:37" abaixo), confirmou que `84137080`, `84243010`, `84248229` e `90211010` (MAGAZINE) divergem porque têm CST diferente entre os EANs — uma diferença fiscal legítima (benefício/isenção), não erro de cadastro. `84244100` e `84249010` (MAGAZINE) e, até segunda verificação, `95066200`/`90192020` (SAMVALE) continuam sendo tratados como divergência real de cadastro.
+
 ## MAGAZINE — 6 NCMs rejeitados (120 distintos, 114 aceitos)
 
 | NCM | UF divergente | Valor majoritário | EAN(s) discrepante(s) |
