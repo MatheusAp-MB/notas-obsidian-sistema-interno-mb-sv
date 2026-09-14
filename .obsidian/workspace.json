@@ -208,6 +208,7 @@
   },
   "active": "d06f8deee5a2cd1d",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Contraprova da Auditoria ML Ignorava a Dimensao Declarada no Anuncio do ML, e o Bate Era Texto Fixo Sem Comparar Nada.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Correção de Unidade e Redesenho de UX na Auditoria ML.md",
     "03_Sistema_Interno/Precificacao/Decisoes/Exportação em PDF da Auditoria ML — Reaproveitamento da View de Impressão do Navegador.md",
@@ -243,7 +244,6 @@
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Campos Fiscais de Saida no Produto Passam a Ser Alimentados pelas Tabelas Normalizadas (Fonte Unica), Nao Mais Direto da Planilha.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Tabela e Tela de PIS-COFINS por NCM+CST Implementadas e Validadas com Volume Real.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - PIS e COFINS de Saida por NCM Serao Armazenados em Tabela Normalizada, Uma Linha por NCM e CST.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - PIS e COFINS Sao Funcao de NCM + CST, e CST Diverge nos Mesmos EANs ja Rejeitados no ICMS.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
