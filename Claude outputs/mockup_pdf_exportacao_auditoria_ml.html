@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Mockup — Página de Exportação em PDF da Auditoria (ML)</title>
+<style>
+  :root {
+    --azul: #1a4d8f;
+    --azul-claro: #eaf1fb;
+    --verde: #1e7a4a;
+    --verde-claro: #e8f5ec;
+    --vermelho: #a3282e;
+    --cinza-texto: #2b2f36;
+    --cinza-borda: #d7dce3;
+    --cinza-fundo: #f4f6f9;
+    --amarelo-aviso: #8a6d1a;
+    --amarelo-fundo: #fdf6e3;
+    --roxo-novo: #6d28d9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #eef1f4;
+    color: var(--cinza-texto);
+    margin: 0;
+    padding: 24px;
+    line-height: 1.5;
+  }
+  .aviso-mockup {
+    background: var(--amarelo-fundo);
+    border: 1px solid #e0c674;
+    color: var(--amarelo-aviso);
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    max-width: 980px;
+    margin: 0 auto 16px auto;
+  }
+
+  /* ===== Barra de ação (só existe na página de impressão, some ao imprimir de verdade) ===== */
+  .barra-acoes { max-width: 980px; margin: 0 auto 14px auto; display: flex; justify-content: flex-end; }
+  .btn-imprimir {
+    background: var(--azul); color: #fff; border: none;
+    padding: 11px 22px; border-radius: 6px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-imprimir:hover { background: #123a6e; }
+
+  /* ===== A "folha" — o que de fato sai no PDF ===== */
+  .folha {
+    max-width: 980px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  }
+  .cabecalho {
+    background: var(--azul);
+    color: white;
+    padding: 20px 28px;
+  }
+  .cabecalho h1 { margin: 0 0 4px 0; font-size: 20px; }
+  .cabecalho .sub { font-size: 14px; opacity: 0.9; }
+  .cabecalho .grade-info {
+    display: flex; gap: 24px; margin-top: 14px; flex-wrap: wrap; font-size: 13px;
+  }
+  .cabecalho .grade-info div { background: rgba(255,255,255,0.12); padding: 6px 12px; border-radius: 4px; }
+  .cabecalho .grade-info b { display: block; font-size: 15px; }
+
+  .veredito {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin: 20px 28px 0; padding: 14px 16px;
+    border-radius: 6px;
+    background: var(--verde-claro); border: 1px solid #b7ddc4;
+  }
+  .veredito .icone { font-size: 18px; line-height: 1.3; }
+  .veredito .texto { font-weight: 700; color: var(--verde); font-size: 14px; }
+  .veredito .sub { font-weight: 400; color: #3d5f4b; font-size: 12.5px; margin-top: 2px; }
+
+  /* ===== "Todos os itens" — na exportação não existe mais botão de colapsar, é sempre fixo/aberto ===== */
+  .secao-itens { padding: 22px 28px 6px; }
+  .secao-itens h2 { font-size: 17px; margin: 0 0 4px 0; color: var(--azul); }
+  .secao-itens .resumo-fixo { font-size: 12.5px; color: #6b7280; margin: 0 0 6px; }
+  .secao-itens .intro { font-size: 12.5px; color: #6b7280; margin: 0 0 14px; max-width: 760px; }
+
+  table.itens-flat { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.itens-flat th {
+    text-align: left; font-weight: 600; color: #6b7280; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .3px; padding: 6px 8px;
+    border-bottom: 1px solid var(--cinza-borda); background: white;
+  }
+  table.itens-flat td { padding: 6px 8px; border-bottom: 1px solid #eef1f4; }
+  table.itens-flat td.num, table.itens-flat th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.itens-flat tr.grupo td { background: var(--cinza-fundo); font-weight: 700; font-size: 11.5px; text-transform: uppercase; letter-spacing: .2px; color: #4a4f57; padding: 7px 8px; }
+  table.itens-flat td.vazio { color: #b3b9c2; }
+  .tag-mini { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 1px 6px; border-radius: 3px; margin-left: 6px; }
+  .tag-mini.produto { background: #e0e7ff; color: #3730a3; }
+  .tag-mini.nf { background: #fef3c7; color: #92400e; }
+  .tag-mini.saida { background: #fde2e2; color: #991b1b; }
+  .tag-mini.config { background: #dbeafe; color: #1e40af; }
+  .tag-mini.calculado { background: #d1fae5; color: #065f46; }
+
+  .secao { padding: 24px 28px; }
+  .secao h2 { font-size: 17px; margin: 0 0 6px 0; color: var(--azul); }
+  .secao > .intro { font-size: 13.5px; color: #444; margin-bottom: 20px; max-width: 760px; }
+
+  .camada { border: 1px solid var(--cinza-borda); border-radius: 6px; margin-bottom: 14px; overflow: hidden; }
+  .camada-titulo {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    background: var(--azul-claro); font-weight: 600; font-size: 14.5px;
+  }
+  .camada-titulo .num {
+    background: var(--azul); color: white; width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 12.5px; flex-shrink: 0;
+  }
+  .camada-corpo { padding: 14px 16px 16px 52px; font-size: 13.5px; }
+  .camada-explicacao { color: #4a4f57; margin-bottom: 10px; }
+  .camada-explicacao b { color: var(--cinza-texto); }
+
+  table.itens { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+  table.itens th {
+    text-align: left; font-weight: 600; color: #6b7280; font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: 0.3px; padding: 4px 8px; border-bottom: 1px solid var(--cinza-borda);
+  }
+  table.itens td { padding: 5px 8px; border-bottom: 1px solid #eef1f4; }
+  table.itens td.num, table.itens th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.itens tr.subtotal td { font-weight: 700; border-top: 2px solid var(--cinza-borda); background: #fafbfc; }
+
+  .formula-inline {
+    font-family: "Consolas", monospace; background: #f4f6f9; border: 1px solid var(--cinza-borda);
+    border-radius: 4px; padding: 6px 10px; font-size: 12.5px; display: inline-block; margin: 4px 0;
+  }
+
+  .resultado-camada {
+    margin-top: 8px; padding: 8px 12px; background: var(--verde-claro); border-left: 3px solid var(--verde);
+    font-weight: 600; font-size: 13.5px; display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .contraprova { margin: 20px 0; border: 2px solid var(--verde); border-radius: 6px; overflow: hidden; }
+  .contraprova-titulo { background: var(--verde); color: white; padding: 10px 16px; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .contraprova-corpo { padding: 14px 16px; background: var(--verde-claro); font-size: 13.5px; }
+  .contraprova-bate { margin-top: 10px; font-weight: 700; color: var(--verde); display: flex; align-items: center; gap: 6px; }
+
+  .subtracao-linha {
+    display: grid; grid-template-columns: 28px 1fr 130px 90px; gap: 10px; align-items: center;
+    padding: 10px 8px; border-bottom: 1px solid #eef1f4; font-size: 13.5px;
+  }
+  .subtracao-linha .sinal { font-weight: 700; font-size: 15px; text-align: center; }
+  .subtracao-linha .sinal.menos { color: var(--vermelho); }
+  .subtracao-linha .sinal.mais { color: var(--verde); }
+  .subtracao-linha .sinal.igual { color: var(--azul); }
+  .subtracao-linha .valor { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .subtracao-linha .pct { text-align: right; font-variant-numeric: tabular-nums; color: #6b7280; font-size: 12.5px; }
+  .subtracao-linha.final { background: var(--verde-claro); font-weight: 700; border-radius: 4px; border-bottom: none; }
+  .subtracao-linha.preco-inicial { background: var(--azul-claro); font-weight: 700; border-radius: 4px; }
+  .subtracao-linha.subtotal-interno { background: #fafbfc; font-style: italic; color: #6b7280; border-top: 1px dashed var(--cinza-borda); border-bottom: none; margin-bottom: 10px; }
+  .subtracao-linha .desc small { display: block; color: #6b7280; font-weight: 400; font-size: 12px; margin-top: 2px; }
+  .grupo-rotulo { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: #6b7280; padding: 12px 8px 4px 8px; }
+
+  .expandivel {
+    margin-top: 8px; padding: 10px 12px; background: #fafbfc; border: 1px dashed var(--cinza-borda);
+    border-radius: 4px; font-size: 12.5px; color: #4a4f57;
+  }
+  .expandivel .rotulo { font-weight: 700; color: var(--azul); font-size: 11.5px; text-transform: uppercase; margin-bottom: 6px; }
+
+  .tag { display: inline-block; font-size: 10.5px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-left: 6px; }
+  .tag.produto { background: #e0e7ff; color: #3730a3; }
+  .tag.entrada { background: #fef3c7; color: #92400e; }
+  .tag.saida { background: #fde2e2; color: #991b1b; }
+  .tag.config { background: #dbeafe; color: #1e40af; }
+  .tag.calculado { background: #d1fae5; color: #065f46; }
+
+  .rodape-relatorio { padding: 8px 28px 18px; text-align: right; font-size: 11px; color: #9aa1ab; }
+
+  .footer-nota { padding: 16px 28px; background: #fafbfc; border-top: 1px solid var(--cinza-borda); font-size: 12px; color: #6b7280; }
+  .footer-nota .destaque-v10 { color: var(--roxo-novo); font-weight: 700; }
+
+  /* ===== Impressão de verdade — é isto que vira o PDF ===== */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .aviso-mockup, .barra-acoes { display: none; }
+    .folha { box-shadow: none; max-width: none; border: none; border-radius: 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A4; margin: 12mm; }
+
+    /* Evita cortar um bloco inteiro ao meio na quebra de página */
+    .veredito, .camada, .contraprova, .subtracao-linha, .secao-itens table.itens-flat tr {
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    /* Repete o cabeçalho da tabela "Todos os itens" em cada página nova */
+    table.itens-flat thead { display: table-header-group; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aviso-mockup">
+  <b>⚠ Isto é um mockup só da PÁGINA DE EXPORTAÇÃO (PDF) — Mercado Livre</b> — não é a tela real, não vai pro código ainda. Reaproveitei o mesmo exemplo numérico já aprovado no v10 (pulverizador SS20-B, incluindo os 2 valores de peso ilustrativos). O que muda aqui em relação ao modal na tela: <b>(1)</b> não existe mais botão de colapsar — "Todos os itens" já nasce sempre aberta, porque numa página de exportação não faz sentido esconder informação atrás de um clique que seu chefe não pode dar; <b>(2)</b> as abas Visão 1 / Visão 2 viram 2 seções empilhadas, uma embaixo da outra — abas não existem num PDF estático; <b>(3)</b> ganhou uma barra com o botão "Imprimir / Salvar como PDF" (some quando imprime de verdade) e um rodapé "Relatório gerado em..."; <b>(4)</b> a tabela e os blocos de camada têm regra de quebra de página pra não cortar uma linha/bloco ao meio, com o cabeçalho da tabela repetindo em cada página nova — mesmo padrão usado no relatório de Devolução.
+</div>
+
+<div class="barra-acoes">
+  <button class="btn-imprimir" onclick="window.print()">🖨️ Imprimir / Salvar como PDF</button>
+</div>
+
+<div class="folha">
+
+  <div class="cabecalho">
+    <h1>PULVERIZADOR ELÉTRICO A BATERIA E MANUAL SS20-B 20L BRUDDEN</h1>
+    <div class="sub">EAN 7908050719121 &nbsp;·&nbsp; SKU F7908050719121.001 &nbsp;·&nbsp; Mercado Livre — Clássico, Não Afiliado</div>
+    <div class="grade-info">
+      <div>Margem-alvo<b>Padrão — 15,00% · R$ 66,89</b></div>
+      <div>Preço final calculado<b>R$ 445,90</b></div>
+      <div>Margem obtida<b>15,05% · R$ 67,12</b></div>
+    </div>
+  </div>
+
+  <div class="veredito">
+    <span class="icone">✅</span>
+    <div>
+      <div class="texto">Sem inconsistências detectadas</div>
+      <div class="sub">Dado bate com a nota fiscal e o cadastro, cálculo dentro do esperado.</div>
+    </div>
+  </div>
+
+  <!-- ===================== "Todos os itens" — sempre expandida, sem botão de colapsar ===================== -->
+  <div class="secao-itens">
+    <h2>📋 Todos os itens usados no cálculo</h2>
+    <div class="resumo-fixo">30 valores em 10 grupos · custo R$ 238,00</div>
+    <div class="intro">Cada valor, isolado, do jeito que aparece na planilha de referência do seu superior — pra comparar linha a linha. Cada item aparece na unidade que ele realmente é (R$, cm, kg, dias ou um fator sem unidade) — nunca R$ por padrão só porque é a coluna mais comum.</div>
+    <table class="itens-flat">
+      <thead>
+        <tr><th>Item</th><th>Como foi obtido</th><th class="num">Valor</th><th class="num">%</th></tr>
+      </thead>
+      <tbody>
+        <tr class="grupo"><td colspan="4">1. Produto / Custo base</td></tr>
+        <tr><td>Custo do produto</td><td><span class="tag-mini produto">Produto</span></td><td class="num">R$ 238,00</td><td class="num vazio">—</td></tr>
+        <tr><td>Custo com bonificação</td><td><span class="tag-mini produto">Produto</span></td><td class="num">R$ 238,00</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">2. Dimensões e peso</td></tr>
+        <tr><td>Altura</td><td><span class="tag-mini produto">Produto</span></td><td class="num">21 cm</td><td class="num vazio">—</td></tr>
+        <tr><td>Largura</td><td><span class="tag-mini produto">Produto</span></td><td class="num">41 cm</td><td class="num vazio">—</td></tr>
+        <tr><td>Comprimento</td><td><span class="tag-mini produto">Produto</span></td><td class="num">55 cm</td><td class="num vazio">—</td></tr>
+        <tr><td>Peso físico</td><td><span class="tag-mini produto">Produto</span></td><td class="num">6,84 kg</td><td class="num vazio">—</td></tr>
+        <tr><td>Peso cúbico</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">7,89 kg</td><td class="num vazio">—</td></tr>
+        <tr><td>Peso usado (maior entre físico e cúbico)</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">7,89 kg</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">3. Créditos fiscais de entrada (NF)</td></tr>
+        <tr><td>IPI</td><td><span class="tag-mini nf">NF</span></td><td class="num">R$ 0,00</td><td class="num vazio">—</td></tr>
+        <tr><td>Crédito ICMS entrada</td><td><span class="tag-mini nf">NF</span></td><td class="num">R$ 0,00</td><td class="num vazio">—</td></tr>
+        <tr><td>Crédito PIS entrada</td><td><span class="tag-mini nf">NF</span></td><td class="num">R$ 0,00</td><td class="num vazio">—</td></tr>
+        <tr><td>Crédito COFINS entrada</td><td><span class="tag-mini nf">NF</span></td><td class="num">R$ 0,00</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">4. Frete de entrada (CIF/FOB)</td></tr>
+        <tr><td>Frete CIF/FOB</td><td><span class="tag-mini produto">Produto</span></td><td class="num">R$ 0,02</td><td class="num">0,01%</td></tr>
+
+        <tr class="grupo"><td colspan="4">5. Coleta e armazenagem</td></tr>
+        <tr><td>Metro cúbico</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">0,047355 m³</td><td class="num vazio">—</td></tr>
+        <tr><td>Fator de coleta</td><td><span class="tag-mini config">Config</span></td><td class="num">R$ 80,00 /m³</td><td class="num vazio">—</td></tr>
+        <tr><td>Coleta</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 3,79</td><td class="num vazio">—</td></tr>
+        <tr><td>Faixa de armazenagem (valor/dia)</td><td><span class="tag-mini config">Config</span></td><td class="num">R$ 0,05 /dia</td><td class="num vazio">—</td></tr>
+        <tr><td>Período de armazenagem</td><td><span class="tag-mini config">Config</span></td><td class="num">30 dias</td><td class="num vazio">—</td></tr>
+        <tr><td>Armazenagem</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 1,50</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">6. Comissão</td></tr>
+        <tr><td>Comissão</td><td><span class="tag-mini config">Config</span></td><td class="num">R$ 53,51</td><td class="num">12,00%</td></tr>
+
+        <tr class="grupo"><td colspan="4">7. Impostos de saída</td></tr>
+        <tr><td>ICMS saída</td><td><span class="tag-mini saida">Saída</span></td><td class="num">R$ 31,21</td><td class="num">7,00%</td></tr>
+        <tr><td>PIS saída</td><td><span class="tag-mini saida">Saída</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+        <tr><td>COFINS saída</td><td><span class="tag-mini saida">Saída</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+
+        <tr class="grupo"><td colspan="4">8. Taxas (soma)</td></tr>
+        <tr><td>Taxa total</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 84,72</td><td class="num">19,00%</td></tr>
+        <tr><td>Margem-alvo</td><td><span class="tag-mini config">Config</span></td><td class="num">R$ 66,89</td><td class="num">15,00%</td></tr>
+        <tr><td>Denominador <span class="tag-mini calculado">Calculado</span> <small style="font-weight:400;color:#6b7280;">— fator, sem R$/% próprio</small></td><td></td><td class="num">0,66</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">9. Frete de saída (Mercado Livre)</td></tr>
+        <tr><td>Peso usado pra faixa</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">7,89 kg</td><td class="num vazio">—</td></tr>
+        <tr><td>Frete final usado (faixa FreteML)</td><td><span class="tag-mini config">Config</span></td><td class="num">R$ 50,75</td><td class="num vazio">—</td></tr>
+
+        <tr class="grupo"><td colspan="4">10. Resultado</td></tr>
+        <tr><td>Custo final</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 238,02</td><td class="num vazio">—</td></tr>
+        <tr><td>FIXO</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 243,31</td><td class="num vazio">—</td></tr>
+        <tr><td>Rebate de promoção</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 0,00</td><td class="num">0,00%</td></tr>
+        <tr><td>Preço exato (antes de arredondar)</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 445,55</td><td class="num vazio">—</td></tr>
+        <tr><td>Preço final (arredondado ,90)</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 445,90</td><td class="num vazio">—</td></tr>
+        <tr><td>Margem exata (antes de arredondar)</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 66,89</td><td class="num">15,00%</td></tr>
+        <tr><td>Margem final</td><td><span class="tag-mini calculado">Calculado</span></td><td class="num">R$ 67,12</td><td class="num">15,05%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== VISÃO 1 — sem aba, direto depois da tabela ===================== -->
+  <div class="secao" style="border-top: 8px solid var(--cinza-fundo);">
+    <h2>① Visão 1 — Como o sistema chegou nesse preço</h2>
+    <div class="intro">
+      Mesma ordem em que o sistema calcula de verdade, camada por camada. Cada camada mostra: o que ela representa, de onde cada número vem, a conta exata, e o resultado — sempre em R$; quando fizer sentido mostrar também em %, o % vem sempre ao lado do R$ correspondente, nunca sozinho.
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">1</span> Custo Final <span class="tag produto">Produto</span><span class="tag entrada">Entrada</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">O ponto de partida: quanto o produto custou de verdade pra empresa, já somando o que a nota fiscal de entrada trouxe.</div>
+        <table class="itens">
+          <tr><th>Item</th><th>Como foi obtido</th><th class="num">R$</th><th class="num">%</th></tr>
+          <tr><td>Custo do produto</td><td>Direto do ERP (<code>Produto.custo</code>)</td><td class="num">238,00</td><td class="num">—</td></tr>
+          <tr><td>IPI (crédito da nota de entrada)</td><td>Nota fiscal de entrada, já dividido pela quantidade da nota</td><td class="num">0,00</td><td class="num">—</td></tr>
+          <tr><td>Frete CIF/FOB</td><td>0,01% sobre o custo — frete que o fornecedor cobra embutido na compra</td><td class="num">0,02</td><td class="num">0,01%</td></tr>
+          <tr class="subtotal"><td colspan="2">Custo Final</td><td class="num">238,02</td><td class="num">—</td></tr>
+        </table>
+        <div class="expandivel">
+          <div class="rotulo">Por que "custo puro", sem bonificação?</div>
+          Até 13/09/2026 existia um campo separado "Custo com Bonificação" que, se preenchido, substituiria o custo aqui. Decidido em 14/09/2026 (nenhum produto tem esse campo preenchido na base real) que a fórmula usa sempre <code>Produto.custo</code> puro, sem esse desvio.
+        </div>
+        <div class="resultado-camada"><span>Custo Final</span><span>R$ 238,02</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">2</span> Coleta <span class="tag produto">Produto</span><span class="tag config">Config</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">Custo de despachar a caixa — depende só do tamanho físico da embalagem REAL (nunca do produto sem embalar).</div>
+        <table class="itens">
+          <tr><th>Item</th><th>Como foi obtido</th><th class="num">Valor</th></tr>
+          <tr><td>Dimensões da embalagem</td><td>21 × 41 × 55 cm (altura × largura × comprimento, embalagem real)</td><td class="num">—</td></tr>
+          <tr><td>Metro cúbico</td><td>(21 × 41 × 55) ÷ 1.000.000</td><td class="num">0,047355 m³</td></tr>
+          <tr><td>Fator de coleta</td><td>Configuração geral do sistema (1 valor só, vale pra todo o catálogo)</td><td class="num">R$ 80,00 /m³</td></tr>
+          <tr class="subtotal"><td colspan="2">Coleta = metro cúbico × fator</td><td class="num">R$ 3,79</td></tr>
+        </table>
+        <div class="resultado-camada"><span>Coleta</span><span>R$ 3,79</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">3</span> Armazenagem <span class="tag produto">Produto</span><span class="tag config">Config</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">Custo de manter o produto guardado até vender. A única fonte é a configuração de armazenagem do próprio sistema — faixas por dimensão/peso da embalagem, cada uma com um valor diário fixo.</div>
+        <table class="itens">
+          <tr><th>Item</th><th>Como foi obtido</th><th class="num">Valor</th></tr>
+          <tr><td>Faixa de armazenagem aplicada</td><td>Configuração do sistema — embalagem se encaixa em "até 60×60×70 cm, até 18kg"</td><td class="num">R$ 0,05 /dia</td></tr>
+          <tr><td>Período considerado</td><td>Configuração geral do sistema (dias de estoque padrão)</td><td class="num">30 dias</td></tr>
+        </table>
+        <div class="formula-inline">Armazenagem = valor diário da faixa × período considerado</div>
+        <div class="formula-inline">Armazenagem = R$ 0,05 × 30</div>
+        <div class="resultado-camada"><span>Armazenagem</span><span>R$ 1,50</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">4</span> FIXO <span class="tag calculado">Calculado</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao"><b>FIXO</b> é tudo que NÃO depende do preço final de venda — o núcleo de custo que entra intacto na conta, antes de aplicar qualquer taxa.</div>
+        <table class="itens">
+          <tr><th>Item</th><th class="num">R$</th></tr>
+          <tr><td>Custo Final (camada 1)</td><td class="num">+ 238,02</td></tr>
+          <tr><td>Coleta (camada 2)</td><td class="num">+ 3,79</td></tr>
+          <tr><td>Armazenagem (camada 3)</td><td class="num">+ 1,50</td></tr>
+          <tr><td>Crédito de ICMS (nota de entrada)</td><td class="num">− 0,00</td></tr>
+          <tr><td>Crédito de PIS (nota de entrada)</td><td class="num">− 0,00</td></tr>
+          <tr><td>Crédito de COFINS (nota de entrada)</td><td class="num">− 0,00</td></tr>
+          <tr class="subtotal"><td>FIXO</td><td class="num">243,31</td></tr>
+        </table>
+        <div class="expandivel">
+          <div class="rotulo">O que são os créditos fiscais de entrada?</div>
+          ICMS/PIS/COFINS que a empresa já pagou (ou tem direito a abater) na compra do produto do fornecedor — vêm da nota fiscal de entrada, já calculados por unidade. Nesse produto específico, os 3 são R$ 0,00 (sem crédito aproveitável nessa nota).
+        </div>
+        <div class="resultado-camada"><span>FIXO</span><span>R$ 243,31</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">5</span> Taxa <span class="tag saida">Saída</span><span class="tag config">Config</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">A fatia percentual do PREÇO DE VENDA que some — comissão da plataforma + os impostos que incidem na venda (impostos de saída).</div>
+        <table class="itens">
+          <tr><th>Item</th><th>Como foi obtido</th><th class="num">R$</th><th class="num">%</th></tr>
+          <tr><td>Comissão Mercado Livre (Clássico)</td><td>Configuração do tipo de anúncio</td><td class="num">53,51</td><td class="num">12,00%</td></tr>
+          <tr><td>ICMS de saída</td><td>Média ponderada por NCM+CST+Origem (tabela normalizada, importada da Busca Legal)</td><td class="num">31,21</td><td class="num">7,00%</td></tr>
+          <tr><td>PIS de saída</td><td>Por NCM+CST (tabela normalizada)</td><td class="num">0,00</td><td class="num">0,00%</td></tr>
+          <tr><td>COFINS de saída</td><td>Por NCM+CST (tabela normalizada)</td><td class="num">0,00</td><td class="num">0,00%</td></tr>
+          <tr class="subtotal"><td colspan="2">Taxa total</td><td class="num">84,72</td><td class="num">19,00%</td></tr>
+        </table>
+        <div class="expandivel">
+          <div class="rotulo">Por que essa camada já mostra R$, se o preço ainda não foi calculado aqui?</div>
+          A Taxa em si entra na fórmula como %, antes do preço existir. Os valores em R$ desta tabela são referência — calculados aplicando cada % sobre o Preço final já calculado (R$ 445,90) — só pra deixar claro quanto cada fatia representa em dinheiro de verdade.
+        </div>
+        <div class="resultado-camada"><span>Taxa</span><span>19,00% · R$ 84,72</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">6</span> Denominador <span class="tag calculado">Calculado</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">O "quanto sobra" de cada R$1 de preço depois de tirar a taxa e reservar a margem-alvo — é por isso que dividir por ele "infla" o preço o suficiente pra cobrir tudo.</div>
+        <div class="formula-inline">Denominador = 1 − Taxa − Margem-alvo</div>
+        <div class="formula-inline">Denominador = 1 − 0,19 − 0,15</div>
+        <div class="resultado-camada"><span>Denominador</span><span>0,66</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">7</span> Frete <span class="tag config">Config</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">Frete é variável — muda por faixa de peso. O sistema testa as faixas candidatas e usa a que resulta num preço final consistente (dentro dos limites da própria faixa).</div>
+        <table class="itens">
+          <tr><th>Item</th><th>Valor</th></tr>
+          <tr><td>Peso usado (embalagem real)</td><td>7,89 kg</td></tr>
+          <tr><td>Faixa de frete encontrada</td><td>7 a 9 kg</td></tr>
+        </table>
+        <div class="resultado-camada"><span>Frete</span><span>R$ 50,75</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">8</span> Preço exato (antes de arredondar) <span class="tag calculado">Calculado</span></div>
+      <div class="camada-corpo">
+        <div class="formula-inline">Preço exato = (Frete + FIXO − Rebate) ÷ Denominador</div>
+        <div class="formula-inline">Preço exato = (50,75 + 243,31 − 0,00) ÷ 0,66</div>
+        <div class="resultado-camada"><span>Preço exato</span><span>R$ 445,5454...</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">9</span> Preço final — RoundUp90 <span class="tag calculado">Calculado</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">O preço nunca fecha "quebrado" — sempre arredonda pra <b>CIMA</b> até terminar em ",90". Nunca pra baixo — é isso que garante matematicamente que a margem real nunca fica abaixo da meta.</div>
+        <div class="formula-inline">Preço final = primeiro valor terminando em ",90" que seja ≥ Preço exato (arredondando sempre para CIMA, nunca para baixo)</div>
+        <div class="formula-inline">Preço final = primeiro valor ",90" ≥ R$ 445,5454... → R$ 445,90</div>
+        <div class="resultado-camada"><span>Preço final de venda</span><span>R$ 445,90</span></div>
+      </div>
+    </div>
+
+    <div class="camada">
+      <div class="camada-titulo"><span class="num">10</span> Margem obtida (conferência) <span class="tag calculado">Calculado</span></div>
+      <div class="camada-corpo">
+        <div class="camada-explicacao">O sistema recalcula "pra frente" com o preço já arredondado — nunca confia cegamente na conta inversa.</div>
+        <div class="formula-inline">Margem valor = Preço × (1 − Taxa) − FIXO − Frete</div>
+        <div class="formula-inline">Margem valor = 445,90 × (1 − 0,19) − 243,31 − 50,75</div>
+        <div class="resultado-camada"><span>Margem valor</span><span>R$ 67,12</span></div>
+        <div class="resultado-camada"><span>Margem % (67,12 ÷ 445,90)</span><span>15,05% · R$ 67,12</span></div>
+      </div>
+    </div>
+
+    <div class="contraprova">
+      <div class="contraprova-titulo">✓ Contraprova da Visão 1</div>
+      <div class="contraprova-corpo">
+        Rodando o preço final (R$ 445,90) na fórmula <b>independente</b> que já existe no sistema pro caminho contrário — "dado um preço, qual é a margem?" (<code>calculo_margem.py</code>, usada no Hub de Promoções) — usando os MESMOS créditos, taxa e frete acima:
+        <div class="formula-inline">margem_valor = Preço × (1 − Taxa) − FIXO − Frete</div>
+        <div class="formula-inline">margem_valor = 445,90 × (1 − 0,19) − 243,31 − 50,75</div>
+        <div class="resultado-camada"><span>margem_valor (calculo_margem.py)</span><span>R$ 67,12</span></div>
+        <div class="contraprova-bate">✓ Bate exatamente com a margem obtida na Visão 1 (R$ 67,12 / 15,05%) — 2 implementações diferentes, mesmo resultado.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== VISÃO 2 — segunda seção empilhada, sem aba ===================== -->
+  <div class="secao" style="border-top: 8px solid var(--cinza-fundo);">
+    <h2>② Visão 2 — De onde vem o lucro (do preço pro que sobra)</h2>
+    <div class="intro">
+      Mesmo produto, mesmo preço final — só que agora de trás pra frente: parte do preço de venda e vai tirando cada custo, 1 de cada vez, até sobrar só o lucro.
+    </div>
+
+    <div class="subtracao-linha preco-inicial">
+      <span></span>
+      <span class="desc">Preço final de venda</span>
+      <span class="valor">R$ 445,90</span>
+      <span class="pct">100,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Comissão do Mercado Livre (Clássico)<small>12% do preço de venda</small></span>
+      <span class="valor">R$ 53,51</span>
+      <span class="pct">12,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">ICMS de saída<small>Média ponderada por NCM+CST+Origem, 7% do preço</small></span>
+      <span class="valor">R$ 31,21</span>
+      <span class="pct">7,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">PIS de saída<small>Este produto: 0% (por NCM+CST)</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">COFINS de saída<small>Este produto: 0% (por NCM+CST)</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Frete<small>Faixa de peso 7 a 9 kg</small></span>
+      <span class="valor">R$ 50,75</span>
+      <span class="pct">11,38%</span>
+    </div>
+
+    <div class="grupo-rotulo">↓ FIXO se abre nos componentes abaixo (mesma composição da camada 4 da Visão 1)</div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Custo do produto<small>Direto do ERP (Produto.custo)</small></span>
+      <span class="valor">R$ 238,00</span>
+      <span class="pct">53,38%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">IPI (crédito da nota de entrada)<small>Nota fiscal de entrada, já dividido pela quantidade da nota</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Frete CIF/FOB<small>0,01% sobre o custo — frete que o fornecedor cobra embutido na compra</small></span>
+      <span class="valor">R$ 0,02</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Coleta<small>Metro cúbico da embalagem (0,047355 m³) × fator de coleta (R$ 80,00/m³)</small></span>
+      <span class="valor">R$ 3,79</span>
+      <span class="pct">0,85%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal menos">−</span>
+      <span class="desc">Armazenagem<small>Faixa por dimensão (R$ 0,05/dia) × 30 dias</small></span>
+      <span class="valor">R$ 1,50</span>
+      <span class="pct">0,34%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal mais">+</span>
+      <span class="desc">Crédito de ICMS (nota de entrada)<small>Crédito reduz o custo a recuperar — por isso soma de volta aqui</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal mais">+</span>
+      <span class="desc">Crédito de PIS (nota de entrada)<small>Crédito reduz o custo a recuperar — por isso soma de volta aqui</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal mais">+</span>
+      <span class="desc">Crédito de COFINS (nota de entrada)<small>Crédito reduz o custo a recuperar — por isso soma de volta aqui</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha subtotal-interno">
+      <span class="sinal igual">=</span>
+      <span class="desc">Conferência: soma dos 8 itens acima — deve bater com o FIXO da camada 4</span>
+      <span class="valor">R$ 243,31</span>
+      <span class="pct">54,56%</span>
+    </div>
+
+    <div class="subtracao-linha">
+      <span class="sinal mais">+</span>
+      <span class="desc">Rebate<small>Este produto/marketplace: sem rebate ativo</small></span>
+      <span class="valor">R$ 0,00</span>
+      <span class="pct">0,00%</span>
+    </div>
+
+    <div class="subtracao-linha final">
+      <span class="sinal igual">=</span>
+      <span class="desc">Lucro (margem valor)</span>
+      <span class="valor">R$ 67,12</span>
+      <span class="pct">15,05%</span>
+    </div>
+
+    <div class="contraprova">
+      <div class="contraprova-titulo">✓ Contraprova da Visão 2</div>
+      <div class="contraprova-corpo">
+        A conta mais simples que existe: lucro dividido pelo preço de venda.
+        <div class="formula-inline">Margem % = Lucro ÷ Preço de venda</div>
+        <div class="formula-inline">Margem % = 67,12 ÷ 445,90</div>
+        <div class="resultado-camada"><span>Margem %</span><span>15,05% · R$ 67,12</span></div>
+        <div class="contraprova-bate">✓ Dá R$ 67,12 / 15,05% — bate com a margem-% mostrada acima e com a margem-alvo configurada (15,00% · R$ 66,89 de referência, superada porque o RoundUp90 arredonda sempre pra cima).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rodape-relatorio">Relatório gerado em 14/09/2026 11:42 — Sistema Interno MB/SV, Auditoria de Precificação (Mercado Livre)</div>
+
+  <div class="footer-nota">
+    <span class="destaque-v10">Mockup — página de exportação</span> — mesma estrutura de conteúdo já aprovada (Veredito + "Todos os itens" + Visão 1 + Visão 2), só reorganizada pro formato de exportação: nada colapsado, sem abas (as 2 Visões empilhadas), botão "Imprimir / Salvar como PDF" no topo (some ao imprimir de verdade), regras de quebra de página aplicadas (nenhuma linha de tabela ou bloco de camada cortado ao meio, cabeçalho da tabela repetindo a cada página nova) e rodapé "Relatório gerado em..." — mesmo padrão já validado no relatório de Devolução. O botão real vai ficar dentro do modal da tela de auditoria, abrindo esta página numa aba nova.
+  </div>
+
+</div>
+
+</body>
+</html>
