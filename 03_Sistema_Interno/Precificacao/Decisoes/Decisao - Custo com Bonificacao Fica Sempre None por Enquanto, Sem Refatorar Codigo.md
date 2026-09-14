@@ -1,9 +1,9 @@
 ---
 tipo: decisao
 dominio: python
-status: ativa
+status: superada
 criado: 12/09/2026
-atualizado_em: 12/09/2026 12:50
+atualizado_em: 14/09/2026 02:00
 relacionado: [Decisao - Campo Frete do Fornecedor Sera Renomeado de frete_cif_fob para Frete Fornecedor e Vira Editavel na Tela, Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao, Descoberta - Planilha We Stack Refeita Confirma Pontos do Sistema Interno e Revela Bug no Calculo de Cofins]
 ---
 
@@ -13,6 +13,9 @@ relacionado: [Decisao - Campo Frete do Fornecedor Sera Renomeado de frete_cif_fo
 
 > [!success] Ativa — 12/09/2026
 > Matheus considerou primeiro remover `custo_com_boni` de vez, mas preferiu esta versão: mantém o campo (uso futuro possível) e só garante que ele fique sempre `None` hoje.
+
+> [!warning] SUPERADA em 14/09/2026, 02:00 — pendência resolvida, decisão evoluiu pra refatorar de vez
+> A pendência operacional (ver abaixo) foi resolvida: Matheus confirmou direto que nenhum produto tem `custo_com_boni` preenchido manualmente na base real. Com isso resolvido, em vez de só manter o campo sempre `None`, decidiu ir além — as 6 fórmulas + `calculo_margem.py` pararam de ler `custo_com_boni`. Ver "Atualização" no fim da nota.
 
 ## Contexto
 
@@ -38,8 +41,21 @@ Checagem dos usos fora do cálculo de preço (feita antes da decisão, pra confi
 
 Resolve, por eliminação, a 2ª pergunta da [[Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao]] — a diferença entre ML (`custo_com_boni or custo`) e Shopee/TikTok (`custo` puro) no piso que descarta faixa de frete/comissão abaixo do custo. Com `custo_com_boni` sempre `None`, os 3 marketplaces resolvem pro mesmo valor (`custo`) na prática, mesmo sem o código ter sido alterado. A 1ª pergunta da mesma dúvida (base de cálculo do PIS/COFINS de saída) não é afetada, continua em aberto.
 
+## Atualização (14/09/2026, 02:00) — pendência resolvida, código refatorado
+
+Retomada a auditoria da fórmula de precificação (Camada 1, custo). Matheus confirmou que não existe nenhum produto na base real com `custo_com_boni` preenchido com valor diferente de `custo` — resolvendo de vez a pendência operacional registrada acima. Com essa garantia, a decisão de 12/09 evoluiu: em vez de só manter o campo sempre `None` (contando com o fallback já existente), decidiu tirar a leitura de `custo_com_boni` de dentro da fórmula.
+
+Aplicado via script de uso único (`trocar_custo_com_boni_por_custo.py`, 9 trocas de texto em 7 arquivos: as 6 fórmulas de marketplace + `calculo_margem.py`) — `calcular_custo_final()` (e, só no ML, o piso de custo dentro de `resolver_preco()`) passam a usar `produto.custo` direto, sem nenhum fallback. `custo_com_boni` continua existindo no model/admin/tela de Produtos (não removido do banco) — só não é mais lido por nenhuma fórmula.
+
+Validado com dado real: `manage.py check` limpo, e as 6 grades de precificação recalculadas nas 2 empresas (1358 produtos MAGAZINE / 731 SAMVALE, batendo com o catálogo já validado) — **0 erros de assert** nas 42 execuções (6 marketplaces × 2 empresas). Como nenhum produto tinha valor manual em `custo_com_boni`, o resultado matemático é idêntico ao de antes por construção — não é amostra estatística, é garantia lógica.
+
+Decisão explícita de Matheus: a linha duplicada "Custo com bonificação" no modal de auditoria do ML (efeito colateral já previsto na seção "O que levou à decisão" acima) fica como está, sem limpeza — mostra o mesmo valor de "Custo do produto", sem problema.
+
+Consequência adicional: a [[Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao|2ª pergunta da dúvida sobre custo no piso de faixa]] deixa de ser "resolvida por eliminação" (código antigo) e passa a ser resolvida por código de verdade — ML/Shopee/TikTok agora leem literalmente a mesma linha (`produto.custo`), não só coincidem em valor por acaso do dado.
+
 ## Relacionado
 
 - [[Decisao - Campo Frete do Fornecedor Sera Renomeado de frete_cif_fob para Frete Fornecedor e Vira Editavel na Tela]]
 - [[Duvida - Base de Calculo do Pis Cofins de Saida e Definicao de Custo no Piso de Faixa de Frete-Comissao]]
 - [[Descoberta - Planilha We Stack Refeita Confirma Pontos do Sistema Interno e Revela Bug no Calculo de Cofins]]
+- [[Checkpoint - Inicio da Validacao Exaustiva de Precificacao]]

@@ -234,6 +234,7 @@ O que estes comandos fazem: recalculam, um por um, o preço de cada marketplace 
 >
 > ```bash
 > poetry run python manage.py calcular_todas_as_grades_precificacao --empresa=MAGAZINE
+> poetry run python manage.py calcular_todas_as_grades_precificacao --empresa=SAMVALE
 > ```
 >
 > Ele chama os mesmos 6 comandos, na mesma ordem, um atrás do outro (por dentro, usa `call_command()` do próprio Django) — é só um atalho de conveniência por cima deles, não uma substituição. **Os 6 comandos individuais continuam existindo e funcionando exatamente como antes** — continuam sendo o jeito certo de recalcular só 1 marketplace específico depois de um ajuste pontual (ex: só a Shopee, depois de mudar a comissão dela), sem precisar rodar os outros 5 à toa. Validado com dado real nas 2 empresas em 17/08/2026: 1280 produtos na Magazine e 592 na Samvale, os 6 cálculos completos em poucos segundos, mesmo `--empresa` inválido (ex: `SAmvale` com "a" minúsculo) barrado com o mesmo erro claro dos outros comandos.

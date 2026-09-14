@@ -23,10 +23,14 @@
             "id": "d06f8deee5a2cd1d",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+                "mode": "preview",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nova aba"
+              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
             }
           }
         ],
@@ -201,8 +205,11 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "d06f8deee5a2cd1d",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "Claude outputs/mockup_tela_auditoria_v9_duas_visoes.html",
+    "Claude outputs/mockup_tela_auditoria_v8_duas_visoes.html",
+    "Claude outputs/mockup_tela_auditoria_v7_duas_visoes.html",
     "Claude outputs/~$Duble_Precificacao_MOCKUP.xlsx",
     "Claude outputs/dividir_tests_impostos.py",
     "Claude outputs/dividir_views_impostos.py",
@@ -223,10 +230,7 @@
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas.md",
     "Claude outputs/mockup_tela_auditoria_fiscal_v2.html",
-    "Claude outputs/mockup_tela_auditoria_fiscal_v1.html",
-    "Claude outputs/mockup_auditoria_impostos_saida_v1.html",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto, Confirmado com Banco do Zero.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/sedDXLlcy",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto nos 4 Campos Recalculados, Migration Corrigida e Confirmado com Banco Recriado do Zero Absoluto.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Explicacao Didatica do Resultado Final de Impostos de Saida para Financeiro e Superior.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Camada 1 Reescrita para Fonte Unica (NCM+CST), Bug de Escopo do Loop Corrigido, Validacao Final Sem Divergencias.md",
