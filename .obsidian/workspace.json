@@ -18,8 +18,19 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "d06f8deee5a2cd1d",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nova aba"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -77,8 +88,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -191,8 +201,9 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "b52b05f7ea280622",
+  "active": "d06f8deee5a2cd1d",
   "lastOpenFiles": [
+    "Claude outputs/~$Duble_Precificacao_MOCKUP.xlsx",
     "Claude outputs/dividir_tests_impostos.py",
     "Claude outputs/dividir_views_impostos.py",
     "Claude outputs/dividir_funcoes_auxiliares_impostos.py",
@@ -216,7 +227,6 @@
     "Claude outputs/mockup_auditoria_impostos_saida_v1.html",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto, Confirmado com Banco do Zero.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/sedDXLlcy",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/sedsqBF7P",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto nos 4 Campos Recalculados, Migration Corrigida e Confirmado com Banco Recriado do Zero Absoluto.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Explicacao Didatica do Resultado Final de Impostos de Saida para Financeiro e Superior.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Camada 1 Reescrita para Fonte Unica (NCM+CST), Bug de Escopo do Loop Corrigido, Validacao Final Sem Divergencias.md",
