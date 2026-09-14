@@ -25,12 +25,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
+                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET"
+              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
             }
           }
         ],
@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "pdf",
+                "query": "recalcular grade todos",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -206,8 +206,9 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "d06f8deee5a2cd1d",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Correção de Unidade e Redesenho de UX na Auditoria ML.md",
     "03_Sistema_Interno/Precificacao/Decisoes/Exportação em PDF da Auditoria ML — Reaproveitamento da View de Impressão do Navegador.md",
     "Claude outputs/mockup_pdf_exportacao_auditoria_ml.html",
@@ -243,7 +244,6 @@
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Tabela e Tela de PIS-COFINS por NCM+CST Implementadas e Validadas com Volume Real.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - PIS e COFINS de Saida por NCM Serao Armazenados em Tabela Normalizada, Uma Linha por NCM e CST.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - PIS e COFINS Sao Funcao de NCM + CST, e CST Diverge nos Mesmos EANs ja Rejeitados no ICMS.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Rolagem da Tela de ICMS por NCM Validada com Volume Real, 2 Bugs Corrigidos.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
