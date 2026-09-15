@@ -99,17 +99,17 @@
       }
     },
     {
-      "query": "path:\"Bases\"",
-      "color": {
-        "a": 1,
-        "rgb": 7041664
-      }
-    },
-    {
       "query": "path:\"Claude outputs\"",
       "color": {
         "a": 1,
         "rgb": 13430271
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
       }
     }
   ],
@@ -139,7 +139,7 @@
     "path:\"05_Integracao_Mercado_Livre\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
     "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"Bases\"",
-    "path:\"Claude outputs\""
+    "path:\"Claude outputs\"",
+    "path:\"Bases\""
   ]
 }
