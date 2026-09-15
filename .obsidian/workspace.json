@@ -205,8 +205,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "d06f8deee5a2cd1d",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto).md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções.md",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final.md",
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354).md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Tipo cancel_sale Fecha Com Resolution Null E Inverte Complainant E Respondent.md",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Reclamacao Fecha Antes Da Devolucao Fisica Terminar (Ordem Invertida).md",
@@ -228,7 +232,6 @@
     "Claude outputs/mockup_tela_auditoria_v7_duas_visoes.html",
     "Claude outputs/~$Duble_Precificacao_MOCKUP.xlsx",
     "Claude outputs/dividir_tests_impostos.py",
-    "Claude outputs/dividir_views_impostos.py",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - App impostos Sera Reorganizado em Entrada e Saida, Comecando por models.py Sem Risco de Migration.md",
     "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Nomenclatura das Tabelas de Impostos de Saida Segue Padrao Explicito com Prefixo Saida e Chave Completa no Nome.md",
@@ -240,9 +243,6 @@
     "Claude outputs/diffs_auditoria_fiscal_camadas_A_D_2026-09-13.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Chave de Consolidacao do ICMS por NCM Passa a Incluir CST e Origem da Mercadoria.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto, Confirmado com Banco do Zero.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Fallback Passa a Zerar Dado Obsoleto nos 4 Campos Recalculados, Migration Corrigida e Confirmado com Banco Recriado do Zero Absoluto.md",
-    "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Explicacao Didatica do Resultado Final de Impostos de Saida para Financeiro e Superior.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
