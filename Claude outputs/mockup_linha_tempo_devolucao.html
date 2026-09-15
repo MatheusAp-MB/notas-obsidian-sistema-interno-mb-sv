@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Linha do Tempo da Devolução</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #F3F5F7;
+    --surface: #FFFFFF;
+    --surface-2: #FAFBFC;
+    --border: #E1E5EA;
+    --border-strong: #C7CDD6;
+    --text: #161B22;
+    --text-muted: #5B6472;
+    --text-faint: #8891A0;
+    --accent: #0E7C86;
+    --accent-soft: #E3F2F1;
+    --accent-strong: #075E66;
+    --success: #15803D;
+    --success-soft: #E7F6EC;
+    --warning: #B45309;
+    --warning-soft: #FDF1E1;
+    --warning-border: #F0C384;
+    --danger: #B91C1C;
+    --pending: #6B7684;
+    --pending-soft: #EEF0F3;
+    --shadow: 0 1px 2px rgba(20,30,40,0.05), 0 10px 28px -14px rgba(20,30,40,0.16);
+    font-size: 15px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10151A;
+      --surface: #171E24;
+      --surface-2: #1C242B;
+      --border: #2B343C;
+      --border-strong: #3B4650;
+      --text: #E8ECEF;
+      --text-muted: #9AA5B1;
+      --text-faint: #6E7883;
+      --accent: #45C2C2;
+      --accent-soft: #17302F;
+      --accent-strong: #7FDBDA;
+      --success: #4ADE80;
+      --success-soft: #12291B;
+      --warning: #F0A857;
+      --warning-soft: #33220F;
+      --warning-border: #5C4420;
+      --danger: #F87171;
+      --pending: #8E98A4;
+      --pending-soft: #202830;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 10px 28px -14px rgba(0,0,0,0.55);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  [hidden] { display: none !important; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .breadcrumb { font-size: 0.82rem; color: var(--text-muted); }
+  .breadcrumb strong { color: var(--text); font-weight: 600; }
+  .topbar-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px;
+    background: var(--pending-soft); color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .badge.platform { background: var(--accent-soft); color: var(--accent-strong); border-color: transparent; }
+
+  .layout { display: flex; align-items: flex-start; }
+
+  .sidebar {
+    width: 268px; flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 14px;
+    min-height: calc(100vh - 60px);
+  }
+  .sidebar h2 {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-faint); margin: 4px 8px 12px;
+  }
+  .case-item {
+    display: block; padding: 12px 12px; border-radius: 10px; margin-bottom: 6px;
+    border: 1px solid transparent; text-decoration: none; color: inherit;
+  }
+  .case-item.active { background: var(--accent-soft); border-color: var(--accent); }
+  .case-item:not(.active) { border-color: var(--border); }
+  .case-item .pedido { font-size: 0.86rem; font-weight: 600; }
+  .case-item .cliente { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+  .case-item .meta-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .case-item .data { font-size: 0.72rem; color: var(--text-faint); }
+
+  .pill {
+    display: inline-block; font-size: 0.68rem; font-weight: 600;
+    padding: 3px 8px; border-radius: 999px; letter-spacing: 0.01em;
+  }
+  .pill.mediacao { background: var(--warning-soft); color: var(--warning); }
+  .pill.aceite { background: var(--success-soft); color: var(--success); }
+  .pill.pendente { background: var(--pending-soft); color: var(--pending); }
+
+  .main { flex: 1; padding: 32px 40px 64px; max-width: 900px; }
+
+  .case-header { margin-bottom: 8px; }
+  .case-header h1 { font-size: 1.5rem; margin: 0 0 6px; font-weight: 700; }
+  .case-header .sub { color: var(--text-muted); font-size: 0.88rem; }
+
+  .identifiers {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    margin: 20px 0 28px;
+  }
+  .identifiers div { background: var(--surface); padding: 14px 16px; }
+  .identifiers .label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 4px; }
+  .identifiers .value { font-size: 0.92rem; font-weight: 600; }
+
+  .note-banner {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--surface-2); border: 1px dashed var(--border-strong);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 32px;
+    font-size: 0.82rem; color: var(--text-muted);
+  }
+
+  .timeline { position: relative; padding-left: 44px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 17px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border-strong);
+  }
+  .stage { position: relative; margin-bottom: 26px; }
+  .stage-marker {
+    position: absolute; left: -44px; top: 0; width: 36px; height: 36px;
+    border-radius: 50%; background: var(--surface); border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: var(--accent-strong); font-size: 0.9rem; z-index: 1;
+  }
+  .stage-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 22px; box-shadow: var(--shadow);
+  }
+  .stage-card h3 {
+    margin: 0 0 4px; font-size: 1rem; font-weight: 700;
+  }
+  .stage-card .stage-label { font-size: 0.72rem; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+
+  .field-row {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 8px 0; border-top: 1px solid var(--border);
+    font-size: 0.86rem;
+  }
+  .field-row:first-of-type { border-top: none; padding-top: 0; }
+  .field-row .k { color: var(--text-muted); }
+  .field-row .v { font-weight: 600; text-align: right; }
+  .field-row .v.confirmed::after { content: ' ✓'; color: var(--success); font-weight: 700; }
+  .field-row .v.pending::after { content: ' ⏳'; opacity: 0.7; }
+
+  .duration-chip {
+    display: inline-block; margin-top: 10px; font-size: 0.72rem;
+    background: var(--pending-soft); color: var(--text-muted);
+    padding: 3px 9px; border-radius: 999px;
+  }
+
+  .branch-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .branch-tab {
+    font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 999px;
+    border: 1px solid var(--border);
+  }
+  .branch-tab.inactive { color: var(--text-faint); }
+  .branch-tab.active { background: var(--warning-soft); color: var(--warning); border-color: var(--warning-border); }
+  .branch-note { font-size: 0.76rem; color: var(--text-faint); margin: -8px 0 14px; font-style: italic; }
+
+  .anomaly {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--warning-soft); border: 1px solid var(--warning-border);
+    border-left: 4px solid var(--warning); border-radius: 10px;
+    padding: 18px 20px; margin: 8px 0 32px;
+  }
+  .anomaly .icon { font-size: 1.4rem; line-height: 1; }
+  .anomaly h4 { margin: 0 0 6px; color: var(--warning); font-size: 0.95rem; }
+  .anomaly p { margin: 0; font-size: 0.86rem; color: var(--text); }
+  .anomaly .stat {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.86rem;
+    color: var(--warning);
+  }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted); }
+  .legend .item { display: flex; align-items: center; gap: 6px; }
+
+  @media (max-width: 760px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; min-height: auto; display: flex; overflow-x: auto; gap: 8px; border-right: none; border-bottom: 1px solid var(--border); }
+    .sidebar h2 { display: none; }
+    .case-item { flex-shrink: 0; width: 200px; margin-bottom: 0; }
+    .main { padding: 24px 18px 48px; }
+    .timeline { padding-left: 36px; }
+    .stage-marker { left: -36px; width: 30px; height: 30px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="breadcrumb">Sistema de Relatório de Devoluções &nbsp;/&nbsp; Mercado Livre &nbsp;/&nbsp; <strong>Pedido 2000017597909662</strong></div>
+  <div class="topbar-badges">
+    <span class="badge platform">Mercado Livre</span>
+    <span class="badge">Tipo: Comum</span>
+    <span class="pill mediacao">Encerrado via mediação</span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <h2>Devoluções recentes</h2>
+
+    <a class="case-item active" href="#">
+      <div class="pedido mono">...9662</div>
+      <div class="cliente">R. Almeida</div>
+      <div class="meta-row">
+        <span class="pill mediacao">Mediação</span>
+        <span class="data mono">05/08</span>
+      </div>
+    </a>
+
+    <a class="case-item" href="#">
+      <div class="pedido mono">...0948</div>
+      <div class="cliente">C. Duarte</div>
+      <div class="meta-row">
+        <span class="pill aceite">Aceite direto</span>
+        <span class="data mono">28/08</span>
+      </div>
+    </a>
+
+    <a class="case-item" href="#">
+      <div class="pedido mono">...8576</div>
+      <div class="cliente">—</div>
+      <div class="meta-row">
+        <span class="pill pendente">Em investigação</span>
+        <span class="data mono">—</span>
+      </div>
+    </a>
+
+    <a class="case-item" href="#">
+      <div class="pedido mono">...8254</div>
+      <div class="cliente">—</div>
+      <div class="meta-row">
+        <span class="pill pendente">Em investigação</span>
+        <span class="data mono">—</span>
+      </div>
+    </a>
+  </aside>
+
+  <main class="main">
+
+    <div class="case-header">
+      <h1>Histórico completo da devolução</h1>
+      <div class="sub">Caso real usado como exemplo de layout — nome do cliente e item comprado são ilustrativos</div>
+    </div>
+
+    <div class="identifiers">
+      <div>
+        <div class="label">Nº do pedido</div>
+        <div class="value mono">2000017597909662</div>
+      </div>
+      <div>
+        <div class="label">Nº da NF</div>
+        <div class="value mono">000.048.217</div>
+      </div>
+      <div>
+        <div class="label">Cliente</div>
+        <div class="value">R. Almeida</div>
+      </div>
+      <div>
+        <div class="label">Tipo do pedido</div>
+        <div class="value">Comum</div>
+      </div>
+    </div>
+
+    <div class="note-banner">
+      💬 Datas desta etapa 1 e 2 confirmadas via API para este pedido. Etapa 4 (abertura da mediação) ainda em validação — ver nota na etapa correspondente.
+    </div>
+
+    <div class="timeline">
+
+      <div class="stage">
+        <div class="stage-marker">1</div>
+        <div class="stage-card">
+          <div class="stage-label">Etapa 1 — Compra</div>
+          <h3>Cliente comprou e recebeu o produto</h3>
+          <div class="field-row"><span class="k">Data da compra</span><span class="v confirmed mono">26/07/2026 · 10:30</span></div>
+          <div class="field-row"><span class="k">Item comprado</span><span class="v">Fonte chaveada 12V 5A</span></div>
+          <div class="field-row"><span class="k">Data de entrega ao cliente</span><span class="v confirmed mono">30/07/2026 · 19:09</span></div>
+          <span class="duration-chip">4 dias entre compra e entrega</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-marker">2</div>
+        <div class="stage-card">
+          <div class="stage-label">Etapa 2 — Reclamação</div>
+          <h3>Cliente avisou o Mercado Livre</h3>
+          <div class="field-row"><span class="k">Data de abertura</span><span class="v confirmed mono">31/07/2026 · 20:20</span></div>
+          <div class="field-row"><span class="k">Motivo informado</span><span class="v">Produto com defeito</span></div>
+          <div class="field-row"><span class="k">Data em que virou devolução</span><span class="v confirmed mono">03/08/2026 · 15:25</span></div>
+          <span class="duration-chip">~1 dia após a entrega</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-marker">3</div>
+        <div class="stage-card">
+          <div class="stage-label">Etapa 3 — Devolução física</div>
+          <h3>Produto voltou pelo transporte</h3>
+          <div class="field-row"><span class="k">Data de postagem pelo cliente</span><span class="v confirmed mono">05/08/2026 · 09:06</span></div>
+          <div class="field-row"><span class="k">Data de chegada até nós</span><span class="v confirmed mono">14/08/2026 · 14:17</span></div>
+          <span class="duration-chip">9 dias em trânsito</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-marker">4</div>
+        <div class="stage-card">
+          <div class="stage-label">Etapa 4 — Decisão</div>
+          <h3>O que aconteceu com o caso</h3>
+          <div class="branch-tabs">
+            <span class="branch-tab inactive">Aceite direto</span>
+            <span class="branch-tab active">Mediação</span>
+          </div>
+          <div class="branch-note">Este caso seguiu por mediação — ramo selecionado ilustrativamente para este exemplo</div>
+          <div class="field-row"><span class="k">Data de abertura da mediação</span><span class="v pending mono">31/07/2026 · 20:20</span></div>
+          <div class="field-row"><span class="k">Data de encerramento da mediação</span><span class="v confirmed mono">05/08/2026 · 10:17</span></div>
+          <div class="field-row"><span class="k">Devolução encerrada / pedido cancelado / reembolso</span><span class="v confirmed mono">05/08/2026 · 10:17</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="anomaly">
+      <div class="icon">⚠️</div>
+      <div>
+        <h4>Ordem real inverteu o fluxo esperado</h4>
+        <p>
+          O mediador encerrou o caso e processou o reembolso em <span class="stat">05/08 às 10:17</span> —
+          <span class="stat">9 dias antes</span> do produto chegar fisicamente até vocês, em 14/08.
+          O formulário precisa permitir isso: a "chegada física" (Etapa 3) pode acontecer
+          <strong>depois</strong> do caso já estar fechado (Etapa 4), não só antes.
+        </p>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span class="item">✓ Confirmado via API</span>
+      <span class="item">⏳ Em investigação / mapeamento pendente</span>
+      <span class="item">Candidatos restantes: <span class="mono">2000017652548576</span>, <span class="mono">2000017637278254</span></span>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
