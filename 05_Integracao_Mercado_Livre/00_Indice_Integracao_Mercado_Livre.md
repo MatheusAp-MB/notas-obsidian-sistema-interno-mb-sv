@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 30/08/2026 13:33
+atualizado_em: 15/09/2026 13:28
 relacionado: [Padrao de Robustez para Clientes de API Externa, Regra do Índice Obrigatório]
 ---
 
@@ -103,6 +103,12 @@ Camada de endpoint — contrato técnico de 1 recurso específico por vez, difer
 | [[Score De Performance Do Catalogo E Do Base Compartilhado]] | descoberta | ativa | 10/07/2026 | Score de performance exibido para um Anúncio de Catálogo é, na prática, o mesmo dado do Anúncio Base pareado (retorno idêntico byte a byte, bucket ITEM sempre aponta para o MLB do Base) — não há forma de obter performance exclusiva do Catálogo (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Sku Repetido Em Variacoes Nao E Bug]] | descoberta | ativa | 10/07/2026 | Bug reportado (SKU repetido entre variações do mesmo MLB) foi refutado — o campo `attributes` não existe dentro do objeto de variação da API; 43 de 46 variações testadas (93%) simplesmente não têm `seller_custom_field` preenchido, ausência real de dado (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
 | [[Variacoes Nativas So Existem Em Anuncios Encerrados]] | descoberta | ativa | 10/07/2026 | Variações nativas do ML existem quase exclusivamente em anúncios `status: closed` (100% dos ~490 registros com `tem_variacoes=True`) — resíduo de modelo abandonado; a operação hoje cadastra cada combinação como MLB próprio com SKU próprio (padrão F+EAN+.001) (nota migrada do LEGADO, tag `Vindo_do_Legado`). |
+| [[Mediador Nao Aparece Na Lista De Players De Uma Reclamacao]] | descoberta | confirmada | 15/09/2026 | Array `players` de uma reclamação (`/post-purchase/v1/claims/search`) nunca lista o mediador — só `complainant`/`respondent`, mesmo em disputa real (`stage: dispute`, `closed_by: mediator`). Presença de mediador só se confirma por `resolution.closed_by`; `buyer`/`seller` ainda não observados. |
+| [[Tipo cancel_sale Fecha Com Resolution Null E Inverte Complainant E Respondent]] | descoberta | confirmada | 15/09/2026 | Reclamação `type: cancel_sale` (cancelamento pelo vendedor) fecha com `resolution: null` — sem `reason`/`closed_by`/`applied_coverage` — e inverte os papéis: o vendedor aparece como `complainant`, o comprador como `respondent`. Confirmado em 2 exemplos reais. |
+| [[Campo resolution.reason Determina Se A Reclamacao Tem Devolucao Fisica]] | descoberta | ativa | 15/09/2026 | `resolution.reason` tende a prever se a reclamação tem devolução física: `item_returned`/`warehouse_decision`/`item_changed` sempre têm (8/8); `coverage_decision`/`no_bpp` quase sempre não têm, mas `coverage_decision` já teve 1 exceção real (pedido 2000017788033354, conta SV, com devolução física de verdade) — não é mais regra sem exceção. |
+| [[Mensagens Da Reclamacao Confirmam sender_role Mediator E Revelam Gap De 17 Dias Na Resposta Do Vendedor]] | descoberta | ativa | 15/09/2026 | **Em investigação.** `sender_role: "mediator"` em `claims/{id}/messages` é real (doc omite esse valor por engano) — script de rascunho confirmou num caso real, e achou gap de 17 dias entre a 1ª mensagem do ML e a 1ª resposta do vendedor. Discrepância de 1h com outro script ainda não explicada. |
+| [[Reclamacao Fecha Antes Da Devolucao Fisica Terminar (Ordem Invertida)]] | descoberta | confirmada | 15/09/2026 | Em 4 de 8 casos reais com devolução física esperada, a reclamação fechou (com efeito no dinheiro já aplicado) antes do produto ser despachado de volta ou antes de chegar — confirmado em 3 tipos (`mediations`, `returns`, `change`), ampliando os 2 casos originais. |
+| [[Campo resource_id De cancel_purchase Nao Bate Com O Numero Do Pedido]] | duvida | em_aberto | 15/09/2026 | 3/3 candidatos de `cancel_purchase` e 1/2 de `cancel_sale` (resource_id de 11 dígitos, formato diferente do id de pedido de 16) não foram encontrados pelo script de linha do tempo, mesmo tendo reclamação real confirmada — ainda não se sabe a que recurso esse `resource_id` se refere. |
 
 ## Qualidade_Visual_de_Anuncios
 

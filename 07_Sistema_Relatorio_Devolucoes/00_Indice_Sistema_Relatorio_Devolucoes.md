@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 09/09/2026 12:00
+atualizado_em: 15/09/2026 13:28
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -57,6 +57,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Colar Linha do ERP Adaptável a Nomes de Coluna Diferentes]] | decisao | concluida | 09/09/2026 | Preenchimento automático do "Colar linha do ERP" por nome de coluna (nunca posição), com aliases por campo — resolve MAGAZINE (48 colunas) vs SAMVALE (50, nomes diferentes) sem travar quando um campo não bate. |
 | [[Tab Apagado pelo trim() Desalinhava o Colar Linha do ERP]] | bug_conhecido | corrigido | 09/09/2026 | `trim()` apagava o Tab na borda da linha colada (coluna vazia no início/fim), desalinhando todos os valores. Corrigido trocando Tab por separador `\|SEP\|` antes de qualquer trim. |
 | [[O .exe em Segundo Plano Disputava a Porta do runserver]] | bug_conhecido | corrigido | 09/09/2026 | `.exe` aberto em segundo plano competia pela porta com o `runserver`, fazendo correções corretas no código parecerem sem efeito nenhum. Descoberto pelo próprio usuário. |
+| [[Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354)]] | descoberta | confirmada | 15/09/2026 | Pedido `2000017788033354` (venda SV) mapeado por 3 fontes (Central de Vendedores, relatório, API). 4 nuances da UI do ML (mediação sem data própria no modal, motivo em 3 versões, 2 valores de reembolso opostos, 2 entregas sob o mesmo rótulo) + 4 achados via API: campo "Mediação Aberta em" do relatório é a data do tratamento interno, não a disputa real do ML (24/08 via API, não 10/09); 1ª exceção ao padrão `resolution.reason`; `claims/{id}/messages` confirmado funcionando; esse caso não teve "ordem invertida". |
 
 ## Arquitetura_de_Entrega
 
