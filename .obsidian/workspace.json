@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "recalcular grade todos",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -92,8 +92,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -208,6 +207,9 @@
   },
   "active": "d06f8deee5a2cd1d",
   "lastOpenFiles": [
+    "Claude outputs/mockup_devolucao_ml_padrao_visual.html",
+    "Claude outputs/mockup_linha_tempo_devolucao.html",
+    "Claude outputs/consultar_fluxo_devolucao.py",
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Contraprova da Auditoria ML Ignorava a Dimensao Declarada no Anuncio do ML, e o Bate Era Texto Fixo Sem Comparar Nada.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Correção de Unidade e Redesenho de UX na Auditoria ML.md",
@@ -222,12 +224,10 @@
     "Claude outputs/dividir_views_impostos.py",
     "Claude outputs/dividir_funcoes_auxiliares_impostos.py",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - App impostos Sera Reorganizado em Entrada e Saida, Comecando por models.py Sem Risco de Migration.md",
-    "Claude outputs/dividir_models_impostos.py",
     "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Nomenclatura das Tabelas de Impostos de Saida Segue Padrao Explicito com Prefixo Saida e Chave Completa no Nome.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Media Ponderada do ICMS Passa a Ser Persistida em Tabela Propria.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Tela de ICMS por NCM Redesenhada para Mostrar Origem e CST, Mockup Funcional Validado.md",
-    "Claude outputs/mockup_tela_icms_por_ncm_v2_funcional.html",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Fluxo de Impostos de Saida Passa a 4 Comandos Auto-Suficientes, CST Isolado em Comando Proprio Como Fonte Unica.md",
     "03_Sistema_Interno/Impostos_Saida/Duvidas/Duvida - Tabelas de Grupo Rejeitado do PIS-COFINS por NCM+CST Ainda Sem Validacao com Dado Real.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Estrutura da Tela de Console de ICMS por NCM e Preencher Impostos de Saida.md",
@@ -243,7 +243,6 @@
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Campo Cst Saida Criado e Tela de Detalhes do Produto Passa a Exibir os 5 Campos Fiscais de Saida.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Campos Fiscais de Saida no Produto Passam a Ser Alimentados pelas Tabelas Normalizadas (Fonte Unica), Nao Mais Direto da Planilha.md",
     "03_Sistema_Interno/Impostos_Saida/Descobertas/Descoberta - Tabela e Tela de PIS-COFINS por NCM+CST Implementadas e Validadas com Volume Real.md",
-    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - PIS e COFINS de Saida por NCM Serao Armazenados em Tabela Normalizada, Uma Linha por NCM e CST.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
