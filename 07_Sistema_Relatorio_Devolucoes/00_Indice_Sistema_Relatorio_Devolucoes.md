@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 15/09/2026 13:28
+atualizado_em: 15/09/2026 20:02
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -28,6 +28,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
+| [[Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]] | checkpoint | concluido | 15/09/2026 | Botão simples (`GET /users/me`) no app novo `integracao_mercado_livre`, resolvendo MB/SV sozinho via `obter_empresa_ativa()`, sem Facade (espelha o padrão atual do Sistema Interno V2). Validado nas 2 contas em dev e dentro do `.exe` empacotado. 2 achados reais: código morto migrado (`salvar_cache()`/`carregar_cache()`) e `ENV_PATH`/lock de token quebrando dentro do PYZ do PyInstaller, corrigido com `sys.frozen`. |
 | [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
 
 ## Produtos_e_Pecas

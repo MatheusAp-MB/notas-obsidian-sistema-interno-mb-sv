@@ -1,43 +1,58 @@
 ---
 tipo: checkpoint
-dominio: 
-status: em_andamento
+dominio:
+status: concluido
 criado: 15/09/2026
-atualizado_em: 15/09/2026 18:43
-relacionado: [Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final, Padrao de Robustez para Clientes de API Externa, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]
+atualizado_em: 15/09/2026 20:02
+relacionado: [Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final, Padrao de Robustez para Clientes de API Externa, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto), ENV_PATH e Lock de Renovação via __file__ Quebram Dentro do .exe Empacotado (PyInstaller PYZ), Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]
 ---
 
 # Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções
 
-**Resumo do estado atual**: nota temporária de preparação, registrando o levantamento e as decisões já fechadas antes de começar a Executar. Objetivo: 1 botão simples, chamando `/users/me`, dentro de um app Django novo do Sistema de Relatório de Devoluções, pra provar que a API do Mercado Livre funciona de dentro do `.exe` empacotado (PyInstaller) — 1ª tarefa concreta da fase sem pressa aberta em [[Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final]].
+**Resumo do estado atual: concluído e validado de ponta a ponta, 15/09/2026.** Objetivo cumprido: 1 botão simples, `GET /users/me`, dentro do app Django novo `integracao_mercado_livre` do Sistema de Relatório de Devoluções — provando que a API do Mercado Livre funciona tanto em desenvolvimento (`manage.py runserver`) quanto dentro do `.exe` empacotado (PyInstaller `--onedir`), nas 2 contas (MB/Magazine, SV/Samvale). 1ª tarefa concreta da fase sem pressa aberta em [[Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final]].
 
-## Levantamento do repositório `Projeto-Sistema-Devolucao` (via GitHub, só leitura)
+## Levantamento do repositório `Projeto-Sistema-Devolucao` (sincronizado via GitHub, só leitura, mais de uma vez)
 
-- Nenhum código de integração com API externa existe ainda nesse projeto.
-- `requests` não está nas dependências (`pyproject.toml` só tem django, waitress, pystray, pillow, mysqlclient, python-dotenv) — vai precisar ser adicionado.
-- Segredos já seguem um padrão pronto: `.env` (gitignored), carregado via `python-dotenv`, com tratamento já resolvido pro caso do `.exe` congelado (`sys.frozen` aponta a pasta do executável em vez do CWD, que não é confiável).
-- A home (`core/templates/pagina_home/estrutura_home.html`) tem um card grid de módulos com 1 card vazio "Em breve" já reservado — candidato natural pro botão novo.
-- `core/empresa.py` já tem `obter_empresa_ativa()` (retorna `MAGAZINE`/`SAMVALE`, resolvido por sessão via `EmpresaMiddleware`) — mesma peça que falta no cliente ML do Sistema Interno V2 (ver achado abaixo).
+- `requests` não estava nas dependências — adicionado via `poetry add requests`.
+- `rich` também não estava (achado só na hora de montar o código, não previsto no levantamento inicial) — adicionado junto, `poetry add rich`.
+- Segredos seguem padrão pronto: `.env` (gitignored), `python-dotenv`, com tratamento de `sys.frozen` já resolvido no `settings.py` do projeto (aponta pra pasta do executável, não pro CWD).
+- A home tinha 1 card "Em breve" reservado — virou o card do botão novo.
+- `core/empresa.py` já tinha `obter_empresa_ativa()` (MAGAZINE/SAMVALE via `EmpresaMiddleware`) — usado pra resolver a conta sozinho.
+- Comando de build já existia pronto: `python manage.py gerar_exe` (`devolucoes/management/commands/gerar_exe.py`), reunindo todas as flags de PyInstaller já descobertas em rodadas anteriores de empacotamento.
 
-## Decisões já confirmadas por Matheus
+## Decisões confirmadas por Matheus
 
-- Credenciais: reaproveitar as mesmas do Sistema Interno V2 (mesmo App do Mercado Livre, mesmas contas MB/SV) — valores reais copiados manualmente por ele pro `.env` deste projeto na hora de testar; Claude não tem acesso a eles.
-- Vira um app Django próprio (nome ainda não decidido).
+- Credenciais: reaproveitadas do Sistema Interno V2 (mesmo App do ML, mesmas contas MB/SV), copiadas manualmente por ele pro `.env` deste projeto.
+- Nome do app Django: `integracao_mercado_livre` — mesmo padrão do Sistema Interno V2 (`api_<nome>` pacote puro sem Django, `integracao_<nome>` app Django que o consome, espelhando `api_sysemp`/`integracao_sysemp`).
+- Nome do pacote: `api_mercado_livre`, mesmo nome/padrão.
+- Estrutura do cliente: **espelha o padrão atual do Sistema Interno V2**, não a estrutura completa (sem Facade, sem separação `excecoes.py`/`protecao.py`/`cliente.py` do [[Padrao de Robustez para Clientes de API Externa]]) — mesma lógica da migração original, não misturar trazer código com refatorá-lo. Fica pendência conhecida, igual já é hoje no Sistema Interno V2.
+- Resolução MB/SV: a view chama `obter_empresa_ativa()` sozinha (mapeando MAGAZINE→MB/SAMVALE→SV) e repassa `conta` explícito pro `chamar_api()`/`obter_token_valido()` — o botão não escolhe manualmente.
 
-## Achado relevante que muda o plano — a fonte que estamos espelhando está incompleta
+## Execução — 4 passos, cada um confirmado antes do próximo
 
-Conferido em [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]: o `.env` do Sistema Interno V2 já é dividido por conta (`MB_CLIENT_ID`, `MB_CLIENT_SECRET`, `MB_REDIRECT_URI`, `MB_ACCESS_TOKEN`, `MB_REFRESH_TOKEN`, `MB_USER_ID`, `MB_TOKEN_CRIADO_EM`, e o mesmo com prefixo `SV_`), com `obter_token_valido(conta)` exigindo `"MB"`/`"SV"` explícito, sem valor padrão, de propósito. Mas esse mesmo cliente **ainda não tem** a separação `excecoes.py`/`protecao.py`/`cliente.py` do [[Padrao de Robustez para Clientes de API Externa]], nem uma Facade que resolve a conta sozinha — hoje quem chama sempre passa `"MB"` ou `"SV"` na mão, decisão consciente de adiar isso pra não misturar migração com refatoração.
+1. Dependências: `poetry add requests rich`.
+2. `api_mercado_livre/core/` — `gerenciador_token.py` + `cliente_api.py` copiados do Sistema Interno V2. Confirmado por sincronização que a profundidade de `ENV_PATH` (4 `.parent` até a raiz) já nasce correta nesse projeto, sem precisar do ajuste que a migração original teve.
+3. `integracao_mercado_livre/` — app novo com a view (`view_teste_conexao_ml`), URL, e template (`teste_conexao.html`, extends `estrutura_base_global.html`).
+4. Home — card "Em breve" trocado pelo link do botão novo.
 
-Proposta em aberto (ainda sem confirmação final de Matheus): construir o `api_mercado_livre` deste projeto já com a estrutura completa — incluindo a Facade que falta no Sistema Interno V2 — usando o `obter_empresa_ativa()` que este projeto já tem pra resolver `MAGAZINE→MB` / `SAMVALE→SV` sozinha, com erro claro se não houver empresa ativa. Isso deixaria este cliente novo mais completo do que a fonte que ele reaproveita.
+Todo código entregue como texto puro (LOCALIZE:/Substitua) — Claude nunca editou nada dentro do clone real do repositório, regra do vault pra qualquer repo de código.
 
-## Em aberto pro próximo passo
+## 2 bugs reais encontrados e corrigidos durante a validação
 
-- Confirmar se a construção segue com a estrutura completa (acima), mesmo indo além do que existe hoje no Sistema Interno V2.
-- Nome do app Django novo.
-- Nome definitivo do pacote (`api_mercado_livre`, a confirmar).
+- **Código morto migrado sem uso**: `salvar_cache()`/`carregar_cache()` em `cliente_api.py`, sem nenhum chamador — não é bug funcional, mas achado real, documentado em [[Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto)]].
+- **`ENV_PATH`/lock de renovação quebravam dentro do `.exe`**: `Path(__file__)` não é confiável dentro do PYZ do PyInstaller (`--onedir`) — `FileNotFoundError` real ao tentar criar `.token_MB.lock`, e `ENV_PATH` calcularia caminho errado mesmo sem esse erro aparecer primeiro. Corrigido com o mesmo padrão `sys.frozen` que o projeto já usa em `settings.py`. Detalhe completo em [[ENV_PATH e Lock de Renovação via __file__ Quebram Dentro do .exe Empacotado (PyInstaller PYZ)]], relacionada com [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]] (mesma família de bug, código diferente).
+- Faltou também 1 `--add-data` no `gerar_exe.py` (`integracao_mercado_livre/templates`), sem o qual o template do botão não era empacotado — corrigido junto.
+
+## Validado com chamada real — as 2 contas, dev e `.exe`
+
+- `manage.py runserver`: MB (Magazine) e SV (Samvale) responderam 200 em `/users/me`, cada 1 na troca de empresa certa.
+- `.exe` empacotado (`dist/SistemaDevolucoes/SistemaDevolucoes.exe`), depois da correção do `sys.frozen`: mesmo teste, nas 2 contas, confirmado por Matheus — "funcionou perfeitamente".
 
 ## Relacionado
 
 - [[Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final]]
 - [[Padrao de Robustez para Clientes de API Externa]]
 - [[Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV)]]
+- [[Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto)]]
+- [[ENV_PATH e Lock de Renovação via __file__ Quebram Dentro do .exe Empacotado (PyInstaller PYZ)]]
+- [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]]
