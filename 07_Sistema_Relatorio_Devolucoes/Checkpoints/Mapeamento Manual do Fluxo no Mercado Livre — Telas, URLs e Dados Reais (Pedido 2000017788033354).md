@@ -3,13 +3,13 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 15/09/2026
-atualizado_em: 15/09/2026 22:28
+atualizado_em: 15/09/2026 22:31
 relacionado: [Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta, Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354), Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]
 ---
 
 # Mapeamento Manual do Fluxo no Mercado Livre — Telas, URLs e Dados Reais (Pedido 2000017788033354)
 
-**Resumo do estado atual**: antes de aplicar as 3 telas idealizadas em [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]], o usuário está mapeando manualmente, tela por tela, o caminho real que a responsável pela devolução percorre dentro da Central de Vendedores do Mercado Livre pra achar essas informações — usando o mesmo pedido já validado como caso de teste, `2000017788033354` (ver [[Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354)]]). Pra cada tela: print, HTML salvo da página e a URL real. Objetivo: comparar contra o que a API devolve, item por item, antes de mexer em qualquer tela do sistema.
+**Resumo do estado atual**: antes de aplicar as 3 telas idealizadas em [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]], o usuário está mapeando manualmente, tela por tela, o caminho real que a responsável pela devolução percorre dentro da Central de Vendedores do Mercado Livre pra achar essas informações — usando o mesmo pedido já validado como caso de teste, `2000017788033354` (ver [[Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354)]]). Pra cada tela: print, HTML salvo da página e a URL real. Objetivo: comparar contra o que a API devolve, item por item, antes de mexer em qualquer tela do sistema. **Atualização (15/09/2026 22:31)**: o mapeamento tela por tela está concluído — Matheus confirmou que não há mais telas além das 5 registradas aqui (Tela 01 a Tela 05). Próxima fase: comparar cada campo contra o retorno real da API.
 
 ## Tela 01 — Busca do pedido dentro de Vendas
 
@@ -150,7 +150,7 @@ Só reforça o link de mediação já mapeado, com a nuance do acento reconfirma
 
 ## Em aberto
 
-- [ ] Continuar registrando tela por tela (Tela 04 em diante) conforme o usuário for enviando
+- [x] Continuar registrando tela por tela — concluído: 5 telas ao todo (Tela 01 a Tela 05), confirmado por Matheus (15/09/2026) que não há mais telas nesse fluxo
 - [ ] Confirmar se as anotações manuais ("Observações") são acessíveis via API ou são exclusivas da interface
 - [x] Achar o padrão de deep link real de mediação — confirmado na Tela 02: `https://www.mercadolivre.com.br/vendas/novo/mensagens/{pedido}/mediacao/{id_mediacao}`
 - [x] Achar o padrão de deep link real de reclamação (claims) — confirmado na Tela 03: `https://www.mercadolivre.com.br/vendas/novo/mensagens/{pedido}/reclamacao/{id_reclamacao}`
