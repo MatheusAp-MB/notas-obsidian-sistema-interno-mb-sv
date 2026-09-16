@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 15/09/2026 20:02
+atualizado_em: 16/09/2026 03:27
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -30,6 +30,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 |---|---|---|---|---|
 | [[Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]] | checkpoint | concluido | 15/09/2026 | Botão simples (`GET /users/me`) no app novo `integracao_mercado_livre`, resolvendo MB/SV sozinho via `obter_empresa_ativa()`, sem Facade (espelha o padrão atual do Sistema Interno V2). Validado nas 2 contas em dev e dentro do `.exe` empacotado. 2 achados reais: código morto migrado (`salvar_cache()`/`carregar_cache()`) e `ENV_PATH`/lock de token quebrando dentro do PYZ do PyInstaller, corrigido com `sys.frozen`. |
 | [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
+| [[Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home]] | checkpoint | concluido | 16/09/2026 | Mockup do Hub de Consulta (resumo compacto + chat de mediação) aprovado e implementado em Django, com mensagens sanitizadas via bleach e novos cards "Consultar Pedido"/"Devoluções" na home. |
 
 ## Produtos_e_Pecas
 
@@ -72,6 +73,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Caminho de Dados (Banco e Mídia) Precisa Ser Fixo, Não Depender de sys.frozen]] | descoberta | ativa | 05/09/2026 | `BASE_DIR` aponta pra pasta recriada a cada build dentro do `.exe` — 1ª correção (`%APPDATA%` condicional por `sys.frozen`) funcionou mas o usuário rejeitou o resultado; solução final: caminho fixo via variável `DADOS_DIR` no `.env`, igual em qualquer ambiente. |
 | [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]] | descoberta | ativa | 06/09/2026 | `core` era pasta de settings do Django *e* app compartilhado ao mesmo tempo (`startproject core`) — travava separar o `urls.py` do app. Corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv`. |
 | [[2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local]] | descoberta | ativa | 09/09/2026 | `.exe` sempre abria em `127.0.0.1`, mesmo com `IPV4_LOCAL` certo no `.env` — 2 bugs empilhados: `.env` não encontrado por depender do CWD do processo, e query string descartada numa URL `file://`. Corrigido: caminho do `.env` via `sys.executable`, dado embutido direto no HTML (sem query string). Confirmado funcionando pelo celular. |
+| [[Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Ícones no .exe]] | descoberta | ativa | 16/09/2026 | `integracao_mercado_livre/static` faltava no `--add-data` do `gerar_exe.py` — sem whitenoise, cada pasta static de app precisa ser listada manualmente ou fica fora do `.exe`. Corrigido e validado no `.exe` recompilado. |
 
 ## Relacionado
 

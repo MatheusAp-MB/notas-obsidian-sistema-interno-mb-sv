@@ -92,8 +92,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -206,8 +205,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Ícones no .exe.md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home.md",
+    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Icones no .exe.md",
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Hub de Consulta Implementado — Resumo Compacto, Chat de Mediacao com bleach e Cards Novos na Home.md",
     "Claude outputs/mockup_hub_consulta_v3.html",
     "Claude outputs/mockup_hub_consulta_v2.html",
     "Claude outputs/mockup_hub_consulta_preenchido.html",
@@ -238,12 +241,8 @@
     "03_Sistema_Interno/Precificacao/Bugs_Conhecidos/Bug Conhecido - Contraprova da Auditoria ML Ignorava a Dimensao Declarada no Anuncio do ML, e o Bate Era Texto Fixo Sem Comparar Nada.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Geração do PDF de Devolução — xhtml2pdf, Sem Persistência e Fluxo por GET.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Correção de Unidade e Redesenho de UX na Auditoria ML.md",
-    "03_Sistema_Interno/Precificacao/Decisoes/Exportação em PDF da Auditoria ML — Reaproveitamento da View de Impressão do Navegador.md",
     "Claude outputs/mockup_pdf_exportacao_auditoria_ml.html",
     "Claude outputs/mockup_tela_auditoria_v9_duas_visoes.html",
-    "Claude outputs/mockup_tela_auditoria_v8_duas_visoes.html",
-    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - App impostos Sera Reorganizado em Entrada e Saida, Comecando por models.py Sem Risco de Migration.md",
-    "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",

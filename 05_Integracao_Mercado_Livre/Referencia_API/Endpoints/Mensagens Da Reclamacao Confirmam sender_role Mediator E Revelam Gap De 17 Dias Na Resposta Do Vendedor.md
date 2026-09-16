@@ -3,7 +3,7 @@ tipo: descoberta
 dominio: python
 status: ativa
 criado: 15/09/2026
-atualizado_em: 15/09/2026 13:28
+atualizado_em: 16/09/2026 02:10
 relacionado: [Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354), Mediador Nao Aparece Na Lista De Players De Uma Reclamacao]
 ---
 
@@ -11,8 +11,8 @@ relacionado: [Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 
 
 **Resumo**: rodando um rascunho de script (`varredura_respostas_mediacao.py`) contra o claim `5564889989` (pedido `2000017788033354`, conta SV — mesmo caso já documentado no mundo 7), confirmamos que `sender_role: "mediator"` aparece de verdade em `GET /post-purchase/v1/claims/{id}/messages` — a doc oficial omite esse valor na lista de campos possíveis, por engano. No mesmo caso apareceu um gap de 17 dias entre a 1ª mensagem do mediador e a 1ª resposta do vendedor.
 
-> [!warning] Em investigação — 15/09/2026, 13:28
-> Só 1 caso real testado até agora. O gap de 17 dias e a discrepância de horário (ver "O que levou à resposta") ainda não são padrão confirmado — mais dados a caminho antes de fechar.
+> [!warning] Em investigação — 15/09/2026, atualizado 16/09/2026
+> Só 1 caso real testado até agora (mesmo claim `5564889989` nas duas sessões). O gap de 17 dias e a discrepância de horário de 1h entre scripts (ver "O que levou à resposta") ainda não são padrão confirmado — mais dados a caminho antes de fechar. Em 16/09/2026 esse mesmo caso ganhou uma camada extra de confirmação (ver "Confirmação adicional"), mas não é caso novo.
 
 ## Contexto
 
@@ -48,9 +48,21 @@ O gap de 17 dias entre a 1ª mensagem do mediador (24/08) e a 1ª resposta do ve
 
 `sender_role: "mediator"` em `claims/{id}/messages` é um sinal real e funcional pra saber quando o ML respondeu — confirmado num caso real, sem depender de doc incompleta. Ainda em aberto: se o gap de 17 dias é comum ou foi só esse caso, e a explicação exata da diferença de 1h entre os dois scripts. Sem isso, a lógica final do botão de varredura (o que contar como "resposta pendente", com que prazo alertar) ainda não está fechada.
 
+## Confirmação adicional (16/09/2026)
+
+O mesmo claim `5564889989` foi reprocessado numa sessão nova, depois do script `varredura_respostas_mediacao.py` ganhar uma reescrita: interface trocou de `--claim_id`/`--token` manual pra `--empresa`/`--numero_pedido` (resolve a reclamação sozinho a partir do pedido, mesma busca do `consultar_linha_tempo_devolucao.py`), e a chamada à API deixou de ser `requests` cru pra usar a camada oficial do projeto (`chamar_api` + `gerenciador_token` — retry, backoff em 429, renovação automática de token).
+
+Com a reescrita, as mesmas 9 mensagens saíram idênticas (mesmos papéis, mesmos horários) — esperado, já que é o mesmo claim, não um caso novo.
+
+O que É novo: dessa vez o resultado foi cruzado contra prints reais da Central de Vendedores (aba "Mensagens com o comprador" e aba "Mensagens com o Mercado Livre") pro pedido `2000017788033354`. As 9 linhas bateram exatamente — papel e horário — inclusive a 1ª e 2ª mensagem da contraparte (Edgar Augusto, comprador, 23/08 14:04 e 14:05), que na sessão anterior não tinham sido conferidas contra tela nenhuma, só contra a saída do próprio script.
+
+Um ponto quase virou falso-alarme: a linha `VOCÊ RESPONDEU em 10/09/2026 11:49` (`sender_role: respondent`) parecia, pelo print, ser a mensagem da Bemylli (representante do ML) pedindo o valor do produto — o que teria sido um bug de classificação. Pra resolver com certeza, o script ganhou uma flag `--bruto` que, além de sender_role/date_created crus, agora também imprime o campo `message` (texto) de cada mensagem. O texto cru da linha das 11:49 é "Produto retornou com riscos e sujo" — a mensagem curta do próprio vendedor (`respondent`), relatando o estado do produto devolvido. A mensagem da Bemylli é outra, separada, às 10/09 15:32 (`sender_role: mediator`). Ou seja: **não era bug** — foi confusão de leitura visual do print (as duas mensagens ficam próximas na tela, mas são registros diferentes na API).
+
+Isso não resolve os dois pontos ainda abertos (só 1 caso testado; discrepância de 1h entre este script e o `consultar_linha_tempo_devolucao.py`) — só fortalece a confiança de que `sender_role` (`mediator`/`respondent`/`complainant`) é fiel ao que aconteceu de verdade, pelo menos neste caso, e que dá pra usar o campo `message` cru como desempate quando a classificação por role parecer estranha.
+
 ## Exemplo
 
-Script rodado: `python varredura_respostas_mediacao.py --claim_id=5564889989 --token=***`. Saída completa reproduzida na tabela acima.
+Script rodado (versão atual): `python varredura_respostas_mediacao.py --empresa=SV --numero_pedido=2000017788033354 --bruto`. Saída completa (com texto cru de cada mensagem) confirma a tabela acima, mensagem a mensagem.
 
 ## Relacionado
 
