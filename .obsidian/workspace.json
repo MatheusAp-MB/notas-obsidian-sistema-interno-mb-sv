@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "mapeamento de telas",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -191,7 +191,7 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "b52b05f7ea280622",
   "lastOpenFiles": [
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Mapeamento Manual do Fluxo no Mercado Livre — Telas, URLs e Dados Reais (Pedido 2000017788033354).md",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",

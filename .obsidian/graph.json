@@ -1,6 +1,6 @@
 {
   "collapse-filter": true,
-  "search": "",
+  "search": "mapeamento de telas",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -123,6 +123,6 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.5359795996225478,
+  "scale": 1.4769860980685232,
   "close": true
 }
