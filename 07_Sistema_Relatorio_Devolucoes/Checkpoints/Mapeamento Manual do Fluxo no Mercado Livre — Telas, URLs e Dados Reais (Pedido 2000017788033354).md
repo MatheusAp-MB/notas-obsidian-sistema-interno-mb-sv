@@ -3,14 +3,14 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 15/09/2026
-atualizado_em: 15/09/2026 22:42
-relacionado: [Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta, Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354), Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]
+atualizado_em: 15/09/2026 23:39
+relacionado: [Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta, Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354), Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções, Coleta Física da Devolução Acontece Dentro de ready_to_ship, Não Quando o Status Vira shipped]
 resumo: Mapeamento manual, tela a tela, do caminho real percorrido na Central de Vendedores do Mercado Livre pra localizar os dados de uma devolução/mediação (pedido de teste `2000017788033354`), antes de aplicar as 3 telas idealizadas em [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]]; mapeamento das 5 telas concluído (15/09/2026), próxima fase é comparar cada campo contra o retorno real da API.
 ---
 
 # Mapeamento Manual do Fluxo no Mercado Livre — Telas, URLs e Dados Reais (Pedido 2000017788033354)
 
-**Resumo do estado atual**: antes de aplicar as 3 telas idealizadas em [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]], o usuário está mapeando manualmente, tela por tela, o caminho real que a responsável pela devolução percorre dentro da Central de Vendedores do Mercado Livre pra achar essas informações — usando o mesmo pedido já validado como caso de teste, `2000017788033354` (ver [[Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354)]]). Pra cada tela: print, HTML salvo da página e a URL real. Objetivo: comparar contra o que a API devolve, item por item, antes de mexer em qualquer tela do sistema. **Atualização (15/09/2026 22:31)**: o mapeamento tela por tela está concluído — Matheus confirmou que não há mais telas além das 5 registradas aqui (Tela 01 a Tela 05). Próxima fase: comparar cada campo contra o retorno real da API.
+**Resumo do estado atual**: antes de aplicar as 3 telas idealizadas em [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]], o usuário está mapeando manualmente, tela por tela, o caminho real que a responsável pela devolução percorre dentro da Central de Vendedores do Mercado Livre pra achar essas informações — usando o mesmo pedido já validado como caso de teste, `2000017788033354` (ver [[Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354)]]). Pra cada tela: print, HTML salvo da página e a URL real. Objetivo: comparar contra o que a API devolve, item por item, antes de mexer em qualquer tela do sistema. **Atualização (15/09/2026 22:31)**: o mapeamento tela por tela está concluído — Matheus confirmou que não há mais telas além das 5 registradas aqui (Tela 01 a Tela 05). Próxima fase: comparar cada campo contra o retorno real da API. **Atualização (15/09/2026 23:39)**: comparação campo a campo concluída via API real — script `consultar_linha_tempo_devolucao.py` (já migrado pro repo de Devoluções, ajustado pra receber `--empresa`/`--candidato`) rodado contra esse mesmo pedido. Quase todo campo bateu exato; 1 divergência aparente (data de postagem da devolução) foi investigada e explicada em [[Coleta Física da Devolução Acontece Dentro de ready_to_ship, Não Quando o Status Vira shipped]].
 
 > [!warning] 5 telas mapeadas — falta comparar contra a API
 > As 5 telas do fluxo (Tela 01 a Tela 05) foram registradas e confirmadas por Matheus (15/09/2026) — não há mais telas nesse caminho. Falta comparar cada campo mapeado aqui contra o retorno real da API do Mercado Livre, antes de aplicar o que foi confirmado nas 3 telas idealizadas do Hub de Consulta.
@@ -160,10 +160,11 @@ Só reforça o link de mediação já mapeado, com a nuance do acento reconfirma
 - [ ] Confirmar se as anotações manuais ("Observações") são acessíveis via API ou são exclusivas da interface
 - [x] Achar o padrão de deep link real de mediação — confirmado na Tela 02: `https://www.mercadolivre.com.br/vendas/novo/mensagens/{pedido}/mediacao/{id_mediacao}`
 - [x] Achar o padrão de deep link real de reclamação (claims) — confirmado na Tela 03: `https://www.mercadolivre.com.br/vendas/novo/mensagens/{pedido}/reclamacao/{id_reclamacao}`
-- [ ] Depois de mapeado o fluxo inteiro, comparar cada campo contra o retorno real da API via terminal
+- [x] Depois de mapeado o fluxo inteiro, comparar cada campo contra o retorno real da API via terminal — concluído (15/09/2026): quase tudo bateu exato; a única divergência (data de postagem da devolução) foi explicada em [[Coleta Física da Devolução Acontece Dentro de ready_to_ship, Não Quando o Status Vira shipped]]
 
 ## Relacionado
 
 - [[Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta]]
 - [[Caso Real de Devolução com Mediação Confirma o Relatório e Revela 4 Nuances da Central de Vendedores (Pedido 2000017788033354)]]
 - [[Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]]
+- [[Coleta Física da Devolução Acontece Dentro de ready_to_ship, Não Quando o Status Vira shipped]]
