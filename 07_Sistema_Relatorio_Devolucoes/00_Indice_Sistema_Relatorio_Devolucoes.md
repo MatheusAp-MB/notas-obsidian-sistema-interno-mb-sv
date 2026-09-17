@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 17/09/2026 15:30
+atualizado_em: 17/09/2026 18:28
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -23,6 +23,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 | [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] | decisao | concluida | 06/09/2026 | Organização de arquivos, template base (`{% extends %}`, sidebar+toolbar) e tela home implementados e validados nas 3 telas reais, espelhando o Sistema Interno V2. |
 | [[De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]] | decisao | em_andamento | 16/09/2026 | Feedback real da Ana (aprovado, em uso diário, mas com fricções: fotos, filtro de mediações, peças, cadastro) redireciona o foco de funcionalidade nova pra fechar lacunas reais e integrar as telas. |
 | [[Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana]] | decisao | em_andamento | 17/09/2026 | Escopo fechado (nome/NF/endereço), validado contra a decisão da Ana. Planejar descartou a API do ML como fonte pra esses 3 campos (nome vazio no /orders/search, sem busca por endereço/NF reversa, custo alto de chamadas, 1.249 pedidos/semana só na MB) — busca bloqueada até existir API do ERP (dados prontos, cobre os 6 marketplaces). Número do pedido não é afetado. |
+| [[Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe]] | decisao | implementada | 17/09/2026 | Busca com 2 campos (ID do Cliente / Número da Venda), fallback Pedido→Pack, lista de desambiguação com agrupamento por Pack ID, avisos explícitos de resolução única. Implementado e validado contra 6 cenários reais — inclui a descoberta de um rate limit real (429) na API do ML, corrigido com espaçador proativo (`protecao.py`), revertendo decisão de 26/08/2026. |
 
 ## Checkpoints
 
@@ -33,7 +34,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]] | checkpoint | concluido | 15/09/2026 | Botão simples (`GET /users/me`) no app novo `integracao_mercado_livre`, resolvendo MB/SV sozinho via `obter_empresa_ativa()`, sem Facade (espelha o padrão atual do Sistema Interno V2). Validado nas 2 contas em dev e dentro do `.exe` empacotado. 2 achados reais: código morto migrado (`salvar_cache()`/`carregar_cache()`) e `ENV_PATH`/lock de token quebrando dentro do PYZ do PyInstaller, corrigido com `sys.frozen`. |
 | [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
 | [[Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home]] | checkpoint | concluido | 16/09/2026 | Mockup do Hub de Consulta (resumo compacto + chat de mediação) aprovado e implementado em Django, com mensagens sanitizadas via bleach e novos cards "Consultar Pedido"/"Devoluções" na home. |
-| [[Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]] | checkpoint | em_andamento | 17/09/2026 | Códigos de coleta (QR, Ref. ID, ID do triage Item) ficaram como controle interno ML↔transportadora, sem solução via API. MAS o código ao lado do nome do cliente foi CONFIRMADO como `buyer.id` (cruzado com Relatórios de Devolução reais) — só em etiquetas de venda comum, Full não é afetado. Nova ideia: buyer.id → lista pedidos do cliente → classifica por tipo. |
+| [[Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]] | checkpoint | em_andamento | 17/09/2026 | Código ao lado do nome do cliente CONFIRMADO como `buyer.id`. Fluxo buyer.id → lista pedidos → classifica por tipo VALIDADO e CONFIRMADO ponta a ponta contra 14 casos reais (13 direto + 1 via Pack ID, com o pedido real da exceção também testado e batendo). Achado extra: pack_id pode aparecer no lugar do pedido até em venda Full. Planejar da tela real ainda não iniciado. |
 
 ## Produtos_e_Pecas
 

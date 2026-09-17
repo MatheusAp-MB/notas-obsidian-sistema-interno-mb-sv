@@ -81,7 +81,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "[criado:1/09/2026]",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -221,6 +221,7 @@
   },
   "active": "831c5854f3b0a630",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta.md",
@@ -251,7 +252,6 @@
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Mensagens Da Reclamacao Confirmam sender_role Mediator E Revelam Gap De 17 Dias Na Resposta Do Vendedor.md",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Mediador Nao Aparece Na Lista De Players De Uma Reclamacao.md",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Campo resource_id De cancel_purchase Nao Bate Com O Numero Do Pedido.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Campo resolution.reason Determina Se A Reclamacao Tem Devolucao Fisica.md",
     "Claude outputs/mockup_devolucao_ml_padrao_visual.html",
     "Claude outputs/mockup_linha_tempo_devolucao.html",
     "Claude outputs/consultar_fluxo_devolucao.py",

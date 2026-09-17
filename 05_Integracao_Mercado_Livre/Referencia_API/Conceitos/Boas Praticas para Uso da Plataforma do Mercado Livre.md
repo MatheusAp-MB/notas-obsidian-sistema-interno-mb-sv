@@ -3,8 +3,8 @@ tipo: conceito
 dominio: 
 status: ativa
 criado: 26/08/2026
-atualizado_em: 26/08/2026 21:00
-relacionado: [Padrao de Robustez para Clientes de API Externa, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre]
+atualizado_em: 17/09/2026 18:28
+relacionado: [Padrao de Robustez para Clientes de API Externa, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Migracao dos Scripts Consumidores (buscar_mlbs e buscar_detalhes) e Pipeline de Popular Banco, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre, Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe]
 ---
 
 # Boas Práticas para Uso da Plataforma do Mercado Livre
@@ -67,12 +67,19 @@ Esta seção da doc oficial é a única voltada para quem **consome dado via API
 >
 > **Decisão tomada em 26/08/2026, 21:33**: não adicionar o espaçador proativo por enquanto — 3 motivos (custo fixo escala mal em execuções grandes, nosso padrão de uso não é contínuo, webhook deve reduzir volume no futuro próximo). No lugar disso, a resposta escolhida pra manter visibilidade sobre o uso da API foi um relatório estruturado de erro (endpoint + tipo de erro + quantidade, a cada execução) — ver [[Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre]].
 
+> [!warning] Reversão parcial em 17/09/2026 — espaçador proativo adicionado, só pro Sistema de Relatório de Devoluções
+> Testando a nova tela "Consultar Pedido" (ver [[Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe]]), apareceram avisos reais de 429 numa busca por cliente que classifica vários pedidos em sequência — rajada de chamadas sem espaçamento nenhum. Reavaliando os 3 motivos de 26/08 nesse contexto específico: o uso deixou de ser só em lote (a tela virou centro do sistema, uso interativo e frequente) e o webhook que reduziria volume não existe nem tem previsão (confirmado por Matheus em 17/09/2026) — 2 dos 3 motivos caíram. O motivo 1 (custo em lote) segue válido pros comandos de coleta em massa (`buscar_mlbs`, `buscar_detalhes`), mas esses são de um projeto isolado (Sistema Interno V2), sem relação de código com o cliente do ML usado aqui.
+>
+> **Decisão**: adicionar o espaçador proativo (`EspacadorChamadas`, intervalo mínimo de 0,4s por conta) no `api_mercado_livre/core/estrutura_api/` do Sistema de Relatório de Devoluções — novo arquivo `protecao.py`, com o espaçador e o `calcular_espera_backoff()` (movido de `cliente_api.py`) como 2 peças separadas, exatamente como [[Padrao de Robustez para Clientes de API Externa]] pede. `chamar_api()` ganhou o parâmetro `espacador_ativo` (padrão `True`), retrocompatível com todo chamador existente. Testado contra 7+ buscas seguidas de propósito, sem nenhum 429 depois da mudança.
+>
+> Essa reversão vale só pro cliente do ML deste projeto — não muda nada no `buscar_mlbs`/`buscar_detalhes` do Sistema Interno V2, que são código completamente separado.
+
 ## Checklist de conformidade (pra reconferir mais tarde)
 
 - [x] Não fazer scraping — confirmado no código, só usamos a API oficial.
 - [ ] Restrição de IP do aplicativo no painel do Mercado Livre — não verificado.
 - [x] Reagir ao erro 429 com espera — implementado e confirmado no código (`_calcular_espera_backoff()`).
-- [ ] Espaçador proativo entre chamadas (pausa fixa, não só reativa) — não implementado no cliente do Mercado Livre hoje, diferente do padrão que o projeto define para si mesmo.
+- [x] Espaçador proativo entre chamadas (pausa fixa, não só reativa) — implementado em 17/09/2026 no cliente do ML do Sistema de Relatório de Devoluções (`protecao.py`, `EspacadorChamadas`), revertendo a decisão de 26/08/2026 pra esse projeto especificamente. Ver achado de 17/09/2026 acima.
 
 ## Relacionado
 
