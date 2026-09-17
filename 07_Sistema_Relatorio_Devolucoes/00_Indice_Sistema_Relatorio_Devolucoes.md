@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 16/09/2026 03:27
+atualizado_em: 17/09/2026 01:15
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -21,6 +21,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 |---|---|---|---|---|
 | [[Sistema Vira Real — MySQL como Banco e Entrega em Pasta com Atalho (Sem Instalador)]] | decisao | em_andamento | 05/09/2026 | 2 bancos MySQL, driver `mysqlclient` e troca de empresa/alias samvale — todos validados de ponta a ponta. Falta só operação: setup na máquina de produção (barracão). |
 | [[Reforma Estrutural — Organização de Arquivos, Template Base com Extends e Tela Home (Espelhando o Sistema Interno V2)]] | decisao | concluida | 06/09/2026 | Organização de arquivos, template base (`{% extends %}`, sidebar+toolbar) e tela home implementados e validados nas 3 telas reais, espelhando o Sistema Interno V2. |
+| [[De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]] | decisao | em_andamento | 16/09/2026 | Feedback real da Ana (aprovado, em uso diário, mas com fricções: fotos, filtro de mediações, peças, cadastro) redireciona o foco de funcionalidade nova pra fechar lacunas reais e integrar as telas. |
 
 ## Checkpoints
 
@@ -31,6 +32,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções]] | checkpoint | concluido | 15/09/2026 | Botão simples (`GET /users/me`) no app novo `integracao_mercado_livre`, resolvendo MB/SV sozinho via `obter_empresa_ativa()`, sem Facade (espelha o padrão atual do Sistema Interno V2). Validado nas 2 contas em dev e dentro do `.exe` empacotado. 2 achados reais: código morto migrado (`salvar_cache()`/`carregar_cache()`) e `ENV_PATH`/lock de token quebrando dentro do PYZ do PyInstaller, corrigido com `sys.frozen`. |
 | [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
 | [[Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home]] | checkpoint | concluido | 16/09/2026 | Mockup do Hub de Consulta (resumo compacto + chat de mediação) aprovado e implementado em Django, com mensagens sanitizadas via bleach e novos cards "Consultar Pedido"/"Devoluções" na home. |
+| [[Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]] | checkpoint | em_andamento | 17/09/2026 | Conclusão: código bipável da etiqueta é provavelmente controle interno ML↔transportadora (romaneio de coleta), não exposto pela API — linha de investigação encerrada. Decisão: focar nos campos fáceis já visíveis (pedido, NF, nome, endereço). Novo candidato a testar: código ao lado do nome do cliente, hipótese de ser o `buyer.id`. |
 
 ## Produtos_e_Pecas
 
