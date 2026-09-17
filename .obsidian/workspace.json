@@ -47,8 +47,7 @@
               "title": "De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -82,7 +81,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "feed",
+                "query": "[criado:1/09/2026]",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -222,10 +221,10 @@
   },
   "active": "831c5854f3b0a630",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Ícones no .exe.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Icones no .exe.md",

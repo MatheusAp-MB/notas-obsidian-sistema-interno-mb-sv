@@ -3,9 +3,9 @@ tipo: checkpoint
 dominio: 07_Sistema_Relatorio_Devolucoes
 status: em_andamento
 criado: 16/09/2026
-atualizado_em: 17/09/2026 01:15
-relacionado: [[De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]], [[Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354)]]
-resumo: Conclusão importante (17/09/2026): o código bipável da etiqueta (QR/código de barras de 11 dígitos, Ref. ID, ID do triage Item) é provavelmente controle interno Mercado Livre↔transportadora (romaneio de coleta), não exposto pela API pública — ausência sistemática em toda superfície testada bate com o relato operacional de Matheus (só quem coleta o pacote bipa). Decisão: parar de tentar decifrar via API e focar nos campos já visíveis e fáceis de usar na etiqueta pra pesquisar devolução (Número do pedido, Nota Fiscal, Nome do cliente, Endereço). Novo candidato a testar: código `#443851581` ao lado do nome do cliente, hipótese de ser o `buyer.id` do comprador. Achados anteriores confirmados seguem válidos: Pack ID = carrinho, `drop_off` = Correios.
+atualizado_em: 17/09/2026 15:30
+relacionado: [[De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]], [[Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354)]], [[Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana]]
+resumo: Conclusão importante (17/09/2026): o código bipável da etiqueta (QR/código de barras de 11 dígitos, Ref. ID, ID do triage Item) é provavelmente controle interno Mercado Livre↔transportadora (romaneio de coleta), não exposto pela API pública. Decisão: focar nos campos já visíveis na etiqueta (Número do pedido, Nota Fiscal, Nome do cliente, Endereço, e Pack ID = carrinho, drop_off = Correios, ambos confirmados). NOVO (17/09, tarde): diferente dos códigos acima, o código `#443851581` ao lado do nome do cliente FOI confirmado como o `buyer.id` do comprador — testado via API e cruzado digit-a-digit com Relatórios de Devolução reais. Só aparece em etiquetas de venda comum (Full não tem esse código, continua dependendo só da etiqueta amarela). Abre um caminho novo: buyer.id -> lista todos os pedidos do cliente -> classifica por tipo (idealização inicial, ainda não planejada).
 ---
 
 # Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido
@@ -154,6 +154,20 @@ Em vez de depender de decifrar um código proprietário, o caminho prático adot
 
 - **Novo candidato encontrado (ainda não confirmado)**: numa nova foto da etiqueta do Rafael Ramos Machado, aparece um código curto ao lado do nome do cliente — `#443851581` — que pode ser o ID do comprador no Mercado Livre (`buyer.id`, campo que já sabemos existir na resposta de `GET /orders/$ORDER_ID`). Se confirmado, seria um campo curto e útil pra busca — ainda não testado contra a API.
 
+## Confirmado — Código do Lado do Nome é o buyer.id do Cliente, Só em Etiquetas de Venda Comum (17/09/2026, tarde)
+
+Testado o candidato que estava em aberto desde a etapa anterior: o código `#443851581`, visto ao lado do nome do cliente na etiqueta do Rafael Ramos Machado.
+
+- **Teste 1 — `GET /users/443851581`** (endpoint público de perfil): voltou um perfil real e ativo — `nickname: "RAPHA048"`, `user_type: "normal"`, `seller_reputation.transactions.total: 0` (nunca vendeu, é comprador comum), `status.site_status: "active"`. Confirma que é um `user_id` real existente, e o apelido lembra "Rafael" — indício, mas não prova.
+- **Teste 2 — `GET /orders/search?seller=<próprio>&buyer=443851581`**: o filtro `buyer` funcionou de verdade e devolveu exatamente **2 pedidos** desse comprador pra conta MB: `2000018113512820` e `2000017939871998`.
+- **Confirmação definitiva — correspondência exata com os Relatórios de Devolução reais do próprio sistema**: os 2 números batem, dígito a dígito, com os 2 Relatórios de Devolução já emitidos pelo sistema pra Rafael Ramos Machado (NF 41.220, pedido `2000018113512820`, destino "Troca"; NF 40.812, pedido `2000017939871998`, destino "Venda como usado"). Pedido é chave única — essa correspondência fecha a confirmação, sem depender de nenhum outro dado.
+- **Ressalva sobre endereço, corrigida em conversa**: os endereços de entrega desses 2 pedidos (São Bento do Sul-SC) NÃO batem com o endereço da etiqueta original (Araucária-PR) — isso não invalida a identificação, porque endereço de entrega é dado da transação (pode mudar pedido a pedido), não da conta do comprador. O dado que prova identidade é o pedido, não o endereço.
+- **Escopo confirmado — só etiquetas de venda comum**: esse código NÃO aparece nas etiquetas Full (nem a branca, nem a amarela de triagem). Pra Full, nada muda — continua 100% dependente de achar a etiqueta amarela com o número do pedido, sem esse atalho.
+
+### Ideia nova, ainda em Idealizar (não planejada)
+
+Com o `buyer.id` confirmado como utilizável, Matheus propôs um fluxo novo pra etiquetas de venda comum: **buyer.id → lista todos os pedidos do cliente (já funciona, testado) → ordena por data → classifica cada pedido por tipo (sem problema / com reclamação / com devolução)**. A classificação por tipo reaproveitaria a mesma lógica que `view_consultar_pedido` já usa hoje pra 1 pedido conhecido (`claims/search?order_id=`) — só rodando em loop pra cada pedido da lista, em vez de 1 só. Ainda não entrou em Planejar.
+
 ## Em aberto
 
 - [x] Confirmar quais códigos aparecem numa etiqueta real (foto) e o que cada um representa — feito em 16/09/2026, ver seção "Achados da Etapa 1" abaixo
@@ -171,7 +185,8 @@ Em vez de depender de decifrar um código proprietário, o caminho prático adot
 - [x] Testar a hipótese revisada do `return_from_triage` contra um caso cuja review tenha `product_condition` diferente de `unsaleable` — testado em 17/09/2026 com um escaneamento de 8 casos reais (3 unsaleable, 5 saleable): hipótese DESCARTADA, nenhum dos 8 gerou 2º shipment, `product_condition` não é o que decide — ver "Achados via API Real — Escaneamento em Lote Descarta a Hipótese da Condição do Produto"
 - [ ] Descobrir se o `"return_from_triage"` é exclusivo de devoluções de venda Full de verdade (`fulfilled: true` no nível do pedido) — rodagem de 17/09/2026 achou só 2 casos Full no lote testado, nenhum com devolução associada; **deprioritizado em 17/09/2026** junto com o resto da linha do `return_from_triage`, sem solução
 - [ ] Confirmar se a "revisão do vendedor" (`seller_status: pending`, só aparece quando `product_condition: unsaleable`) é de fato uma ação de contestação (`return_review_fail`) e não uma etapa que bloqueia algum processo — hipótese ainda não testada diretamente; **deprioritizado em 17/09/2026** junto com o resto da linha do `return_from_triage`
-- [ ] Confirmar se o código ao lado do nome do cliente na etiqueta (ex: `#443851581`, foto do Rafael Ramos Machado) corresponde ao `buyer.id` do pedido via API (`GET /orders/$ORDER_ID`) — ainda não testado
+- [x] Confirmar se o código ao lado do nome do cliente na etiqueta (ex: `#443851581`, foto do Rafael Ramos Machado) corresponde ao `buyer.id` do pedido via API — **confirmado em 17/09/2026 à tarde**, via `GET /users/{id}` + `GET /orders/search?buyer=` cruzado digit-a-digit com Relatórios de Devolução reais, ver "Confirmado — Código do Lado do Nome é o buyer.id do Cliente". Só vale pra etiquetas de venda comum, Full não tem esse código.
+- [ ] Idealizar/Planejar o fluxo novo: buyer.id → lista pedidos do cliente → ordena por data → classifica por tipo (sem problema / reclamação / devolução) — proposto em 17/09/2026, ainda não desenvolvido
 
 ## Relacionado
 
