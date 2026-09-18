@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — Visualizar Devolução</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root{
+    --navy:#152340;
+    --navy-active:#1f3562;
+    --accent:#3d7fff;
+    --bg:#eef1f6;
+    --card:#ffffff;
+    --text:#1c2333;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --green:#1f9d55; --green-bg:#e6f6ec;
+    --amber:#b45309; --amber-bg:#fef3e2;
+    --red:#dc2626; --red-bg:#fde8e8;
+    --gray-badge:#5b6472; --gray-badge-bg:#eceef1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--text); font-size:14.5px;
+  }
+  .aviso-mockup{
+    background:#fff3cd; color:#7a5c00; border-bottom:1px solid #f0d789;
+    padding:8px 20px; font-size:12.5px; text-align:center;
+  }
+  .layout{display:flex; min-height:100vh;}
+  .sidebar{
+    width:250px; background:var(--navy); color:#cdd6e8; flex-shrink:0;
+    padding:18px 0; display:flex; flex-direction:column;
+  }
+  .sidebar-logo{
+    display:flex; align-items:center; gap:10px; padding:6px 20px 20px 20px;
+    color:#fff; font-weight:700; font-size:15px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:10px;
+  }
+  .sidebar-logo .badge-mb{
+    width:32px; height:32px; background:#3d7fff; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800;
+  }
+  .sidebar-nav{display:flex; flex-direction:column; gap:2px; padding:0 10px;}
+  .sidebar-item{
+    display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:8px;
+    color:#aab6cc; text-decoration:none; font-size:13.5px;
+  }
+  .sidebar-item i{width:16px; text-align:center;}
+  .sidebar-item--ativo{background:var(--navy-active); color:#fff; font-weight:600;}
+  .main-wrapper{flex:1; display:flex; flex-direction:column; min-width:0;}
+  .toolbar{
+    height:60px; background:var(--navy); color:#fff; display:flex; align-items:center;
+    padding:0 22px; gap:16px; flex-shrink:0;
+  }
+  .toolbar h1{font-size:16.5px; font-weight:600; margin:0; flex:1;}
+  .toolbar .hamburger{font-size:16px; opacity:.85;}
+  .badge-empresa{
+    background:rgba(255,255,255,.12); color:#fff; padding:7px 14px; border-radius:8px;
+    font-size:12.5px; font-weight:700; letter-spacing:.3px; display:flex; align-items:center; gap:8px;
+  }
+  .conteudo{padding:26px 30px 60px 30px; max-width:1080px; margin:0 auto; width:100%;}
+
+  .voltar-link{
+    display:inline-flex; align-items:center; gap:6px; color:var(--muted); text-decoration:none;
+    font-size:13px; margin-bottom:14px;
+  }
+
+  .cartao{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:22px 24px; margin-bottom:20px;
+  }
+  .cartao h2{font-size:14px; text-transform:uppercase; letter-spacing:.4px; color:var(--muted); margin:0 0 16px 0; font-weight:700;}
+
+  .cabecalho-topo{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;}
+  .cabecalho-topo h1{font-size:22px; margin:0 0 6px 0;}
+  .linha-meta{display:flex; gap:18px; flex-wrap:wrap; color:var(--muted); font-size:13.5px; margin-top:8px;}
+  .linha-meta span{display:flex; align-items:center; gap:6px;}
+  .acoes-topo{display:flex; gap:8px; flex-wrap:wrap;}
+  .btn-secundario{
+    background:#fff; border:1px solid var(--border); color:var(--text); padding:8px 14px;
+    border-radius:8px; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:7px;
+  }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:20px;
+    font-size:12px; font-weight:700;
+  }
+  .badge--verde{background:var(--green-bg); color:var(--green);}
+  .badge--ambar{background:var(--amber-bg); color:var(--amber);}
+  .badge--vermelho{background:var(--red-bg); color:var(--red);}
+  .badge--cinza{background:var(--gray-badge-bg); color:var(--gray-badge);}
+
+  .grade-dados{display:grid; grid-template-columns:repeat(4,1fr); gap:16px 20px;}
+  .campo{display:flex; flex-direction:column; gap:3px;}
+  .campo .rotulo{font-size:11.5px; text-transform:uppercase; letter-spacing:.3px; color:var(--muted); font-weight:700;}
+  .campo .valor{font-size:14px; font-weight:600;}
+  .campo .valor.vazio{color:var(--muted); font-weight:400; font-style:italic;}
+
+  .texto-bloco{font-size:13.5px; line-height:1.55; color:#374151; white-space:pre-wrap;}
+
+  .produto-linha{display:flex; gap:18px; align-items:center;}
+  .produto-foto{
+    width:74px; height:74px; border-radius:10px; background:#f0f2f6; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; color:#a7b0c0; font-size:22px; flex-shrink:0;
+  }
+  .produto-info .nome{font-size:15px; font-weight:700; margin-bottom:4px;}
+  .produto-info .linha-meta{margin-top:4px;}
+
+  .peca-bloco{border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:14px;}
+  .peca-bloco:last-child{margin-bottom:0;}
+  .peca-cabecalho{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;}
+  .peca-nome{font-size:14.5px; font-weight:700; display:flex; align-items:center; gap:9px;}
+  .peca-qtd{font-size:12.5px; color:var(--muted); font-weight:600;}
+  .peca-anotacao{font-size:13px; color:#374151; margin:4px 0 14px 0; background:#f8f9fb; border-left:3px solid var(--border); padding:8px 12px; border-radius:0 6px 6px 0;}
+
+  .grade-fotos{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px;}
+  .foto-item{display:flex; flex-direction:column; gap:5px;}
+  .foto-thumb{
+    aspect-ratio:1/1; background:linear-gradient(135deg,#e9edf3,#dde3ec); border:1px solid var(--border);
+    border-radius:8px; display:flex; align-items:center; justify-content:center; color:#9aa5b8; font-size:22px;
+    cursor:pointer;
+  }
+  .foto-nome{font-size:10.5px; color:var(--muted); text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+
+  .aviso-pasta{
+    display:flex; align-items:center; gap:14px; background:#eef4ff; border:1px solid #cfe0ff;
+    border-radius:10px; padding:14px 18px; margin-top:4px;
+  }
+  .aviso-pasta i{font-size:20px; color:var(--accent);}
+  .aviso-pasta .txt{font-size:13px; color:#1e3a6e;}
+  .aviso-pasta code{
+    display:block; background:#fff; border:1px solid #cfe0ff; padding:6px 10px; border-radius:6px;
+    font-size:12.5px; margin-top:6px; color:#0f2a54;
+  }
+</style>
+</head>
+<body>
+
+<div class="aviso-mockup">
+  MOCKUP — layout de referência pra discussão, não é o código final. Dados de exemplo (pedido real já usado antes nas nossas conversas).
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="badge-mb">MB</span>
+      <span>Sistema de Devoluções</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-item"><i class="fas fa-magnifying-glass"></i><span>Consultar Pedido</span></a>
+      <a class="sidebar-item"><i class="fas fa-rotate-left"></i><span>Nova Devolução</span></a>
+      <a class="sidebar-item sidebar-item--ativo"><i class="fas fa-clipboard-list"></i><span>Devoluções</span></a>
+      <a class="sidebar-item"><i class="fas fa-box"></i><span>Produtos</span></a>
+      <a class="sidebar-item"><i class="fas fa-puzzle-piece"></i><span>Peças</span></a>
+      <a class="sidebar-item"><i class="fas fa-tags"></i><span>Marcas</span></a>
+    </nav>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="toolbar">
+      <i class="fas fa-bars hamburger"></i>
+      <h1>Visualizar Devolução</h1>
+      <span class="badge-empresa"><i class="fas fa-building"></i> MAGAZINE BRASILEIRO</span>
+    </header>
+
+    <main class="conteudo">
+      <a class="voltar-link"><i class="fas fa-arrow-left"></i> Voltar pra lista de devoluções</a>
+
+      <!-- Cabeçalho do pedido -->
+      <div class="cartao">
+        <div class="cabecalho-topo">
+          <div>
+            <h1>Pedido 15667701028125752</h1>
+            <div class="linha-meta">
+              <span><i class="fas fa-store"></i> Magalu</span>
+              <span><i class="fas fa-user"></i> Maria Marta Cremonesi Ganacin</span>
+              <span><i class="fas fa-receipt"></i> NF 4.361</span>
+            </div>
+          </div>
+          <div class="acoes-topo">
+            <span class="badge badge--verde" style="margin-right:6px;"><i class="fas fa-check-circle"></i> Conferida — Troca</span>
+            <a class="btn-secundario"><i class="fas fa-print"></i> Relatório A4</a>
+            <a class="btn-secundario"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Datas e status -->
+      <div class="cartao">
+        <h2>Linha do tempo &amp; status</h2>
+        <div class="grade-dados">
+          <div class="campo"><span class="rotulo">Venda</span><span class="valor">12/08/2026</span></div>
+          <div class="campo"><span class="rotulo">Recebido pelo cliente</span><span class="valor">15/08/2026</span></div>
+          <div class="campo"><span class="rotulo">Reclamação aberta</span><span class="valor">18/08/2026</span></div>
+          <div class="campo"><span class="rotulo">Recebido por nós</span><span class="valor">28/08/2026</span></div>
+          <div class="campo"><span class="rotulo">Mediação aberta</span><span class="valor">19/08/2026</span></div>
+          <div class="campo"><span class="rotulo">Mediação finalizada</span><span class="valor vazio">ainda em aberto</span></div>
+          <div class="campo"><span class="rotulo">Reembolsado</span><span class="valor vazio">ainda não definido</span></div>
+          <div class="campo"><span class="rotulo">Tipo de venda</span><span class="valor">Venda comum</span></div>
+        </div>
+      </div>
+
+      <!-- Reclamação -->
+      <div class="cartao">
+        <h2>Motivo da reclamação do cliente</h2>
+        <p class="texto-bloco">Cliente relata que o pulverizador veio com o bico espelhado quebrado e faltando o bico de 5 furos — pediu troca do kit completo.</p>
+      </div>
+
+      <!-- Mediação -->
+      <div class="cartao">
+        <h2>Anotações da mediação</h2>
+        <p class="texto-bloco">Mediação aberta pelo cliente no Mercado Livre em 19/08 — aguardando envio das fotos de evidência da conferência pra anexar na resposta.</p>
+      </div>
+
+      <!-- Observação geral -->
+      <div class="cartao">
+        <h2>Observação geral do produto</h2>
+        <p class="texto-bloco">Veio um carregador extra dentro da caixa, não fazia parte do pedido original.</p>
+      </div>
+
+      <!-- Produto -->
+      <div class="cartao">
+        <h2>Produto</h2>
+        <div class="produto-linha">
+          <div class="produto-foto"><i class="fas fa-box"></i></div>
+          <div class="produto-info">
+            <div class="nome">Pulverizador a Bateria e Manual SS-20B</div>
+            <div class="linha-meta">
+              <span><i class="fas fa-barcode"></i> EAN 7908050719121</span>
+              <span><i class="fas fa-hashtag"></i> SKU F7908050719121.001</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Peças conferidas + fotos agrupadas -->
+      <div class="cartao">
+        <h2>Peças conferidas &amp; fotos da conferência</h2>
+
+        <div class="peca-bloco">
+          <div class="peca-cabecalho">
+            <span class="peca-nome"><i class="fas fa-puzzle-piece" style="color:#9aa5b8;"></i> Bico espelhado</span>
+            <span class="peca-qtd">Recebido 1 de 1</span>
+            <span class="badge badge--verde">Completa</span>
+          </div>
+          <div class="peca-anotacao">Veio com um trinco visível na base — foto 2 mostra o detalhe de perto.</div>
+          <div class="grade-fotos">
+            <div class="foto-item">
+              <div class="foto-thumb"><i class="fas fa-image"></i></div>
+              <span class="foto-nome">bico-espelhado_1.png</span>
+            </div>
+            <div class="foto-item">
+              <div class="foto-thumb"><i class="fas fa-image"></i></div>
+              <span class="foto-nome">bico-espelhado_2.png</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="peca-bloco">
+          <div class="peca-cabecalho">
+            <span class="peca-nome"><i class="fas fa-puzzle-piece" style="color:#9aa5b8;"></i> Bico 5 furos</span>
+            <span class="peca-qtd">Recebido 0 de 1</span>
+            <span class="badge badge--vermelho">Não recebida</span>
+          </div>
+          <div class="peca-anotacao">Não veio na caixa — cliente confirma que não enviou essa peça de volta.</div>
+          <div class="grade-fotos">
+            <div class="foto-item">
+              <div class="foto-thumb" style="background:#f3f1ee; color:#c9c2b6;"><i class="fas fa-box-open"></i></div>
+              <span class="foto-nome" style="font-style:italic;">sem fotos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="aviso-pasta">
+          <i class="fas fa-folder-open"></i>
+          <div class="txt">
+            Pra anexar essas fotos direto na mediação do Mercado Livre, elas já estão salvas nessa pasta do computador:
+            <code>Devoluções/Pedido_15667701028125752/Fotos da conferencia/</code>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>MOCKUP — Confirmação de Endereço na Tela de Detalhe (v2)</title>
+<style>
+  :root {
+    --cor-primaria: #16407d;
+    --cor-primaria-clara: #2568c9;
+    --cor-positivo: #1a8a4a;
+    --cor-borda: #dde3ea;
+    --cabecalho-bg: #dce9fb;
+    --cabecalho-texto: #1c4a86;
+    --cabecalho-sub: #5b7aa8;
+    --cinza-texto: #6c757d;
+    --amber-texto: #92400e;
+    --amber-bg: #fef3c7;
+    --verde-bg: #e6f4ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 30px 20px 70px; background: #eef2f6;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1c2530;
+  }
+  .container { max-width: 1040px; margin: 0 auto; }
+
+  .aviso-mockup {
+    background: #fff3cd; border: 1px solid #ffe08a; border-radius: 10px;
+    padding: 12px 16px; margin-bottom: 26px; font-size: 0.82rem; color: #6b4c00;
+  }
+  .aviso-mockup strong { display: block; margin-bottom: 3px; }
+
+  h1 { font-size: 1.25rem; color: var(--cor-primaria); margin: 0 0 4px; }
+  .subtitulo { font-size: 0.85rem; color: var(--cinza-texto); margin-bottom: 26px; }
+
+  .bloco {
+    background: #fff; border: 1px solid var(--cor-borda); border-radius: 12px;
+    overflow: hidden; margin-bottom: 22px;
+  }
+  .bloco-cabecalho {
+    background: var(--cabecalho-bg); padding: 13px 18px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .bloco-numero {
+    width: 26px; height: 26px; border-radius: 50%; background: var(--cor-primaria-clara);
+    color: #fff; font-weight: 700; font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .bloco-titulo { font-weight: 700; color: var(--cabecalho-texto); font-size: 0.95rem; }
+  .bloco-hist { color: var(--cabecalho-sub); font-size: 0.86rem; font-weight: 400; }
+  .bloco-datas {
+    margin-left: auto; color: var(--cabecalho-sub); font-size: 0.8rem;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .bloco-chevron { color: var(--cabecalho-sub); font-size: 0.9rem; margin-left: 6px; }
+
+  .destino-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+  }
+  .destino-pill--neutro { background: rgba(255,255,255,.55); color: var(--cabecalho-texto); }
+  .destino-pill--confirmado { background: var(--verde-bg); color: var(--cor-positivo); }
+
+  .bloco-corpo { padding: 6px 18px 4px; }
+  .envio-label { font-size: 0.78rem; color: var(--cinza-texto); padding: 10px 0 4px; }
+
+  /* NOVO — cabeçalho de coluna, só pra deixar claro o que é a 3ª coluna */
+  .colunas-titulo {
+    display: grid; grid-template-columns: 120px 1fr 108px 270px; gap: 10px;
+    font-size: 0.66rem; text-transform: uppercase; letter-spacing: .04em;
+    color: #9aa5b1; padding: 8px 0 4px; border-bottom: 1px solid #eef1f5;
+  }
+  .colunas-titulo span:last-child { text-align: left; }
+
+  .evento-linha {
+    display: grid; grid-template-columns: 120px 1fr 108px 270px; gap: 10px;
+    align-items: baseline; padding: 7px 0; border-bottom: 1px solid #eef1f5; font-size: 0.875rem;
+  }
+  .evento-linha:last-child { border-bottom: none; }
+  .evento-hora { font-family: "SFMono-Regular", Consolas, monospace; color: var(--cinza-texto); }
+  .evento-texto--codigo { font-family: "SFMono-Regular", Consolas, monospace; color: var(--amber-texto); }
+  .evento-badge {
+    background: var(--amber-bg); color: var(--amber-texto);
+    font-size: 0.66rem; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+    white-space: nowrap; justify-self: start;
+  }
+
+  /* NOVO — 3ª coluna: endereço do evento, quando existe */
+  .evento-endereco { font-size: 0.76rem; line-height: 1.35; }
+  .evento-endereco--vazio { color: #c3cad2; }
+  .evento-endereco .mascarado {
+    font-family: "SFMono-Regular", Consolas, monospace; color: var(--amber-texto); font-style: italic;
+  }
+  .evento-endereco .visivel { color: #1c2530; font-weight: 600; }
+  .evento-endereco .cidade { color: var(--cinza-texto); }
+  .evento-endereco .selo-mini {
+    display: inline-block; margin-left: 4px; font-size: 0.68rem;
+  }
+
+  /* Bloco de confirmação, já existia na v1 */
+  .confirmacao-endereco {
+    margin: 14px 0 12px; border-radius: 10px; padding: 13px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .confirmacao-endereco--ok { background: var(--verde-bg); border: 1px solid #bfe3cc; }
+  .confirmacao-endereco--alerta { background: var(--amber-bg); border: 1px solid #f4d492; }
+  .confirmacao-icone { font-size: 1.15rem; line-height: 1; margin-top: 1px; }
+  .confirmacao-texto { font-size: 0.85rem; line-height: 1.5; }
+  .confirmacao-texto strong { display: block; margin-bottom: 2px; font-size: 0.87rem; }
+  .confirmacao-texto .tecnico {
+    display: block; margin-top: 6px; font-size: 0.72rem; font-family: "SFMono-Regular", Consolas, monospace;
+    color: #6b6b6b; opacity: 0.85;
+  }
+  .confirmacao-endereco--ok .confirmacao-texto strong { color: var(--cor-positivo); }
+  .confirmacao-endereco--alerta .confirmacao-texto strong { color: var(--amber-texto); }
+
+  .secao-exemplo { margin-top: 40px; padding-top: 24px; border-top: 2px dashed #c7d0da; }
+  .secao-exemplo h2 { font-size: 1rem; color: var(--cor-primaria); margin: 0 0 4px; }
+  .secao-exemplo .nota { font-size: 0.82rem; color: var(--cinza-texto); margin-bottom: 16px; }
+  .mini-bloco { background: #fff; border: 1px solid var(--cor-borda); border-radius: 12px; padding: 16px 18px; max-width: 620px; }
+
+  @media (max-width: 860px) {
+    .colunas-titulo, .evento-linha { grid-template-columns: 100px 1fr 90px 180px; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="aviso-mockup">
+    <strong>⚠️ MOCKUP v2 — proposta de idealização, não é a tela real</strong>
+    Ajustado a pedido: agora a 3ª coluna mostra o endereço de cada evento sempre que existe (só nos eventos de coleta/entrega — o meio da rota não tem endereço, por isso fica em branco, exatamente como a API devolve).
+  </div>
+
+  <h1>Proposta: 3ª coluna de endereço, direto na linha do tempo</h1>
+  <div class="subtitulo">Endereço aparece só onde a API realmente tem (coleta = origem, entrega = destino). Nas linhas do meio fica vazio de propósito — é o que a API confirma: sem dado de local no meio da rota.</div>
+
+  <!-- BLOCO 1 — IDA -->
+  <div class="bloco">
+    <div class="bloco-cabecalho">
+      <div class="bloco-numero">1</div>
+      <div>
+        <span class="bloco-titulo">Compra e envio de ida</span>
+        <span class="bloco-hist"> (Histórico NÓS → CLIENTE)</span>
+      </div>
+      <div class="bloco-datas">
+        <span>25/08/2026 14:56 → 28/08/2026 15:41</span>
+        <span class="destino-pill destino-pill--neutro">📍 Agência ML — Armazém Alpino</span>
+        <span class="bloco-chevron">⌃</span>
+      </div>
+    </div>
+    <div class="bloco-corpo">
+      <div class="colunas-titulo"><span>Data/hora</span><span>Evento</span><span></span><span>Endereço (sender_address / receiver_address)</span></div>
+
+      <div class="evento-linha"><span class="evento-hora">25/08/2026 14:56</span><span class="evento-texto--codigo">pending/shipment_paid</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">25/08/2026 14:57</span><span>Registrado, aguardando próxima etapa</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">25/08/2026 14:57</span><span>Etiqueta de envio liberada</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">25/08/2026 14:57</span><span class="evento-texto--codigo">ready_to_ship/invoice_pending</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">26/08/2026 07:22</span><span class="evento-texto--codigo">ready_to_ship/waiting_for_carrier_authorization</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">26/08/2026 07:23</span><span>Etiqueta de envio impressa</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha">
+        <span class="evento-hora">26/08/2026 11:02</span><span>Pacote coletado fisicamente</span><span></span>
+        <span class="evento-endereco"><span class="mascarado">XXXXXXX, nº XXXXXXX</span> · <span class="cidade">Centro, Pompéia/SP</span><span class="selo-mini">🔒</span></span>
+      </div>
+      <div class="evento-linha"><span class="evento-hora">26/08/2026 14:37</span><span>Chegou no centro de distribuição</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">26/08/2026 18:32</span><span class="evento-texto--codigo">ready_to_ship/in_packing_list</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">27/08/2026 01:29</span><span>Despachado pro trajeto principal</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">28/08/2026 14:04</span><span>Primeira tentativa de entrega</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">28/08/2026 14:04</span><span class="evento-texto--codigo">shipped/waiting_for_withdrawal</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha">
+        <span class="evento-hora">28/08/2026 15:41</span><span>Entregue</span><span></span>
+        <span class="evento-endereco"><span class="visivel">Imigrante José Hastreiter, 123</span> · <span class="cidade">Alpino, São Bento do Sul/SC</span><span class="selo-mini">🔓</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 3 — VOLTA -->
+  <div class="bloco">
+    <div class="bloco-cabecalho">
+      <div class="bloco-numero">3</div>
+      <div>
+        <span class="bloco-titulo">Devolução física e envio de volta</span>
+        <span class="bloco-hist"> (Histórico CLIENTE → NÓS)</span>
+      </div>
+      <div class="bloco-datas">
+        <span>04/09/2026 02:47 → 08/09/2026 13:53</span>
+        <span class="destino-pill destino-pill--confirmado">✅ Chegou na MB (endereço oficial)</span>
+        <span class="bloco-chevron">⌃</span>
+      </div>
+    </div>
+    <div class="bloco-corpo">
+      <div class="envio-label">Envio de devolução nº 47915040792</div>
+      <div class="colunas-titulo"><span>Data/hora</span><span>Evento</span><span></span><span>Endereço (sender_address / receiver_address)</span></div>
+
+      <div class="evento-linha"><span class="evento-hora">02/09/2026 11:09</span><span>Registrado, aguardando próxima etapa</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">02/09/2026 11:09</span><span>Etiqueta de envio liberada</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">02/09/2026 11:09</span><span>Etiqueta de envio impressa</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">02/09/2026 16:49</span><span class="evento-texto--codigo">ready_to_ship/dropped_off</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha">
+        <span class="evento-hora">03/09/2026 12:20</span><span>Pacote coletado fisicamente</span><span></span>
+        <span class="evento-endereco"><span class="mascarado">XXXXXXX, nº XXXXXXX</span> · <span class="cidade">Lençol, São Bento do Sul/SC</span><span class="selo-mini">🔒</span></span>
+      </div>
+      <div class="evento-linha"><span class="evento-hora">03/09/2026 15:50</span><span>Chegou no centro de distribuição</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">04/09/2026 00:23</span><span class="evento-texto--codigo">ready_to_ship/in_packing_list</span><span class="evento-badge">não confirmado</span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">04/09/2026 02:47</span><span>Despachado pro trajeto principal</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha"><span class="evento-hora">08/09/2026 13:53</span><span>Primeira tentativa de entrega</span><span></span><span class="evento-endereco evento-endereco--vazio">—</span></div>
+      <div class="evento-linha">
+        <span class="evento-hora">08/09/2026 13:53</span><span>Entregue</span><span></span>
+        <span class="evento-endereco"><span class="mascarado">XXXXXXX, nº XXXXXXX</span> · <span class="cidade">Centro, Pompéia/SP</span><span class="selo-mini">🔒</span> <span style="color:var(--cor-positivo); font-weight:700;">✅ oficial</span></span>
+      </div>
+
+      <div class="confirmacao-endereco confirmacao-endereco--ok">
+        <div class="confirmacao-icone">✅</div>
+        <div class="confirmacao-texto">
+          <strong>Local de chegada confirmado</strong>
+          Mesmo com rua/número mascarados pela API, o endereço de chegada bate com o cadastro oficial da MB (Pompéia/SP) — não é uma agência nem uma transportadora intermediária.
+          <span class="tecnico">address_id 1582450605 · user_id 82537282 — batem com o cadastro oficial (MB_USER_ID no .env)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="secao-exemplo">
+    <h2>Exemplo ilustrativo — como ficaria se NÃO batesse</h2>
+    <div class="nota">Não é dado real desse pedido — mostra a mesma linha "Entregue" e o mesmo aviso, no caso hipotético que motivou essa investigação (o incidente das 20h).</div>
+    <div class="mini-bloco">
+      <div class="evento-linha" style="grid-template-columns: 120px 1fr 270px;">
+        <span class="evento-hora">?/09/2026 20:14</span><span>Entregue</span>
+        <span class="evento-endereco"><span class="mascarado">XXXXXXX, nº XXXXXXX</span> · <span class="cidade">Centro, Tupã/SP</span><span class="selo-mini">🔒</span> <span style="color:var(--amber-texto); font-weight:700;">⚠️ não oficial</span></span>
+      </div>
+      <div class="confirmacao-endereco confirmacao-endereco--alerta" style="margin-top:10px;">
+        <div class="confirmacao-icone">⚠️</div>
+        <div class="confirmacao-texto">
+          <strong>Local de chegada não confere</strong>
+          Esse envio NÃO chegou no endereço oficial da MB/SV. Destino identificado: Agência ML — [nome da agência], Tupã/SP. Pode indicar entrega numa transportadora ou ponto de retirada, não na empresa — o que explicaria um horário como 20h, fora do expediente.
+          <span class="tecnico">address_id 9999999 · user_id (agência — não bate com MB_USER_ID nem SV_USER_ID)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

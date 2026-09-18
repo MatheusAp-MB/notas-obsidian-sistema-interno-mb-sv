@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fluxo de Endereços — Pedido 2000018113512820</title>
+<style>
+  :root {
+    --azul: #2568c9;
+    --azul-escuro: #16407d;
+    --verde: #1a8a4a;
+    --verde-bg: #e8f7ee;
+    --ambar: #b8720a;
+    --ambar-bg: #fdf1de;
+    --cinza-texto: #55606b;
+    --cinza-borda: #dde3ea;
+    --fundo: #f5f7fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 60px;
+    background: var(--fundo);
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1c2530;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+
+  .cabecalho {
+    margin-bottom: 28px;
+  }
+  .cabecalho h1 {
+    font-size: 1.5rem;
+    margin: 0 0 6px;
+    color: var(--azul-escuro);
+  }
+  .cabecalho .item {
+    font-size: 0.92rem;
+    color: var(--cinza-texto);
+  }
+  .cabecalho .meta {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--cinza-texto);
+    font-family: "SFMono-Regular", Consolas, monospace;
+  }
+
+  .legenda {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 32px;
+    font-size: 0.8rem;
+  }
+  .legenda-item { display: flex; align-items: center; gap: 7px; }
+  .ponto {
+    width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0;
+  }
+  .ponto--completo { background: var(--verde); }
+  .ponto--mascarado { background: var(--ambar); }
+
+  .etapa {
+    background: #fff;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 14px;
+    padding: 22px 24px 26px;
+    margin-bottom: 26px;
+  }
+
+  .etapa-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--cinza-borda);
+  }
+  .etapa-titulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--azul-escuro);
+  }
+  .etapa-sub {
+    font-size: 0.78rem;
+    color: var(--cinza-texto);
+    font-family: "SFMono-Regular", Consolas, monospace;
+  }
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--verde-bg);
+    color: var(--verde);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .fluxo {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .caixa {
+    flex: 1;
+    min-width: 0;
+    border: 1.5px solid var(--cinza-borda);
+    border-radius: 10px;
+    padding: 16px 16px 14px;
+    background: #fbfcfd;
+  }
+  .caixa-rotulo {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-weight: 700;
+    color: var(--cinza-texto);
+    margin-bottom: 4px;
+  }
+  .caixa-nome {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1c2530;
+  }
+  .badge-dado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .badge-dado--completo { background: var(--verde-bg); color: var(--verde); }
+  .badge-dado--mascarado { background: var(--ambar-bg); color: var(--ambar); }
+
+  .campos { display: flex; flex-direction: column; gap: 5px; }
+  .campo-linha {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.82rem;
+    padding: 3px 0;
+  }
+  .campo-rotulo { color: var(--cinza-texto); flex-shrink: 0; }
+  .campo-valor {
+    text-align: right;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.8rem;
+  }
+  .campo-valor--mascarado {
+    color: var(--ambar);
+    font-style: italic;
+  }
+  .campo-valor--visivel { color: #1c2530; font-weight: 600; }
+
+  .seta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    flex-shrink: 0;
+    color: var(--azul);
+    font-size: 1.6rem;
+  }
+
+  .nota-extra {
+    margin-top: 14px;
+    background: #eef5ff;
+    border: 1px dashed var(--azul);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.78rem;
+    color: var(--azul-escuro);
+  }
+  .nota-extra strong { display: block; margin-bottom: 6px; font-size: 0.76rem; }
+  .nota-extra .campos { margin-top: 8px; }
+
+  .fonte {
+    margin-top: 10px;
+    font-size: 0.68rem;
+    color: #8a94a0;
+    font-family: "SFMono-Regular", Consolas, monospace;
+  }
+
+  @media (max-width: 720px) {
+    .fluxo { flex-direction: column; }
+    .seta { width: 100%; height: 34px; transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="cabecalho">
+    <h1>Fluxo de Endereços — Pedido 2000018113512820</h1>
+    <div class="item">Pulverizador Costal Elétrico Kawashima Pet 200 De 20 L Com Dosador Para Jardim E Lavoura Azul (MLB4315033717) — Empresa MB</div>
+    <div class="meta">Dados extraídos de scripts_exploracao_ML/investigar_enderecos_shipment.py</div>
+  </div>
+
+  <div class="legenda">
+    <div class="legenda-item"><span class="ponto ponto--completo"></span> Endereço completo retornado pela API</div>
+    <div class="legenda-item"><span class="ponto ponto--mascarado"></span> Rua / número / CEP mascarados pela API ("XXXXXXX")</div>
+  </div>
+
+  <!-- ETAPA 1: IDA -->
+  <div class="etapa">
+    <div class="etapa-cabecalho">
+      <div>
+        <div class="etapa-titulo">1. Ida (venda) — NÓS → CLIENTE</div>
+        <div class="etapa-sub">shipment 47853998818 · tracking_method: Agências Mercado Livre · 25/08 → 28/08/2026</div>
+      </div>
+      <div class="status-chip">✓ delivered — 28/08 14:41</div>
+    </div>
+
+    <div class="fluxo">
+      <div class="caixa">
+        <div class="caixa-rotulo">Origem (sender_address)</div>
+        <div class="caixa-nome">NÓS (MB)</div>
+        <div class="badge-dado badge-dado--mascarado">🔒 Mascarado</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">Rua</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Número</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro</span><span class="campo-valor campo-valor--visivel">Centro</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Cidade / UF</span><span class="campo-valor campo-valor--visivel">Pompéia / SP</span></div>
+        </div>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="caixa">
+        <div class="caixa-rotulo">Destino (receiver_address)</div>
+        <div class="caixa-nome">Agência ML — Armazém Alpino</div>
+        <div class="badge-dado badge-dado--completo">🔓 Completo (agency_address)</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">Rua</span><span class="campo-valor campo-valor--visivel">Imigrante José Hastreiter</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Número</span><span class="campo-valor campo-valor--visivel">123</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--visivel">89286712</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro</span><span class="campo-valor campo-valor--visivel">Alpino</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Cidade / UF</span><span class="campo-valor campo-valor--visivel">São Bento do Sul / SC</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Telefone agência</span><span class="campo-valor campo-valor--visivel">4796302872</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Horário</span><span class="campo-valor campo-valor--visivel">Seg-sáb, 9h-19h</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="fonte">fonte: /shipments/47853998818</div>
+  </div>
+
+  <!-- ETAPA 2: VOLTA -->
+  <div class="etapa">
+    <div class="etapa-cabecalho">
+      <div>
+        <div class="etapa-titulo">2. Volta (devolução) — CLIENTE → NÓS</div>
+        <div class="etapa-sub">shipment 47915040792 · tracking_method: MEL Distribution · 02/09 → 08/09/2026</div>
+      </div>
+      <div class="status-chip">✓ delivered — 08/09 12:53</div>
+    </div>
+
+    <div class="fluxo">
+      <div class="caixa">
+        <div class="caixa-rotulo">Origem (sender_address)</div>
+        <div class="caixa-nome">CLIENTE</div>
+        <div class="badge-dado badge-dado--mascarado">🔒 Mascarado</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">Rua</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Número</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro</span><span class="campo-valor campo-valor--visivel">Lençol</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Cidade / UF</span><span class="campo-valor campo-valor--visivel">São Bento do Sul / SC</span></div>
+        </div>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="caixa">
+        <div class="caixa-rotulo">Destino (receiver_address)</div>
+        <div class="caixa-nome">NÓS (MB)</div>
+        <div class="badge-dado badge-dado--mascarado">🔒 Mascarado</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">Rua</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Número</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Nome / Telefone recebedor</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro</span><span class="campo-valor campo-valor--visivel">Centro</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Cidade / UF</span><span class="campo-valor campo-valor--visivel">Pompéia / SP</span></div>
+        </div>
+
+        <div class="nota-extra">
+          <strong>📎 Fonte alternativa (sem máscara) para este mesmo endereço:</strong>
+          endpoint <code>/post-purchase/v2/claims/.../returns</code> → <code>destination.shipping_address</code>
+          <div class="campos">
+            <div class="campo-linha"><span class="campo-rotulo">Rua</span><span class="campo-valor campo-valor--visivel">Avenida dos Expedicionários de Pompeia</span></div>
+            <div class="campo-linha"><span class="campo-rotulo">Número</span><span class="campo-valor campo-valor--visivel">157</span></div>
+            <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--visivel">17580021</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fonte">fonte: /shipments/47915040792 · endereço alternativo: /post-purchase/v2/claims/5569834949/returns</div>
+  </div>
+
+  <div class="etapa" style="background:#fbfcfd;">
+    <div class="etapa-titulo" style="margin-bottom:10px;">Resumo do que isso significa</div>
+    <div style="font-size:0.86rem; line-height:1.6; color:#333;">
+      A API mascara rua/número/CEP de qualquer endereço "normal" (residencial ou cadastral) —
+      isso vale tanto para o endereço de vocês quanto para o do cliente. Só fica completo quando
+      o ponto é uma <strong>agência do Mercado Livre</strong> (endereço público, comercial).<br><br>
+      Pra esse pedido específico, o endereço de vocês na volta tem uma segunda fonte sem máscara
+      (endpoint de devoluções). Já o endereço do cliente, quando não é retirada em agência, não
+      apareceu completo em nenhum dos 4 endpoints testados — só cidade, bairro e estado.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

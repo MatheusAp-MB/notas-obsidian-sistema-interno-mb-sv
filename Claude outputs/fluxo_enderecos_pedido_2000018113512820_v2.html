@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Fluxo de Endereços — Pedido 2000018113512820 (v2)</title>
+<style>
+  :root {
+    --azul: #2568c9;
+    --azul-escuro: #16407d;
+    --azul-bg: #eaf1fc;
+    --verde: #1a8a4a;
+    --verde-bg: #e8f7ee;
+    --ambar: #b8720a;
+    --ambar-bg: #fdf1de;
+    --roxo: #7440c9;
+    --roxo-bg: #f1ebfc;
+    --cinza-texto: #55606b;
+    --cinza-borda: #dde3ea;
+    --fundo: #f5f7fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 60px;
+    background: var(--fundo);
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #1c2530;
+  }
+  .container { max-width: 1020px; margin: 0 auto; }
+
+  .cabecalho h1 { font-size: 1.5rem; margin: 0 0 6px; color: var(--azul-escuro); }
+  .cabecalho .item { font-size: 0.92rem; color: var(--cinza-texto); }
+  .cabecalho .meta { margin-top: 8px; font-size: 0.8rem; color: var(--cinza-texto); font-family: "SFMono-Regular", Consolas, monospace; }
+
+  .legenda {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    background: #fff; border: 1px solid var(--cinza-borda); border-radius: 10px;
+    padding: 12px 16px; margin: 22px 0 30px; font-size: 0.78rem;
+  }
+  .legenda-item { display: flex; align-items: center; gap: 7px; }
+  .ponto { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+  .ponto--completo { background: var(--verde); }
+  .ponto--mascarado { background: var(--ambar); }
+  .ponto--chave { background: var(--roxo); }
+
+  .etapa {
+    background: #fff; border: 1px solid var(--cinza-borda); border-radius: 14px;
+    padding: 22px 24px 26px; margin-bottom: 24px;
+  }
+  .etapa-cabecalho {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--cinza-borda);
+  }
+  .etapa-titulo { font-size: 1.05rem; font-weight: 700; color: var(--azul-escuro); }
+  .etapa-sub { font-size: 0.78rem; color: var(--cinza-texto); font-family: "SFMono-Regular", Consolas, monospace; }
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--verde-bg); color: var(--verde);
+    font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+  }
+
+  .fluxo { display: flex; align-items: stretch; gap: 0; }
+  .caixa { flex: 1; min-width: 0; border: 1.5px solid var(--cinza-borda); border-radius: 10px; padding: 16px 16px 14px; background: #fbfcfd; }
+  .caixa--chave { border-color: var(--roxo); background: #fdfbff; }
+  .caixa-rotulo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--cinza-texto); margin-bottom: 4px; }
+  .caixa-nome { font-size: 1rem; font-weight: 700; margin-bottom: 10px; color: #1c2530; }
+
+  .badge-dado { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin: 0 6px 10px 0; }
+  .badge-dado--completo { background: var(--verde-bg); color: var(--verde); }
+  .badge-dado--mascarado { background: var(--ambar-bg); color: var(--ambar); }
+  .badge-dado--confirmado { background: #dcf5e4; color: #0f7a37; }
+
+  .tipo-tag {
+    display: block; font-size: 0.75rem; padding: 7px 10px; border-radius: 7px;
+    background: var(--roxo-bg); color: var(--roxo); margin-bottom: 12px; line-height: 1.4;
+  }
+  .tipo-tag code { font-weight: 700; }
+
+  .campos { display: flex; flex-direction: column; gap: 5px; }
+  .campo-linha { display: flex; justify-content: space-between; gap: 10px; font-size: 0.82rem; padding: 3px 0; }
+  .campo-rotulo { color: var(--cinza-texto); flex-shrink: 0; }
+  .campo-valor { text-align: right; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.8rem; }
+  .campo-valor--mascarado { color: var(--ambar); font-style: italic; }
+  .campo-valor--visivel { color: #1c2530; font-weight: 600; }
+  .campo-valor--chave { color: var(--roxo); font-weight: 700; }
+
+  .seta { display: flex; align-items: center; justify-content: center; width: 60px; flex-shrink: 0; color: var(--azul); font-size: 1.6rem; }
+
+  .nota-extra { margin-top: 14px; background: var(--azul-bg); border: 1px dashed var(--azul); border-radius: 8px; padding: 12px 14px; font-size: 0.78rem; color: var(--azul-escuro); }
+  .nota-extra strong { display: block; margin-bottom: 6px; font-size: 0.76rem; }
+  .nota-extra .campos { margin-top: 8px; }
+
+  .fonte { margin-top: 10px; font-size: 0.68rem; color: #8a94a0; font-family: "SFMono-Regular", Consolas, monospace; }
+
+  .painel-chave {
+    background: var(--roxo-bg); border: 1.5px solid var(--roxo); border-radius: 14px;
+    padding: 22px 24px; margin-bottom: 24px;
+  }
+  .painel-chave h2 { margin: 0 0 6px; font-size: 1.05rem; color: var(--roxo); }
+  .painel-chave .sub { font-size: 0.82rem; color: #4a3a6b; margin-bottom: 18px; }
+  .cadeia { display: flex; flex-direction: column; gap: 10px; }
+  .cadeia-linha {
+    display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 8px;
+    padding: 10px 14px; font-size: 0.82rem; flex-wrap: wrap;
+  }
+  .cadeia-id { font-family: "SFMono-Regular", Consolas, monospace; font-weight: 700; color: var(--roxo); background: var(--roxo-bg); padding: 2px 8px; border-radius: 6px; }
+  .cadeia-onde { color: var(--cinza-texto); }
+  .confirmacao {
+    margin-top: 16px; background: #dcf5e4; border-radius: 8px; padding: 12px 14px;
+    font-size: 0.84rem; color: #0f5c2a; display: flex; align-items: center; gap: 10px;
+  }
+
+  .painel-contraste { display: flex; gap: 18px; flex-wrap: wrap; }
+  .contraste-caixa { flex: 1; min-width: 260px; border-radius: 10px; padding: 16px; }
+  .contraste-caixa--direto { background: var(--verde-bg); border: 1.5px solid var(--verde); }
+  .contraste-caixa--agencia { background: var(--ambar-bg); border: 1.5px solid var(--ambar); }
+  .contraste-titulo { font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; }
+  .contraste-titulo--direto { color: #0f5c2a; }
+  .contraste-titulo--agencia { color: var(--ambar); }
+  .contraste-lista { margin: 0; padding-left: 18px; font-size: 0.82rem; line-height: 1.7; color: #333; }
+
+  .resumo-final { background: #fff; border: 1px solid var(--cinza-borda); border-radius: 14px; padding: 22px 24px; }
+  .resumo-final .etapa-titulo { margin-bottom: 10px; }
+
+  @media (max-width: 720px) {
+    .fluxo { flex-direction: column; }
+    .seta { width: 100%; height: 34px; transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="cabecalho">
+    <h1>Fluxo de Endereços — Pedido 2000018113512820</h1>
+    <div class="item">Pulverizador Costal Elétrico Kawashima Pet 200 De 20 L Com Dosador Para Jardim E Lavoura Azul (MLB4315033717) — Empresa MB</div>
+    <div class="meta">v2 — agora com a "chave de identidade" que prova quem é cada ponto, além do que está mascarado</div>
+  </div>
+
+  <div class="legenda">
+    <div class="legenda-item"><span class="ponto ponto--completo"></span> Dado completo</div>
+    <div class="legenda-item"><span class="ponto ponto--mascarado"></span> Mascarado pela API ("XXXXXXX")</div>
+    <div class="legenda-item"><span class="ponto ponto--chave"></span> ID que se repete e prova quem é o ponto (nunca mascarado)</div>
+  </div>
+
+  <!-- PAINEL CHAVE DE IDENTIDADE -->
+  <div class="painel-chave">
+    <h2>🔑 A chave de identidade — como sabemos que "NÓS" é mesmo a MB</h2>
+    <div class="sub">Mesmo com rua/número/CEP escondidos, três IDs aparecem repetidos nas respostas da API e nunca vêm mascarados. Eles são o que realmente prova de quem é cada endereço.</div>
+
+    <div class="cadeia">
+      <div class="cadeia-linha">
+        <span class="cadeia-id">user_id 82537282</span>
+        <span class="cadeia-onde">= <code>sender_id</code> na ida <strong>e</strong> <code>receiver_id</code> na volta → é sempre "nosso lado" da transação</span>
+      </div>
+      <div class="cadeia-linha">
+        <span class="cadeia-id">address_id 1582450605</span>
+        <span class="cadeia-onde">= <code>sender_address.id</code> (ida) <strong>=</strong> <code>receiver_address.id</code> (volta) <strong>=</strong> <code>destination.shipping_address.address_id</code> (endpoint de devoluções) → mesmo registro de endereço, três vezes</span>
+      </div>
+    </div>
+
+    <div class="confirmacao">
+      ✅ <strong>Confirmado:</strong> você checou o <code>.env</code> e <code>MB_USER_ID = 82537282</code> — bate exatamente. Não é mais suposição: esse endereço é o cadastro oficial da MB no Mercado Livre.
+    </div>
+  </div>
+
+  <!-- ETAPA 1: IDA -->
+  <div class="etapa">
+    <div class="etapa-cabecalho">
+      <div>
+        <div class="etapa-titulo">1. Ida (venda) — NÓS → CLIENTE</div>
+        <div class="etapa-sub">shipment 47853998818 · 25/08 → 28/08/2026</div>
+      </div>
+      <div class="status-chip">✓ delivered — 28/08 14:41</div>
+    </div>
+
+    <div class="fluxo">
+      <div class="caixa caixa--chave">
+        <div class="caixa-rotulo">Origem (sender_address)</div>
+        <div class="caixa-nome">NÓS (MB)</div>
+        <span class="badge-dado badge-dado--mascarado">🔒 Rua/CEP mascarados</span>
+        <span class="badge-dado badge-dado--confirmado">✅ ID confirmado = MB</span>
+        <div class="tipo-tag"><code>types: []</code> → endereço cadastral direto, não é um ponto intermediário</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">user_id (sender_id)</span><span class="campo-valor campo-valor--chave">82537282</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">address_id</span><span class="campo-valor campo-valor--chave">1582450605</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Rua / Número / CEP</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro / Cidade / UF</span><span class="campo-valor campo-valor--visivel">Centro, Pompéia / SP</span></div>
+        </div>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="caixa">
+        <div class="caixa-rotulo">Destino (receiver_address)</div>
+        <div class="caixa-nome">Agência ML — Armazém Alpino</div>
+        <span class="badge-dado badge-dado--completo">🔓 Completo</span>
+        <div class="tipo-tag"><code>types: ["agency_address"]</code> → é um ponto de retirada/agência, não a casa do Rafael</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">agency_id</span><span class="campo-valor campo-valor--visivel">262103716</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">carrier_id</span><span class="campo-valor campo-valor--visivel">849817033</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Rua / Número</span><span class="campo-valor campo-valor--visivel">Imigrante José Hastreiter, 123</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">CEP</span><span class="campo-valor campo-valor--visivel">89286712</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Horário da agência</span><span class="campo-valor campo-valor--visivel">Seg-sáb, 9h-19h</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="fonte">fonte: /shipments/47853998818</div>
+  </div>
+
+  <!-- ETAPA 2: VOLTA -->
+  <div class="etapa">
+    <div class="etapa-cabecalho">
+      <div>
+        <div class="etapa-titulo">2. Volta (devolução) — CLIENTE → NÓS</div>
+        <div class="etapa-sub">shipment 47915040792 · 02/09 → 08/09/2026</div>
+      </div>
+      <div class="status-chip">✓ delivered — 08/09 12:53</div>
+    </div>
+
+    <div class="fluxo">
+      <div class="caixa">
+        <div class="caixa-rotulo">Origem (sender_address)</div>
+        <div class="caixa-nome">CLIENTE</div>
+        <span class="badge-dado badge-dado--mascarado">🔒 Mascarado</span>
+        <div class="tipo-tag"><code>types: ["default_buying_address"]</code> → endereço cadastral do comprador, também direto (não é agência)</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">address_id</span><span class="campo-valor campo-valor--chave">1490593673</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Rua / Número / CEP</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro / Cidade / UF</span><span class="campo-valor campo-valor--visivel">Lençol, São Bento do Sul / SC</span></div>
+        </div>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="caixa caixa--chave">
+        <div class="caixa-rotulo">Destino (receiver_address)</div>
+        <div class="caixa-nome">NÓS (MB)</div>
+        <span class="badge-dado badge-dado--mascarado">🔒 Rua/CEP mascarados</span>
+        <span class="badge-dado badge-dado--confirmado">✅ ID confirmado = MB</span>
+        <div class="tipo-tag"><code>types: []</code> → mesmo endereço cadastral direto da ida (mesmo address_id)</div>
+        <div class="campos">
+          <div class="campo-linha"><span class="campo-rotulo">user_id (receiver_id)</span><span class="campo-valor campo-valor--chave">82537282</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">address_id</span><span class="campo-valor campo-valor--chave">1582450605</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Rua / Número / CEP / Nome / Telefone</span><span class="campo-valor campo-valor--mascarado">XXXXXXX</span></div>
+          <div class="campo-linha"><span class="campo-rotulo">Bairro / Cidade / UF</span><span class="campo-valor campo-valor--visivel">Centro, Pompéia / SP</span></div>
+        </div>
+
+        <div class="nota-extra">
+          <strong>📎 Fonte alternativa (sem máscara) pra este mesmo endereço:</strong>
+          <code>/post-purchase/v2/claims/.../returns</code> → <code>destination.shipping_address</code>, rotulado pela própria API como <code>"name": "seller_address"</code>
+          <div class="campos">
+            <div class="campo-linha"><span class="campo-rotulo">Rua / Número / CEP</span><span class="campo-valor campo-valor--visivel">Av. dos Expedicionários de Pompeia, 157 — 17580021</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fonte">fonte: /shipments/47915040792 · endereço alternativo: /post-purchase/v2/claims/5569834949/returns</div>
+  </div>
+
+  <!-- CONTRASTE: como identificar se NÃO for a MB/SV -->
+  <div class="painel-chave" style="background:#fff; border-color: var(--cinza-borda);">
+    <h2 style="color: var(--azul-escuro);">🧭 O sinal que você realmente precisa: "entregue aqui" vs "entregue em outro ponto"</h2>
+    <div class="sub">Comparando os dois tipos de destino que já apareceram NESTE pedido — é essa diferença que vai aparecer no caso da cadeira de transferência, se for mesmo uma transportadora.</div>
+
+    <div class="painel-contraste">
+      <div class="contraste-caixa contraste-caixa--direto">
+        <div class="contraste-titulo contraste-titulo--direto">✅ Entregue no endereço oficial (o que vimos com a MB)</div>
+        <ul class="contraste-lista">
+          <li><code>types: []</code> (vazio)</li>
+          <li><code>agency</code> = <code>null</code></li>
+          <li><code>address_id</code> bate com o endereço oficial conhecido (1582450605 pra MB)</li>
+          <li>Conclusão: ML diz que chegou fisicamente na empresa, na data/hora do evento</li>
+        </ul>
+      </div>
+      <div class="contraste-caixa contraste-caixa--agencia">
+        <div class="contraste-titulo contraste-titulo--agencia">⚠️ Entregue em agência/transportadora (o que vimos com o Rafael na ida)</div>
+        <ul class="contraste-lista">
+          <li><code>types: ["agency_address"]</code></li>
+          <li><code>agency</code> preenchido, com nome, telefone e horário próprios</li>
+          <li><code>address_id</code> diferente do endereço oficial da empresa</li>
+          <li>Conclusão: ML considerou "entregue" ao chegar no ponto intermediário — não necessariamente na porta de quem recebe</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="resumo-final">
+    <div class="etapa-titulo">Resumindo em uma frase</div>
+    <div style="font-size:0.88rem; line-height:1.65; color:#333; margin-top:8px;">
+      Rua/número/CEP mascarados não importam pro que você precisa. O que responde sua pergunta —
+      "o ML diz que chegou fisicamente aqui, ou não?" — são o <code>types</code> e o <code>address_id</code>
+      do endereço, comparados contra os IDs oficiais da MB (<code>82537282</code> / <code>1582450605</code>) e da SV
+      (<code>161534973</code>, endereço ainda por confirmar). Isso dá pra checar automaticamente, sem depender de
+      nenhum campo mascarado.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

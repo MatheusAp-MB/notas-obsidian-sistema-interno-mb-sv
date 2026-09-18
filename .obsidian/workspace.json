@@ -46,6 +46,20 @@
               "icon": "lucide-file",
               "title": "De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto"
             }
+          },
+          {
+            "id": "e9b619fa8690d330",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Análise do UX Flow da Responsável pela Devolução.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Análise do UX Flow da Responsável pela Devolução"
+            }
           }
         ]
       }
@@ -81,7 +95,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "path:07_Sistema_Relatorio_Devolucoes  fluxo ",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -219,8 +233,20 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "Claude outputs/mockup_visualizar_devolucao.html",
+    "Claude outputs/etiqueta_termica_devolucao_v1.zpl",
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Relato Completo do Fluxo Real de Devolução Depois que o Pacote Chega — 8 Fases e Cruzamento com o Vault.md",
+    "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Análise do UX Flow da Responsável pela Devolução.md",
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Devolucao De Item Grande Feita Por Transportadora Contratada Em Vez Do Mercado Envios Fica Sem Confirmacao De Chegada No Sistema (Pedido 2000017697078004).md",
+    "Claude outputs/mockup_confirmacao_endereco_tela_detalhe.html",
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Mascaramento De Endereco No Shipment Do ML Nao Impede Confirmar Se A Devolucao Chegou De Fato Na MB Ou Na SV (Pedido 2000018113512820).md",
+    "Claude outputs/fluxo_enderecos_pedido_2000018113512820_v2.html",
+    "Claude outputs/fluxo_enderecos_pedido_2000018113512820.html",
+    "Claude outputs/mockup_tela_desambiguacao_polimento.html",
+    "07_Sistema_Relatorio_Devolucoes/Decisoes/Polimento Visual da Tela de Desambiguação — Bloco do Cliente, Abas por Status e Agrupamentos.md",
+    "_registrar_polimento_visual.py",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana.md",
@@ -245,18 +271,6 @@
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto).md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Caso Real De Devolucao Com Mediacao Confirma O Relatorio E Revela 4 Nuances Da Central De Vendedores (Pedido 2000017788033354).md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Tipo cancel_sale Fecha Com Resolution Null E Inverte Complainant E Respondent.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Reclamacao Fecha Antes Da Devolucao Fisica Terminar (Ordem Invertida).md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Mensagens Da Reclamacao Confirmam sender_role Mediator E Revelam Gap De 17 Dias Na Resposta Do Vendedor.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Mediador Nao Aparece Na Lista De Players De Uma Reclamacao.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Campo resource_id De cancel_purchase Nao Bate Com O Numero Do Pedido.md",
-    "Claude outputs/mockup_devolucao_ml_padrao_visual.html",
-    "Claude outputs/mockup_linha_tempo_devolucao.html",
-    "Claude outputs/consultar_fluxo_devolucao.py",
-    "Claude outputs/mockup_pdf_exportacao_auditoria_ml.html",
-    "Claude outputs/mockup_tela_auditoria_v9_duas_visoes.html",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",

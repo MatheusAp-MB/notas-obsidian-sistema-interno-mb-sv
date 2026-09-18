@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOCKUP — Consultar Pedido (Polimento Visual)</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+    --cor-primaria:        #1a3a5c;
+    --cor-primaria-clara:  #2e7bb5;
+    --cor-texto-claro:     #ffffff;
+    --cor-texto-muted:     #6c757d;
+    --cor-fundo-pagina:    #e9edf4;
+    --cor-fundo-card:      #ffffff;
+    --cor-borda:           #dee2e6;
+    --sidebar-largura:     260px;
+    --toolbar-altura:      60px;
+    --cor-positivo:        #2d7a4f;
+    --cor-negativo:        #dc3545;
+    --cor-alerta:          #f59e0b;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,"Segoe UI",Roboto,sans-serif; background-color:var(--cor-fundo-pagina); color:#515151; }
+a { color:var(--cor-primaria-clara); text-decoration:none; }
+a:hover { color:var(--cor-primaria); text-decoration:underline; }
+
+.mockup-ribbon {
+    background:#92400e; color:#fff; text-align:center; font-size:.78rem; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase; padding:7px 12px;
+}
+.mockup-ribbon i { margin-right:6px; }
+
+.layout-container { display:flex; min-height:calc(100vh - 33px); }
+.sidebar { width:var(--sidebar-largura); min-width:var(--sidebar-largura); background-color:var(--cor-primaria); }
+.sidebar-logo { display:flex; align-items:center; gap:10px; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,.1); min-height:70px; }
+.sidebar-logo-icone { width:36px; height:36px; border-radius:6px; background:var(--cor-primaria-clara); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:.85rem; }
+.sidebar-logo span { font-weight:700; font-size:1rem; color:var(--cor-texto-claro); white-space:nowrap; }
+.sidebar-nav { display:flex; flex-direction:column; padding:10px 0; }
+.sidebar-item { display:flex; align-items:center; gap:12px; padding:12px 20px; color:rgba(255,255,255,.85); font-size:.9rem; }
+.sidebar-item:hover { background:rgba(255,255,255,.08); color:var(--cor-texto-claro); text-decoration:none; }
+.sidebar-item i:first-child { width:20px; font-size:1rem; }
+.sidebar-item--ativo { background:rgba(255,255,255,.15); color:var(--cor-texto-claro); font-weight:600; }
+
+.main-wrapper { flex:1; display:flex; flex-direction:column; min-width:0; }
+.toolbar { position:sticky; top:0; z-index:99; height:var(--toolbar-altura); background-color:var(--cor-primaria); display:flex; align-items:center; gap:16px; padding:0 20px; }
+.toolbar-toggle { background:none; border:none; color:var(--cor-texto-claro); font-size:1.2rem; }
+.toolbar-titulo { font-size:1.1rem; font-weight:600; color:var(--cor-texto-claro); margin:0; flex:1; }
+.badge-empresa { display:inline-flex; align-items:center; gap:6px; padding:6px 14px; border-radius:6px; font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.02em; text-decoration:none; white-space:nowrap; }
+.badge-empresa-magazine { background:#1F4E78; color:#fff; }
+
+.conteudo-principal { flex:1; padding:24px; max-width:1100px; }
+
+.consultar-pedido-campo-rotulo { font-size:.7rem; }
+
+/* ---- bloco do cliente (NOVO) ---- */
+.bloco-cliente { border:1px solid var(--cor-borda); background:linear-gradient(180deg,#f7fafd,#ffffff); }
+.bloco-cliente-avatar { width:50px; height:50px; border-radius:50%; background:var(--cor-primaria-clara); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+.bloco-cliente-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--cor-texto-muted); }
+.bloco-cliente-nome { font-size:1.2rem; font-weight:700; color:#20242a; }
+.bloco-cliente-meta { font-size:.82rem; color:var(--cor-texto-muted); font-family:"SFMono-Regular",Consolas,monospace; }
+
+/* ---- abas por status (NOVO) ---- */
+.abas-status { border-bottom:2px solid var(--cor-borda); gap:0; }
+.abas-status .nav-link { color:var(--cor-texto-muted); font-weight:600; font-size:.9rem; border:none; border-bottom:3px solid transparent; border-radius:0; padding:10px 4px; margin-right:28px; display:flex; align-items:center; gap:8px; background:none; }
+.abas-status .nav-link .contagem { background:#eceeef; color:#6c757d; font-weight:700; font-size:.72rem; padding:2px 8px; border-radius:20px; }
+.abas-status .nav-link.active { color:var(--cor-primaria); border-bottom-color:var(--cor-primaria-clara); }
+.abas-status .nav-link.active .contagem { background:var(--cor-primaria-clara); color:#fff; }
+
+.filtro-ordenacao { font-size:.8rem; color:var(--cor-texto-muted); display:flex; align-items:center; gap:6px; }
+
+/* ---- lista de pedidos (existente, reaproveitado) ---- */
+.lista-pedidos-desambiguacao { display:flex; flex-direction:column; gap:10px; }
+.item-pedido-desambiguacao { display:flex; align-items:center; gap:16px; flex-wrap:wrap; border:1px solid var(--cor-borda); border-radius:8px; padding:14px 16px; color:inherit; text-decoration:none; transition:border-color .15s, background .15s; }
+.item-pedido-desambiguacao:hover { border-color:var(--cor-primaria-clara); background:#f7fafd; text-decoration:none; color:inherit; }
+.item-pedido-data-bloco { min-width:110px; }
+.data-compra-rotulo { font-size:.63rem; text-transform:uppercase; letter-spacing:.04em; color:var(--cor-texto-muted); display:block; margin-bottom:2px; }
+.item-pedido-data { font-family:"SFMono-Regular",Consolas,monospace; color:#333; font-size:.85rem; font-weight:600; }
+.item-pedido-info { flex:1; min-width:200px; }
+.item-pedido-titulo { font-weight:600; font-size:.92rem; }
+.item-pedido-numero { font-family:"SFMono-Regular",Consolas,monospace; font-size:.76rem; color:#6c757d; margin-top:2px; display:block; }
+.item-pedido-tags { display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.selo { font-size:.72rem; font-weight:700; padding:5px 11px; border-radius:20px; white-space:nowrap; }
+.selo--com_devolucao { background:#fde8e8; color:#dc3545; }
+.selo--com_reclamacao { background:#fef3c7; color:#92400e; }
+.selo--sem_problema { background:#eceeef; color:#6c757d; }
+.item-pedido-ir { color:var(--cor-primaria-clara); }
+
+.status-chip { display:inline-flex; align-items:center; gap:5px; font-size:.7rem; font-weight:700; padding:3px 10px; border-radius:20px; white-space:nowrap; }
+.status-chip--encerrado { background:#e6f4ea; color:var(--cor-positivo); }
+.status-chip--andamento { background:#fef3c7; color:#92400e; }
+
+.pack-indicador { font-size:.68rem; color:var(--cor-primaria-clara); font-weight:700; display:flex; align-items:center; gap:5px; }
+
+/* ---- agrupamento por pack — árvore explícita (NOVO) ---- */
+.grupo-pack { border:2px solid var(--cor-primaria-clara); border-radius:10px; overflow:hidden; background:#f4f9fd; }
+.grupo-pack-cabecalho { display:flex; align-items:center; gap:9px; background:var(--cor-primaria-clara); color:#fff; font-size:.78rem; font-weight:700; letter-spacing:.02em; padding:10px 16px; }
+.grupo-pack-cabecalho .grupo-pack-id { font-family:"SFMono-Regular",Consolas,monospace; font-weight:700; }
+.grupo-pack-cabecalho .grupo-pack-contagem { margin-left:auto; background:rgba(255,255,255,.22); font-size:.68rem; font-weight:700; padding:3px 10px; border-radius:20px; }
+.grupo-pack-corpo { margin:14px 14px 14px 34px; padding-left:24px; border-left:2px solid var(--cor-primaria-clara); display:flex; flex-direction:column; gap:14px; }
+.grupo-pack-corpo .item-pedido-desambiguacao { position:relative; background:#fff; }
+.grupo-pack-corpo .item-pedido-desambiguacao::before { content:""; position:absolute; left:-24px; top:26px; width:20px; height:2px; background:var(--cor-primaria-clara); }
+
+/* ---- caixa de exemplo ilustrativo (NOVO) ---- */
+.exemplo-ilustrativo { border:1.5px dashed #92400e; border-radius:8px; padding:12px 14px; background:#fffbeb; margin-top:16px; }
+.exemplo-ilustrativo-rotulo { font-size:.72rem; font-weight:700; color:#92400e; text-transform:uppercase; letter-spacing:.03em; display:flex; align-items:center; gap:6px; margin-bottom:12px; }
+
+.estado-vazio-aba { text-align:center; padding:40px 16px; color:var(--cor-texto-muted); }
+.estado-vazio-aba i { font-size:1.9rem; opacity:.35; margin-bottom:12px; display:block; }
+.estado-vazio-aba p { font-size:.88rem; margin:0; }
+
+.nota-mockup { font-size:.74rem; color:#92400e; background:#fef3c7; border-radius:6px; padding:8px 12px; margin-top:10px; display:flex; gap:8px; align-items:flex-start; }
+</style>
+</head>
+<body>
+
+<div class="mockup-ribbon"><i class="fas fa-pencil-ruler"></i>MOCKUP — Idealização em andamento, ainda não implementado no sistema real</div>
+
+<div class="layout-container">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icone">SD</div>
+            <span>Sistema de Devoluções</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-item sidebar-item--ativo"><i class="fas fa-magnifying-glass"></i><span>Consultar Pedido</span></a>
+            <a href="#" class="sidebar-item"><i class="fas fa-rotate-left"></i><span>Nova Devolução</span></a>
+            <a href="#" class="sidebar-item"><i class="fas fa-clipboard-list"></i><span>Devoluções</span></a>
+            <a href="#" class="sidebar-item"><i class="fas fa-box"></i><span>Produtos</span></a>
+            <a href="#" class="sidebar-item"><i class="fas fa-puzzle-piece"></i><span>Peças</span></a>
+            <a href="#" class="sidebar-item"><i class="fas fa-tags"></i><span>Marcas</span></a>
+        </nav>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="toolbar">
+            <button class="toolbar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="toolbar-titulo">Consultar Pedido</h1>
+            <a href="#" class="badge-empresa badge-empresa-magazine"><i class="fas fa-building"></i><span>Magazine Brasileiro</span></a>
+        </header>
+
+        <main class="conteudo-principal">
+
+            <!-- Card de busca -- inalterado -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Consultar pedido</h5>
+                    <p class="text-muted small mb-3">Digite o que estiver legível no pacote — o número da venda, ou o ID do cliente que aparece do lado do nome na etiqueta.</p>
+                    <div class="row gx-2 gy-2 align-items-end">
+                        <div class="col-12 col-md">
+                            <label class="consultar-pedido-campo-rotulo text-muted text-uppercase fw-bold d-block mb-1">ID do Cliente</label>
+                            <input type="text" class="form-control" value="443851581">
+                        </div>
+                        <div class="col-12 col-md-auto text-center text-muted small pb-2">ou</div>
+                        <div class="col-12 col-md">
+                            <label class="consultar-pedido-campo-rotulo text-muted text-uppercase fw-bold d-block mb-1">Número da Venda</label>
+                            <input type="text" class="form-control" placeholder="Ex.: 2000018113512820">
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button class="btn btn-primary w-100"><i class="fas fa-magnifying-glass"></i> Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOVO: bloco de identificação do cliente -->
+            <div class="card mb-3 bloco-cliente">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div class="bloco-cliente-avatar"><i class="fas fa-user"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="bloco-cliente-label">Esse cliente</div>
+                        <div class="bloco-cliente-nome">Rafael Ramos Machado</div>
+                        <div class="bloco-cliente-meta">RAPHA048 &middot; ID 443851581</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NOVO: abas por status + lista -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">Tem esses pedidos</h5>
+                    <p class="text-muted small mb-3">Mais de 1 pedido encontrado — escolha o que bate com o que está na sua mão.</p>
+
+                    <ul class="nav abas-status mb-3">
+                        <li class="nav-item">
+                            <button class="nav-link" data-aba="sem-problema" onclick="mostrarAba(this)">Sem problema <span class="contagem">0</span></button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-aba="reclamacao" onclick="mostrarAba(this)">Com reclamação <span class="contagem">0</span></button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link active" data-aba="devolucao" onclick="mostrarAba(this)">Com devolução <span class="contagem">2</span></button>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex justify-content-end mb-2">
+                        <div class="filtro-ordenacao"><i class="fas fa-arrow-down-short-wide"></i> Ordenar por: mais recentes primeiro</div>
+                    </div>
+
+                    <div id="painel-sem-problema" class="d-none">
+                        <div class="estado-vazio-aba">
+                            <i class="fas fa-circle-check"></i>
+                            <p>Nenhum pedido sem problema encontrado pra esse cliente.</p>
+                        </div>
+                    </div>
+
+                    <div id="painel-reclamacao" class="d-none">
+                        <div class="estado-vazio-aba">
+                            <i class="fas fa-comment-dots"></i>
+                            <p>Nenhum pedido com reclamação (sem devolução) encontrado pra esse cliente.</p>
+                        </div>
+                    </div>
+
+                    <div id="painel-devolucao" class="lista-pedidos-desambiguacao">
+                        <a href="#" class="item-pedido-desambiguacao">
+                            <div class="item-pedido-data-bloco">
+                                <span class="data-compra-rotulo">Data da compra</span>
+                                <span class="item-pedido-data">25/08/2026 14:56</span>
+                            </div>
+                            <span class="item-pedido-info">
+                                <span class="item-pedido-titulo">Pulverizador Costal Elétrico Kawashima Pet 200 De 20 L Com Dosador Para Jardim E Lavoura Azul</span>
+                                <span class="item-pedido-numero">Pedido 2000018113512820</span>
+                            </span>
+                            <span class="pack-indicador"><i class="fas fa-box-open"></i> Pack 2000014703695937</span>
+                            <div class="item-pedido-tags">
+                                <span class="selo selo--com_devolucao">Com devolução</span>
+                                <span class="status-chip status-chip--encerrado"><i class="fas fa-check"></i> Encerrado</span>
+                            </div>
+                            <span class="item-pedido-ir"><i class="fas fa-chevron-right"></i></span>
+                        </a>
+
+                        <a href="#" class="item-pedido-desambiguacao">
+                            <div class="item-pedido-data-bloco">
+                                <span class="data-compra-rotulo">Data da compra</span>
+                                <span class="item-pedido-data">14/08/2026 19:15</span>
+                            </div>
+                            <span class="item-pedido-info">
+                                <span class="item-pedido-titulo">Pulverizador Costal Elétrico Kawashima Pet 200 De 20 L Com Dosador Para Jardim E Lavoura Azul</span>
+                                <span class="item-pedido-numero">Pedido 2000017939871998</span>
+                            </span>
+                            <div class="item-pedido-tags">
+                                <span class="selo selo--com_devolucao">Com devolução</span>
+                                <span class="status-chip status-chip--andamento"><i class="fas fa-clock"></i> Em andamento</span>
+                            </div>
+                            <span class="item-pedido-ir"><i class="fas fa-chevron-right"></i></span>
+                        </a>
+                    </div>
+
+                    <div class="exemplo-ilustrativo">
+                        <div class="exemplo-ilustrativo-rotulo"><i class="fas fa-flask"></i> Exemplo ilustrativo — como fica quando 2+ pedidos do mesmo cliente caem no mesmo Pack (dado fictício, não é da Rafael)</div>
+                        <div class="grupo-pack">
+                            <div class="grupo-pack-cabecalho">
+                                <i class="fas fa-box"></i>
+                                <span>PACK <span class="grupo-pack-id">1233243242</span></span>
+                                <span class="grupo-pack-contagem">2 pedidos no mesmo pack</span>
+                            </div>
+                            <div class="grupo-pack-corpo">
+                                <a href="#" class="item-pedido-desambiguacao">
+                                    <div class="item-pedido-data-bloco">
+                                        <span class="data-compra-rotulo">Data da compra</span>
+                                        <span class="item-pedido-data">10/07/2026 09:20</span>
+                                    </div>
+                                    <span class="item-pedido-info">
+                                        <span class="item-pedido-titulo">Produto Exemplo A (dado fictício)</span>
+                                        <span class="item-pedido-numero">Pedido 2000099999999991</span>
+                                    </span>
+                                    <div class="item-pedido-tags">
+                                        <span class="selo selo--com_devolucao">Com devolução</span>
+                                        <span class="status-chip status-chip--encerrado"><i class="fas fa-check"></i> Encerrado</span>
+                                    </div>
+                                    <span class="item-pedido-ir"><i class="fas fa-chevron-right"></i></span>
+                                </a>
+                                <a href="#" class="item-pedido-desambiguacao">
+                                    <div class="item-pedido-data-bloco">
+                                        <span class="data-compra-rotulo">Data da compra</span>
+                                        <span class="item-pedido-data">10/07/2026 09:22</span>
+                                    </div>
+                                    <span class="item-pedido-info">
+                                        <span class="item-pedido-titulo">Produto Exemplo B (dado fictício)</span>
+                                        <span class="item-pedido-numero">Pedido 2000099999999992</span>
+                                    </span>
+                                    <div class="item-pedido-tags">
+                                        <span class="selo selo--com_reclamacao">Com reclamação</span>
+                                        <span class="status-chip status-chip--andamento"><i class="fas fa-clock"></i> Em andamento</span>
+                                    </div>
+                                    <span class="item-pedido-ir"><i class="fas fa-chevron-right"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nota-mockup">
+                        <i class="fas fa-circle-info mt-1"></i>
+                        <div>
+                            Nesse mockup: nome do cliente, os 2 pedidos, datas, item e o Pack ID são dados reais (mesmo cliente 443851581 já testado). O selo "Encerrado" do 1º pedido também é real (visto na tela de detalhe). Já o "Em andamento" do 2º pedido é ilustrativo — não testamos o status real dele ainda. As abas "Sem problema" e "Com reclamação" aparecem vazias porque esse cliente especificamente só tem pedidos com devolução, não porque faltou desenhar o conteúdo delas. O 1º pedido da Rafael tem Pack ID (real), mas não vem dentro de uma caixa de agrupamento porque, na lógica atual do sistema, só agrupa quando 2+ pedidos do mesmo pack aparecem na lista do mesmo cliente — não é o caso dela. A caixa "PACK 1233243242" acima é 100% fictícia (pedidos, produtos e datas inventados, número de pack citado por você mesmo como exemplo), só pra mostrar como fica a árvore visual quando esse caso realmente acontece.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+function mostrarAba(botaoClicado) {
+    document.querySelectorAll('.abas-status .nav-link').forEach(function (btn) {
+        btn.classList.remove('active');
+    });
+    botaoClicado.classList.add('active');
+
+    var paineis = {
+        'sem-problema': document.getElementById('painel-sem-problema'),
+        'reclamacao': document.getElementById('painel-reclamacao'),
+        'devolucao': document.getElementById('painel-devolucao'),
+    };
+    Object.keys(paineis).forEach(function (chave) {
+        paineis[chave].classList.add('d-none');
+    });
+    paineis[botaoClicado.dataset.aba].classList.remove('d-none');
+}
+</script>
+
+</body>
+</html>

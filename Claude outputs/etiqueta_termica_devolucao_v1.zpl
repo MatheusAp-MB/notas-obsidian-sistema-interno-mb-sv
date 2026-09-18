@@ -1,0 +1,74 @@
+^XA
+^CI28
+
+^FX ===== Cabecalho =====
+^CF0,32
+^FO40,40^FB720,2,0,C,0^FDDEVOLUCAO - IDENTIFICACAO PROVISORIA\&^FS
+^FO40,105^GB720,3,3^FS
+
+^FX ===== Bloco: Pedido & Cliente =====
+^CF0,20
+^FO40,135^FDPEDIDO^FS
+^CF0,36
+^FO40,160^FD2000017788033354^FS
+
+^FX --- codigo de barras do pedido, ao lado do numero (sem texto, ja mostrado ao lado) ---
+^FO430,130^BY2
+^BCN,70,N,N,N,A
+^FD2000017788033354^FS
+
+^CF0,20
+^FO40,225^FDNF^FS
+^CF0,36
+^FO40,250^FD17.344^FS
+
+^CF0,20
+^FO40,310^FDCLIENTE^FS
+^CF0,30
+^FO40,335^FB720,2,0,L,0^FDEDGAR AUGUSTO BATISTA\&^FS
+
+^FO40,395^GB720,3,3^FS
+
+^FX ===== Bloco: Plataforma =====
+^CF0,20
+^FO40,420^FDPLATAFORMA^FS
+^CF0,32
+^FO40,445^FDMercado Livre - Venda comum^FS
+
+^FO40,500^GB720,3,3^FS
+
+^FX ===== Bloco: Datas =====
+^CF0,20
+^FO40,525^FDDATAS^FS
+^CF0,26
+^FO40,552^FDVenda: 06/08/2026^FS
+^FO40,594^FDRecebido pelo cliente: 08/08/2026^FS
+^FO40,636^FDReclamacao aberta: 23/08/2026^FS
+^FO40,678^FDRecebido por nos: 08/09/2026^FS
+
+^FO40,735^GB720,3,3^FS
+
+^FX ===== Bloco: Produto (com codigo de barras do EAN dentro do bloco) =====
+^CF0,20
+^FO40,760^FDPRODUTO^FS
+^CF0,30
+^FO40,785^FB720,2,0,L,0^FDCADEIRA DE TRANSFERENCIA ELEVACAO HIDRAULICA\&^FS
+
+^CF0,20
+^FO40,875^FDEAN^FS
+^FO40,900^BY3
+^BEN,70,Y,N
+^FD789123456789^FS
+
+^CF0,20
+^FO430,875^FDSKU^FS
+^CF0,32
+^FO430,900^FDCAD-TRANSF-001^FS
+
+^FO40,1020^GB720,3,3^FS
+
+^FX ===== Rodape =====
+^CF0,18
+^FO40,1045^FDGerado em DD/MM/AAAA HH:MM^FS
+
+^XZ
