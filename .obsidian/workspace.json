@@ -235,6 +235,7 @@
   },
   "active": "b52b05f7ea280622",
   "lastOpenFiles": [
+    "Claude outputs/mockup_devolucoes_abas.html",
     "Claude outputs/mockup_visualizar_devolucao.html",
     "Claude outputs/etiqueta_termica_devolucao_v1.zpl",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Relato Completo do Fluxo Real de Devolução Depois que o Pacote Chega — 8 Fases e Cruzamento com o Vault.md",
@@ -265,7 +266,6 @@
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução.md",
     "02_Nucleo_Engenharia_Repositorio/Regras/Regras de Colaboracao no Repositorio de Codigo (Branch Dev).md",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Substatus waiting_for_carrier_authorization E Real e Documentado Mas Sem Traducao Confirmada.md",
-    "Claude outputs/scripts_exploracao_ML.zip",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/ENV_PATH e Lock de Renovação via __file__ Quebram Dentro do .exe Empacotado (PyInstaller PYZ).md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto).md",

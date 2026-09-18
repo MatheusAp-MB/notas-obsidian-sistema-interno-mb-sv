@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — Devoluções (abas do fluxo)</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root{
+    --navy:#152340;
+    --navy-active:#1f3562;
+    --accent:#3d7fff;
+    --bg:#eef1f6;
+    --card:#ffffff;
+    --text:#1c2333;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --green:#1f9d55; --green-bg:#e6f6ec;
+    --amber:#b45309; --amber-bg:#fef3e2;
+    --red:#dc2626; --red-bg:#fde8e8;
+    --blue:#1d5fbf; --blue-bg:#e8f0fd;
+    --gray-badge:#5b6472; --gray-badge-bg:#eceef1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg); color:var(--text); font-size:14.5px;
+  }
+  .aviso-mockup{
+    background:#fff3cd; color:#7a5c00; border-bottom:1px solid #f0d789;
+    padding:8px 20px; font-size:12.5px; text-align:center;
+  }
+  .layout{display:flex; min-height:100vh;}
+  .sidebar{
+    width:250px; background:var(--navy); color:#cdd6e8; flex-shrink:0;
+    padding:18px 0; display:flex; flex-direction:column;
+  }
+  .sidebar-logo{
+    display:flex; align-items:center; gap:10px; padding:6px 20px 20px 20px;
+    color:#fff; font-weight:700; font-size:15px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:10px;
+  }
+  .sidebar-logo .badge-mb{
+    width:32px; height:32px; background:#3d7fff; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800;
+  }
+  .sidebar-nav{display:flex; flex-direction:column; gap:2px; padding:0 10px;}
+  .sidebar-item{
+    display:flex; align-items:center; gap:12px; padding:10px 14px; border-radius:8px;
+    color:#aab6cc; text-decoration:none; font-size:13.5px;
+  }
+  .sidebar-item i{width:16px; text-align:center;}
+  .sidebar-item--ativo{background:var(--navy-active); color:#fff; font-weight:600;}
+  .main-wrapper{flex:1; display:flex; flex-direction:column; min-width:0;}
+  .toolbar{
+    height:60px; background:var(--navy); color:#fff; display:flex; align-items:center;
+    padding:0 22px; gap:16px; flex-shrink:0;
+  }
+  .toolbar h1{font-size:16.5px; font-weight:600; margin:0; flex:1;}
+  .toolbar .hamburger{font-size:16px; opacity:.85;}
+  .botao-nova{
+    background:var(--accent); color:#fff; padding:8px 16px; border-radius:6px; font-size:13.5px;
+    font-weight:600; display:flex; align-items:center; gap:7px; text-decoration:none; white-space:nowrap;
+  }
+  .badge-empresa{
+    background:rgba(255,255,255,.12); color:#fff; padding:7px 14px; border-radius:8px;
+    font-size:12.5px; font-weight:700; letter-spacing:.3px; display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .conteudo{padding:26px 30px 60px 30px; max-width:1180px; margin:0 auto; width:100%;}
+
+  .cartao{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:20px 24px; margin-bottom:18px;
+  }
+  .titulo-pagina{font-size:17px; font-weight:700; color:var(--navy); margin:0 0 4px 0;}
+  .subtitulo-pagina{font-size:13px; color:var(--muted); margin:0 0 18px 0;}
+
+  /* ===== busca ===== */
+  .campo-busca{
+    position:relative; margin-bottom:2px;
+  }
+  .campo-busca i{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:13.5px;
+  }
+  .campo-busca input{
+    width:100%; padding:10px 14px 10px 38px; border:1px solid var(--border); border-radius:8px;
+    font-size:13.5px; font-family:inherit; background:#fbfbfc;
+  }
+  .campo-busca input:focus{outline:none; border-color:var(--accent); background:#fff;}
+
+  /* ===== abas ===== */
+  .abas-nav{
+    display:flex; gap:4px; border-bottom:1px solid var(--border); margin-top:16px; flex-wrap:wrap;
+  }
+  .aba-btn{
+    background:none; border:none; padding:10px 16px; font-size:13px; font-weight:600; color:var(--muted);
+    cursor:pointer; border-bottom:2.5px solid transparent; display:flex; align-items:center; gap:8px;
+    font-family:inherit; white-space:nowrap;
+  }
+  .aba-btn:hover{color:var(--text);}
+  .aba-btn.ativa{color:var(--navy); border-bottom-color:var(--accent);}
+  .aba-contagem{
+    background:var(--gray-badge-bg); color:var(--gray-badge); font-size:11px; font-weight:700;
+    padding:1px 7px; border-radius:20px;
+  }
+  .aba-btn.ativa .aba-contagem{background:var(--accent); color:#fff;}
+
+  .nota-outras-abas{
+    display:none; font-size:12px; color:var(--muted); padding:8px 2px 0 2px;
+  }
+  .nota-outras-abas a{color:var(--accent); font-weight:600; text-decoration:none;}
+  .nota-outras-abas a:hover{text-decoration:underline;}
+
+  /* ===== filtro secundário (reembolso) ===== */
+  .filtro-secundario{
+    display:flex; align-items:center; gap:8px; margin:16px 0 4px 0; font-size:12.5px; color:var(--muted);
+  }
+  .chip-filtro{
+    border:1px solid var(--border); background:#fff; color:var(--text); padding:5px 12px; border-radius:20px;
+    font-size:12px; font-weight:600; cursor:pointer; font-family:inherit;
+  }
+  .chip-filtro.ativa{background:var(--navy); border-color:var(--navy); color:#fff;}
+
+  /* ===== lista de itens ===== */
+  .lista-devolucoes{display:flex; flex-direction:column; gap:10px; margin-top:16px;}
+  .item{
+    display:flex; align-items:center; gap:14px; padding:13px 14px; border:1px solid var(--border);
+    border-radius:8px; flex-wrap:wrap;
+  }
+  .item-foto{
+    width:52px; height:52px; border-radius:8px; background:var(--bg); flex-shrink:0; display:flex;
+    align-items:center; justify-content:center; color:#a7b0c0; overflow:hidden; font-size:18px;
+  }
+  .item-textos{display:flex; flex-direction:column; gap:3px; min-width:0; flex:1;}
+  .item-produto{font-size:14.5px; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .item-linha{display:flex; gap:16px; font-size:12.5px; color:#515151; flex-wrap:wrap;}
+  .item-linha--muted{color:var(--muted);}
+  .item-linha i{margin-right:4px;}
+
+  .badge{
+    display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px;
+    font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap;
+  }
+  .badge--ambar{background:var(--amber-bg); color:var(--amber);}
+  .badge--azul{background:var(--blue-bg); color:var(--blue);}
+  .badge--vermelho{background:var(--red-bg); color:var(--red);}
+  .badge--cinza{background:var(--gray-badge-bg); color:var(--gray-badge);}
+  .badge--verde{background:var(--green-bg); color:var(--green);}
+
+  .item-acoes{display:flex; gap:7px; flex-wrap:wrap; margin-left:auto;}
+  .btn{
+    display:flex; align-items:center; gap:6px; padding:7px 12px; border-radius:6px; font-size:12px;
+    font-weight:600; border:1px solid var(--border); background:#fff; color:#444; cursor:pointer;
+    white-space:nowrap; text-decoration:none; font-family:inherit;
+  }
+  .btn:hover{border-color:var(--accent); color:var(--accent);}
+  .btn--principal{background:var(--navy); border-color:var(--navy); color:#fff;}
+  .btn--principal:hover{background:var(--navy-active); border-color:var(--navy-active); color:#fff;}
+  .btn--confirmar{background:var(--green-bg); border-color:#bfe6cc; color:var(--green);}
+  .btn--confirmar:hover{background:var(--green); border-color:var(--green); color:#fff;}
+  .btn--perigo:hover{border-color:var(--red); color:var(--red); background:var(--red-bg);}
+
+  .tab-panel{display:none;}
+  .tab-panel.ativa{display:block;}
+
+  .vazio-busca{font-size:13px; color:var(--muted); text-align:center; padding:28px 0; display:none;}
+
+  @media (max-width:760px){
+    .item-acoes{margin-left:0; width:100%;}
+    .item-acoes .btn{flex:1; justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<div class="aviso-mockup">
+  MOCKUP — layout de referência pra discussão, não é o código final. Dados de exemplo. Abas e busca já reagem a clique/digitação só pra você sentir o comportamento — nada é salvo de verdade.
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span class="badge-mb">MB</span>
+      <span>Sistema de Devoluções</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-item"><i class="fas fa-magnifying-glass"></i><span>Consultar Pedido</span></a>
+      <a class="sidebar-item"><i class="fas fa-rotate-left"></i><span>Nova Devolução</span></a>
+      <a class="sidebar-item sidebar-item--ativo"><i class="fas fa-clipboard-list"></i><span>Devoluções</span></a>
+      <a class="sidebar-item"><i class="fas fa-box"></i><span>Produtos</span></a>
+      <a class="sidebar-item"><i class="fas fa-puzzle-piece"></i><span>Peças</span></a>
+      <a class="sidebar-item"><i class="fas fa-tags"></i><span>Marcas</span></a>
+    </nav>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="toolbar">
+      <i class="fas fa-bars hamburger"></i>
+      <h1>Devoluções</h1>
+      <a class="botao-nova"><i class="fas fa-plus"></i> Nova devolução</a>
+      <span class="badge-empresa"><i class="fas fa-building"></i> MAGAZINE BRASILEIRO</span>
+    </header>
+
+    <main class="conteudo">
+
+      <div class="cartao">
+        <p class="titulo-pagina">Devoluções</p>
+        <p class="subtitulo-pagina">Acompanhe cada devolução pelo estágio real dela — da chegada do pacote até o relatório impresso.</p>
+
+        <div class="campo-busca">
+          <i class="fas fa-magnifying-glass"></i>
+          <input type="text" id="busca" placeholder="Buscar por cliente, número do pedido ou produto...">
+        </div>
+
+        <nav class="abas-nav">
+          <button class="aba-btn ativa" data-aba="aguardando" data-total="2"><i class="fas fa-hourglass-half"></i> Aguardando Conferência <span class="aba-contagem">2</span></button>
+          <button class="aba-btn" data-aba="conferidos" data-total="2"><i class="fas fa-clipboard-check"></i> Conferidos <span class="aba-contagem">2</span></button>
+          <button class="aba-btn" data-aba="mediacao-aberta" data-total="2"><i class="fas fa-gavel"></i> Mediações Abertas <span class="aba-contagem">2</span></button>
+          <button class="aba-btn" data-aba="mediacao-encerrada" data-total="2"><i class="fas fa-flag-checkered"></i> Mediações Encerradas <span class="aba-contagem">2</span></button>
+          <button class="aba-btn" data-aba="impressos" data-total="2"><i class="fas fa-print"></i> Impressos <span class="aba-contagem">2</span></button>
+        </nav>
+        <div class="nota-outras-abas" id="notaOutrasAbas"></div>
+      </div>
+
+      <div class="cartao">
+
+        <!-- ===== 1. AGUARDANDO CONFERÊNCIA ===== -->
+        <div class="tab-panel ativa" data-painel="aguardando">
+          <div class="lista-devolucoes">
+            <div class="item" data-busca="roberto alves nogueira 2000123456789 furadeira de impacto 750w fi-750">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Furadeira de Impacto 750W FI-750 <span class="badge badge--ambar">Aguardando Conferência</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Mercado Livre</span><span><i class="fas fa-receipt"></i> Pedido 2000123456789</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Roberto Alves Nogueira</span><span><i class="fas fa-clock"></i> recebida há 2 dias</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-clipboard-check"></i> Continuar conferência</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+
+            <div class="item" data-busca="fernanda souza lima 987654321-mgl kit ferramentas 128 peças">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Kit Ferramentas 128 peças <span class="badge badge--ambar">Aguardando Conferência</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Magalu</span><span><i class="fas fa-receipt"></i> Pedido 987654321-MGL</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Fernanda Souza Lima</span><span><i class="fas fa-clock"></i> recebida hoje</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-clipboard-check"></i> Continuar conferência</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+          </div>
+          <p class="vazio-busca">Nenhuma devolução encontrada nessa aba com esse termo.</p>
+        </div>
+
+        <!-- ===== 2. CONFERIDOS ===== -->
+        <div class="tab-panel" data-painel="conferidos">
+          <div class="lista-devolucoes">
+            <div class="item" data-busca="carlos eduardo pinto 2000198765432 compressor de ar 24l ca-24">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Compressor de Ar 24L CA-24 <span class="badge badge--azul">Conferida — Venda como usado</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Mercado Livre</span><span><i class="fas fa-receipt"></i> Pedido 2000198765432</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Carlos Eduardo Pinto</span><span><i class="fas fa-clock"></i> conferida ontem</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Imprimir relatório</a>
+                <a class="btn btn--confirmar"><i class="fas fa-check"></i> Marcar como impressa</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+
+            <div class="item" data-busca="juliana ramos costa br-58291034 aspirador de pó portátil ap-300">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Aspirador de Pó Portátil AP-300 <span class="badge badge--azul">Conferida — Troca</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Shopee</span><span><i class="fas fa-receipt"></i> Pedido BR-58291034</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Juliana Ramos Costa</span><span><i class="fas fa-clock"></i> conferida há 3 dias</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Imprimir relatório</a>
+                <a class="btn btn--confirmar"><i class="fas fa-check"></i> Marcar como impressa</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+          </div>
+          <p class="vazio-busca">Nenhuma devolução encontrada nessa aba com esse termo.</p>
+        </div>
+
+        <!-- ===== 3. MEDIAÇÕES ABERTAS ===== -->
+        <div class="tab-panel" data-painel="mediacao-aberta">
+          <div class="lista-devolucoes">
+            <div class="item" data-busca="maria marta cremonesi ganacin 15667701028125752 pulverizador a bateria e manual ss-20b">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Pulverizador a Bateria e Manual SS-20B <span class="badge badge--vermelho">Mediação aberta</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Magalu</span><span><i class="fas fa-receipt"></i> Pedido 15667701028125752</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Maria Marta Cremonesi Ganacin</span><span><i class="fas fa-gavel"></i> mediação aberta em 19/08</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen"></i> Editar (encerrar mediação)</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+
+            <div class="item" data-busca="airton melo ferreira 2000345678912 serra tico-tico elétrica st-500">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Serra Tico-Tico Elétrica ST-500 <span class="badge badge--vermelho">Mediação aberta</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Mercado Livre</span><span><i class="fas fa-receipt"></i> Pedido 2000345678912</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Airton Melo Ferreira</span><span><i class="fas fa-gavel"></i> mediação aberta há 3 dias</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen"></i> Editar (encerrar mediação)</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+          </div>
+          <p class="vazio-busca">Nenhuma devolução encontrada nessa aba com esse termo.</p>
+        </div>
+
+        <!-- ===== 4. MEDIAÇÕES ENCERRADAS ===== -->
+        <div class="tab-panel" data-painel="mediacao-encerrada">
+          <div class="filtro-secundario">
+            Filtrar por reembolso:
+            <button class="chip-filtro ativa" data-filtro="todos">Todos</button>
+            <button class="chip-filtro" data-filtro="sim">Reembolsados</button>
+            <button class="chip-filtro" data-filtro="nao">Não reembolsados</button>
+          </div>
+          <div class="lista-devolucoes">
+            <div class="item" data-reembolso="sim" data-busca="patrícia gomes duarte 2000456789123 liquidificador industrial lq-900">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Liquidificador Industrial LQ-900 <span class="badge badge--cinza">Mediação encerrada</span> <span class="badge badge--verde">Reembolsado</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Mercado Livre</span><span><i class="fas fa-receipt"></i> Pedido 2000456789123</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Patrícia Gomes Duarte</span><span><i class="fas fa-flag-checkered"></i> mediação encerrada em 12/09</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Imprimir relatório</a>
+                <a class="btn btn--confirmar"><i class="fas fa-check"></i> Marcar como impressa</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+
+            <div class="item" data-reembolso="nao" data-busca="edgar souza martins 741852963-shp parafusadeira sem fio pf-12v">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Parafusadeira sem Fio PF-12V <span class="badge badge--cinza">Mediação encerrada</span> <span class="badge badge--vermelho">Não reembolsado</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Shopee</span><span><i class="fas fa-receipt"></i> Pedido 741852963-SHP</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Edgar Souza Martins</span><span><i class="fas fa-flag-checkered"></i> mediação encerrada em 10/09</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Imprimir relatório</a>
+                <a class="btn btn--confirmar"><i class="fas fa-check"></i> Marcar como impressa</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+          </div>
+          <p class="vazio-busca">Nenhuma devolução encontrada nessa aba com esse termo.</p>
+        </div>
+
+        <!-- ===== 5. IMPRESSOS ===== -->
+        <div class="tab-panel" data-painel="impressos">
+          <div class="filtro-secundario">
+            Filtrar por reembolso:
+            <button class="chip-filtro ativa" data-filtro="todos">Todos</button>
+            <button class="chip-filtro" data-filtro="sim">Reembolsados</button>
+            <button class="chip-filtro" data-filtro="nao">Não reembolsados</button>
+          </div>
+          <div class="lista-devolucoes">
+            <div class="item" data-reembolso="nao" data-busca="vanessa tolentino reis 2000567891234 lavadora de alta pressão lp-1800">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Lavadora de Alta Pressão LP-1800 <span class="badge badge--verde">Impressa</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Mercado Livre</span><span><i class="fas fa-receipt"></i> Pedido 2000567891234</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Vanessa Tolentino Reis</span><span><i class="fas fa-print"></i> impressa em 15/09 14:22 · sem mediação</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Reimprimir relatório</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+
+            <div class="item" data-reembolso="sim" data-busca="bruno cesar andrade 951753468-tts ventilador de coluna vc-40">
+              <div class="item-foto"><i class="fas fa-box"></i></div>
+              <div class="item-textos">
+                <p class="item-produto">Ventilador de Coluna VC-40 <span class="badge badge--verde">Impressa</span></p>
+                <p class="item-linha"><span><i class="fas fa-store"></i> Tiktok Shop</span><span><i class="fas fa-receipt"></i> Pedido 951753468-TTS</span></p>
+                <p class="item-linha item-linha--muted"><span><i class="fas fa-user"></i> Bruno Cesar Andrade</span><span><i class="fas fa-print"></i> impressa em 10/09 09:05 · reembolsado</span></p>
+              </div>
+              <div class="item-acoes">
+                <a class="btn"><i class="fas fa-eye"></i> Visualizar</a>
+                <a class="btn btn--principal"><i class="fas fa-pen-to-square"></i> Editar conferência</a>
+                <a class="btn"><i class="fas fa-print"></i> Reimprimir relatório</a>
+                <a class="btn"><i class="fas fa-tag"></i> Etiqueta térmica</a>
+                <a class="btn"><i class="fas fa-pen"></i> Editar</a>
+                <a class="btn btn--perigo"><i class="fas fa-trash"></i> Excluir</a>
+              </div>
+            </div>
+          </div>
+          <p class="vazio-busca">Nenhuma devolução encontrada nessa aba com esse termo.</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  var abas = Array.prototype.slice.call(document.querySelectorAll('.aba-btn'));
+  var paineis = document.querySelectorAll('.tab-panel');
+  var campoBusca = document.getElementById('busca');
+  var nota = document.getElementById('notaOutrasAbas');
+
+  function bateFiltroReembolso(item, painel) {
+    var chipAtiva = painel.querySelector('.chip-filtro.ativa');
+    if (!chipAtiva || chipAtiva.getAttribute('data-filtro') === 'todos') return true;
+    return item.getAttribute('data-reembolso') === chipAtiva.getAttribute('data-filtro');
+  }
+
+  function itensQueBatem(painel, termo) {
+    var itens = Array.prototype.slice.call(painel.querySelectorAll('.item'));
+    return itens.filter(function (item) {
+      var bateBusca = !termo || item.getAttribute('data-busca').indexOf(termo) !== -1;
+      return bateBusca && bateFiltroReembolso(item, painel);
+    });
+  }
+
+  function mostrarPainel(nomeAba) {
+    abas.forEach(function (a) { a.classList.toggle('ativa', a.getAttribute('data-aba') === nomeAba); });
+    paineis.forEach(function (p) { p.classList.toggle('ativa', p.getAttribute('data-painel') === nomeAba); });
+  }
+
+  function labelDaAba(aba) {
+    return aba.textContent.trim().replace(/\d+$/, '').trim();
+  }
+
+  // trocarSeNecessario = true só quando a própria digitação disparou a
+  // atualização — assim, buscar troca de aba sozinho, mas trocar de aba
+  // na mão ou clicar num chip de reembolso nunca força uma 2ª troca.
+  function atualizarTudo(trocarSeNecessario) {
+    var termo = campoBusca.value.trim().toLowerCase();
+    var resultadosPorAba = {};
+
+    abas.forEach(function (aba) {
+      var nomeAba = aba.getAttribute('data-aba');
+      var painel = document.querySelector('.tab-panel[data-painel="' + nomeAba + '"]');
+      var encontrados = itensQueBatem(painel, termo);
+      resultadosPorAba[nomeAba] = encontrados;
+
+      aba.querySelector('.aba-contagem').textContent = termo ? encontrados.length : aba.getAttribute('data-total');
+
+      var todosItens = painel.querySelectorAll('.item');
+      todosItens.forEach(function (item) {
+        item.style.display = encontrados.indexOf(item) !== -1 ? '' : 'none';
+      });
+      var avisoVazio = painel.querySelector('.vazio-busca');
+      if (avisoVazio) avisoVazio.style.display = (encontrados.length > 0 || todosItens.length === 0) ? 'none' : 'block';
+    });
+
+    var abaAtual = document.querySelector('.aba-btn.ativa').getAttribute('data-aba');
+
+    if (trocarSeNecessario && termo && resultadosPorAba[abaAtual].length === 0) {
+      var proxima = abas
+        .map(function (a) { return a.getAttribute('data-aba'); })
+        .find(function (nomeAba) { return resultadosPorAba[nomeAba].length > 0; });
+      if (proxima) {
+        mostrarPainel(proxima);
+        abaAtual = proxima;
+      }
+    }
+
+    if (termo) {
+      var outras = abas
+        .map(function (a) { return { nomeAba: a.getAttribute('data-aba'), label: labelDaAba(a) }; })
+        .filter(function (a) { return a.nomeAba !== abaAtual && resultadosPorAba[a.nomeAba].length > 0; });
+
+      if (outras.length) {
+        nota.style.display = 'block';
+        nota.innerHTML = 'Também encontrado em: ' + outras.map(function (a) {
+          return '<a href="#" data-ir-aba="' + a.nomeAba + '">' + a.label + ' (' + resultadosPorAba[a.nomeAba].length + ')</a>';
+        }).join(' · ');
+      } else {
+        nota.style.display = 'none';
+        nota.innerHTML = '';
+      }
+    } else {
+      nota.style.display = 'none';
+      nota.innerHTML = '';
+    }
+  }
+
+  abas.forEach(function (aba) {
+    aba.addEventListener('click', function () {
+      mostrarPainel(aba.getAttribute('data-aba'));
+      atualizarTudo(false);
+    });
+  });
+
+  document.querySelectorAll('.chip-filtro').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var grupo = chip.closest('.filtro-secundario');
+      grupo.querySelectorAll('.chip-filtro').forEach(function (c) { c.classList.remove('ativa'); });
+      chip.classList.add('ativa');
+      atualizarTudo(false);
+    });
+  });
+
+  nota.addEventListener('click', function (e) {
+    var alvo = e.target.closest('[data-ir-aba]');
+    if (!alvo) return;
+    e.preventDefault();
+    mostrarPainel(alvo.getAttribute('data-ir-aba'));
+    atualizarTudo(false);
+  });
+
+  campoBusca.addEventListener('input', function () {
+    atualizarTudo(true);
+  });
+
+  atualizarTudo(false);
+</script>
+
+</body>
+</html>

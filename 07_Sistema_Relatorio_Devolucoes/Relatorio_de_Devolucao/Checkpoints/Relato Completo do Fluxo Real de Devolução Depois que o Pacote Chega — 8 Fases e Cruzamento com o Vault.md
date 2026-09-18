@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 17/09/2026
-atualizado_em: 18/09/2026 02:14
+atualizado_em: 18/09/2026 03:43
 relacionado: [Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta, Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução, Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe, Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana, Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Devolucao De Item Grande Feita Por Transportadora Contratada Em Vez Do Mercado Envios Fica Sem Confirmacao De Chegada No Sistema (Pedido 2000017697078004), De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto, Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]
 ---
 
@@ -283,14 +283,40 @@ Matheus perguntou diretamente se essa amarração fazia sentido, e faz: cruzando
 - O pedido do **"Visualizar"** é o mesmo tema de novo: hoje só existe "Imprimir", que já dispara o fluxo de impressão do navegador — Ana quer poder olhar o relatório sem esse compromisso, ou seja, quer mais um jeito de navegar entre o que já existe, não uma tela nova.
 - A única coisa genuinamente nova nesse cruzamento inteiro é a **Fase 8** (mini-relatório em etiqueta térmica 10x15cm) — não é sobre integração entre telas existentes, é uma necessidade física nova (identificação provisória do produto) que a decisão de 16/09 não cobria.
 
-Ou seja: o projeto não está descobrindo dores novas a cada conversa — está vendo o mesmo gargalo (telas funcionais, integração fraca) de ângulos cada vez mais específicos. A exceção real é a etiqueta térmica.
+## Abas da tela de Devoluções Pendentes implementadas (18/09/2026 03:07)
+
+Fecha a pendência que estava em "Em aberto" desde 17/09 ("Sessão conjunta sobre a tela de Devoluções Pendentes"). A tela de devoluções agora tem 5 abas que seguem o fluxo real do produto (decisão de Matheus): **Aguardando Conferência → Conferidos → Mediações Abertas → Mediações Encerradas → Impressos**. "Impressos" é sempre o destino final, tanto de quem nunca precisou de mediação (Conferido → Impresso direto) quanto de quem precisou (→ Mediação Aberta → Mediação Encerrada → Impresso) — sem caminho de volta, decisão de Matheus: uma vez impresso é porque o processo foi realmente finalizado.
+
+**Resolvendo a colisão de nome** apontada na análise de 17/09: "Pendente" (que já significava "não conferida" no código) virou "Aguardando Conferência"; o pedido da Ana de "esperando reembolso em mediação" virou 2 abas próprias — Mediações Abertas e Mediações Encerradas — em vez de dividir o mesmo nome "Pendente".
+
+**Regra de prioridade** usada pra decidir a aba de cada devolução (calculada, nunca guardada num campo à parte — mesma filosofia de destino_produto/ConferenciaPeca.situacao): impresso vence tudo, depois mediação encerrada, depois mediação aberta, depois conferido, senão aguardando conferência.
+
+**Campo novo** `relatorio_impresso_em` — marcado manualmente pela Ana com um botão "Marcar como impressa", de propósito não sozinho ao abrir a tela de impressão, porque às vezes a impressão sai errada (papel torto, impressora travou) e ela precisa repetir.
+
+**Filtro de Reembolsados/Não reembolsados** dentro das abas Mediações Encerradas e Impressos, reaproveitando o campo `reembolsado` que já existia — vazio conta como "não reembolsado" (decisão de Matheus).
+
+**Busca global** por cliente/número do pedido/produto, atravessando as 5 abas sozinha (se o termo só bate numa aba diferente da aberta, o sistema troca de aba sozinho e avisa se bateu em mais de uma).
+
+**Botão "Visualizar"** confirmado como peça fixa — presente em todas as 5 abas, nunca some (isso também fecha o item "Implementar o botão Visualizar" que tinha ficado esquecido em aberto desde a Fase 6).
+
+Processo seguido: mockup interativo (abas + busca + filtro clicáveis) aprovado por Matheus antes de implementar, depois implementado (migration + model + views + template + CSS + JS) e testado e confirmado funcionando por ele.
+
+## Ponte Consultar Pedido → Nova Devolução implementada (18/09/2026 03:40)
+
+Fecha de vez a Fase 4 (decisão de comportamento já tomada em 17/09 23:24, faltava só a implementação) e o item que estava em "Em aberto" desde então. A tela Consultar Pedido (Hub de Consulta da API do ML) ganhou um botão principal "Criar devolução", ao lado dos atalhos Pedido/Reclamação/Mediação, abrindo em nova guia (pedido de Matheus, pra não perder a Consultar Pedido aberta).
+
+**Comportamento**: se já existe uma devolução cadastrada pro número do pedido, o botão leva direto pra ela (edição) em vez de abrir formulário vazio de novo — resolve o paradoxo "cadastrar antes ou depois de conferir" (ela sempre parte da mesma tela, o sistema decide se cria ou reaproveita). Se não existe, abre a Nova Devolução pré-preenchida com: plataforma (Mercado Livre, fixo), tipo de venda (sugerido sozinho a partir do `logistic_type` do envio — `fulfillment` vira "Full", qualquer outro vira "Comum"), número do pedido, nome do cliente e as 6 datas (venda, recebimento pelo cliente, reclamação, recebimento por nós, abertura e finalização de mediação).
+
+**Decisão de Matheus (18/09/2026)**: fica de fora do auto-preenchimento tudo que não vem 100% confiável direto da API do ML — número da nota fiscal, reembolsado, anotação de mediação e motivo da reclamação continuam em branco pra confirmação manual, mesmo espírito do "Colar linha do ERP" (que também nunca seleciona produto sozinho).
+
+**Autocomplete de produto**: em vez de tentar casar o produto sozinho a partir de um dado que pode não ser confiável (o SKU do vendedor no ML pode vir com sufixo de variação, ex.: "F7908050719121.001"), a ponte reaproveita a busca de produto que já existia — manda esse SKU como sugestão, o campo de busca da Nova Devolução já abre com ele preenchido e dispara a busca sozinha (mesmo mecanismo do "Colar linha do ERP": `dispatchEvent(new Event('input'))`): se bater exato com um código de barras cadastrado, seleciona o produto sozinho; senão, já deixa os candidatos prontos pra 1 clique confirmar.
+
+Testado por Matheus em produção e confirmado funcionando — um "não funcionou" no meio do caminho era só o navegador servindo a versão antiga do JS (cache), resolvido com Ctrl+Shift+R, sem bug de código nenhum. Em 18/09 03:43: tudo confirmado funcionando, autocomplete de produto incluído, nos testes no .exe do PC de casa de Matheus — falta só a validação final no PC do escritório, prevista pro dia seguinte.
 
 ## Em aberto
 
 - [ ] Validar fisicamente a etiqueta térmica (imprimir na Zebra de verdade + ler os 2 códigos de barra com o leitor do dia a dia) — implementação já feita e confirmada na pré-visualização (18/09/2026 00:48), ver "Impressão direta implementada no Django" acima.
-- [ ] Desenhar a tela/fluxo da ponte Consultar Pedido → Nova Devolução (comportamento já decidido: cria nova ou leva pra existente).
-- [ ] Sessão conjunta sobre a tela de Devoluções Pendentes: abas (2 vs. 3 categorias), colisão de nome em "Pendente", caso "conferida sem mediação aberta" e campo novo `relatorio_impresso_em` — decisão adiada de propósito por Matheus, sem data marcada.
-- [ ] Implementar o botão "Visualizar" (mecanismo já confirmado: abrir o relatório em aba nova) — aguardando o momento certo, por pedido de Matheus.
+- [ ] Confirmar no PC do escritório que a ponte Consultar Pedido → Nova Devolução funciona igual ao teste de casa — já testada e funcionando no .exe do PC de casa (18/09 03:43), falta só essa validação final.
 - [ ] Processo de garantia com fornecedor pra produtos "Troca" — fora de escopo por ora, revisitar depois.
 
 ## Relacionado
