@@ -18,48 +18,6 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
-          },
-          {
-            "id": "21da7ea1c778e6b5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "07_Sistema_Relatorio_Devolucoes/Checkpoints/Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta"
-            }
-          },
-          {
-            "id": "eadf456e1b735a5d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto"
-            }
-          },
-          {
-            "id": "e9b619fa8690d330",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "07_Sistema_Relatorio_Devolucoes/Produtos_e_Pecas/Checkpoints/Análise do UX Flow da Responsável pela Devolução.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Análise do UX Flow da Responsável pela Devolução"
-            }
           }
         ]
       }
@@ -95,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "path:07_Sistema_Relatorio_Devolucoes  fluxo ",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -119,8 +77,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -233,8 +190,23 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "b52b05f7ea280622",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "Claude outputs/mockup_visualizar_v2.html",
+    "Claude outputs/mockup_reorg_visualizar.html",
+    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Idealização da Tela Visualizar Devolução — Reorganização por Objetivo da Ana e Medição Real do Monitor.md",
+    "Claude outputs/mockup_fotos_cliente.html",
+    "Claude outputs/mockup_foto_geral.html",
+    "Claude outputs/mockup_relatorio.html",
+    "Claude outputs/visual_final_12pecas-1.png",
+    "Claude outputs/comparativo_tabela_vs_cards.png",
+    "Claude outputs/cards_3col-1.png",
+    "Claude outputs/cards_2col-1.png",
+    "Claude outputs/teste_folga-1.png",
+    "Claude outputs/comparativo_pagina_2_revisado.png",
+    "Claude outputs/relatorio_OPCAO_A.pdf",
+    "Claude outputs/relatorio_HOJE.pdf",
+    "Claude outputs/comparativo_pagina_2.png",
     "Claude outputs/mockup_devolucoes_abas.html",
     "Claude outputs/mockup_visualizar_devolucao.html",
     "Claude outputs/etiqueta_termica_devolucao_v1.zpl",
@@ -243,11 +215,7 @@
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Devolucao De Item Grande Feita Por Transportadora Contratada Em Vez Do Mercado Envios Fica Sem Confirmacao De Chegada No Sistema (Pedido 2000017697078004).md",
     "Claude outputs/mockup_confirmacao_endereco_tela_detalhe.html",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Mascaramento De Endereco No Shipment Do ML Nao Impede Confirmar Se A Devolucao Chegou De Fato Na MB Ou Na SV (Pedido 2000018113512820).md",
-    "Claude outputs/fluxo_enderecos_pedido_2000018113512820_v2.html",
-    "Claude outputs/fluxo_enderecos_pedido_2000018113512820.html",
-    "Claude outputs/mockup_tela_desambiguacao_polimento.html",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Polimento Visual da Tela de Desambiguação — Bloco do Cliente, Abas por Status e Agrupamentos.md",
-    "_registrar_polimento_visual.py",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana.md",
@@ -257,9 +225,6 @@
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home.md",
     "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Descobertas/Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Icones no .exe.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Hub de Consulta Implementado — Resumo Compacto, Chat de Mediacao com bleach e Cards Novos na Home.md",
-    "Claude outputs/mockup_hub_consulta_v3.html",
-    "Claude outputs/mockup_hub_consulta_v2.html",
-    "Claude outputs/mockup_hub_consulta_preenchido.html",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Tela Hub de Consulta Validada Contra Dado Real — Atalhos do ML Resolvidos, Marca-Foto e Motivo Literal Adiados.md",
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Coleta Fisica Da Devolucao Acontece Dentro De ready_to_ship Nao Quando O Status Vira shipped.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Mapeamento Manual do Fluxo no Mercado Livre — Telas, URLs e Dados Reais (Pedido 2000017788033354).md",
@@ -270,16 +235,9 @@
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/ENV_PATH e Lock de Renovação via __file__ Quebram Dentro do .exe Empacotado (PyInstaller PYZ).md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Cache Local em cliente_api.py Migrado Sem Nenhum Uso Real (Código Morto).md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Preparação — Botão de Teste da API do ML Dentro do .exe do Sistema de Devoluções.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/Fim do Ritmo Apressado — Estudo Calmo Endpoint por Endpoint da API do ML, Aprovado pela Usuária Final.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Claude outputs/repro_depois.png",
-    "Claude outputs/repro_v3_nova_marca.png",
-    "Claude outputs/repro_v3_topo.png",
-    "Claude outputs/repro_v2_nova_marca.png",
-    "Claude outputs/repro_v2_topo.png",
-    "Claude outputs/repro_depois_topo.png",
-    "Claude outputs/logo.jpg",
     "Sem título.canvas"
   ]
 }

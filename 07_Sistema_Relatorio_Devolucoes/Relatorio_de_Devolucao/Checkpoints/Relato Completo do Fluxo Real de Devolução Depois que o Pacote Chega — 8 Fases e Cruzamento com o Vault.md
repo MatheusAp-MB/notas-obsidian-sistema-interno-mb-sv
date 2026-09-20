@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 17/09/2026
-atualizado_em: 18/09/2026 03:43
+atualizado_em: 19/09/2026 20:11
 relacionado: [Ideia das 3 Telas de Mediações e Reclamações ML — Painel de Acompanhamento, Detalhe do Pedido e Hub de Consulta, Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução, Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe, Consultar Pedido Passa a Aceitar NF, Nome e Endereço Além do Número — Escopo Fechado e Validado Contra a Prioridade da Ana, Processo de Devolução de Produtos e os 3 Caminhos Possíveis, Devolucao De Item Grande Feita Por Transportadora Contratada Em Vez Do Mercado Envios Fica Sem Confirmacao De Chegada No Sistema (Pedido 2000017697078004), De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto, Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]
 ---
 
@@ -235,7 +235,7 @@ Implementação: nova tela (`imprimir_etiqueta_termica_devolucao`) — página H
 
 Bug encontrado e corrigido no meio do caminho: a primeira versão da tela de impressão direta saiu com um vão de espaço em branco grande no fim da etiqueta. A causa raiz era a margem padrão que o navegador aplica em tags `<p>` (1em em cima e embaixo) — várias linhas do conteúdo (pedido, NF, cliente, plataforma, produto, SKU, rodapé) usavam `<p>` sem zerar essa margem, e aumentar a fonte pra tentar preencher o vão só piorou (1em cresce junto com a fonte). Corrigido com `p { margin: 0; }` no CSS. Confirmado por Matheus na pré-visualização de impressão do navegador: 1 página, sem cortar nada, os dois códigos de barra nítidos.
 
-**Ainda pendente**: o teste físico real — imprimir de verdade na Zebra e ler os dois códigos de barra com o leitor do dia a dia — previsto pro dia seguinte (Matheus: "aparentemente tudo perfeito, só vou saber de verdade amanhã"). Só depois dessa confirmação a Fase 8 fecha o ciclo completo (Idealizar → Executar → Validar).
+**Validado fisicamente** (19/09/2026 15:47, ver "Etiqueta térmica — validação física ok e aviso de mediação" abaixo): teste real na Zebra confirmado por Matheus, os dois códigos de barra lidos normalmente no leitor do dia a dia — fecha o ciclo completo da Fase 8 (Idealizar → Executar → Validar).
 
 ## Fase 6 implementada — fotos organizadas e tela de visualização (18/09/2026 02:06)
 
@@ -248,6 +248,8 @@ A dor da Fase 6 (fotos da conferência inacessíveis na hora da mediação) saiu
 **Parte B — tela de visualização** (`visualizar_devolucao`): tela nova, só leitura, desenhada primeiro como mockup e aprovada por Matheus antes de virar código — mostra todos os dados da devolução (incluindo os que só apareciam no relatório A4) e as peças conferidas com as fotos de evidência reais agrupadas por peça (antes o sistema não mostrava foto nenhuma da conferência fora da tela de edição). Confirmado que essa tela é diferente do "Visualizar" simples que a Ana pediu (que continua sendo só abrir o relatório A4 numa aba nova — ainda não implementado, ver "Em aberto"). Um bug pequeno (rota duplicada em `urls.py`) foi encontrado e corrigido na sincronização.
 
 **Extra — abrir pasta no Explorer**: botão que dispara o Explorer do Windows direto na pasta das fotos, sem a Ana precisar navegar manualmente (só funciona porque o servidor roda no mesmo PC de quem clica). Pendência conhecida: o Explorer abre mas não vem sozinho pro primeiro plano — comportamento intencional do Windows (trava de "foreground lock"), não bug do sistema; a correção "oficial" (API `AllowSetForegroundWindow`) foi pesquisada e não se aplica de forma confiável a esse cenário (processo em segundo plano reagindo a uma requisição HTTP, sem o direito de foreground; e o Explorer nem cria um processo novo de verdade pra mirar). **Decisão de Matheus (18/09/2026 02:14): manter como está** — a pasta abrir e só piscar na barra de tarefas é aceitável, não vale o custo de uma correção mais pesada e frágil (hack via `ctypes`/thread input) pra esse ganho pequeno.
+
+**Confirmação em uso real (19/09/2026 15:23)**: Matheus confirmou que a reorganização de pastas funcionou perfeitamente em uso real no escritório — as fotos foram movidas pros lugares corretos e aparecem certinho na tela de Visualizar.
 
 ## Feedback literal da Ana sobre a tela de Devoluções Pendentes (17/09/2026)
 
@@ -311,12 +313,120 @@ Fecha de vez a Fase 4 (decisão de comportamento já tomada em 17/09 23:24, falt
 
 **Autocomplete de produto**: em vez de tentar casar o produto sozinho a partir de um dado que pode não ser confiável (o SKU do vendedor no ML pode vir com sufixo de variação, ex.: "F7908050719121.001"), a ponte reaproveita a busca de produto que já existia — manda esse SKU como sugestão, o campo de busca da Nova Devolução já abre com ele preenchido e dispara a busca sozinha (mesmo mecanismo do "Colar linha do ERP": `dispatchEvent(new Event('input'))`): se bater exato com um código de barras cadastrado, seleciona o produto sozinho; senão, já deixa os candidatos prontos pra 1 clique confirmar.
 
-Testado por Matheus em produção e confirmado funcionando — um "não funcionou" no meio do caminho era só o navegador servindo a versão antiga do JS (cache), resolvido com Ctrl+Shift+R, sem bug de código nenhum. Em 18/09 03:43: tudo confirmado funcionando, autocomplete de produto incluído, nos testes no .exe do PC de casa de Matheus — falta só a validação final no PC do escritório, prevista pro dia seguinte.
+Testado por Matheus em produção e confirmado funcionando — um "não funcionou" no meio do caminho era só o navegador servindo a versão antiga do JS (cache), resolvido com Ctrl+Shift+R, sem bug de código nenhum. Em 18/09 03:43: tudo confirmado funcionando, autocomplete de produto incluído, nos testes no .exe do PC de casa de Matheus. Em 19/09 15:23: confirmado também no PC do escritório — não foi um teste dirigido procurando problema, foi uso normal no dia a dia, e não apareceu nenhum problema aparente.
+
+## Etiqueta térmica — validação física ok e aviso de mediação (19/09/2026 15:47)
+
+**Validação física (fecha a Fase 8 de vez)**: Matheus confirmou teste real na impressora Zebra — imprimiu corretamente e os 2 códigos de barra (pedido e EAN/SKU do produto) leram normalmente no leitor de código de barras do dia a dia.
+
+**Bug encontrado depois da validação inicial**: a `.etiqueta` tinha altura fixa (15cm) com `overflow: hidden` e `gap: 4mm` entre 12 blocos empilhados — só o espaçamento já somava 4,4cm, e o layout ficava no limite mesmo com nomes curtos. Qualquer nome de cliente ou produto um pouco mais comprido (quebra de linha) empurrava o SKU e o código de barras do produto — últimos blocos da pilha — pra fora da área visível, cortando em silêncio (foi isso que aconteceu no PC do escritório). Corrigido reduzindo o gap (4mm→2mm), as margens do bloco de Datas e a fonte do nome do produto (15px→11px, com limite de 2 linhas — o produto é identificado pelo EAN, não precisa de nome grande) — abriu ~2cm de folga real.
+
+**Novo aviso "EM MEDIAÇÃO"**, pedido de Ana: a etiqueta passa a mostrar "EM MEDIAÇÃO — aberta em DD/MM/AAAA" logo abaixo do cabeçalho, visível só quando a mediação está genuinamente aberta (tem `data_abertura_mediacao` e ainda não tem `data_finalizacao_mediacao` — mesma regra da aba "Mediações Abertas"). Motivo operacional explicado por Matheus: MB/SV têm 2 barracões distantes entre si — o produto só pode ir pro segundo barracão quando a mediação com o ML encerrar de vez, e a etiqueta térmica (por isso "IDENTIFICAÇÃO PROVISÓRIA" no título) existe justamente pra não misturar produto enquanto isso não acontece. O aviso deixa essa informação visível direto na etiqueta física, sem precisar abrir o sistema.
+
+Implementado nos dois formatos — a versão principal HTML/CSS (impressão direta) e o backup ZPL/Labelary. No ZPL, como o layout usa coordenadas fixas em dots (não é flexível como o HTML), o aviso entra numa caixa com borda logo abaixo do cabeçalho e empurra todo o resto do layout 70 dots pra baixo quando aparece — a folga que já existia (~137 dots) cobre isso com sobra, sem precisar redesenhar do zero.
+
+Testado e confirmado funcionando nos dois formatos por Matheus (print do navegador e do Labelary, data de abertura de mediação exibida corretamente, layout sem cortar nada).
+
+## Preço do produto e valor reembolsado — campos novos e cálculo de diferença (19/09/2026 16:42)
+
+**Pedido de Ana, repassado por Matheus**: ela queria ver o preço do produto junto com a devolução, e fazer a conta "preço do produto − valor reembolsado". No meio da conversa, Matheus percebeu uma dor que não tinha nome ainda: hoje não existe campo nenhum pra registrar quanto foi efetivamente reembolsado — ela vinha escrevendo esse valor dentro de "Anotações sobre a mediação" (texto livre), sem nenhum jeito estruturado de calcular nada em cima disso.
+
+**Decisão**: dois campos novos e opcionais em `Devolucao` — `preco_produto` e `valor_reembolsado` (`DecimalField`, `null=True, blank=True`) — mais uma property `diferenca_reembolso` (`preco_produto - valor_reembolsado`, só calcula quando os 2 estão preenchidos). "Anotações sobre a mediação" continua exatamente como era, sem nenhuma mudança — os campos novos são aditivos, não substituem a anotação livre.
+
+**Preço do produto puxado pela API do ML, na mesma ponte Consultar Pedido → Nova Devolução** (ver seção acima, 18/09 03:40): o campo `preco_produto` vem preenchido sozinho a partir de `order_items[].unit_price` do pedido no ML — que já é o preço unitário **com desconto aplicado** (o preço real pago pelo cliente), não o preço de tabela. Essa escolha não foi feita de cabeça: Matheus pediu documentação oficial antes de confiar num resumo de outra IA, e depois pediu um teste empírico de verdade — rodou um script Python (`scripts_exploracao_ML/testar_preco_unitario_pedido.py`) contra a API real (pedido 2000018056884044) e confirmou o retorno (`unit_price: 366.0`, `gross_price: 495.0` — a diferença batendo com o desconto real daquele pedido) antes de fechar a decisão. `valor_reembolsado` fica de fora dessa ponte de propósito — não existe campo confiável na API do ML pra isso, continua 100% manual, preenchido por Ana na hora de fechar a mediação.
+
+**Onde aparece**: tela Visualizar Devolução (Preço do produto, Valor reembolsado e Diferença, cada um mostrando "não informado"/"não calculado" quando vazio); Relatório A4 (dentro do bloco de Mediação, só aparece quando tem algo preenchido); lista de Devoluções Pendentes — badge "Reembolsado — R$ X" na aba Mediações Encerradas (estendendo a badge que já existia) e o mesmo valor entre parênteses no texto corrido da aba Impressos (formato diferente da badge, ajustado à parte). A etiqueta térmica não ganhou nada disso — fica só com o aviso "EM MEDIAÇÃO" já existente.
+
+**Detalhe técnico decidido nessa rodada**: nos campos do formulário (`<input type="number" step="0.01">`), o valor sempre é formatado como texto com "." (`f'{valor:.2f}'`) antes de ir pro dict que alimenta o template — nunca o `Decimal` cru. Se fosse o `Decimal` cru, o Django localizaria ele sozinho pro padrão brasileiro (vírgula, "366,00") na hora de montar o HTML, e o `<input type=number>` rejeita silenciosamente um `value` com vírgula (o HTML5 exige ponto) — o campo pareceria vazio ao reabrir a devolução pra editar. Já nas telas que só exibem (Visualizar, A4, lista), o filtro `floatformat:2` é usado direto, que é o comportamento certo ali (o navegador já mostra a vírgula brasileira sozinho no campo de formulário, por causa do locale — só o `value` por baixo continua em ponto).
+
+**Confirmado por Matheus em teste real** (mesmo dia, 19/09/2026): formulário salvando os 2 campos, auto-preenchimento do preço pela ponte Consultar Pedido funcionando (R$ 409,90 puxado certo do pedido 2000018113512820), edição de uma devolução existente preenchendo `valor_reembolsado` e a conta batendo (R$ 366,00 − R$ 150,70 = R$ 215,30, exibido certo no Visualizar e no A4), e a badge "Reembolsado — R$ 150,70" aparecendo certa na aba Mediações Encerradas.
+
+**Complemento (19/09/2026 16:51)**: o preço do produto passou a aparecer também na própria tela Consultar Pedido, na linha do item (junto de nome, SKU e quantidade) — reaproveitando o mesmo `preco_produto_input` que já alimentava o link "Criar devolução", só que exibido ali com `floatformat:2` (formato brasileiro, "R$ 366,00"; o trecho inteiro some quando o pedido não tem `unit_price` na resposta da API). Confirmado funcionando por Matheus.
+
+## Otimização de impressão do Relatório A4 — controle de quebra de página e ajuste fino de espaçamento (19/09/2026 18:13)
+
+**Problema relatado por Matheus**: o relatório A4 às vezes imprimia 2 folhas, com a 2ª contendo só o cabeçalho/rodapé em branco, ou cortando um bloco (cabeçalho, observação, mediação) ao meio na quebra de página. Ele foi claro que não queria forçar tudo a caber numa folha só — queria só que, quando não coubesse, a 2ª folha realmente tivesse conteúdo útil, e que se desse pra otimizar sem prejudicar a leitura, otimizasse.
+
+**Diagnóstico e correção (Opção A)**: `break-inside: avoid` em `.cabecalho`, `.faixa`, `.observacao` e `.mediacao` (evita cortar um bloco ao meio), `break-after: avoid` em `.secao-titulo` (evita separar o título da tabela de peças) e `orphans`/`widows: 3` nos textos de observação/anotação. Testado com renderização real via Playwright/Chromium (não só CSS teórico) — PDF gerado e comparado página a página.
+
+**Correção de rota no meio do caminho**: a 1ª versão incluía também `break-before: avoid` no rodapé, pra puxar a última peça pra junto dele na 2ª folha. Matheus pegou o problema real nisso: em vez de descartar uma 2ª folha inútil (só rodapé), a correção passou a *obrigar* imprimir uma 2ª folha com dado real, piorando o fluxo dele de "descarto a página 2 quando ela é só ruído". A regra foi removida, mantendo só as proteções que nunca puxam conteúdo de uma página 1 já autossuficiente.
+
+**Ajuste fino de espaçamento** (pedido dele: "não dá pra não gerar esse rodapé nesses casos?"): testada uma abordagem via JavaScript pra detectar e esconder o rodapé antes de imprimir — descartada por um motivo estrutural (o `beforeprint` só enxerga a largura da tela, não a largura real de impressão, então a medição dá number errado). No lugar, 2 reduções de espaçamento sempre ativas (`margin-top` do rodapé 20px→6px, padding das linhas da tabela de peças 10px→8px), testadas contra o pipeline real de impressão em vários cenários (1 a 12 peças, com e sem mediação).
+
+**Confirmado funcionando** por Matheus num caso real (Pulverizador a Bateria Brudden, 6 peças, pedido Magalu) — preview de impressão mostrando "1 folha de papel" onde antes precisava de 2.
+
+## Achado — grid de cards em vez de tabela pra "Estado das peças" cabe mais peças por folha (19/09/2026 18:13)
+
+**Motivação de Matheus**: olhando a tabela de peças, achou que tinha "espaço inútil" — sugeriu repensar o formato como grid de cards (tipo a tela de catálogo de produtos), com foto + nome + situação + anotação por peça, várias peças por linha em vez de 1.
+
+**1º teste, com métrica errada**: comparação inicial mediu "quantas peças sobram na página 1 de um relatório que já vai pra 2 folhas" — tabela levava vantagem (10 de 12 peças vs. 9 nos cards de 3 colunas). Matheus não aceitou o resultado de cara ("não faz sentido o card gastar mais espaço, já que uma linha do grid contém 3-4 peças em vez de 1") — e a desconfiança dele estava certa: essa métrica não responde a pergunta real (quantas peças cabem numa folha ANTES de precisar de uma 2ª).
+
+**2º teste, com a métrica certa** — variando a quantidade de peças e vendo em qual ponto cada formato realmente estoura pra 2 folhas:
+
+| Formato | Peças que cabem numa única folha |
+|---|---|
+| Tabela de hoje (já com os ajustes de espaçamento acima) | 8 |
+| Cards, grid de 4 colunas | 8 (empata — texto quebra mais linha com coluna estreita, cancelando o ganho) |
+| Cards, grid de 3 colunas | 9 |
+
+**2 achados extras que Matheus também desconfiou e estavam certos:**
+- **Foto maior no card não custa espaço**: aumentar de 40px pra 56px não mudou o limite de peças por folha, porque o bloco nome+badge ao lado já era o elemento mais alto do card.
+- **Margem duplicada**: Matheus perguntou se não estavam gastando espaço demais entre a borda do papel e o conteúdo. Confirmado: hoje soma 24mm (12mm de `@page { margin }` + mais 12mm do padding interno da `.folha` no modo impressão) — sobra de um ajuste pensado só pra tela, nunca reconferido pro modo impressão. Reduzida pra 12mm no total (8mm de página + 4mm de padding da folha), ainda segura pra impressoras comuns.
+
+**Resultado combinado** (grid de 3 colunas + foto 56px + margem reduzida): o limite salta de 9 pra **12 peças numa única folha** — e a tabela de hoje (sem nenhum desses ajustes) tinha limite de 8. Visual conferido, sem ficar apertado.
+
+**Decisão fechada por Matheus**: seguir com grid de 3 colunas + foto 56px + margem reduzida (8mm página + 4mm folha). Implementado e confirmado em produção — ver seção seguinte sobre o formato Cards como opção adicional.
+
+## Formato "Cards" implementado como opção adicional à tabela, nunca substituindo — seletor de padrão (19/09/2026 18:51)
+
+**Restrição explícita de Matheus antes de qualquer diff**: o novo formato em grid de cards (achado da seção anterior) não pode substituir a tabela — precisa ser uma opção a mais. Motivo: ele ainda não teve o feedback da Ana (usuária final, quem realmente imprime o relatório) e não vai estar trabalhando com ela na semana seguinte, então não pode arriscar atrapalhar o fluxo dela. Ela precisa ter as duas opções disponíveis pra escolher a que preferir. Também deixou explícito que todas as otimizações de paginação/margem/espaçamento (seção anterior) valem pras duas opções, não só pra uma.
+
+**Decisão de UX — seletor de formato padrão separado do toggle de visualização**: em vez de "o último formato visualizado vira o padrão" (ideia inicial), Matheus pediu um botão explícito de "Definir como padrão", desacoplado da troca de visualização — pra Ana poder espiar o outro formato sem correr o risco de sobrescrever sem querer o padrão que ela já tinha escolhido. Menos atrito na hora de imprimir de verdade.
+
+**Implementação**: atributo `data-formato-pecas` (`tabela`/`cards`) no `<body>`, controlando via CSS puro qual bloco aparece (`.pecas-tabela` / `.pecas-cards`); toggle Tabela/Cards na barra de ações só muda esse atributo (visualização, não grava nada); botão "☆ Definir como padrão" separado grava a escolha atual no `localStorage` (`relatorioDevolucao_formatoPecas`) e vira "✓ Este já é o padrão" quando o formato visível já é o salvo; um script inline logo após a abertura do `<body>` lê o `localStorage` e aplica o padrão salvo antes da primeira renderização, evitando flash do formato errado.
+
+**Mockup interativo antes do diff real**: a pedido de Matheus ("preciso de mockup pra enxergar isso tudo"), foi montado e enviado um mockup HTML autocontido com dado real (Pulverizador) simulando toggle + "Definir como padrão" (padrão simulado em memória, já que a pré-visualização em chat não suporta `localStorage` de forma confiável) — só depois da aprovação ("muito bom") o diff real foi gerado.
+
+**Confirmado funcionando em produção** por Matheus, com 6 screenshots de um caso real (Pulverizador a Bateria e Manual SS-20B, pedido 2000018056884044, cliente Claudia Aparecida Rizzatti, destino "TROCA", 6 peças com fotos reais): as duas visualizações (Tabela e Cards) certas, preview de impressão mostrando "1 folha de papel" nas duas, e o seletor de padrão funcionando exatamente como desenhado — inclusive o comportamento de "visualizar sem alterar o padrão salvo".
+
+## Ajuste de UX na barra de ações do Relatório A4 — ordem dos controles (19/09/2026 18:51)
+
+**Feedback de Matheus** depois de ver o resultado em produção: fazia mais sentido inverter as posições entre o texto "Padrão atual: Cards" e o botão "Imprimir / Salvar como PDF", seguindo a convenção de UX de que ações de confirmação/avanço/execução ficam à direita, e elementos secundários/informativos ficam à esquerda.
+
+**Mudança**: `.status-padrao` (informativo, "Padrão atual: X") passou pra esquerda da barra; o grupo à direita passou a ser toggle Tabela/Cards + "Definir como padrão" + "Imprimir / Salvar como PDF" (essa por último, mais à direita, como ação final). Só reordenação de HTML/CSS — nenhum id, classe funcional ou função JS mudou de comportamento.
+
+**Confirmado funcionando** por Matheus via screenshot.
+
+## Foto na "Observação geral do produto" — evidência do estado geral, sem ser de peça nenhuma (19/09/2026 19:38)
+
+**Motivação de Matheus**: o campo "Observação geral do produto" só aceitava texto — numa devolução real (cadeira de transferência recebida já montada), ele precisou usar um campo de PEÇA como gambiarra só pra conseguir anexar uma foto do estado geral do produto, porque não existia nenhum campo de foto que não fosse ligado a uma peça específica.
+
+**Solução**: novo model `FotoObservacaoGeral` — mesma estrutura de `FotoConferenciaPeca` (múltiplas fotos, cada uma removível individualmente, mesma convenção de pasta — `Devoluções/Pedido_X/Fotos gerais/`), só que ligado direto na `Devolucao`, não a uma peça. O componente de upload/preview/exclusão da tela de Conferência já era genérico (JS e CSS não amarrados a peça nenhuma), então foi 100% reaproveitado pro campo de observação geral sem escrever nenhum CSS ou JS novo.
+
+**Onde aparece**: tela de Conferência (upload, ao lado do campo de texto) e tela de Visualizar/consulta (mesma grade de fotos que já existe pras fotos de peça — miniatura + nome do arquivo + abre em nova aba).
+
+**Mockup interativo antes do diff**: a pedido de Matheus, foi montado um mockup com as 3 telas onde a foto apareceria (Conferência, Relatório A4, Visualizar) em abas, com uma foto de exemplo adicionável/removível em tempo real e sincronizada nas 3 — só depois da aprovação ("parece ótimo") o diff real foi gerado.
+
+**Correção de rota depois de testar em produção**: Matheus notou que a foto aparecendo no Relatório A4 quebrava uma convenção existente — fotos de peça (evidência de conferência) também nunca aparecem no relatório impresso, só no Visualizar. A foto geral foi removida do Relatório A4 pra manter essa consistência, ficando só nas 2 telas de trabalho interno (Conferência e Visualizar).
+
+**Confirmado funcionando em produção** por Matheus via screenshots reais: upload e exclusão de foto na Conferência, foto aparecendo certa no Visualizar (com nome do arquivo), e ausência confirmada no Relatório A4 depois da correção.
+
+## Fotos do cliente na reclamação — model que já existia ganhou tela (19/09/2026 20:11)
+
+**Contexto**: o model `FotoReclamacaoCliente` (fotos que o CLIENTE manda pra plataforma junto da reclamação, diferente das fotos que NÓS tiramos na conferência) já existia desde a migration 0007, com o caminho de pasta (`Devoluções/Pedido_X/Fotos do cliente/`) já pronto — mas nunca teve nenhuma tela de upload construída. Matheus perguntou se fazia sentido colocá-la na tela de Nova Devolução, junto do campo "Motivo da reclamação", como campo opcional — confirmado que sim.
+
+**Solução**: adicionada a property `nome_arquivo` que faltava no model (mesmo padrão de `FotoConferenciaPeca`/`FotoObservacaoGeral`) e reaproveitado 100% o mesmo componente genérico de upload/preview/exclusão (classes `.cf-fotos*` e `script_conferir_devolucao.js`, ambos já comprovados reutilizáveis pela feature anterior) — só 2 classes CSS pequenas novas (título + espaçamento) em `layout_nova_devolucao.css`. Sem migração nova, já que o model e a tabela já existiam.
+
+**Onde aparece**: tela Nova/Editar Devolução (upload, dentro do bloco "Reclamação do cliente", com exclusão individual disponível em modo edição) e tela Visualizar (mesma grade de fotos — miniatura + nome do arquivo + abre em nova aba).
+
+**Decisão que reverte um comentário anterior do código**: a docstring de `visualizar_devolucao` dizia explicitamente que fotos do cliente ficavam de fora "de propósito" (não interessam pra mediação). Matheus decidiu incluir mesmo assim: "é melhor ter e ela não precisar do que não ter" — docstring corrigida pra refletir a decisão nova.
+
+**Mockup interativo antes do diff**: 2 abas (Nova/Editar Devolução, Visualizar) com o mesmo estado de fotos sincronizado entre elas, testado via Playwright antes do envio.
+
+**Confirmado funcionando em produção**: Matheus testou criar devolução nova com foto do cliente e viu ela aparecer certa no Visualizar. Uma dúvida inicial (achou que a foto não tinha sido salva) foi investigada no código sem achar nenhum problema — e confirmada pelo próprio Matheus como cache do navegador (página/JS antigos em cache logo após aplicar o diff), não bug; reteste confirmou 100% funcional.
 
 ## Em aberto
 
-- [ ] Validar fisicamente a etiqueta térmica (imprimir na Zebra de verdade + ler os 2 códigos de barra com o leitor do dia a dia) — implementação já feita e confirmada na pré-visualização (18/09/2026 00:48), ver "Impressão direta implementada no Django" acima.
-- [ ] Confirmar no PC do escritório que a ponte Consultar Pedido → Nova Devolução funciona igual ao teste de casa — já testada e funcionando no .exe do PC de casa (18/09 03:43), falta só essa validação final.
 - [ ] Processo de garantia com fornecedor pra produtos "Troca" — fora de escopo por ora, revisitar depois.
 
 ## Relacionado
