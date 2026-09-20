@@ -3,7 +3,7 @@ tipo: regra
 dominio: git
 status: ativa
 criado: 03/08/2026
-atualizado_em: 06/09/2026 23:02
+atualizado_em: 20/09/2026 02:47
 relacionado:
   - Disciplina de Testes Automatizados
   - Status Manual Atual Ignora Historico Quando Participacao Nao Existe
@@ -54,6 +54,12 @@ Reincidiu uma 6ª vez em 25/08/2026, numa sessão do Cowork (produto diferente d
 Reincidiu uma 7ª vez em 06/09/2026, agora no repositório separado `Projeto-Sistema-Devolucao` (mundo `07_Sistema_Relatorio_Devolucoes`, 1º caso confirmado fora do `Projeto_Sistema_Interno_V2`): ao entregar os mockups e os arquivos reais da regra de negócio Marca/Produto e da listagem de Produtos agrupada (ver [[Marca e Grupo Fornecedor — Regras de Negócio e Seletor Obrigatório em Dropdown]]) — `produto_form.html`, `script_produto_form.js`, `layout_produto_form.css`, `produtos.html`, `layout_produtos.css`, `script_produtos.js`, entre outros — Claude usou a ferramenta de criar arquivo e apresentou cada um como card via `SendUserFile`, em vez de colar o código como texto na própria mensagem. Mesmo padrão de fundo dos 6 incidentes anteriores, agora confirmado fora do repositório onde a regra nasceu — reforça que ela vale pra qualquer repositório de código real, exatamente como a expansão de escopo do núcleo de engenharia já previa (ver [[Definição do Núcleo de Engenharia Repositório]]). Identificado pelo próprio Claude, ao reler esta pasta de regras a pedido do usuário ("releia o readme"), não apontado por ele diretamente desta vez.
 
 **Já são 7 incidentes confirmados desta mesma regra — agora em 3 produtos/repositórios diferentes (Claude Code, Cowork, e 2 repositórios de código distintos), o que reforça que a causa não é a ferramenta disponível nem o projeto específico, e sim o hábito de recorrer à criação de arquivo por conveniência.**
+
+**Exceção (20/09/2026) — mockup pode ir como Artifact, o resto do código continua só como texto:**
+
+Pedido explícito do usuário durante o desenho da tela "Painel de Acompanhamento de Mediações": mockup (protótipo visual, pra o usuário ver e apontar o que tá errado ou incompleto antes de virar código real) passa a poder ser entregue como Artifact — em vez de obrigatoriamente como texto colado na conversa, como era até aqui.
+
+É uma exceção estreita, só pra esse caso específico. Continua exatamente como antes, sem exceção nenhuma, pra tudo que não for mockup: script real, diff, arquivo de produção completo — mesmo pequeno, mesmo rascunho — vai como texto na própria mensagem, do jeito que a regra sempre pediu. "Mockup" aqui significa protótipo visual de tela pra revisão/aprovação antes da implementação — não vira brecha pra nenhum outro tipo de entrega de código.
 
 ## O vault é a fonte de verdade
 
