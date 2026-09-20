@@ -1,18 +1,18 @@
 ---
 tipo: checkpoint
 dominio: 
-status: em_andamento
+status: concluido
 criado: 19/09/2026
-atualizado_em: 19/09/2026 22:11
+atualizado_em: 20/09/2026 01:45
 relacionado: [Relato Completo do Fluxo Real de Devolução Depois que o Pacote Chega — 8 Fases e Cruzamento com o Vault, Idealização da Tela Nova Devolução — Fluxo de UX e Campos da Devolução]
 ---
 
 # Idealização da Tela Visualizar Devolução — Reorganização por Objetivo da Ana e Medição Real do Monitor
 
-**Resumo do estado atual**: mockup aprovado por Matheus em 19/09/2026 22:11 — fase Idealizar concluída, falta só Executar (gerar e aplicar o diff real). Registra o diagnóstico original de que `visualizar_devolucao.html` tem todo o dado necessário mas organizada por origem do dado (ordem de implementação das features) em vez de por objetivo da Ana, a medição real (Playwright) do custo de rolagem no monitor de trabalho dela, a virada de direção depois que a 1ª proposta (reordenar em "zonas" preservando bloco por peça) não convenceu Matheus, e a estrutura final combinada e testada em mockup interativo.
+**Resumo do estado atual**: estrutura aprovada em 19/09/2026 22:11 foi implementada e aplicada na mesma noite (commits `c2432ea`, `424da57`, `f32622b`, `ac5e0f8`, 19/09/2026 22:23–23:05) — reorganização por objetivo da Ana concluída. Registra o diagnóstico original de que `visualizar_devolucao.html` tem todo o dado necessário mas organizada por origem do dado (ordem de implementação das features) em vez de por objetivo da Ana, a medição real (Playwright) do custo de rolagem no monitor de trabalho dela, a virada de direção depois que a 1ª proposta (reordenar em "zonas" preservando bloco por peça) não convenceu Matheus, a estrutura final combinada e testada em mockup interativo, e a execução real que fechou o trabalho. Único ponto que segue sem validação: se o `<a target="_blank">` que embrulha cada foto atrapalha o arrasto direto pra aba do Mercado Livre.
 
-> [!success] Mockup aprovado — falta implementar
-> Estrutura final fechada e aprovada em 19/09/2026 22:11. Próximo passo é gerar o diff real (`views.py` + `visualizar_devolucao.html` + CSS) e aplicar — ver "Em aberto".
+> [!success] CONCLUÍDO — reorganização implementada e aplicada
+> Diff real gerado e aplicado em 19/09/2026, entre 22:23 e 23:05 (commits `c2432ea`, `424da57`, `f32622b`, `ac5e0f8`) — ver "Execução" abaixo. Decidido não expor `status_fluxo_display` na tela. Único ponto que segue sem validação: o comportamento de arrasto da foto pra outra aba.
 
 ## Gatilho — sensação de Matheus
 
@@ -92,10 +92,17 @@ Numa altura de navegador realista pro monitor dela (~700-760px de conteúdo vis�
 - Pra chegar no início do card "Peças conferidas" (a evidência mais rica) ela precisa rolar até 1177px — quase 2 telas cheias de rolagem nos cenários realistas (417 a 527px de rolagem necessária, dependendo da altura útil do navegador).
 - O próprio card de peças, sozinho, já tem 667px com só 2 peças — um kit maior facilmente ultrapassa 1 tela cheia sozinho, o que importa pro custo de rolar peça a peça DURANTE os arrastos (não só uma vez pra chegar lá).
 
+## Execução (19/09/2026, 22:23–23:05)
+
+Diff real gerado e aplicado na mesma noite da aprovação do mockup, em 4 commits sequenciais:
+
+- **`c2432ea`** — 2 properties novas de apoio direto à estrutura aprovada: `ConferenciaPeca.eh_evidencia_de_problema` (marca a peça como evidência pra mediação quando `situação != completa` OU tem `anotação` preenchida — mesma regra já usada nos badges do Relatório A4) e `Devolucao.dias_ate_reclamacao`/`reclamacao_dentro_do_prazo` (base do badge "Dentro/Fora dos 7 dias" junto do campo Reclamação aberta). `views.py` reorganizado pra pré-filtrar `pecas_com_problema` antes de montar o contexto de `visualizar_devolucao`, em vez de filtrar dentro do template.
+- **`424da57`** ("troca de lado"), **`f32622b`** e **`ac5e0f8`** — ajustes de HTML/CSS da mesma reorganização (posicionamento dos blocos Evidência pra mediação / Resumo geral, badge dos 7 dias, subgrupos da Linha do tempo).
+
 ## Em aberto
 
-- [ ] Gerar o diff real (`views.py` + `visualizar_devolucao.html` + CSS) a partir da estrutura aprovada e aplicar — mockup aprovado, falta só Executar.
+- [x] Gerar o diff real (`views.py` + `visualizar_devolucao.html` + CSS) a partir da estrutura aprovada e aplicar — feito em 19/09/2026 22:23–23:05, ver "Execução" acima.
 - [ ] Testar empiricamente (Playwright, ou na prática por Ana) se o `<a target="_blank">` ao redor de cada `<img>` de foto atrapalha o arrasto direto pra outra aba, ou se já funciona limpo como no WhatsApp Web.
-- [ ] Decidir se/como expor `status_fluxo_display` na tela — não entrou na estrutura final aprovada (o badge do cabeçalho continua só Conferida/Pendente).
+- [x] Decidir se/como expor `status_fluxo_display` na tela — decidido não expor; o badge do cabeçalho continua só Conferida/Pendente.
 
 **Resolvido nesta conversa**: pergunta sobre quantidade típica de peças/fotos por mediação ficou sem resposta mas virou irrelevante — a estrutura final agrupa TODAS as fotos de problema num grid só, então funciona igual com 1 ou com 10 peças problemáticas. Nova estrutura decidida, mockup gerado, testado e aprovado (19/09/2026 22:11). Link "Editar devolução" decidido (falta só aplicar no código, junto do resto do diff).
