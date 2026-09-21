@@ -192,6 +192,7 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validação da Documentação Oficial do Endpoint de Download de Anexos — post-purchase v1 Confirmado como Canônico e Contradição Interna Entre Versões EN e PT do Mercado Livre.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Mockup de Melhorias em Mediações ML Aprovado para Testes — Painel Geral, Lista em Estilo Chat e Campo de Resposta com Anexo de Foto.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auditoria Profunda — Tela de Mediações ML.md",
@@ -235,7 +236,6 @@
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Descobertas/Mascaramento De Endereco No Shipment Do ML Nao Impede Confirmar Se A Devolucao Chegou De Fato Na MB Ou Na SV (Pedido 2000018113512820).md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Polimento Visual da Tela de Desambiguação — Bloco do Cliente, Abas por Status e Agrupamentos.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Sem título.canvas"
