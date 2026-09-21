@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 20/09/2026 01:45
+atualizado_em: 21/09/2026 02:41
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -38,6 +38,9 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Sistema de Relatório de Devoluções — Contexto e Objetivo Inicial]] | checkpoint | em_andamento | 08/09/2026 | Objetivo original do mundo fechado: persistência real, conferência de peça mobile e relatório impresso implementados. Falta: setup no PC de produção, auditoria mobile-first de Nova Devolução e pontos de melhoria do superior. |
 | [[Hub de Consulta Implementado — Resumo Compacto, Chat de Mediação com bleach e Cards Novos na Home]] | checkpoint | concluido | 16/09/2026 | Mockup do Hub de Consulta (resumo compacto + chat de mediação) aprovado e implementado em Django, com mensagens sanitizadas via bleach e novos cards "Consultar Pedido"/"Devoluções" na home. |
 | [[Ideia — Etiqueta de Envio do ML Pode Esconder um Código Curto Bipável pra Achar a Devolução Rápido]] | checkpoint | em_andamento | 17/09/2026 | Código ao lado do nome do cliente CONFIRMADO como `buyer.id`. Fluxo buyer.id → lista pedidos → classifica por tipo VALIDADO e CONFIRMADO ponta a ponta contra 14 casos reais (13 direto + 1 via Pack ID, com o pedido real da exceção também testado e batendo). Achado extra: pack_id pode aparecer no lugar do pedido até em venda Full. Planejar da tela real ainda não iniciado. |
+| [[Proxy de Anexo com Bearer Token e Miniatura em Lightbox Substituem o Ícone Clicável no Chat de Mediação]] | checkpoint | concluido | 21/09/2026 | Anexo do chat de Mediações passou a tentar baixar via Bearer token (post-purchase/v1, fechando o "em aberto" da validação de doc oficial), com fallback pro link antigo cookie-auth se falhar; ícone genérico virou miniatura real que abre no modal de fotos global. |
+| [[Trava do Chat de Mediações ML — Model TravaChatMediacao com Senha Fixa Protegendo o Envio Ainda Não Implementado]] | checkpoint | concluido | 21/09/2026 | Novo model TravaChatMediacao (singleton por empresa, senha fixa) trava a caixa de resposta do chat por padrão — construído 20 min antes do envio real existir, e confirmado gateando de verdade o envio quando ele chegou. |
+| [[Envio Real de Mensagem no Chat de Mediações ML — Fluxo de 2 Passos da API, Limite de 10 Fotos e Indicador de Envio]] | checkpoint | concluido | 21/09/2026 | 1º envio de verdade pra dentro de uma mediação do ML: upload de anexo (multipart) + send-message em 2 passos, receiver_role decidido com stage sempre fresco, limite de 10 fotos JPG/PNG/5MB, erros explícitos e indicador "Enviando...". Testado (14/14 e 6/6 nos scripts, exe recompilado) — só falta o teste contra a API real com a Ana. |
 
 ## Produtos_e_Pecas
 
@@ -87,6 +90,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[core com Duplo Papel — Pasta de Settings do Django e App Compartilhado ao Mesmo Tempo]] | descoberta | ativa | 06/09/2026 | `core` era pasta de settings do Django *e* app compartilhado ao mesmo tempo (`startproject core`) — travava separar o `urls.py` do app. Corrigido renomeando a pasta de settings pra `projeto_sistema_devolucao_mb_sv`. |
 | [[2 Bugs na Abertura pelo IP da Rede — CWD do .env e Query String em URL Local]] | descoberta | ativa | 09/09/2026 | `.exe` sempre abria em `127.0.0.1`, mesmo com `IPV4_LOCAL` certo no `.env` — 2 bugs empilhados: `.env` não encontrado por depender do CWD do processo, e query string descartada numa URL `file://`. Corrigido: caminho do `.env` via `sys.executable`, dado embutido direto no HTML (sem query string). Confirmado funcionando pelo celular. |
 | [[Pasta static do App Novo Ficava de Fora do --add-data, Quebrando CSS e Ícones no .exe]] | descoberta | ativa | 16/09/2026 | `integracao_mercado_livre/static` faltava no `--add-data` do `gerar_exe.py` — sem whitenoise, cada pasta static de app precisa ser listada manualmente ou fica fora do `.exe`. Corrigido e validado no `.exe` recompilado. |
+| [[erro_inicializacao.html Faltava no --add-data do gerar_exe — Mesma Classe de Bug da Pasta static, Corrigida Antes do Teste com a Ana]] | descoberta | ativa | 21/09/2026 | Mesma classe de bug, 2ª ocorrência: a tela de erro de inicialização nova (proteção contra falha silenciosa do migrate no boot) não estava no `--add-data`, o que faria ela mesma falhar (`FileNotFoundError`) no exato cenário que deveria proteger. Corrigido antes do teste do `.exe` com a Ana; validado no `.exe` recompilado (inclusive fotos em miniatura). |
 
 ## Relacionado
 

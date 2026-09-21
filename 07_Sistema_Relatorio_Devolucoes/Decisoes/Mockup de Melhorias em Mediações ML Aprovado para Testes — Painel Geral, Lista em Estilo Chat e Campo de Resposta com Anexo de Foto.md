@@ -3,8 +3,8 @@ tipo: decisao
 dominio: 07_Sistema_Relatorio_Devolucoes
 status: em_andamento
 criado: 20/09/2026
-atualizado_em: 20/09/2026 23:43
-relacionado: [[Auditoria Profunda — Tela de Mediações ML]], [[Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web]], [[Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição]]
+atualizado_em: 21/09/2026 02:41
+relacionado: [[Auditoria Profunda — Tela de Mediações ML]], [[Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web]], [[Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição]], [[Envio Real de Mensagem no Chat de Mediações ML — Fluxo de 2 Passos da API, Limite de 10 Fotos e Indicador de Envio]], [[Trava do Chat de Mediações ML — Model TravaChatMediacao com Senha Fixa Protegendo o Envio Ainda Não Implementado]]
 resumo: Matheus aprovou, em 20/09/2026 22:03, o mockup interativo (artifact publicado, iterado em várias rodadas com Claude) que implementa as 6 melhorias priorizadas na Auditoria Profunda da tela de Mediações ML — segue pra fase de testes, ainda sem nenhuma linha do código real alterada. Além das 6 melhorias da auditoria original, o mockup ganhou 4 mudanças novas pedidas por Matheus durante as rodadas de ajuste: Painel Geral saiu de 3 indicadores (1 clicável) pra 6 indicadores todos clicáveis; a lista "Em acompanhamento" virou estilo chat, ordenada pela última mensagem (enviada ou recebida) sem opção de reordenar manualmente — o que substitui, só pra essa lista, o seletor "recentes/antigas/nome" decidido no Refinamento de UX anterior (que continua valendo em "Encontrados pelo sistema", não alterado); 2 filtros novos por quem mandou a última mensagem ("do ML ou Cliente" / "nossa"); e um campo de resposta no chat com anexo de foto (preview local real, funcional) mas envio ainda não implementado, nem no mockup nem no sistema real.
 ---
 
@@ -52,7 +52,7 @@ Decisão de **design aprovada pra testes** — nenhuma linha do código real (`P
 ## Em aberto
 
 - [x] ~~Implementar de fato no código real as 6 melhorias da auditoria + as 4 mudanças desta nota~~ — implementado e rodado com sucesso por Matheus (`aplicar_melhorias_mediacoes.py`, 5/5 passos OK, confirmado colando o output do terminal em 20/09/2026). Depois disso, Claude e Matheus acharam e corrigiram mais 3 problemas reais nessa mesma tela — ver [[Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição]].
-- [ ] Decidir se o campo de resposta (texto + foto) entra nesta rodada de implementação ou fica pra depois — hoje é só mockup visual
+- [x] ~~Decidir se o campo de resposta (texto + foto) entra nesta rodada de implementação ou fica pra depois — hoje é só mockup visual~~ — entrou nesta rodada, 21/09/2026: envio real implementado (fluxo de 2 passos da API do ML, limite de 10 fotos JPG/PNG, protegido por trava com senha) — ver [[Envio Real de Mensagem no Chat de Mediações ML — Fluxo de 2 Passos da API, Limite de 10 Fotos e Indicador de Envio]] e [[Trava do Chat de Mediações ML — Model TravaChatMediacao com Senha Fixa Protegendo o Envio Ainda Não Implementado]].
 - [ ] Confirmar com teste real (Ana?) se a ordenação por última mensagem esconde algum caso urgente-mas-parado com frequência incômoda na prática
 
 ## Relacionado
@@ -60,3 +60,5 @@ Decisão de **design aprovada pra testes** — nenhuma linha do código real (`P
 - [[Auditoria Profunda — Tela de Mediações ML]]
 - [[Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web]]
 - [[Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição]]
+- [[Envio Real de Mensagem no Chat de Mediações ML — Fluxo de 2 Passos da API, Limite de 10 Fotos e Indicador de Envio]]
+- [[Trava do Chat de Mediações ML — Model TravaChatMediacao com Senha Fixa Protegendo o Envio Ainda Não Implementado]]
