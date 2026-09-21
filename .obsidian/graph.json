@@ -123,7 +123,7 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.0705816756704576,
+  "scale": 0.5359795996225367,
   "close": true,
   "cf-managed-queries": [
     "path:\"01_Nucleo_Geral_Vault\"",
