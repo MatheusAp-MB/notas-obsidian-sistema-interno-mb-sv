@@ -205,13 +205,15 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8509bc68df0130fe",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT).md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "deep_research_GPT_REGRAS_DE_FRETE.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Frete Real da API Implementado (Tela, Banco de Dados e Comando de Coleta em Massa).md",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio.md",
     "03_Sistema_Interno/Impostos_Saida/Checkpoints/Checkpoint - Badges Fiscais Explicitas de PIS COFINS Saida e ICMS Entrada na Tela de Produto e Grade ML.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Correcao Pontual do PIS e COFINS de Saida Passa a Considerar a Reducao da Base de Entrada.md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validação da Documentação Oficial do Endpoint de Download de Anexos — post-purchase v1 Confirmado como Canônico e Contradição Interna Entre Versões EN e PT do Mercado Livre.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Mockup de Melhorias em Mediações ML Aprovado para Testes — Painel Geral, Lista em Estilo Chat e Campo de Resposta com Anexo de Foto.md",
@@ -242,7 +244,6 @@
     "Claude outputs/aplicar_modal_fotos.py",
     "Claude outputs/mockup_modal_fotos.html",
     "Claude outputs/demo.png",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Idealização da Tela Visualizar Devolução — Reorganização por Objetivo da Ana e Medição Real do Monitor.md",
     "Claude outputs/visual_final_12pecas-1.png",
     "Claude outputs/comparativo_tabela_vs_cards.png",
     "Claude outputs/cards_3col-1.png",
@@ -250,7 +251,6 @@
     "Claude outputs/teste_folga-1.png",
     "Claude outputs/comparativo_pagina_2_revisado.png",
     "Claude outputs/comparativo_pagina_2.png",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Checkpoints/Relato Completo do Fluxo Real de Devolução Depois que o Pacote Chega — 8 Fases e Cruzamento com o Vault.md",
     "Claude outputs/final_vinculo.png",
     "Claude outputs/atual_vinculo_inicial.png",
     "Sem título.canvas"

@@ -3,16 +3,16 @@ tipo: checkpoint
 dominio: python
 status: em_andamento
 criado: 21/09/2026
-atualizado_em: 21/09/2026 17:11
-relacionado: [Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio, Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design, Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML]
+atualizado_em: 22/09/2026 09:21
+relacionado: [Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio, Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design, Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML, Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT)]
 ---
 
 # Checkpoint - Frete Real da API Implementado na Precificação ML (Tela, Banco de Dados e Comando de Coleta em Massa)
 
-**Resumo**: Depois da investigação da simulação sem `item_id` (ver [[Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio]], pausada por decisão explícita de Matheus), o trabalho virou pra outra frente: usar o endpoint real de frete (com `item_id`, em anúncio já publicado — já validado antes) pra alimentar a precificação de verdade. Nesta sessão foi desenhada e implementada a cadeia completa: redesenho da tela de auditoria (Passo 7) pra mostrar frete real da API lado a lado com o frete calculado (tabela), modelagem de 3 campos novos no banco, descoberta de uma feature antiga abandonada (`frete_real` dormente desde julho), e criação do comando de coleta em massa — que já rodou contra dados reais da MAGAZINE com sucesso parcial confirmado.
+**Resumo**: Depois da investigação da simulação sem `item_id` (ver [[Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio]], pausada por decisão explícita de Matheus), o trabalho virou pra outra frente: usar o endpoint real de frete (com `item_id`, em anúncio já publicado — já validado antes) pra alimentar a precificação de verdade. Nesta sessão foi desenhada e implementada a cadeia completa: redesenho da tela de auditoria (Passo 7) pra mostrar frete real da API lado a lado com o frete calculado (tabela), modelagem de 3 campos novos no banco, descoberta de uma feature antiga abandonada (`frete_real` dormente desde julho), e criação do comando de coleta em massa — que já rodou por completo contra dados reais da MAGAZINE (3.440/3.447 sucesso) e da SAMVALE (100% sucesso).
 
-> [!warning] EM ANDAMENTO — comando rodando, 2º diff do model pendente de confirmação
-> Matheus pediu pausa no fim do expediente (21/09, 17:11) com o comando `buscar_frete_real_ml` ainda em execução (MAGAZINE em andamento, SAMVALE ainda não começou) e sem confirmar se já aplicou o 2º diff do model (remoção do campo residual). Retomar amanhã: (1) conferir resumo final do comando, (2) confirmar aplicação do 2º diff + migration.
+> [!warning] Frente B validada visualmente na MAGAZINE — SAMVALE sem a 2ª coleta, Frente A segue não iniciada
+> Atualizado 22/09, 09:21: 2ª rodada de `buscar_frete_real_ml` concluída na MAGAZINE (3.439/3.447 sucesso), Passo 7 validado visualmente por Matheus contra a tela real — mas nessa validação apareceu um bug novo (peso_billable exibido em toneladas em vez de kg, por gramas-vs-kg não convertido), já corrigido e reconfirmado com print (seção 14). Matheus decidiu não rodar a 2ª coleta na SAMVALE por ora (falta de tempo, foco na MAGAZINE) — `frete_real_detalhamento` continua vazio lá. Seguem em aberto, por decisão explícita de não investigar agora: os 8 erros da MAGAZINE (2× HTTP 500, 6× HTTP 404) e o `discount_type: none` (seção 11/14). Frente A (ligar `frete_real`/`frete_calculado` na fórmula de precificação) continua não iniciada — ver risco da seção 13 antes de desenhá-la.
 
 ## 1. Decisão de pivô — pausar a investigação da simulação, focar no frete real por item publicado
 
@@ -104,24 +104,76 @@ O comando novo seguiu exatamente esse padrão: 1 chamada por vez (sem lote — o
 
 Checagem de roteamento multi-empresa feita antes de entregar: a query NÃO filtra por empresa (não existe campo assim no model) — o roteamento é 100% automático via `definir_empresa_ativa()` + `EmpresaRouter`, confirmado lendo `core/empresa.py`/`core/database_router.py` antes de fechar o código.
 
-## 11. Execução real — primeira rodada (em andamento)
+## 11. Execução real — primeira rodada concluída (MAGAZINE + SAMVALE)
 
-Matheus rodou `python manage.py buscar_frete_real_ml` (sem `--empresa`, roda MAGAZINE depois SAMVALE). Confirmado até agora:
-- MAGAZINE: 3.447 variações a processar, 173 grupos de 20
-- Grupos 1 a 4 (80 variações): **100% de sucesso**, valores reais em R$ gravados, `discount_type` exibido entre parênteses — mix de `mandatory` e `none` observado nos dados reais
-- **Achado novo, não documentado ainda**: apareceu `discount_type: none`, valor que não fazia parte da taxonomia documentada na investigação original (que só tinha visto `mandatory`/`fs_optional`). Ainda não investigado — provavelmente "sem desconto aplicável" pro anúncio/categoria, mas não confirmado.
-- Execução pausada aqui (fim de expediente) — restam 93 grupos da MAGAZINE + toda a SAMVALE, e o resumo final (total sucesso/erro/duração) ainda não foi reportado
+Matheus rodou `python manage.py buscar_frete_real_ml` (sem `--empresa`, roda MAGAZINE depois SAMVALE). Execução completa, resumo final de cada empresa:
 
-## Pendências (retomar amanhã)
+- **MAGAZINE**: 3.447 variações processadas — **3.440 com sucesso, 7 com erro**, 1.549,1s (~25,8 min) de tempo total. Todos os 7 erros observados foram HTTP 404 (`Item with id MLBxxxx not found`) — isolados pelo `try/except` do serviço, sem interromper a execução nem apagar dado bom já gravado (comportamento por design, ver seção 10). MLBs com erro vistos até agora: `MLB6311264476`, `MLB5517075890`, `MLB3807429869` (lista pode não estar completa — vale conferir o log final).
+- **SAMVALE**: concluída, **0 erros**, tempo total semelhante ao da MAGAZINE (contagem exata de variações e duração não capturada — print perdido por Matheus).
+- Durante a rodada, confirmado o valor `discount_type: none` nos dados reais (junto com `mandatory`) — valor que não fazia parte da taxonomia documentada na investigação original (que só tinha visto `mandatory`/`fs_optional`). Ainda não investigado — provavelmente "sem desconto aplicável" pro anúncio/categoria, mas não confirmado.
+- Hipótese pros 404: os MLBs referenciados em `GradePrecificacaoML` não são sincronizados ao vivo com o status atual do anúncio no ML — prováveis anúncios encerrados/removidos/pausados por infração depois que a linha da grade foi calculada. Não confirmado caso a caso ainda.
 
-- Conferir se o comando terminou (MAGAZINE completo + SAMVALE) e revisar o resumo final (sucesso/erro/duração total)
-- Confirmar se Matheus aplicou o Diff 2 (seção 8) e rodou `makemigrations`/`migrate`
-- Investigar o `discount_type: none` observado nos dados reais (seção 11)
-- **Etapa futura, ainda não iniciada** (adiada várias vezes nesta sessão, por decisão explícita): ligar `frete_real` (com fallback pra `frete_calculado`) na fórmula de precificação real (`calcular_grade_precificacao_ml.py` / `FormulaPrecificacao`), pra `frete_usado`/`origem_frete` passarem a ser populados de fato na grade
+## 12. Ligação do dado real com a tela de auditoria (Passo 7) — Frente B fechada
+
+Matheus mostrou print real da tela (22/09): os campos "Dimensões usadas pelo ML" e "Peso cobrado pela API" continuavam em `—`, e o badge "API real" aparecia sempre destacado mesmo sem dado nenhum por trás. Causa raiz confirmada: o diff da seção 4 foi só camada de apresentação — o template já sabia desenhar os campos (`det.passo_7.frete_real`/`dimensoes_ml`/`peso_billable`), mas **nenhuma view nunca populava esses atributos** (não existiam em `PassoFaixaFrete`, o dataclass compartilhado com os outros 5 marketplaces). O texto "Resposta da API (list_cost) = ainda não implementado" também já era só o fallback de um `{% if %}` que nunca tinha dado real pra mostrar — não precisou de nenhuma mudança no template.
+
+Plano fechado em 2 frentes:
+- **Frente A** (não iniciada): ligar `frete_real`/fallback `frete_calculado` na fórmula de precificação (`calcular_grade_precificacao_ml.py`) — continua pendente, ver lista abaixo
+- **Frente B** (fechada nesta rodada): popular o Passo 7 da tela de auditoria com o dado real já coletado
+
+Dentro da Frente B, decisão tomada — **"caminho 2"**: em vez de recalcular `billable_weight` localmente (MAX entre peso declarado e peso cúbico, aproximado), guardar o valor real que a própria API devolve, junto com o bloco `discount` inteiro (`type`/`rate`/`promoted_amount`), em campo novo na Variação — mais fiel ao que a API realmente retornou, mesmo espírito do `detalhamento` já usado em `GradePrecificacaoML`. Custo: precisa rodar `buscar_frete_real_ml` de novo pra popular esse campo nos MLBs já coletados (idempotente, mesmo tempo de execução de antes).
+
+4 diffs gerados e já aplicados/migrados por Matheus:
+- **`precificacao/views/modal_comum.py`** — `PassoFaixaFrete` (compartilhado com os 6 marketplaces) ganhou 3 campos opcionais (`default=None`): `frete_real`, `dimensoes_ml`, `peso_billable`. Mesmo padrão já usado em `PassoPrecoExato.rebate` (campo que só 1 marketplace preenche, resto fica `None`) — não quebra os outros 5.
+- **`mercado_livre/models/variacao.py`** — novo campo `frete_real_detalhamento` (JSONField), guardando `billable_weight`/`discount_type`/`discount_rate`/`discount_promoted_amount`. Migration `0025_variacaoanunciomercadolivre_frete_real_detalhamento` já rodada.
+- **`integracao_mercado_livre/servicos/buscar_frete_real_ml.py`** — `_extrair_frete_real()` passou a extrair o bloco inteiro (antes só pegava `list_cost`/`discount.type`); `buscar_frete_real_variacao()` grava `frete_real_detalhamento` junto no mesmo `.save(update_fields=[...])`.
+- **`precificacao/views/grade_mercado_livre.py`** — construção do `passo_7` passou a ler `linha.variacao.frete_real`, montar `dimensoes_ml` a partir das dimensões declaradas no ML (`altura_declarada_cm`/etc — mesmas que alimentam o cálculo do frete real, não a embalagem ERP) e `peso_billable` a partir de `frete_real_detalhamento`.
+
+**Verificação antes de rodar em massa**: os campos `list_cost`/`billable_weight`/`discount.type` já estavam confirmados (2 já validados na investigação original, o 3º já tinha rodado certo em produção), mas `discount.rate`/`discount.promoted_amount` eram suposição não verificada em nenhum código real — só citados em prosa na nota da investigação. Gerado um script isolado (`scripts_exploracao_ML/verificar_chaves_discount_billable_weight.py`, 1 chamada só, não grava no banco) pra conferir antes de gastar ~26min×2 rodando errado. Resultado contra MLB6723265420 real: `list_cost: 29.25`, `billable_weight: 3650`, `discount: {rate: 0.5, type: "mandatory", promoted_amount: 58.5}` — todas as 5 chaves bateram exatamente com o que o código já esperava. Nenhum ajuste necessário.
+
+Coleta `buscar_frete_real_ml` disparada de novo (22/09, ~07:5x) pra popular `frete_real_detalhamento` nos MLBs já coletados — **em andamento, ainda não concluída**.
+
+## 13. Risco identificado — `frete_real` depende do preço/margem (análise do deep research externo)
+
+Enquanto a coleta da seção 12 rodava, Matheus pediu ao GPT um deep research sobre regras de frete do ML (fontes oficiais apenas) e pediu pra eu analisar o retorno. Arquivo original salvo por ele na raiz do vault, lido inteiro e agora arquivado em [[Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT)]] (mesma pasta de referência conceitual da API, `05_Integracao_Mercado_Livre/Referencia_API/Conceitos/` — nota tem ressalva de autoria externa e limpeza de 120 marcadores de citação quebrados do export original).
+
+**Cruzamento com o que já tínhamos**: tudo consistente com o que já validamos empiricamente — fórmula de peso volumétrico (A×L×P÷6.000), `billable_weight` = MAX(peso físico, peso volumétrico), estrutura do JSON (`coverage.all_country.{list_cost, billable_weight, discount:{type,rate,promoted_amount}}`), distinção `senders[].cost` (vendedor) vs `receiver.cost` (comprador). Nenhum ajuste de código motivado por isso.
+
+**Informação nova, ainda não usada em lugar nenhum do sistema**:
+- Remedição física: o ML pode medir/pesar o pacote de novo após o despacho e ajustar o custo da venda (e passar a valer pras vendas seguintes) se a medida real divergir da declarada
+- Desde 2026 um mesmo MLB pode ter mais de uma logística ativa simultaneamente (Full/Flex/Coleta) — nossa chamada de `buscar_frete_real_ml` usa só `item_id` + `verbose=true`, sem especificar `logistic_type`, então não necessariamente reflete a logística que será atribuída numa venda futura específica
+- Ideia (não implementada, não pedida ainda): reconciliação pós-venda comparando o `frete_real` previsto contra `senders[].cost` real de `/shipments/{id}/costs`, pra detectar cadastro de embalagem errado ou mudança de política
+
+**O risco em si — o que motivou registrar isso agora**: `frete_real` é capturado 1x por MLB, via `item_id`, sem override de preço — a API cota em cima do **preço atualmente publicado** no anúncio (mandar `item_price` só faz sentido no modo sem `item_id`, que é justamente o modo que [[Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio]] já tinha mostrado não reproduzir o desconto obrigatório). Só que `GradePrecificacaoML` calcula 4 cenários de margem por linha (Mínima/Padrão/Máxima/Competição — seção 5), cada um com preço final potencialmente diferente entre si e diferente do preço publicado. Os limiares comerciais do ML (R$19 e R$79 — abaixo/entre/acima mudam o regime de desconto do frete, ver a pesquisa) são em cima do preço de venda. Se o preço calculado de uma margem cruzar um desses limiares em relação ao preço ao vivo do anúncio, o `frete_real` capturado reflete o regime de desconto do preço **publicado**, não necessariamente o regime que valeria pro preço **daquela margem específica**.
+
+**Onde isso pega**: ainda não pega em nada hoje, porque a Frente A (ligar `frete_real` na fórmula) não foi feita. Mas é um ponto de atenção direto pro desenho da Frente A — se ela simplesmente usar o mesmo `frete_real` pras 4 margens sem checar o cruzamento de limiar, pode aplicar o regime de desconto errado pras margens cujo preço calculado fica de um lado do limiar enquanto o preço publicado está do outro. Não resolvido, não desenhado ainda — só registrado pra não ser esquecido quando a Frente A for desenhada de verdade.
+
+## 14. Segunda rodada de coleta (só MAGAZINE) + bug de unidade no peso_billable — Frente B validada visualmente
+
+**Resultado da 2ª rodada `buscar_frete_real_ml`, MAGAZINE**: 3.447 variações processadas — 3.439 com sucesso, **8 com erro**, 1.527,6s de tempo total. Detalhamento dos erros (mudou em relação à seção 11 — antes eram 7, todos 404; agora são 8, de 2 tipos):
+- **2× HTTP 500** (`internal_server_error`, causa não investigada, tipo de erro novo que não tinha aparecido na 1ª rodada): `MLB3956093274`, `MLB6351442058`
+- **6× HTTP 404** (`Item with id ... not found`): `MLB6311264476`, `MLB5517075890`, `MLB3807429869`, `MLB5936160538`, `MLB6610544062`, `MLB3429870359`
+
+Por design do serviço (seção 10), nenhum erro apaga dado bom gravado antes — `frete_real`/`frete_real_detalhamento` desses 8 MLBs ficaram com o que já existia (se existia).
+
+**SAMVALE não rodou nessa rodada** — decisão explícita de Matheus (22/09, 09:21): falta de tempo, foco só na MAGAZINE por ora. `frete_real_detalhamento` continua vazio pra todos os MLBs da SAMVALE (o campo `frete_real`/`frete_real_atualizado_em`, esses sim, já tinham sido populados na 1ª rodada — seção 11 — só o detalhamento novo é que falta).
+
+**Bug encontrado durante a validação visual e já corrigido**: Matheus validou o Passo 7 contra a tela real e, à primeira vista, pareceu tudo certo — mas comparando os 2 blocos do mesmo print, o peso "API real" aparecia como **8802,000 kg** contra **8,801 kg** no bloco calculado, pra dimensões praticamente idênticas (mesma embalagem). Não é fisicamente possível — a causa era `billable_weight` vindo da API em **gramas** (confirmado na doc oficial: "peso em gramas inteiros") sendo exibido direto como kg, sem dividir por 1.000. Corrigido em `precificacao/views/grade_mercado_livre.py` — `peso_billable` agora recebe `billable_weight / 1000` antes de ir pro `PassoFaixaFrete` (o valor cru continua salvo sem conversão em `frete_real_detalhamento`, só a exibição no Passo 7 mudou). Matheus aplicou e confirmou com novo print: **8,802 kg** (API) contra **8,801 kg** (calculado) — bate, a diferença de 1g é só arredondamento entre os 2 métodos (embalagem pronta pra despacho vs. cadastro do ERP).
+
+Com o bug corrigido e o segundo print confirmando os valores certos, a **Frente B está validada visualmente de ponta a ponta** na MAGAZINE: origem, dimensões declaradas, peso cobrado pela API e o valor real (`list_cost`) todos aparecendo corretos no Passo 7, badge "API real" condizente com dado de verdade por trás.
+
+## Pendências
+
+- **SAMVALE sem a 2ª rodada de coleta** — `frete_real_detalhamento` continua vazio lá (decisão de Matheus, 22/09: retomar quando houver tempo)
+- Investigar os 8 erros da MAGAZINE (seção 14) — 6 HTTP 404 (confirmar se são anúncios encerrados/removidos/pausados) e 2 HTTP 500 (causa ainda desconhecida) — **decisão explícita de Matheus (22/09): não investigar agora**, fica em aberto
+- Investigar o `discount_type: none` observado nos dados reais (seção 11) — **decisão explícita de Matheus (22/09): não investigar agora**, fica em aberto
+- **Frente A, ainda não iniciada** (adiada várias vezes nesta sessão, por decisão explícita): ligar `frete_real` (com fallback pra `frete_calculado`) na fórmula de precificação real (`calcular_grade_precificacao_ml.py` / `FormulaPrecificacao`), pra `frete_usado`/`origem_frete` passarem a ser populados de fato na grade — só depois disso o badge "API real" no cabeçalho do Passo 7 passa a refletir a origem de verdade (hoje é só estilo fixo). **Ao desenhar a Frente A, considerar o risco da seção 13** (frete_real capturado no preço publicado, não por margem — pode não bater o regime de desconto certo pras margens que cruzam R$19/R$79 em relação ao preço ao vivo)
 - Retomar a investigação da faixa <R$79 (nota relacionada) quando Matheus decidir voltar a ela
+- Avaliar (só ideia por enquanto, não pedida) reconciliação pós-venda via `/shipments/{id}/costs` (`senders[].cost`) — vinda da pesquisa externa, seção 13
 
 ## Relacionado
 
 - [[Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio]]
 - [[Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design]]
 - [[Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML]]
+- [[Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT)]]
