@@ -96,7 +96,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 550.8333740234375
+    "width": 932.5,
+    "collapsed": true
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -205,12 +206,15 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "8509bc68df0130fe",
   "lastOpenFiles": [
-    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação).md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT).md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Nomenclatura das Tabelas de Impostos de Saida Segue Padrao Explicito com Prefixo Saida e Chave Completa no Nome.md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Media Ponderada do ICMS Passa a Ser Persistida em Tabela Propria.md",
+    "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Base de Calculo do Pis Cofins de Saida Passa a Usar Preco Menos ICMS Medio Ponderado.md",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "deep_research_GPT_REGRAS_DE_FRETE.md",
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação).md",
+    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT).md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Frete Real da API Implementado (Tela, Banco de Dados e Comando de Coleta em Massa).md",
     "03_Sistema_Interno/Precificacao/Descobertas/Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio.md",
     "03_Sistema_Interno/Impostos_Saida/Checkpoints/Checkpoint - Badges Fiscais Explicitas de PIS COFINS Saida e ICMS Entrada na Tela de Produto e Grade ML.md",
@@ -232,9 +236,6 @@
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Redesenho do Painel de Mediações — Encontrados pelo Sistema, Em Acompanhamento e Varredura em Segundo Plano.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/sedCUuV0K",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Exclusão de Mediação Avulsa, Varredura de Claims Abertos e Modelo de Classificação Reclamação-Mediação-Devolução.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Stage Recontact É Documentado E Mediador Também Atua Em Dispute Ou Recontact.md",
-    "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Modelos de Anotação — Presets de Texto pra Não Redigitar a Mesma Observação de Peça Toda Vez.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/Modal de Fotos Único e Reutilizável — Do Mockup de 3 Padrões à Limpeza do Código Morto do Catálogo.md",
     "Claude outputs/aplicar_modelos_anotacao.py",
     "Claude outputs/mockup_modelos_anotacao.html",
     "Claude outputs/limpar_codigo_morto_objetivo8.py",
