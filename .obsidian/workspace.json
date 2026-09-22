@@ -207,6 +207,7 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação).md",
     "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT).md",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "deep_research_GPT_REGRAS_DE_FRETE.md",
@@ -234,7 +235,6 @@
     "05_Integracao_Mercado_Livre/Referencia_API/Endpoints/Stage Recontact É Documentado E Mediador Também Atua Em Dispute Ou Recontact.md",
     "07_Sistema_Relatorio_Devolucoes/Relatorio_de_Devolucao/Decisoes/Modelos de Anotação — Presets de Texto pra Não Redigitar a Mesma Observação de Peça Toda Vez.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Modal de Fotos Único e Reutilizável — Do Mockup de 3 Padrões à Limpeza do Código Morto do Catálogo.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/Fotos de Peça e Produto Passam a Usar object-fit Contain em Vez de Cover — Nunca Cortar a Imagem.md",
     "Claude outputs/aplicar_modelos_anotacao.py",
     "Claude outputs/mockup_modelos_anotacao.html",
     "Claude outputs/limpar_codigo_morto_objetivo8.py",

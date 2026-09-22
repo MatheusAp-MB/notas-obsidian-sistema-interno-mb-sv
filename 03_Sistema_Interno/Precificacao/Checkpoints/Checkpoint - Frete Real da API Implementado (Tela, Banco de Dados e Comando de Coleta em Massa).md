@@ -3,8 +3,8 @@ tipo: checkpoint
 dominio: python
 status: em_andamento
 criado: 21/09/2026
-atualizado_em: 22/09/2026 09:21
-relacionado: [Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio, Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design, Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML, Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT)]
+atualizado_em: 22/09/2026 11:26
+relacionado: [Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio, Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design, Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML, Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT), Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]
 ---
 
 # Checkpoint - Frete Real da API Implementado na Precificação ML (Tela, Banco de Dados e Comando de Coleta em Massa)
@@ -167,7 +167,7 @@ Com o bug corrigido e o segundo print confirmando os valores certos, a **Frente 
 - **SAMVALE sem a 2ª rodada de coleta** — `frete_real_detalhamento` continua vazio lá (decisão de Matheus, 22/09: retomar quando houver tempo)
 - Investigar os 8 erros da MAGAZINE (seção 14) — 6 HTTP 404 (confirmar se são anúncios encerrados/removidos/pausados) e 2 HTTP 500 (causa ainda desconhecida) — **decisão explícita de Matheus (22/09): não investigar agora**, fica em aberto
 - Investigar o `discount_type: none` observado nos dados reais (seção 11) — **decisão explícita de Matheus (22/09): não investigar agora**, fica em aberto
-- **Frente A, ainda não iniciada** (adiada várias vezes nesta sessão, por decisão explícita): ligar `frete_real` (com fallback pra `frete_calculado`) na fórmula de precificação real (`calcular_grade_precificacao_ml.py` / `FormulaPrecificacao`), pra `frete_usado`/`origem_frete` passarem a ser populados de fato na grade — só depois disso o badge "API real" no cabeçalho do Passo 7 passa a refletir a origem de verdade (hoje é só estilo fixo). **Ao desenhar a Frente A, considerar o risco da seção 13** (frete_real capturado no preço publicado, não por margem — pode não bater o regime de desconto certo pras margens que cruzam R$19/R$79 em relação ao preço ao vivo)
+- **Frente A, em desenho** (adiada várias vezes nesta sessão, agora com foco exclusivo de Matheus a partir de 22/09): ligar `frete_real` (com fallback pra `frete_calculado`) na fórmula de precificação real (`calcular_grade_precificacao_ml.py` / `FormulaPrecificacao`), pra `frete_usado`/`origem_frete` passarem a ser populados de fato na grade — só depois disso o badge "API real" no cabeçalho do Passo 7 passa a refletir a origem de verdade (hoje é só estilo fixo). Desenho em andamento (ainda sem código/diff) em [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]] — já parte do risco desta seção 13 como ponto de partida da discussão
 - Retomar a investigação da faixa <R$79 (nota relacionada) quando Matheus decidir voltar a ela
 - Avaliar (só ideia por enquanto, não pedida) reconciliação pós-venda via `/shipments/{id}/costs` (`senders[].cost`) — vinda da pesquisa externa, seção 13
 
@@ -177,3 +177,4 @@ Com o bug corrigido e o segundo print confirmando os valores certos, a **Frente 
 - [[Descoberta - Tela de Auditoria ML - Arquitetura e Principios de Design]]
 - [[Bug Conhecido - Fallback do Produto ERP Sem Embalagem Fabricava Peso e Dimensao Zero, Gerando Sempre o Frete Mais Barato do ML]]
 - [[Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT)]]
+- [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]]
