@@ -18,23 +18,8 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
-          },
-          {
-            "id": "8509bc68df0130fe",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -96,8 +81,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 932.5,
-    "collapsed": true
+    "width": 932.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -206,12 +190,23 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8509bc68df0130fe",
+  "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre.md",
+    "Claude outputs/47607600",
+    "Claude outputs/2F407600",
+    "Claude outputs/07207600",
+    "Claude outputs/BC007600",
+    "Claude outputs/FBEF6600",
+    "Claude outputs/76EF6600",
+    "Claude outputs/~$Tabela_Custos_Envios_Mercado_Livre.xlsx",
+    "Claude outputs/6C986600",
+    "Claude outputs/E4590600",
+    "Claude outputs/Tabela_Custos_Envios_Mercado_Livre.xlsx",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Nomenclatura das Tabelas de Impostos de Saida Segue Padrao Explicito com Prefixo Saida e Chave Completa no Nome.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Media Ponderada do ICMS Passa a Ser Persistida em Tabela Propria.md",
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Base de Calculo do Pis Cofins de Saida Passa a Usar Preco Menos ICMS Medio Ponderado.md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
     "deep_research_GPT_REGRAS_DE_FRETE.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação).md",
     "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Regras de Determinacao do Frete no Mercado Livre (Pesquisa Externa GPT).md",
@@ -232,18 +227,7 @@
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auditoria do Painel de Mediações — Funções, Fluxo UX e Lacunas Encontradas no Código Atual.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Implementação do Painel de Mediações — Nome do Cliente na Varredura Completa e Encontrados Clicáveis com Pré-visualização Sem Custo de API.md",
-    "Claude outputs/index.html",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Redesenho do Painel de Mediações — Encontrados pelo Sistema, Em Acompanhamento e Varredura em Segundo Plano.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/sedCUuV0K",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Exclusão de Mediação Avulsa, Varredura de Claims Abertos e Modelo de Classificação Reclamação-Mediação-Devolução.md",
-    "Claude outputs/aplicar_modelos_anotacao.py",
-    "Claude outputs/mockup_modelos_anotacao.html",
-    "Claude outputs/limpar_codigo_morto_objetivo8.py",
-    "Claude outputs/corrigir_modal_fotos_bug_img.py",
-    "Claude outputs/script_modal_fotos.js",
-    "Claude outputs/layout_modal_fotos.css",
-    "Claude outputs/aplicar_modal_fotos.py",
-    "Claude outputs/mockup_modal_fotos.html",
     "Claude outputs/demo.png",
     "Claude outputs/visual_final_12pecas-1.png",
     "Claude outputs/comparativo_tabela_vs_cards.png",
