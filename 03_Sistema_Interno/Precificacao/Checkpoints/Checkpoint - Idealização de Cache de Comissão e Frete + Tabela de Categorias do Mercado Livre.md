@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: python
 status: em_andamento
 criado: 24/09/2026
-atualizado_em: 24/09/2026 15:10
+atualizado_em: 24/09/2026 16:28
 relacionado: [Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre, Checkpoint - Frete Real da API Implementado (Tela, Banco de Dados e Comando de Coleta em Massa), Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação), Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real)]
 ---
 
@@ -23,11 +23,18 @@ Esse exato padrão ("perguntar pro ML, guardar no banco, ter um comando que atua
 
 **Achado técnico confirmado nesta sessão, direto do código** (`precificacao/funcoes_auxiliares/mercado_livre/formula_precificacao.py`): comissão hoje **não tem esse "bolso" nenhum**. `comissao_percentual` e `comissao_valor` são calculados na hora (`self._comissao_percentual = self.config_tipo.comissao`, `self._comissao_valor = self._preco_final * self._comissao_percentual / 100`) e devolvidos como parte do resultado do cálculo, mas **nunca persistidos** em nenhum campo do `GradePrecificacaoML` — diferente do frete, que já tinha `frete_calculado`/`origem_frete` prontos antes mesmo da API real entrar. Confirmado também que `VariacaoAnuncioMercadoLivre` não tem nenhum campo de comissão (nem dormente, nem ativo) — ao contrário do frete, que tinha uma feature antiga abandonada (`frete_real`) pra reaproveitar, comissão parte do zero.
 
-## 3. Plano idealizado pra comissão (Bloco 1) — copiar o padrão do frete
+## 3. Plano de comissão (Bloco 1) — copiar o padrão do frete, agora com nomenclatura fechada
 
 Direção proposta e discutida: criar o equivalente comissão de `frete_real`/`frete_real_atualizado_em` — guardando por MLB o percentual da comissão, o valor em R$, **o preço do anúncio usado naquela consulta** (diferencial importante — comissão depende do preço vigente, frete não tanto assim) e a data/hora da busca. Mais um comando de coleta em massa, no mesmo padrão do `buscar_frete_real_ml`.
 
-**Decisão ainda em aberto, não fechada por Matheus**: se esse dado real, uma vez guardado, já passa a ser usado no cálculo do preço, ou se fica só disponível pra comparação/exibição por enquanto (sem mudar a fórmula) — exatamente a mesma pergunta que trava a Frente A do frete até hoje (ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]], seção 18). Recomendação de Claude: seguir o mesmo caminho do frete — guardar e mostrar primeiro, decidir sobre uso na fórmula como etapa separada depois.
+**Nomenclatura fechada por Matheus (24/09, 16:28)**: comissão passa a ter 2 conceitos nomeados —
+
+- **Comissão Aproximada** — o valor manual já configurado hoje em `ConfiguracaoTipoAnuncioMercadoLivre.comissao` (as 2 linhas, Clássico/Premium). Não precisa de campo novo — só passa a ser chamado assim a partir de agora.
+- **Comissão Real** — o campo novo descrito acima, vindo da API, por MLB, morando em `VariacaoAnuncioMercadoLivre` (ver seção 12-B).
+
+**Proposta de espelhamento com o frete, aceita por Matheus ao avançar direto pro registro sem contestar**: pra ter a mesma comparação "aproximada x real" que o frete já tem na tela de auditoria (`GradePrecificacaoML.frete_calculado`/`origem_frete`), `GradePrecificacaoML` ganharia `comissao_calculada` + `origem_comissao` (choices `config_aproximada`/`api_real`) — registrando qual dos 2 valores foi de fato usado no cálculo do preço e o resultado. Ainda só desenho, nenhuma migration aplicada.
+
+**Decisão ainda em aberto, não fechada por Matheus**: se a Comissão Real, uma vez guardada, já passa a ser usada no cálculo do preço, ou se fica só disponível pra comparação/exibição por enquanto (sem mudar a fórmula) — exatamente a mesma pergunta que trava a Frente A do frete até hoje (ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]], seção 18). Recomendação de Claude: seguir o mesmo caminho do frete — guardar e mostrar primeiro, decidir sobre uso na fórmula como etapa separada depois.
 
 ## 4. Exigência de granularidade nos comandos de API
 
@@ -39,7 +46,7 @@ Instrução explícita de Matheus, para valer em **todos** os comandos que envol
 
 Motivo dado por Matheus: chamada de API é cara e demorada — quanto mais granular, melhor, porque vão existir situações em que ele só quer atualizar 1 produto específico, sem rodar a coleta inteira. Conexão registrada com o botão de atualização que Matheus tinha trazido antes (ver seção 8 do checkpoint da comissão): o nível "por MLB" é exatamente o que um botão de atualização por produto, na tela, acionaria por trás.
 
-Uma 4ª camada ("por categoria") foi mencionada como natural de se ter no futuro, mas só depois que a categoria de cada produto estiver guardada no banco (ver seção 5) — sem esse dado, não tem como filtrar por categoria antes de já ter buscado.
+Uma 4ª camada ("por categoria") foi mencionada como natural de se ter no futuro, mas só depois que a categoria de cada produto estiver guardada no banco (ver seção 5) — sem esse dado, não tem como filtrar por categoria antes de já ter buscado. **Resolvido em 24/09, 16:28 — ver seção 12-B.**
 
 ## 5. Sub-investigação — tabela de referência de categorias do ML
 
@@ -135,15 +142,29 @@ O que nesta nota ainda estava descrito como "rascunho, nada aplicado no repo" (s
 
 Com a tabela populada, Matheus pediu o redesenho da tela de navegação pela árvore de categorias (a exploração/visualização da própria `CategoriaMercadoLivre` — diferente das 2 telas de auditoria/comissão por categoria ainda pendentes abaixo). Esse trabalho — mockups avaliados por persona, a investigação de cobertura do campo `picture` por nível da árvore (só o Nível 1 tem imagem útil; ver Grupo 3 da seção 10, que já sinalizava `picture` como "não útil agora" — achado agora mais preciso, por nível), a implementação real completa e os ajustes por screenshot até a aprovação — está detalhado em nota própria: [[Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real)]].
 
+## 12-B. Atualização (24/09, 16:28) — onde mora a categoria de cada MLB, e granularidade da comissão reconfirmada
+
+Puxando o fio da seção 4 (4ª camada de granularidade "por categoria", bloqueada até a categoria de cada anúncio estar guardada no banco): Matheus corrigiu uma suposição minha — categoria **não é igual entre todos os anúncios de um mesmo produto** (o mesmo produto do ERP pode ter vários MLBs, e cada um pode estar em categoria diferente). A relação correta é **MLB ↔ Categoria** (1 pra 1), e o campo mora em `VariacaoAnuncioMercadoLivre` (não em `AnuncioMercadoLivre`) — mesmo padrão do `frete_real`, que já mora ali por ser a tabela que sempre existe garantida 1:1 (ou mais) por MLB, mesmo quando o anúncio "não tem variação" na prática do ML.
+
+**Achado técnico que facilita isso**: o `category_id` de cada item já vem na resposta da API que `integracao_mercado_livre/servicos/buscar_detalhes.py` já busca hoje (confirmado lendo o código — o dict de extração de campos do item já inclui `"category_id": body.get("category_id")`) — só não é persistido em nenhum campo ainda. Ou seja, guardar a categoria de cada MLB não vai exigir nenhuma chamada nova de API, só persistir um campo que já está passando pelo pipeline de extração.
+
+**Consequência boa**: como a Comissão Real (seção 3) também vai morar em `VariacaoAnuncioMercadoLivre`, a futura visão "comissão por categoria" fica mais simples — categoria e comissão real na mesma tabela, sem precisar atravessar o Anúncio pai pra fazer o agrupamento.
+
+**Granularidade (universal/produto/MLB) reconfirmada por Matheus**, especificamente pro comando de comissão real, no mesmo padrão do `buscar_frete_real_ml` — nada novo em relação à seção 4, só confirmação explícita aplicada a esse comando específico.
+
+Nenhum modelo/migration foi aplicado ainda pra nada desta seção nem da seção 3 — tudo ainda é desenho confirmado em chat.
+
 ## Pendências / próximos passos
 
 - ~~Baixar o dump de categorias de verdade~~ — feito (seção 7).
 - ~~Rodar o one-liner de attribute_types/max_parcels~~ — feito, classificação fechada (seção 10).
 - ~~Gerar a migration de verdade~~ — feito: `CategoriaMercadoLivre` e a sincronização via dump (carga em 2 passadas, por empresa) já estão aplicadas no repo, fora do estágio de rascunho descrito nas seções 11-12 (ver seção 12-A).
 - ~~Tela de navegação pela árvore de categorias~~ — feito e aprovado por Matheus, em formato "níveis empilhados" — ver [[Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real)]]. Não é nenhuma das 2 telas abaixo (auditoria por produto / visão agregada por categoria) — é a navegação/exploração da própria tabela de categorias.
-- **Definir os campos exatos da comissão real** (percentual, valor, preço usado, timestamp — proposta na seção 3, ainda não fechada em detalhe técnico/nomes de campo).
+- ~~Definir os campos exatos da comissão real~~ — feito (seção 3): Comissão Aproximada (já existe) x Comissão Real (novo, 4 componentes em `VariacaoAnuncioMercadoLivre`) + espelho `comissao_calculada`/`origem_comissao` em `GradePrecificacaoML`.
+- ~~Decidir onde mora a categoria de cada MLB~~ — feito (seção 12-B): `VariacaoAnuncioMercadoLivre.categoria`, não no Anúncio pai.
+- **Aplicar no repo**: campo `categoria` (FK) na Variação, os 4 campos de Comissão Real na Variação, e `comissao_calculada`/`origem_comissao` na Grade — tudo ainda é desenho em chat, nenhuma migration gerada.
 - **Decisão de negócio ainda em aberto**: comissão real (uma vez coletada) entra na fórmula de cálculo do preço, ou fica só como comparação/exibição por enquanto? Mesma natureza da decisão pendente na Frente A do frete.
-- **Aplicar a granularidade (universal/produto/MLB) em código** — ainda é só requisito, não desenhada tecnicamente em nenhum comando de comissão.
+- **Escrever o comando de coleta de comissão real** com os 3 níveis de granularidade (universal/produto/MLB, reconfirmado seção 12-B) — ainda não desenhado tecnicamente.
 - **Botão de atualização na tela** — mencionado e conectado ao nível "por MLB" (seção 4), mas ainda não desenhado tecnicamente (nem pra frete, nem pra comissão).
 - **Telas** — auditoria por produto (análoga ao Passo 7 do frete) e visão agregada por categoria (comissão por categoria) seguem como 2 telas distintas a desenhar, nenhuma delas iniciada.
 - **Estratégia de ícone por categoria na tela de navegação** — deliberadamente adiada por Matheus (imagem genérica única vs. imagem real só no Nível 1 vs. outra ideia). Detalhe na nota da tela.
