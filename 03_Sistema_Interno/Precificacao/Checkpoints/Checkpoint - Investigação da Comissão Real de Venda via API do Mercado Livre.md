@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: python
 status: em_andamento
 criado: 23/09/2026
-atualizado_em: 23/09/2026 15:59
+atualizado_em: 24/09/2026 09:00
 relacionado: [Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]
 ---
 
@@ -98,12 +98,39 @@ Script criado: `scripts_exploracao_ML/comparar_comissao_real_vs_flat_via_api.py`
 
 **Conclusão**: primeira evidência quantificada de que o flat atual não é uma boa aproximação pra boa parte do catálogo real — 50% de divergência, com diferenças que passam de R$18 num único produto. Isso é achado, não decisão: ainda não foi decidido se/como a API deveria substituir ou complementar o flat na fórmula de precificação.
 
+## 8. Validação Final — Confronto Dígito a Dígito com o Simulador de Custos Real, 6/6 Bateram (24/09, 09:00)
+
+Objetivo desta etapa, definido explicitamente por Matheus: **"terminar de validar se os dados de comissão vindo da API estão de fato corretos"** — antes de qualquer decisão de arquitetura, garantir que a divergência de 50% encontrada na seção 7 é achado real e não erro de script/chamada.
+
+**Script atualizado**: `comparar_comissao_real_vs_flat_via_api.py` ganhou um modo `--mlbs` (lista direcionada de MLBs, sem passar pela amostragem do banco), uma função `buscar_category_id_e_tipo()` que busca `category_id`, `listing_type_id` e `price` direto de `/items/{mlb}` (elimina qualquer chance de descompasso entre o que foi enviado pro `listing_prices` e o que o anúncio realmente é), e dois mecanismos de validação: `FAIXA_DOCUMENTADA_POR_TIPO` (compara contra Clássico 10–14%/Premium 15–19%, os percentuais confirmados na Frente A seção 9) e `GABARITO_CONHECIDO` (compara contra um valor real, tirado do próprio Simulador de Custos do Mercado Livre — fonte 100% independente da API).
+
+**Conjunto testado (6 MLBs)**: os 5 candidatos Premium da bateria da seção 7 que ficaram fora da faixa documentada (13,5%–14%, abaixo do 15–19% esperado pra Premium — o que levantou suspeita de erro de `listing_type_id`), mais 1 gabarito já conhecido (MLB3519337227, Clássico, 11%, validado antes contra print real do simulador).
+
+**Etapa 1 — hipótese de `listing_type_id` errado: descartada.** Nos 6 casos, `listing_type_id_bate: true` — a API confirmou que usou exatamente o tipo enviado (5× `gold_pro`, 1× `gold_special`). Não é erro de chamada.
+
+**Etapa 2 — faixa documentada: os 5 outliers continuam fora dela mesmo com o tipo confirmado certo.** `dentro_da_faixa_documentada: false` nos 5 Premium (13,5%–14%, contra 15–19% esperado); `true` no gabarito (11%, dentro do 10–14% de Clássico).
+
+**Etapa 3 — confronto contra o Simulador de Custos real (print tirado por Matheus pra cada um dos 6 MLBs, mesmo dia)**:
+
+| MLB | Tipo | Preço (API) | Preço (Simulador) | % API | % Simulador | Tarifa API | Tarifa Simulador | Resultado |
+|---|---|---|---|---|---|---|---|---|
+| MLB4264152189 | Premium | R$ 159,00 | R$ 159,00 | 14% | 14% | R$ 22,26 | R$ 22,26 | ✅ Exato |
+| MLB6295584044 | Premium | R$ 189,31 | R$ 189,31 | 13,5% | 13,5% | R$ 25,56 | R$ 25,56 | ✅ Exato |
+| MLB4860026971 | Premium | R$ 335,01 | R$ 335,01 | 14% | 14% | R$ 46,90 | R$ 46,90 | ✅ Exato |
+| MLB6253059364 | Premium | R$ 608,81 | R$ 608,81 | 14% | 14% | R$ 85,23 | R$ 85,23 | ✅ Exato |
+| MLB3519337227 (gabarito) | Clássico | R$ 358,35 | R$ 358,35 | 11% | 11% | R$ 39,42 | R$ 39,42 | ✅ Exato |
+| MLB6228114400 | Premium | R$ 410,29 | R$ 397,98 (1º print) | 14% | 13,85% (1º print) | R$ 57,44 | R$ 55,12 (1º print) | ⚠️ ver abaixo |
+
+**O caso MLB6228114400 — divergência explicada, não contradita**: no 1º print, o preço simulado (R$397,98) era diferente do preço que a API usou na chamada (R$410,29) — o anúncio teve o preço alterado entre a chamada e o print. Cada lado é internamente consistente com seu próprio preço (R$410,29 × 14% = R$57,44; R$397,98 × 13,85% = R$55,12), só que são dois momentos/preços diferentes. Matheus resimulou o mesmo MLB **com o preço R$410,29** (2º print, mesmo dia) e o resultado bateu exato: 14%, R$57,44 — **6/6 fechado**. Esse caso vira evidência concreta e numerada de que a comissão real muda quando o preço do anúncio muda (o aviso da doc, seção 3, deixa de ser só teórico).
+
+**Conclusão da validação**: dados de comissão da API confirmados corretos com o nível de confiança mais alto que esta investigação conseguiu alcançar — 6/6 batendo exato, centavo a centavo, contra fonte real e independente da API (o próprio Simulador de Custos do Mercado Livre). A divergência de 50% encontrada na seção 7 é achado real, não erro de script/chamada/tipo. A "faixa documentada" (Clássico 10–14%/Premium 15–19%, doc "Costos de Venta") está confirmada como não-universal — reduções de comissão por categoria/preço, já avisadas pela doc do `listing_prices` (seção 3), são reais e acontecem na prática. Com isso, a pergunta de correção dos dados está fechada; o que resta em aberto é só arquitetura (como usar) e escopo de amostra (ver Pendências).
+
 ## Pendências / próximos passos
 
-- **Decisão de arquitetura ainda não tomada** — a bateria da seção 7 dá evidência de que vale considerar usar a API pra precificação (50% de divergência, diferenças relevantes), mas não decide COMO: ao vivo dentro do cálculo (como a Opção 2 do frete), só pra parte do catálogo, ou outro desenho. Decisão de Matheus, não técnica.
+- **Decisão de arquitetura ainda não tomada** — a correção dos dados da API já está validada (seção 8, 6/6 exato contra fonte real); falta decidir COMO usar: ao vivo dentro do cálculo (como a Opção 2 do frete), só pra parte do catálogo, ou outro desenho. Decisão de Matheus, não técnica.
 - **Ampliar a amostra e/ou testar a conta SV** — 30 candidatos foi só a 1ª bateria (conta MB). Uma amostra maior, e testar SV também, daria mais confiança no tamanho real do gap antes de qualquer decisão.
 - **Investigar se a divergência é mesmo por categoria** — a seção 7 observou que não é um corte limpo por faixa de preço, mas não isolou `category_id` como causa confirmada (o script não expõe isso na tabela hoje). Se for relevante, precisaria logar `category_id` por candidato e agrupar os resultados por ele.
-- **Como lidar com o valor não sendo cacheável com confiança** — a doc (seção 3) avisa que o mesmo produto pode ter comissão diferente em momentos distintos; a bateria da seção 7 só testou estabilidade em segundos, não em dias/semanas. Segue em aberto.
+- **Como lidar com o valor não sendo cacheável com confiança** — a doc (seção 3) avisa que o mesmo produto pode ter comissão diferente em momentos distintos; a bateria da seção 7 só testou estabilidade em segundos, não em dias/semanas. **Agora tem evidência concreta e numerada** (seção 8, caso MLB6228114400): a comissão mudou de 14% pra 13,85% só porque o preço do anúncio mudou entre a chamada da API e o print do simulador. Reforça direto a ideia do botão de atualização que Matheus trouxe separadamente (forçar dado mais atual antes de calcular preço) — ainda não investigado nem decidido dentro deste checkpoint, mas este caso é o exemplo real que sustenta a necessidade dele.
 - ~~Obter doc oficial de Billing/Provisões~~ — **fora de escopo desde 23/09, 15:45** (seção 6): não é mais necessário, o objetivo é só a estimativa pré-venda.
 - ~~Confirmar se `sale_fee` (Orders) é "por unidade"~~ — **fora de escopo desde 23/09, 15:45** (seção 6): campo de comissão pós-venda, não usado pra precificação.
 - ~~Avaliar `marketplace_fee` como validação cruzada~~ — **fora de escopo desde 23/09, 15:45** (seção 6): mesmo motivo, é campo de Orders (pós-venda).

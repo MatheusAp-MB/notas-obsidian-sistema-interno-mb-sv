@@ -81,7 +81,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 932.5
+    "width": 486.5
   },
   "right": {
     "id": "aa172a38da1f4d8a",
@@ -192,6 +192,8 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real).md",
+    "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Idealização de Cache de Comissão e Frete + Tabela de Categorias do Mercado Livre.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre.md",
     "Claude outputs/47607600",
     "Claude outputs/2F407600",
@@ -226,8 +228,6 @@
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auto-completar Mediação Avulsa na Criação — Bug do Status e dos Dados em Branco Resolvido com Busca Automática na API do ML.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auditoria do Painel de Mediações — Funções, Fluxo UX e Lacunas Encontradas no Código Atual.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Implementação do Painel de Mediações — Nome do Cliente na Varredura Completa e Encontrados Clicáveis com Pré-visualização Sem Custo de API.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Redesenho do Painel de Mediações — Encontrados pelo Sistema, Em Acompanhamento e Varredura em Segundo Plano.md",
     "Claude outputs/demo.png",
     "Claude outputs/visual_final_12pecas-1.png",
     "Claude outputs/comparativo_tabela_vs_cards.png",
