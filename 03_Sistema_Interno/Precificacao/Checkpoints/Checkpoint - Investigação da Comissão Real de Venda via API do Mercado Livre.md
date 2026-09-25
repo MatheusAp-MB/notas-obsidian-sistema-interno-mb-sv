@@ -1,15 +1,24 @@
 ---
 tipo: checkpoint
 dominio: python
-status: em_andamento
+status: pausado
 criado: 23/09/2026
-atualizado_em: 25/09/2026 12:00
+atualizado_em: 25/09/2026 12:27
 relacionado: [Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]
 ---
 
 # Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre
 
-**Resumo**: Depois de encerrar a fase de pesquisa da Frente A (frete — ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]]), Matheus abriu uma investigação em paralelo: é possível descobrir a comissão real de um produto específico através da API do Mercado Livre? Hoje o sistema usa um valor fixo manual (`ConfiguracaoTipoAnuncioMercadoLivre.comissao`), sem nenhuma integração com API. Esta investigação começou como pesquisa pura; a partir da validação da seção 8 virou implementação real — comando de busca em produção (`buscar_comissao_real_ml`, seção 9) e decisões de arquitetura de exibição também tomadas na seção 9. A integração desse dado na fórmula de cálculo de preço (`GradePrecificacaoML.comissao_calculada`/`origem_comissao`), porém, segue em aberto — mesmo status do Frete Real.
+**Resumo**: Depois de encerrar a fase de pesquisa da Frente A (frete — ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]]), Matheus abriu uma investigação em paralelo: é possível descobrir a comissão real de um produto específico através da API do Mercado Livre? Hoje o sistema usa um valor fixo manual (`ConfiguracaoTipoAnuncioMercadoLivre.comissao`), sem nenhuma integração com API. Esta investigação começou como pesquisa pura; a partir da validação da seção 8 virou implementação real — comando de busca em produção (`buscar_comissao_real_ml`, seção 9) e decisões de arquitetura de exibição também tomadas na seção 9. A integração desse dado na fórmula de cálculo de preço (`GradePrecificacaoML.comissao_calculada`/`origem_comissao`), porém, segue em aberto — mesmo status do Frete Real. Seção 13 mapeia 3 caminhos técnicos possíveis e o motivo de nenhum ter sido aplicado ainda (conflito com o cache de assinatura de dimensão): decisão de Matheus, não técnica. **Pausado por Matheus em 25/09, 12:27 — ver "Pausa" logo abaixo pra retomar.**
+
+## Pausa (25/09, 12:27)
+
+Matheus pausou o projeto neste ponto. Pra retomar sem precisar reconstruir contexto:
+
+- **Toda a investigação está fechada e validada** (seções 1–12) — dado da API confirmado correto 6/6 contra o Simulador de Custos real (seção 8), rodado em escala real (3.440/3.447 variações, seção 10), e as 3 camadas de exibição (MLB real / média Produto / média Categoria) já estão implementadas e validadas em tela (seções 11–12).
+- **A única coisa genuinamente em aberto é a seção 13**: qual dos 3 caminhos usar pra fazer a Comissão Real efetivamente entrar no cálculo do preço (hoje só `config_tipo.comissao`, o valor fixo, entra na fórmula). Expliquei os 3 caminhos em texto corrido pro Matheus (não ficou registrado em detalhe didático aqui no vault, só o resumo técnico da seção 13) — se for retomar numa sessão nova, vale reexplicar antes de assumir que ele lembra os 3 de cabeça.
+- **Nenhum diff foi montado nem aplicado** — a decisão de qual caminho seguir não foi tomada antes da pausa.
+- Resto das pendências (7 MLBs órfãos, `categoria_id` não persistido no pipeline regular, ampliar amostra/testar SV, etc.) seguem exatamente como estavam — ver "Pendências / próximos passos" no fim desta nota.
 
 ## 1. Motivação e ponto de partida
 
@@ -177,11 +186,31 @@ Objetivo desta etapa, definido explicitamente por Matheus: **"terminar de valida
 
 Com isso, as 3 camadas de exibição decididas na seção 9 (MLB real / média Produto / média Categoria) estão todas implementadas e validadas com dado real.
 
+## 13. Por Que "Só Popular os Campos" Não É Trivial — Conflito com o Cache de Assinatura (25/09, 14:30)
+
+**Contexto**: retomando a única pendência real que sobrou (seção 12 fechou a exibição; falta só a integração na fórmula) — fui direto no código pra montar as opções de diff, antes de levar decisão pro Matheus, mesmo padrão de rigor já usado nas seções anteriores.
+
+**Confirmado por leitura direta — comissão hoje entra na fórmula em 1 lugar só**: `FormulaPrecificacao.montar_taxa_e_denominador()` (`precificacao/funcoes_auxiliares/mercado_livre/formula_precificacao.py`, linha 289) lê `self._comissao_percentual = self.config_tipo.comissao` — sempre o flat da config, nunca a Comissão Real. Esse valor vira parte de `taxa_percentual`, que define `denominador`, que resolve o preço inteiro dentro do goal-seek (`resolver_preco_por_margem`) — não é um ajuste cosmético isolado, é a taxa que entra na busca de preço.
+
+**Confirmado que `comissao_calculada`/`origem_comissao` não são gravados em nenhum lugar**: `_registrar_linhas` (`calcular_grade_precificacao_ml.py`) só grava `preco, margem_percentual_obtida, frete_usado, origem_dimensao, detalhamento` — os 2 campos de comissão não estão no dict nem na lista `campos_atualizaveis` do `bulk_update`. Mesmo diagnóstico do Frete Real (`frete_calculado`/`origem_frete` também nunca são gravados, apesar do comentário do model descrever a intenção — achado já registrado na seção 9).
+
+**Achado novo, não estava mapeado antes**: o comentário do próprio model deixa claro que `comissao_calculada` deve representar "o valor que a fórmula **de fato usou**" — não é um campo de comparação passiva (isso já existe e já está implementado: `comissao_real_percentual` no modal de Auditoria, seção 12). Preencher `comissao_calculada`/`origem_comissao` de forma honesta exige que a Comissão Real **efetivamente entre no cálculo do preço** — não dá pra popular os campos sem resolver a pergunta de fundo primeiro.
+
+**O problema de arquitetura que isso expõe**: `_calcular_ou_reaproveitar()` (`calcular_grade_precificacao_ml.py`) cacheia 1 `FormulaPrecificacao` por **assinatura de dimensão** (altura/largura/comprimento/peso/origem) e reaproveita o mesmo resultado pra **qualquer** variação (MLB) que caia na mesma assinatura — hoje isso é seguro porque comissão é só função de `tipo_anuncio` (2 valores fixos, iguais pra todo mundo com a mesma dimensão). Se a Comissão Real entrar no cálculo, 2 MLBs com a mesma caixa/peso mas comissão real diferente — a seção 7 já provou que isso acontece em 50% da amostra — receberiam hoje o **mesmo preço calculado**, incorretamente, porque o cache nunca olha qual MLB está sendo processado, só a dimensão.
+
+**3 caminhos possíveis, mapeados mas nenhum escolhido**:
+
+1. **Comissão entra na chave do cache** (assinatura passa a incluir o percentual de comissão usado). Correto, mas reduz a taxa de reaproveitamento do cache — quanto, não foi medido; depende de quantos MLBs distintos hoje compartilham a mesma dimensão física.
+2. **Cache só pra quem usa fallback de config**; variação com `comissao_real_percentual` preenchido sempre recalcula fresco, nunca entra no cache. Equilíbrio entre correção e performance, mas a lógica de cache passa a ter 2 caminhos diferentes.
+3. **Cache continua como está** (goal-seek roda só com a comissão de config, sem mudar), e a Comissão Real entra como uma **correção aplicada em cima do preço já resolvido**, fora do goal-seek. Mais barato de rodar, mas muda o que `resolvida`/`denominador` significam de fato, e precisa provar que não quebra a garantia de margem do RoundUp90 (mesma classe de risco já registrada em "Bug Conhecido - FIXO Negativo em Raia e Magalu Pode Quebrar a Garantia de Margem do RoundUp90").
+
+**Por que nenhum diff foi aplicado ainda**: isso muda o preço calculado de fato pro catálogo inteiro (não é só exibição, diferente das seções 11/12) — e o formato de decisão já estabelecido nesta frente (seção 9: "pensar antes de codar, sem gerar código nessa etapa") se aplica aqui com ainda mais peso. Decisão de Matheus antes de qualquer diff ser efetivamente escrito ou aplicado no repo.
+
 ## Pendências / próximos passos
 
+- **Decisão de arquitetura — a única pendência real que falta (achado 25/09, seção 13).** 3 caminhos técnicos mapeados (chave de cache / bypass seletivo de cache / correção pós-goal-seek), nenhum escolhido — depende de decisão de Matheus, não é uma questão técnica. Ver seção 13 pro detalhe de cada opção e o porquê do conflito com o cache de assinatura.
 - **7 MLBs órfãos na `GradePrecificacaoML` (achado 25/09, seção 10)** — existem na Grade local mas devolvem 404 na API do ML (não pausados/encerrados, removidos de verdade). Lista completa na seção 10. Não decidido se precisa de limpeza automática da Grade ou é caso pontual.
 - **Persistir `categoria_id` no pipeline regular de importação (achado 25/09, seção 10).** `importar_anuncios_ml.py` não grava esse campo — o backfill que levou 98,3% da base a ter categoria foi pontual, fora do pipeline. Sem correção permanente ali, todo MLB novo importado nasce sem categoria de novo, exigindo repetir o backfill manualmente.
-- **Decisão de arquitetura — parcialmente fechada (25/09, seção 9).** A parte de EXIBIÇÃO está decidida: granularidade de uso (só por MLB, nunca por média), estrutura de 3 camadas (MLB real / média Produto / média Categoria, as duas últimas só referência) e mecanismo de recálculo. O que segue em aberto é especificamente COMO integrar a Comissão Real na fórmula de cálculo de preço (`GradePrecificacaoML.comissao_calculada`/`origem_comissao`, campos que já existem no model mas não são populados por nenhum código ainda) — mesmo status do Frete Real hoje. Decisão de Matheus, não técnica.
 - ~~Onde as médias aparecem na tela~~ — **feito (25/09, seções 11 e 12).** Comissão Média da Categoria na tela de Árvore de Categorias, Comissão Real por MLB + Comissão Média do Produto no modal de Auditoria ML. As 3 camadas de exibição (seção 9) implementadas e validadas com dado real.
 - **Mesmo exercício conceitual ainda não feito pro Frete Real** — "o que é o dado + o que o usuário quer fazer com ele", que gerou a seção 9 desta nota pra Comissão, ainda não foi repetido pro Frete Real (registrado em 25/09, junto com a seção 9).
 - **Ampliar a amostra e/ou testar a conta SV** — 30 candidatos foi só a 1ª bateria (conta MB). Uma amostra maior, e testar SV também, daria mais confiança no tamanho real do gap antes de qualquer decisão.
