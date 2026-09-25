@@ -18,8 +18,23 @@
               "icon": "lucide-git-fork",
               "title": "Visualização em gráfico"
             }
+          },
+          {
+            "id": "cbe70462eb3d7c55",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -53,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "primeiro",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -77,7 +92,8 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -190,7 +206,7 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "8efc4137a87f380b",
+  "active": "cbe70462eb3d7c55",
   "lastOpenFiles": [
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real).md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Idealização de Cache de Comissão e Frete + Tabela de Categorias do Mercado Livre.md",
