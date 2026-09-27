@@ -3,7 +3,7 @@ tipo: decisao
 dominio:
 status: em_andamento
 criado: 15/08/2026
-atualizado_em: 27/09/2026 02:31
+atualizado_em: 27/09/2026 03:44
 relacionado: [Padrao de Qualidade e Clareza Estrutural do Repositorio, Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido, Redesenho do Popular Banco - Fontes de Dados e Escopo, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual, Guia de Setup - Do Zero ao Primeiro Preco Calculado, Barra de Progresso Real no Sincronizar com o Drive do Portal via Thread e Polling, Thread em Background Nao Herda a Empresa Ativa do EmpresaMiddleware (Threading Local), Decisao - Fluxo de Impostos de Saida Passa a 4 Comandos Auto-Suficientes CST Isolado em Comando Proprio Como Fonte Unica, Checkpoint - Frete Real da API Implementado (Tela Banco de Dados e Comando de Coleta em Massa), Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre]
 ---
 
@@ -150,10 +150,25 @@ Só 2 dos 21 apps usam essa camada (lógica pura separada do comando fino que s�
 7. `preparar_tabela_import_produtos_erp_sv.py` (raiz) traz um comentário interno chamando a si mesmo de "teste.py" — sinal de arquivo renomeado sem atualizar o comentário.
 8. Os 2 orquestradores de agosto (`calcular_todas_as_grades_precificacao`) e de setembro (`Sincronizar_Impostos_de_Saida`) resolveram o mesmo tipo de problema ("rodar N comandos relacionados em sequência sem digitar 1 por 1") de forma independente, sem que um documentasse ter olhado pro outro como padrão — mesma estrutura (`call_command` em loop, 1 empresa por vez), nomes com convenções diferentes.
 
+## Documentação de Comandos/ Nasce aos Poucos — Modelo de 2 Camadas, Sem Adiantar Nada (27/09/2026, 03:44)
+
+Decisão de continuidade direta da lacuna reaberta pela retomada de hoje logo acima ("não anotados em lugar nenhum"): a forma escolhida de fechar esse gap pra `Comandos/` não é um documento único, e nem uma leva de notas criada de uma vez — é um modelo de 2 camadas que nasce aos poucos, junto com o trabalho real em cada comando.
+
+**As 2 camadas:**
+
+1. **Doc geral** — visão de conjunto de `Comandos/`: o que existe, categoria (mesmas 4 já usadas neste documento) e estado de cada um. Função de índice/mapa, não de detalhe operacional de como rodar.
+2. **Nota por objetivo** — 1 nota por comando/objetivo prático, cada uma com um bloco fixo obrigatório: **Objetivo** (o que esse comando resolve, em 1 frase), **Pré-requisitos** (o que precisa existir/estar configurado antes de rodar) e **Estado final** (o que muda de fato no sistema depois de rodar — dado gravado, campo preenchido, etc. — como critério de "rodou certo").
+
+**Decisão de construção — a parte que pesa mais:** nenhuma nota de `Comandos/` (geral ou por objetivo) nasce antes da hora. Uma nota só é criada quando aquele comando específico está de fato sendo tocado ou validado na prática — mesmo método já registrado em [[Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]] ("polir por frente", nunca reescrita/documentação em lote). Fica proibido pré-criar pasta vazia, esqueleto de nota, ou lote de notas adiantado "pra já deixar pronto" — mesmo tipo de antecipação que aquele documento já cobra dos dois lados (Claude não adianta estrutura sem necessidade real; Matheus não pede pra adiantar).
+
+**Guia de Setup permanece onde está.** [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] não entra nessa reorganização agora — continua em `03_Sistema_Interno/Tutoriais/`, sem mover pra dentro de `Comandos/` nem pra nenhum outro lugar, até que exista razão concreta pra isso.
+
 ## Relacionado
 
 - [[Padrao de Qualidade e Clareza Estrutural do Repositorio]]
 - [[Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]] — absorveu, em 30/08/2026, o conteúdo que antes vivia em "Responsabilidade de Lideranca em TI Eleva o Padrao de Qualidade Exigido".
+- [[Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]]
+- [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]]
 - [[Redesenho do Popular Banco - Fontes de Dados e Escopo]]
 - [[Orquestracao da Sincronizacao de Impostos de Entrada via XML]]
 - [[Reestruturacao da Navegacao da Agenda de Videos em 6 Telas de Nivel Igual]]

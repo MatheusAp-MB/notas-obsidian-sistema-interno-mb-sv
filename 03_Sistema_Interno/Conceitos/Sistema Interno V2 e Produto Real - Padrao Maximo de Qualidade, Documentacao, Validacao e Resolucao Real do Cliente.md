@@ -3,7 +3,7 @@ tipo: conceito
 dominio: 
 status: ativa
 criado: 27/09/2026
-atualizado_em: 27/09/2026 02:55
+atualizado_em: 27/09/2026 03:08
 relacionado: [Reducao de Comandos de Management e Rotina Vira Botao, Sistema Interno V2 Sera a Fonte da Verdade - Papel, Motivo e Limitacao de Cada Fonte de Precificacao, Padrao de Qualidade e Clareza Estrutural do Repositorio, Ciclo de Trabalho Calmo (Idealizar Planejar Executar Analisar Corrigir Otimizar Validar)]
 resumo: A partir de 27/09/2026, por instrução direta do superior de Matheus, o Sistema Interno V2 passa a ser tratado como produto real de uma empresa de tecnologia competindo por espaço de mercado, não mais só "projeto interno válido". 4 pilares passam a valer sempre — qualidade extrema, documentação completa, validação real com dado real, resolução de verdade do problema do cliente. Matheus pediu explicitamente que Claude cobre esses 4 pontos ativamente, mesmo sem ser provocado — vale nos dois sentidos.
 ---
@@ -26,6 +26,22 @@ Matheus confirmou explicitamente: "a partir de hoje o sistema é de fato um prod
 2. **Documentação completa.** Toda decisão, todo comando, todo fluxo de dado precisa estar anotado em algum lugar rastreável (este vault) — não pode existir conhecimento que só existe na cabeça de Matheus ou de Claude. Conecta direto com o motivo original da própria [[Reducao de Comandos de Management e Rotina Vira Botao]] (comandos "soltos", sem anotação em lugar nenhum).
 3. **Validação real.** "Parece que funciona" não é validação — validação é rodar com dado real, comparar contra a fonte de verdade, e confirmar de ponta a ponta antes de considerar algo resolvido (mesmo padrão já seguido em descobertas anteriores deste vault, ex: [[Descoberta - Endpoint de Frete Real do ML Confirmado em Anuncio Publicado, Simulacao Sem Item Nao Reproduz o Desconto Obrigatorio]]).
 4. **Resolução real do problema do cliente.** O critério de "pronto" não é "o código rodou sem erro" — é "isso resolve de verdade a dor de quem vai usar o sistema". Antes de fechar qualquer entrega, a pergunta correta passa a ser: isso é bom o suficiente pra alguém escolher pagar por ele em vez de usar a concorrência?
+
+## Método de trabalho: polir por frente, nunca reescrita única (27/09/2026)
+
+Confirmado por Matheus no mesmo dia: ter um monólito hoje está certo — o problema nunca foi "monólito", foi "monólito malcuidado". A base já existe (cada parte do sistema já vive isolada em módulo/app próprio, prática que Matheus já vinha seguindo antes mesmo desta decisão) — o que falta não é arquitetura nova, é higiene: remover ambiguidade, duplicata e código morto do que já existe.
+
+Isso é feito com calma, aos poucos, por frente — nunca como um projeto único de "arrumação geral" ou reescrita de uma vez. Toda vez que uma frente específica (Frete, Comissão, Impostos, Agenda de Vídeos etc.) for tocada por outro motivo, o polimento daquela frente entra junto, como parte do mesmo trabalho.
+
+Alvos concretos já identificados, prontos pra serem resolvidos na próxima vez que a frente correspondente for tocada (ver [[Reducao de Comandos de Management e Rotina Vira Botao]] pro levantamento completo):
+
+- `importar_promocoes_ml` morto e comentado dentro de `popular_banco.py` desde 15/08/2026, nunca removido de verdade.
+- Scripts de origem do Frete Real e da Comissão Real (`investigar_frete_real_anuncio.py`, `comparar_comissao_real_vs_flat_via_api.py`) ainda soltos em `scripts_exploracao_ML/`, ao lado dos comandos oficiais que nasceram deles.
+- `validar_classificacao` abandonado, sem decisão se fica ou sai.
+- Renomeios `DEV_` (`resetar_agenda_videos`, `investigar_campos_api`) decididos em 15/08/2026 mas nunca aplicados no código.
+- Convenção de nome inconsistente entre os 2 orquestradores (`Sincronizar_Impostos_de_Saida` em PascalCase vs. `calcular_todas_as_grades_precificacao` em snake_case).
+
+A reformulação em microsserviços (ver seção abaixo) continua sendo trabalho de outra escala de complexidade, pedido a Matheus (não iniciativa dele) e deliberadamente adiado — não é a prioridade agora, e não deve ser confundida com este polimento incremental.
 
 ## O pedido explícito de Matheus a Claude — cobrança mútua
 
