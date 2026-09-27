@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "primeiro",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -92,8 +92,7 @@
               "title": "Marcadores"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -208,6 +207,8 @@
   },
   "active": "cbe70462eb3d7c55",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Conceitos/Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente.md",
+    "Claude outputs/~$Tabela_Custos_Envios_Mercado_Livre.xlsx",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Tela de Árvore de Categorias do Mercado Livre (Redesenho em Níveis Empilhados e Implementação Real).md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Idealização de Cache de Comissão e Frete + Tabela de Categorias do Mercado Livre.md",
     "03_Sistema_Interno/Precificacao/Checkpoints/Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre.md",
@@ -217,7 +218,6 @@
     "Claude outputs/BC007600",
     "Claude outputs/FBEF6600",
     "Claude outputs/76EF6600",
-    "Claude outputs/~$Tabela_Custos_Envios_Mercado_Livre.xlsx",
     "Claude outputs/6C986600",
     "Claude outputs/E4590600",
     "Claude outputs/Tabela_Custos_Envios_Mercado_Livre.xlsx",
@@ -243,7 +243,6 @@
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Anexos de Imagem nas Mensagens de Mediação — Descoberta na API, Barreira de Autenticação do ML e Solução com Ícone Clicável.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auto-completar Mediação Avulsa na Criação — Bug do Status e dos Dados em Branco Resolvido com Busca Automática na API do ML.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Refinamento de UX do Painel de Mediações — 5 Correções de Usabilidade e Layout Fixo Estilo WhatsApp Web.md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Auditoria do Painel de Mediações — Funções, Fluxo UX e Lacunas Encontradas no Código Atual.md",
     "Claude outputs/demo.png",
     "Claude outputs/visual_final_12pecas-1.png",
     "Claude outputs/comparativo_tabela_vs_cards.png",

@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 13/09/2026 23:00
+atualizado_em: 27/09/2026 02:55
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -17,7 +17,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev). `iniciar_banco`/`popular_banco` ficam CLI; `sincronizar_impostos_entrada` some quando virar etapa de `popular_banco`; os 6 `calcular_grade_precificacao_*` já são redundantes com `popular_banco` (achado real); rotina real vira botão via thread+polling (sem Celery); `agente_local/` já está correto (só `servidor_agente.py` é ponto de entrada real). Vários itens ainda pendentes de decisão. |
+| [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev) em 15/08. **Retomado em 27/09**: nenhum item "em aberto" de agosto foi resolvido (`sincronizar_impostos_entrada` continua fora do `popular_banco`; os 6 `calcular_grade_precificacao_*` ganharam um 7º orquestrador por cima em vez de fundir; renomeios `DEV_` nunca aplicados) — só a limpeza de `scripts_exploracao_ERP/` foi executada como decidido. Mapeamento agora cobre o sistema inteiro: 30 comandos reais (12 novos desde agosto, nunca categorizados), a camada `servicos/`, e todo script solto fora do `manage.py` (scripts_dev, scripts_exploracao_ML, scripts_exploracao_ERP, agente_local, raiz) — com 8 duplicidades/inconsistências concretas identificadas. |
 
 ## Conceitos
 
@@ -29,6 +29,7 @@ Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/
 | [[Dois Sistemas Paralelos - Projeto Interno V2 e We Stack]] | conceito | ativa | 10/09/2026 | Existem 2 sistemas paralelos e distintos: Projeto Interno V2 (sistema próprio, documentado neste vault) e We Stack (sistema de terceiros, pago, código fora do controle interno). Escopo atual do Projeto Interno V2 é 100% precificação (custo→preço); cálculo de margem/"Central de Promoções" que hoje roda no We Stack é aplicação futura. |
 | [[Preco Gera Margem x Margem Gera Preco - Direcoes Opostas Entre a Planilha do Superior e o Goal Seek do Sistema]] | conceito | ativa | 11/09/2026 | Planilha do superior calcula Preço→Margem (preço é entrada, margem é resultado); o sistema calcula Margem→Preço via Goal Seek (margem é entrada, preço é a incógnita resolvida). Coluna de preço "fixa" na planilha do superior pode já ser resultado de um Goal Seek dele, não necessariamente dado bruto de entrada. |
 | [[Sistema Interno V2 Sera a Fonte da Verdade - Papel, Motivo e Limitacao de Cada Fonte de Precificacao]] | conceito | ativa | 12/09/2026 | Papel de cada fonte de precificação: planilha do superior (referência limitada pelo Excel, será abandonada), Sistema Interno V2 (nasceu para resolver margem→preço, vai substituir 100% a planilha do superior), planilha da We Stack (não é cálculo paralelo, é documento de ensino para um 3º terceiro). DADO EXTREMAMENTE IMPORTANTE: uma vez validado pelo superior e pelo financeiro/tributário, o Sistema Interno V2 vira a fonte da verdade — dita se a We Stack está correta (não o contrário) e assume 100% a precificação. |
+| [[Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]] | conceito | ativa | 27/09/2026 | DADO EXTREMAMENTE IMPORTANTE: por instrução direta do superior de Matheus ("pense que você é dono de uma empresa de tecnologia... e precisa fazer as pessoas pagarem por ele"), o sistema passa a ser tratado como produto real, não mais "projeto interno válido". 4 pilares valem sempre: qualidade extrema, documentação completa, validação real com dado real, resolução de verdade do problema do cliente. Matheus pediu explicitamente que Claude cobre os 2 lados (dele e de Claude) nesses 4 pontos, sem esperar ser provocado. Chega junto com 3 mudanças estruturais em curso: nuvem (~2 semanas), webhook do ML, e reformulação completa em microsserviços. |
 
 ## Tutoriais
 
