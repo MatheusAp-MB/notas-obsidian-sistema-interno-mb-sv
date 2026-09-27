@@ -207,6 +207,7 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "03_Sistema_Interno/Importacao_de_Dados/Checkpoints/Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026).md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada.md",
     "03_Sistema_Interno/Multi_Empresa/Duvida - Estender ExigirDatabaseExplicito aos Outros 10 Comandos Nativos do Django com Risco de --database Silencioso.md",
     "03_Sistema_Interno/Multi_Empresa/Comando Nativo migrate Do Django Cai Silenciosamente no Banco Default Sem --database Obrigatorio.md",
@@ -242,7 +243,6 @@
     "03_Sistema_Interno/Impostos_Saida/Decisoes/Decisao - Correcao Pontual do PIS e COFINS de Saida Passa a Considerar a Reducao da Base de Entrada.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validação da Documentação Oficial do Endpoint de Download de Anexos — post-purchase v1 Confirmado como Canônico e Contradição Interna Entre Versões EN e PT do Mercado Livre.md",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Correção de 3 Problemas Reais na Tela de Mediações ML — meu_papel Nullable, Denormalização da Última Mensagem e Barra Lateral Sincronizada na Mesma Requisição.md",
-    "07_Sistema_Relatorio_Devolucoes/Decisoes/Mockup de Melhorias em Mediações ML Aprovado para Testes — Painel Geral, Lista em Estilo Chat e Campo de Resposta com Anexo de Foto.md",
     "Claude outputs/demo.png",
     "Claude outputs/visual_final_12pecas-1.png",
     "Claude outputs/comparativo_tabela_vs_cards.png",
