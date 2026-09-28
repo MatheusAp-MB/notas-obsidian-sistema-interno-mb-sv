@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 27/09/2026 20:45
+atualizado_em: 27/09/2026 21:25
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -155,7 +155,7 @@ Contexto novo (criado em 03/09/2026) — reorganização do que antes vivia solt
 | [[Titulo Vazio Quebra bulk_create Quando SKU e Detalhes do Produto Estao em Branco]] | bug_conhecido | corrigido | 17/08/2026 | Linha do relatório da Samvale com "Detalhes do Produto" E "Codigo Auxiliar" em branco ao mesmo tempo gerava `titulo=None` — `Produto.titulo` é NOT NULL, `bulk_create` quebrava o lote inteiro. Corrigido estendendo o fallback pro EAN. |
 | [[Importacao de Frete ML Quebra com bulk_update Sem Primary Key Quando a Planilha Tem Chave Duplicada]] | bug_conhecido | corrigido | 27/09/2026 | `popular_banco` quebrava na etapa FRETE ML (`ValueError: All bulk_update() objects must have a primary key set`), nos 2 bancos recém-semeados. Causa real (planilha real analisada): layout de colunas mudou por completo e uma coluna nova "Regime" introduziu uma 2ª tabela de frete inteira (Frete Grátis Rápido). CORRIGIDO ponta a ponta: novo campo `FreteML.regime`, migração, importador reescrito e todos os consumidores (cálculo de margem, grade de precificação, tela HTML) atualizados. CONFIRMADO em produção real (27/09, 18:39): `popular_banco` rodado do zero nas 2 empresas, 480 criados / 0 erros nos 2 bancos, zero regressão nas outras 17 etapas. |
 | [[Frete ML Passa a Modelar as 2 Tabelas Reais de Frete (Regime Sem e Com Frete Gratis Rapido) via Campo Regime Novo]] | decisao | concluida | 27/09/2026 | A coluna "Regime" da planilha nova representa uma 2ª tabela de frete real (Frete Grátis Rápido), não metadado — decidido modelar as 2 tabelas juntas em `FreteML` (campo `regime` + chave única `(peso_min, preco_min, regime)`), com default preservando 100% do comportamento atual, em vez de um fix mínimo que descartaria a tabela nova. |
-| [[Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026)]] | checkpoint | em_andamento | 27/09/2026 | 2ª reconstrução do banco no mesmo dia (drop+create manual dos 2 bancos MySQL) — validou `migrate`→`iniciar_banco`→`sincronizar_categorias_ml`→`popular_banco` de ponta a ponta nas 2 empresas, incluindo a reforma OOP do ML. Achado: `sincronizar_categorias_ml` precisa rodar ANTES da 1ª vez que `popular_banco` roda (senão 100% dos anúncios ficam sem categoria, e rodar depois não corrige sozinho — precisa repetir `popular_banco`). Em andamento: `buscar_frete_real_ml`/`buscar_comissao_real_ml` nas 2 empresas.
+| [[Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026)]] | checkpoint | em_andamento | 27/09/2026 | 2ª reconstrução do banco no mesmo dia (drop+create manual dos 2 bancos MySQL) — validou `migrate`→`iniciar_banco`→`sincronizar_categorias_ml`→`popular_banco` de ponta a ponta nas 2 empresas, incluindo a reforma OOP do ML. Achado: `sincronizar_categorias_ml` precisa rodar ANTES da 1ª vez que `popular_banco` roda (senão 100% dos anúncios ficam sem categoria, e rodar depois não corrige sozinho — precisa repetir `popular_banco`). `buscar_frete_real_ml` validado nas 2 empresas (Magazine 3386/3388 — 2 erros esperados, itens removidos do ML; Samvale 2155/2155). Em andamento: `buscar_comissao_real_ml` nas 2 empresas.
 
 ## Hub_de_Fotos
 
