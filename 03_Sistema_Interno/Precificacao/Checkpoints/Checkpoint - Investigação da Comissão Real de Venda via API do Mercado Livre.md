@@ -1,15 +1,15 @@
 ---
 tipo: checkpoint
 dominio: python
-status: pausado
+status: em andamento
 criado: 23/09/2026
-atualizado_em: 25/09/2026 12:27
-relacionado: [Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]
+atualizado_em: 29/09/2026 11:06
+relacionado: [Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação), Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada, Modelagem de Objeto e Encapsulamento]
 ---
 
 # Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre
 
-**Resumo**: Depois de encerrar a fase de pesquisa da Frente A (frete — ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]]), Matheus abriu uma investigação em paralelo: é possível descobrir a comissão real de um produto específico através da API do Mercado Livre? Hoje o sistema usa um valor fixo manual (`ConfiguracaoTipoAnuncioMercadoLivre.comissao`), sem nenhuma integração com API. Esta investigação começou como pesquisa pura; a partir da validação da seção 8 virou implementação real — comando de busca em produção (`buscar_comissao_real_ml`, seção 9) e decisões de arquitetura de exibição também tomadas na seção 9. A integração desse dado na fórmula de cálculo de preço (`GradePrecificacaoML.comissao_calculada`/`origem_comissao`), porém, segue em aberto — mesmo status do Frete Real. Seção 13 mapeia 3 caminhos técnicos possíveis e o motivo de nenhum ter sido aplicado ainda (conflito com o cache de assinatura de dimensão): decisão de Matheus, não técnica. **Pausado por Matheus em 25/09, 12:27 — ver "Pausa" logo abaixo pra retomar.**
+**Resumo**: Depois de encerrar a fase de pesquisa da Frente A (frete — ver [[Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação)]]), Matheus abriu uma investigação em paralelo: é possível descobrir a comissão real de um produto específico através da API do Mercado Livre? Hoje o sistema usa um valor fixo manual (`ConfiguracaoTipoAnuncioMercadoLivre.comissao`), sem nenhuma integração com API. Esta investigação começou como pesquisa pura; a partir da validação da seção 8 virou implementação real — comando de busca em produção (`buscar_comissao_real_ml`, seção 9) e decisões de arquitetura de exibição também tomadas na seção 9. A integração desse dado na fórmula de cálculo de preço (`GradePrecificacaoML.comissao_calculada`/`origem_comissao`), porém, segue em aberto — mesmo status do Frete Real. Seção 13 mapeia 3 caminhos técnicos possíveis e o motivo de nenhum ter sido aplicado ainda (conflito com o cache de assinatura de dimensão): decisão de Matheus, não técnica. **Pausado por Matheus em 25/09, 12:27 — ver "Pausa" logo abaixo pra retomar.** **Retomado parcialmente em 29/09, 10:38 — não a decisão de arquitetura (seção 13, continua exatamente parada), e sim uma frente adjacente e deliberadamente separada: otimização de como o dado de Comissão Real é coletado/gravado (ver seção 14).**
 
 ## Pausa (25/09, 12:27)
 
@@ -19,6 +19,8 @@ Matheus pausou o projeto neste ponto. Pra retomar sem precisar reconstruir conte
 - **A única coisa genuinamente em aberto é a seção 13**: qual dos 3 caminhos usar pra fazer a Comissão Real efetivamente entrar no cálculo do preço (hoje só `config_tipo.comissao`, o valor fixo, entra na fórmula). Expliquei os 3 caminhos em texto corrido pro Matheus (não ficou registrado em detalhe didático aqui no vault, só o resumo técnico da seção 13) — se for retomar numa sessão nova, vale reexplicar antes de assumir que ele lembra os 3 de cabeça.
 - **Nenhum diff foi montado nem aplicado** — a decisão de qual caminho seguir não foi tomada antes da pausa.
 - Resto das pendências (7 MLBs órfãos, `categoria_id` não persistido no pipeline regular, ampliar amostra/testar SV, etc.) seguem exatamente como estavam — ver "Pendências / próximos passos" no fim desta nota.
+
+**Atualização (29/09, 10:38)**: a frente de otimização de coleta retomou (ver seção 14) — Matheus optou explicitamente por "ir por etapas": otimizar primeiro COMO o dado é buscado/gravado, antes de decidir COMO ele é usado na fórmula. A pendência real desta pausa (seção 13, decisão de arquitetura) segue intocada.
 
 ## 1. Motivação e ponto de partida
 
@@ -206,12 +208,70 @@ Com isso, as 3 camadas de exibição decididas na seção 9 (MLB real / média P
 
 **Por que nenhum diff foi aplicado ainda**: isso muda o preço calculado de fato pro catálogo inteiro (não é só exibição, diferente das seções 11/12) — e o formato de decisão já estabelecido nesta frente (seção 9: "pensar antes de codar, sem gerar código nessa etapa") se aplica aqui com ainda mais peso. Decisão de Matheus antes de qualquer diff ser efetivamente escrito ou aplicado no repo.
 
+## 14. Otimização de Coleta — Cache Cross-Produto, Paralelismo, Bulk Update e Dataclass (29/09/2026, 10:38)
+
+**Contexto**: decisão explícita de Matheus de "ir por etapas" — antes de decidir qual dos 3 caminhos da seção 13 usar (integração na fórmula), otimizar primeiro a COLETA do dado em si: busca (nº de chamadas), tempo de execução, gravação no banco e leitura pra uso — reforçando POO conforme já mandatado no vault ([[Modelagem de Objeto e Encapsulamento]]). Aplicado inteiro em `integracao_mercado_livre/servicos/buscar_comissao_real_ml.py` (o Orquestrador) — a camada Contexto/Facade (`api_mercado_livre/comissao_real_ml.py`, Peça 4 da reforma estrutural, seção "Camadas do Cliente Mercado Livre" no vault) não foi tocada.
+
+**4 frentes aplicadas, cada uma validada com dado real antes de entrar no diff**:
+
+1. **Cache cross-produto pra `/listing_prices`**, por `(price, category_id, listing_type_id)` — os 3 únicos parâmetros que o endpoint recebe, não por MLB (o cache antigo de `/items`, por MLB, continua separado). Medido via log real, sem nenhuma chamada nova: 3.462 chamadas, 1.460 combinações únicas, **57,8% evitável**. Estabilidade validada ao vivo: as 5 combinações mais repetidas do log, rechamadas 3× cada direto na API — 5/5 estáveis, 0 divergência. Mesmo padrão já usado pro cache do frete (Frente A, seção 20).
+2. **Paralelismo via `ThreadPoolExecutor`** — throughput de `/listing_prices` sob carga validado isoladamente (`scripts_exploracao_ML/teste_paralelismo_listing_prices.py`, níveis 5/10/20/30/50 threads, 300 chamadas por nível): satura em **~20 threads simultâneas (~19,5 req/s)**, 0 erro real, 0 warning de 429 em qualquer nível. Mesmo teto já encontrado independentemente pro frete (Frente A, seção 23) — sinal de que é propriedade da conta/conexão, não do endpoint específico. Aplicado com a mesma correção de `threading.local()` já usada em `calcular_grade_precificacao_ml.py` (29/09/2026, paralelismo por produto): `empresa_ativa` lida 1× na thread principal e repassada — cada worker chama `definir_empresa_ativa()` como 1ª linha, senão o router de banco explode com `EmpresaNaoDefinidaError`.
+3. **Escrita em banco via `bulk_update()`** — 1 chamada por grupo de 20 variações (`TAMANHO_GRUPO_EXIBICAO`, batch_size=`BATCH_SIZE_PADRAO`=100), em vez de `variacao.save()` individual por MLB. Trade-off consciente de resiliência, registrado explicitamente com Matheus antes de aplicar: antes, um crash no meio da execução perdia no máximo a variação em andamento; agora perde, no pior caso, o grupo inteiro em andamento (até 20 variações) — grupos já concluídos continuam gravados normalmente.
+4. **Retorno trocado de dict solto pra `@dataclass`** (`ResultadoComissaoVariacao` por variação, `RelatorioComissaoReal` agregado) — aplicação direta da pendência 3 já registrada em [[Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada]] ("trocar os dicts soltos de retorno... por `@dataclass`"), mesmo padrão de `RelatorioDeSincronizacao` (`integracao_sysemp/servicos/orquestrador.py`). Aplicada aqui primeiro, isolada, por ser o domínio em otimização agora — os outros 5 domínios migrados (frete, mlbs, detalhes, sku completo, categorias) continuam com dict solto, sem mudança.
+
+**Validação incremental com dado real, antes do universal** (mesma disciplina já usada nesta frente inteira — nunca confiar sem medir):
+- 1 MLB isolado (`--mlb`): sucesso, 11%/R$49,17, gravação em banco conferida direto via shell.
+- 1 produto com 20 variações (`--produto F7908050719121.001`): 20/20 sucesso, 0 erro, 2,4s — **18/20 chamadas de `/listing_prices` economizadas pelo cache** (só 2 combinações reais distintas: 14%/R$67,59 × 2 MLBs Premium, 11%/R$49,17 × 18 MLBs Clássico — bate exato com a expectativa). `bulk_update` confirmado gravando de verdade: `Produto.comissao_media_classico/premium` recalculados em 11,00/14,00, lidos direto do banco, batendo exato com os valores da rodada.
+- Rodada universal (Magazine, todas as variações relevantes pra precificação — 3.447 no total) iniciada em seguida, em andamento no momento deste registro.
+
+**Achado em aberto, NÃO resolvido, deliberadamente FORA deste diff**: CPU sustentado em **~98–100%** durante toda a execução paralela — observado tanto no teste isolado (`teste_paralelismo_listing_prices.py`) quanto na rodada real de produção (prints do Gerenciador de Tarefas, AMD Ryzen 5 5600GT, 12 processadores lógicos, gráfico achatado no topo por período sustentado, não pico passageiro). Hipótese formada, ainda não confirmada: `chamar_api()` (`api_mercado_livre/core/estrutura_api/cliente_api.py`) usa a função solta `requests.request()` — sem `Session`/pool de conexão — criando 1 conexão TCP+TLS nova do zero a cada chamada; handshake TLS é trabalho real de CPU (troca de chave assimétrica), causa plausível tanto do teto de ~20 threads quanto do CPU alto, independente de qualquer limite do lado do Mercado Livre. Script de teste isolado já criado e commitado no repo (`scripts_exploracao_ML/ativar_pool_conexao.py`) — patch de runtime que troca `requests.request()` por uma `Session` persistente com `HTTPAdapter(pool_connections, pool_maxsize)`, revertível, sem alterar nenhum arquivo real — mas ainda **não executado/comparado lado a lado** (baseline vs pool). Se confirmado, o fix é em `chamar_api()`, transversal aos 6 domínios migrados (frete, mlbs, detalhes, sku completo, comissão real, categorias), não só comissão.
+
+## 15. Confirmado — Teto de Paralelismo Era Autoimposto (Falta de Pool de Conexão), Não Limite do ML (29/09/2026, 10:51)
+
+**Contexto**: a seção 14 (29/09, 10:38) formou a hipótese, sem confirmar, de que o teto de ~20 threads/~19,5 req/s (e o CPU sustentado ~98–100%) vinha de `chamar_api()` usar `requests.request()` solto — sem `Session`/pool de conexão, criando 1 conexão TCP+TLS nova a cada chamada. Confirmado com dado real 13 minutos depois.
+
+**Teste comparativo**: mesmo script já validado (`scripts_exploracao_ML/teste_paralelismo_listing_prices.py`, mesma combinação estável, mesmos 5 níveis de threads, 300 chamadas por nível) — rodado 2×, uma vez como está hoje em produção (`chamar_api()` sem alteração) e outra vez com o patch isolado `ativar_pool_conexao.py` ativado (`--pool`: `Session` persistente + `HTTPAdapter(pool_connections, pool_maxsize)`, nunca tocou nenhum arquivo real):
+
+| Threads | Sem pool | Com pool | Ganho |
+|---|---|---|---|
+| 5 | 10,8 req/s | 28,1 req/s | 2,6x |
+| 10 | 16,5 req/s | 54,1 req/s | 3,3x |
+| 20 | 19,2 req/s | 107,0 req/s | 5,6x |
+| 30 | 19,5 req/s | 131,9 req/s | 6,8x |
+| 50 | 19,1 req/s | **154,7 req/s** | **8,1x** |
+
+Sem pool, satura claramente em ~19–19,5 req/s a partir de 20 threads — mesmo teto já visto em todos os testes anteriores desta frente e no frete (Frente A, seção 23). Com pool, **não saturou em nenhum dos 5 níveis testados** — throughput ainda subindo de 30→50 threads. O teto real com pool é maior que 154,7 req/s; onde satura de fato não foi medido.
+
+**CPU** (Gerenciador de Tarefas, prints de Matheus em ambos os cenários): pico de 62% durante a rodada com pool, contra ~98–100% sustentado sem pool — confirma a segunda metade da hipótese, não só o throughput.
+
+**0 warning de 429 e 0 erro em ambos os cenários, em todos os níveis** — reforça que o teto nunca foi rate-limit do lado do Mercado Livre.
+
+**Conclusão**: o teto de ~20 threads/~19,5 req/s encontrado em todos os testes de paralelismo desta frente — e também no frete, Frente A seção 23 — era **autoimposto**, causado pela falta de reuso de conexão em `chamar_api()`, não por limite da API do Mercado Livre. O handshake TLS repetido (troca de chave assimétrica a cada chamada) explica tanto o CPU alto observado quanto o teto de throughput.
+
+**Aplicado e validado em produção real no mesmo dia (29/09/2026, 11:06)**: `chamar_api()` (`api_mercado_livre/core/estrutura_api/cliente_api.py`) passou a usar 1 `requests.Session()` módulo-level, com `HTTPAdapter(pool_connections=10, pool_maxsize=50)`, em vez de `requests.request()` solto — as 2 únicas chamadas HTTP do arquivo (principal e retry de 206) trocadas pra `_sessao.request(...)`. `Session` é segura pra uso concorrente entre threads (pool do `urllib3` cuida do próprio lock) — 1 só, reaproveitada por todo mundo, é suficiente. Mudança na camada de Transporte compartilhada pelos 6 domínios migrados — nenhum call site precisou mudar (frete, mlbs, detalhes, sku completo, comissão real, categorias se beneficiam automaticamente).
+
+Rodada universal (Magazine) repetida com o fix já no arquivo real, mesmo escopo das 2 rodadas anteriores:
+
+| Rodada | Tempo | Multiplicador acumulado |
+|---|---|---|
+| Original (25/09, sem nenhuma otimização) | 2.544,5s (~42,4min) | — |
+| Cache + paralelismo + bulk_update (29/09, seção 14, sem pool) | 328,7s | 7,7x |
+| + pool de conexão em `chamar_api()` (29/09, 11:06) | **79,3s** | **32,1x** |
+
+Resultado idêntico em tudo que importa nas 3 rodadas: 3.440/3.447 sucesso, os mesmos 7 erros (mesmos MLBs órfãos já catalogados na seção 10), mesma economia de cache (109 `/items` + 1.996 `/listing_prices`), 903 produtos/220 categorias recalculados — o pool só tirou tempo e CPU do meio, não mudou nenhum resultado. CPU no Gerenciador de Tarefas ficou majoritariamente abaixo de 20% durante a rodada inteira (1 pico isolado à parte), contra ~98–100% sustentado antes do fix.
+
+De 42 minutos pra 79 segundos, só com as otimizações de coleta — antes de qualquer decisão sobre usar a Comissão Real na fórmula (seção 13, ainda em aberto).
+
 ## Pendências / próximos passos
 
 - **Decisão de arquitetura — a única pendência real que falta (achado 25/09, seção 13).** 3 caminhos técnicos mapeados (chave de cache / bypass seletivo de cache / correção pós-goal-seek), nenhum escolhido — depende de decisão de Matheus, não é uma questão técnica. Ver seção 13 pro detalhe de cada opção e o porquê do conflito com o cache de assinatura.
 - **7 MLBs órfãos na `GradePrecificacaoML` (achado 25/09, seção 10)** — existem na Grade local mas devolvem 404 na API do ML (não pausados/encerrados, removidos de verdade). Lista completa na seção 10. Não decidido se precisa de limpeza automática da Grade ou é caso pontual.
 - **Persistir `categoria_id` no pipeline regular de importação (achado 25/09, seção 10).** `importar_anuncios_ml.py` não grava esse campo — o backfill que levou 98,3% da base a ter categoria foi pontual, fora do pipeline. Sem correção permanente ali, todo MLB novo importado nasce sem categoria de novo, exigindo repetir o backfill manualmente.
 - ~~Onde as médias aparecem na tela~~ — **feito (25/09, seções 11 e 12).** Comissão Média da Categoria na tela de Árvore de Categorias, Comissão Real por MLB + Comissão Média do Produto no modal de Auditoria ML. As 3 camadas de exibição (seção 9) implementadas e validadas com dado real.
+- ~~Validar a hipótese de reuso de conexão TCP/TLS em `chamar_api()`~~ — **confirmado (29/09, 10:51, seção 15).** Teste comparativo real: throughput 8,1x maior em 50 threads (19,1 → 154,7 req/s, sem saturar), CPU caindo de ~98–100% sustentado pra pico de 62%. O teto de ~20 threads/~19,5 req/s era autoimposto, não limite do lado do Mercado Livre.
+- ~~Aplicar o pool de conexão dentro de `chamar_api()` de verdade~~ — **feito e validado em produção (29/09, 11:06, seção 15).** Rodada universal Magazine: 328,7s → 79,3s (4,1x só com o pool; 32,1x acumulado desde a rodada original de 25/09). Mesmo resultado/erros/cache das rodadas anteriores — sem regressão.
+- **Repetir a rodada universal pra Samvale** com o pipeline já totalmente otimizado (cache + paralelismo + bulk_update + pool) — só rodado em Magazine até aqui.
+- **Estender otimização (cache/paralelismo/bulk_update onde aplicável) pros outros domínios migrados** — decisão de Matheus (29/09): "por etapas", começando por `buscar_mlbs` (168 varridas independentes entre si, candidato natural a paralelismo — já mapeado, ainda não iniciado), depois os demais (detalhes, sku completo, categorias, frete) em ordem a definir. O pool de `chamar_api()` já beneficia todos automaticamente; falta o paralelismo/cache específico de cada um.
 - **Mesmo exercício conceitual ainda não feito pro Frete Real** — "o que é o dado + o que o usuário quer fazer com ele", que gerou a seção 9 desta nota pra Comissão, ainda não foi repetido pro Frete Real (registrado em 25/09, junto com a seção 9).
 - **Ampliar a amostra e/ou testar a conta SV** — 30 candidatos foi só a 1ª bateria (conta MB). Uma amostra maior, e testar SV também, daria mais confiança no tamanho real do gap antes de qualquer decisão.
 - **Investigar se a divergência é mesmo por categoria** — a seção 7 observou que não é um corte limpo por faixa de preço, mas não isolou `category_id` como causa confirmada. A Comissão Média da Categoria (seção 9), quando implementada, passa a servir esse propósito continuamente — mas a investigação ad-hoc em si (logar `category_id` por candidato num script) não foi feita.
