@@ -3,7 +3,7 @@ tipo: checkpoint
 dominio: python
 status: em andamento
 criado: 23/09/2026
-atualizado_em: 29/09/2026 11:06
+atualizado_em: 29/09/2026 12:25
 relacionado: [Checkpoint - Desenho da Frente A (Resolver o Frete Real na Fórmula de Precificação), Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada, Modelagem de Objeto e Encapsulamento]
 ---
 
@@ -262,6 +262,54 @@ Resultado idêntico em tudo que importa nas 3 rodadas: 3.440/3.447 sucesso, os m
 
 De 42 minutos pra 79 segundos, só com as otimizações de coleta — antes de qualquer decisão sobre usar a Comissão Real na fórmula (seção 13, ainda em aberto).
 
+## 16. Etapa 2 — `buscar_mlbs` Otimizado e Convertido pra POO (Enum + Dataclass + Paralelismo), Validado em Produção nas 2 Contas (29/09/2026, 12:12)
+
+**Contexto**: primeiro dos 5 domínios restantes (mlbs, detalhes, sku completo, categorias, frete) a receber a extensão da otimização, seguindo a decisão de "ir por etapas" já registrada nas Pendências — `buscar_mlbs` escolhido por ser "168 varridas independentes entre si", candidato natural a paralelismo. Já parte com o pool de conexão de `chamar_api()` (seção 15) se beneficiando automaticamente, por ser mudança transversal na camada de Transporte.
+
+**Pedido explícito de Matheus, além do paralelismo**: converter o retorno em `@dataclass` e analisar aplicação de POO corretamente no arquivo — não só otimização de performance.
+
+**Decisão de camada (diferente de como foi feito em Comissão)**: em `buscar_comissao_real_ml.py`, todas as dataclasses foram pro Orquestrador porque o Contexto (`ComissaoRealML`) só trafega escalares soltos. Aqui não — `Varrida`/`MlbEncontrado` (o que o endpoint aceita como entrada e o formato da resposta) moram no **Contexto** (`api_mercado_livre/mlbs_ml.py`), porque esse é exatamente o conhecimento que a regra do vault ("Camadas do Cliente Mercado Livre") atribui ao Contexto; `ResultadoVarrida`/`RelatorioBuscaMlbs` (contagem/tempo de 1 execução) ficam no **Orquestrador** (`buscar_mlbs.py`), que é quem sabe de execução, não de endpoint.
+
+**Aplicado**:
+1. **4 Enums novos** (`StatusAnuncio`, `TipoLogistica`, `TipoAnuncioML`, `CatalogoListing`, todos `str, Enum` — serializam nativos no `json.dump()`), substituindo os 4 `_LIST` soltos (`STATUS_LIST`/`LOGISTICA_LIST`/`TIPO_LIST`/`CATALOGO_LIST`), mesma ordem original preservada em cada um.
+2. **`Varrida`** (`@dataclass(frozen=True)`, imutável — representa 1 consulta já definida) e **`MlbEncontrado`** no Contexto.
+3. **Paralelismo via `ThreadPoolExecutor(max_workers=20)`** dentro de cada grupo de status (até 28 varridas concorrentes por grupo, 6 grupos sequenciais) — mesma correção de `threading.local()` já usada em comissão/grade (`empresa_ativa` lida 1× na thread principal, repassada, cada worker chama `definir_empresa_ativa()` como 1ª linha). `MAX_WORKERS_BUSCA_MLBS=20` extrapolado do teto já confirmado pro frete/comissão — não tinha teste isolado próprio pra este endpoint específico antes desta rodada.
+4. **`rich.Progress` mantido 100% intacto** — Matheus confirmou explicitamente que o formato de exibição já estava correto e funcional, então não é o mesmo tipo de correção de redraw já aplicada em frete/comissão. Única mudança: todas as tarefas de um grupo agora "iniciam" juntas (em vez de 1 de cada vez), refletindo a concorrência real — toda mutação do `Progress` continua só na thread principal, nunca dentro do worker.
+5. **Retorno de `buscar_mlbs()` trocado de dict solto pra `RelatorioBuscaMlbs`** (`@dataclass`) — mesmo padrão de `RelatorioComissaoReal`. `lista_mlbs.json` preservado **byte a byte** no formato (conversão manual pra dict antes do `json.dump()`) — esse JSON é lido direto do disco por `buscar_detalhes.py`, qualquer deriva de formato quebraria esse outro script silenciosamente.
+
+**Validado em produção, nas 2 contas, no mesmo dia**:
+
+| Empresa | MLBs encontrados | Varridas com resultado | Varridas com erro | Tempo total |
+|---|---|---|---|---|
+| Magazine | 5.565 | 168/168 processadas, 33 com resultado | 0 | 18,4s |
+| Samvale | 3.546 | 168/168 processadas, 25 com resultado | 0 | 16,6s |
+
+**0 erro, 0 warning de 429 em nenhuma das 2 rodadas** — primeira confirmação com dado real de que o teto de 20 threads simultâneas (antes só medido pra `/listing_prices`, frete e comissão) também é seguro pro endpoint `GET /users/{user_id}/items/search` (scan). Não havia baseline "antes" cronometrado isoladamente pra este domínio especificamente (paralelismo aplicado direto, sem versão sequencial pra comparar tempo) — mas 18,4s/16,6s pra 168 varridas está plenamente consistente com o ganho já visto nos outros domínios depois do pool de conexão.
+
+**Ainda não testado**: se `buscar_detalhes.py` (que lê `lista_mlbs.json` direto do disco) continua funcionando sem erro depois desta mudança — o formato foi preservado por design/conversão manual, mas a confirmação real só vem rodando esse outro comando em seguida.
+
+## 17. Etapa 3 — `buscar_detalhes` Otimizado (Paralelismo + Dataclass no Orquestrador, Contexto Intocado), Validado com Comparação Controlada (29/09/2026, 12:25)
+
+**Contexto**: 2º domínio da extensão "por etapas" (depois de `buscar_mlbs`, seção 16). Decisões de escopo combinadas com Matheus ANTES do diff (Idealizar/Planejar explícito, confirmado por "ok gere"):
+- **Sem Enum neste domínio** — os IDs de atributo usados na extração (`SELLER_SKU`, `DIMENSIONS`, `SELLER_PACKAGE_HEIGHT` etc.) aparecem 1 vez cada, não são um conjunto combinatório repetido como os 4 `_LIST` de `buscar_mlbs`. Enum sem repetição pra eliminar seria só estética.
+- **O dict de ~50 campos por registro (extração de anúncio/variação, `_extrair_campos_pai`/`_processar_item`) CONTINUA como dict solto**, decisão consciente — é gravado direto em `detalhes_mlbs.json`, lido por pelo menos 5 arquivos reais downstream (`importar_anuncios_ml.py`, `importar_dimensoes_declaradas_ml.py`, `classificacao_catalogo.py` — que já documenta no próprio docstring "registro é um dict cru vindo de detalhes_mlbs.json" —, `variacao.py`, `gerar_relatorio_frete_erp_vs_ml.py`). A pendência 3 do vault ([[Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada]]) fala em trocar os dicts soltos de retorno **dos Orquestradores**, não qualquer dict do sistema — esse é dado bruto 1:1 com o JSON de saída, sem lógica derivada.
+- **`api_mercado_livre/detalhes_ml.py` (Contexto) não precisou de NENHUMA mudança** — a paralelização acontece inteiramente no Orquestrador, chamando o método já existente de dentro de várias threads; o Contexto já era uma função pura sem estado, igual ao Facade em `buscar_mlbs`.
+
+**Aplicado em `buscar_detalhes.py` (Orquestrador)**: `ThreadPoolExecutor(max_workers=20)` dentro de cada bloco de exibição (até 20 lotes concorrentes), mesma correção de `threading.local()`; `ResultadoLote`/`RelatorioBuscaDetalhes` (`@dataclass`) no lugar do dict solto/tupla anterior — mesmo padrão de `ResultadoVarrida`/`RelatorioBuscaMlbs`; `rich.Progress` preservado 100%; `detalhes_mlbs.json`/`detalhes_progresso.json` preservados byte a byte no formato. Trade-off de resiliência já documentado antes de rodar: progresso continua salvo a cada lote concluído, mas sob paralelismo vários lotes terminam quase juntos — um crash no pior caso perde mais de 1 lote em andamento (sem corrupção, só refaz na retomada).
+
+**Achado durante o teste — retomada não valida se o progresso corresponde à `lista_mlbs.json` atual (gap pré-existente, NÃO causado por este diff)**: a 1ª tentativa pós-diff no Magazine resumiu de um `detalhes_progresso.json` antigo (5.548/5.565 "já processados"), salvo contra uma versão anterior de `lista_mlbs.json` — que tinha sido regerada do zero durante os próprios testes da seção 16, no mesmo dia. Como os dois arquivos deixaram de ser o mesmo universo de MLBs, o contador final passou do total (`5567/5565 processados` — união de 2 conjuntos que não são mais subconjunto um do outro, sem corrupção de dado), e o `detalhes_mlbs.json` resultante ficou com registros herdados de um progresso desalinhado. Corrigido apagando `detalhes_progresso.json` manualmente e rodando limpo. A lógica de retomada NUNCA validou (nem antes deste diff — comportamento pré-existente, só ficou visível agora por regerar `lista_mlbs.json` no meio de uma sequência de testes) se o progresso salvo corresponde à lista atual — pendência nova, ver abaixo.
+
+**Validação em produção — comparação controlada real (mesma empresa, sequencial vs. paralelo)**:
+
+| Rodada (Samvale) | MLBs | Lotes | Registros | Erro | Tempo | Lotes/s |
+|---|---|---|---|---|---|---|
+| Pré-diff (sequencial) | 3.546 | 178 | 3.678 | 0 | 73,2s | ~2,43 |
+| Pós-diff (paralelo, 20 threads) | 3.546 | 178 | 3.678 | 0 | **35,8s** | ~4,97 |
+
+**~2,04x mais rápido** — mesma empresa, mesmos MLBs, mesmos registros, 0 erro nas duas rodadas, comparação limpa (não cruzada entre empresas, diferente da 1ª tentativa de comparação). Ganho bem menor que os 5-8x de `buscar_mlbs`/comissão — explicado, não é regressão: os lotes multiget já eram rápidos individualmente (~0,5–1,3s, o pool de conexão da Etapa 1 já beneficiava), sobrando menos "tempo morto" pro paralelismo recuperar. Hipótese aventada (não confirmada, nem descartada com rigor) de que o checkpoint em disco a cada lote (JSON crescente, reescrito por inteiro toda vez) poderia competir com o ganho — mas o resultado de 2,04x sugere que, se existe, não é o fator dominante.
+
+Magazine também rodado limpo pós-diff (depois de apagar o progresso desalinhado): 5.565/5.565 MLBs, 5.797 registros, 0 erro, 81,0s — sem baseline sequencial próprio medido pra essa empresa (só o cruzamento com Samvale, descartado por ser menos confiável — bases diferentes).
+
 ## Pendências / próximos passos
 
 - **Decisão de arquitetura — a única pendência real que falta (achado 25/09, seção 13).** 3 caminhos técnicos mapeados (chave de cache / bypass seletivo de cache / correção pós-goal-seek), nenhum escolhido — depende de decisão de Matheus, não é uma questão técnica. Ver seção 13 pro detalhe de cada opção e o porquê do conflito com o cache de assinatura.
@@ -271,7 +319,9 @@ De 42 minutos pra 79 segundos, só com as otimizações de coleta — antes de q
 - ~~Validar a hipótese de reuso de conexão TCP/TLS em `chamar_api()`~~ — **confirmado (29/09, 10:51, seção 15).** Teste comparativo real: throughput 8,1x maior em 50 threads (19,1 → 154,7 req/s, sem saturar), CPU caindo de ~98–100% sustentado pra pico de 62%. O teto de ~20 threads/~19,5 req/s era autoimposto, não limite do lado do Mercado Livre.
 - ~~Aplicar o pool de conexão dentro de `chamar_api()` de verdade~~ — **feito e validado em produção (29/09, 11:06, seção 15).** Rodada universal Magazine: 328,7s → 79,3s (4,1x só com o pool; 32,1x acumulado desde a rodada original de 25/09). Mesmo resultado/erros/cache das rodadas anteriores — sem regressão.
 - **Repetir a rodada universal pra Samvale** com o pipeline já totalmente otimizado (cache + paralelismo + bulk_update + pool) — só rodado em Magazine até aqui.
-- **Estender otimização (cache/paralelismo/bulk_update onde aplicável) pros outros domínios migrados** — decisão de Matheus (29/09): "por etapas", começando por `buscar_mlbs` (168 varridas independentes entre si, candidato natural a paralelismo — já mapeado, ainda não iniciado), depois os demais (detalhes, sku completo, categorias, frete) em ordem a definir. O pool de `chamar_api()` já beneficia todos automaticamente; falta o paralelismo/cache específico de cada um.
+- ~~Estender otimização pro `buscar_mlbs`~~ — **feito e validado em produção nas 2 contas (29/09, 12:12, seção 16).** Enum (4 novos) + dataclass (`Varrida`/`MlbEncontrado` no Contexto, `ResultadoVarrida`/`RelatorioBuscaMlbs` no Orquestrador) + `ThreadPoolExecutor(20)` por grupo de status, `rich.Progress` preservado intacto. Magazine: 5.565 MLBs/168 varridas/0 erro/18,4s. Samvale: 3.546 MLBs/168 varridas/0 erro/16,6s.
+- ~~Estender otimização pro `buscar_detalhes`~~ — **feito e validado com comparação controlada (29/09, 12:25, seção 17).** `ThreadPoolExecutor(20)` no Orquestrador (Contexto `detalhes_ml.py` intocado), dataclass (`ResultadoLote`/`RelatorioBuscaDetalhes`) — dict de ~50 campos por registro mantido de propósito (5 arquivos downstream dependem das chaves). Samvale, mesma base pré/pós: 73,2s → 35,8s (~2,04x, 0 erro). Magazine: 81,0s (5.565 MLBs, 0 erro, sem baseline próprio). **Falta ainda**: sku completo, categorias, frete — ordem a definir.
+- **Nova pendência (achado 29/09, seção 17): retomada de `buscar_detalhes.py` (possivelmente outros domínios retomáveis) não valida se o progresso salvo (`detalhes_progresso.json`) corresponde à `lista_mlbs.json` ATUAL.** Gap pré-existente (não introduzido por este diff), só ficou visível por regerar `lista_mlbs.json` no meio de uma sequência de testes — progresso "órfão" pode inflar o contador de processados e misturar registros de um universo de MLBs desatualizado no JSON final. Não corrigido — decisão de se/como validar (ex: gravar um hash/timestamp do `lista_mlbs.json` de origem junto no progresso, invalidando se não bater) fica em aberto.
 - **Mesmo exercício conceitual ainda não feito pro Frete Real** — "o que é o dado + o que o usuário quer fazer com ele", que gerou a seção 9 desta nota pra Comissão, ainda não foi repetido pro Frete Real (registrado em 25/09, junto com a seção 9).
 - **Ampliar a amostra e/ou testar a conta SV** — 30 candidatos foi só a 1ª bateria (conta MB). Uma amostra maior, e testar SV também, daria mais confiança no tamanho real do gap antes de qualquer decisão.
 - **Investigar se a divergência é mesmo por categoria** — a seção 7 observou que não é um corte limpo por faixa de preço, mas não isolou `category_id` como causa confirmada. A Comissão Média da Categoria (seção 9), quando implementada, passa a servir esse propósito continuamente — mas a investigação ad-hoc em si (logar `category_id` por candidato num script) não foi feita.

@@ -8,6 +8,13 @@
   "collapse-color-groups": false,
   "colorGroups": [
     {
+      "query": "path:\"00_Nucleo_Comportamento_Claude\"",
+      "color": {
+        "a": 1,
+        "rgb": 16156987
+      }
+    },
+    {
       "query": "path:\"01_Nucleo_Geral_Vault\"",
       "color": {
         "a": 1,
@@ -22,24 +29,10 @@
       }
     },
     {
-      "query": "path:\"00_Nucleo_Comportamento_Claude\"",
+      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
       "color": {
         "a": 1,
-        "rgb": 16156987
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp\"",
-      "color": {
-        "a": 1,
-        "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
+        "rgb": 6322314
       }
     },
     {
@@ -71,10 +64,17 @@
       }
     },
     {
-      "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
+      "query": "path:\"04_Integracao_Sysemp\"",
       "color": {
         "a": 1,
-        "rgb": 6322314
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp/Regras\"",
+      "color": {
+        "a": 1,
+        "rgb": 10424889
       }
     },
     {
@@ -85,10 +85,10 @@
       }
     },
     {
-      "query": "path:\"Bases\"",
+      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
       "color": {
         "a": 1,
-        "rgb": 7041664
+        "rgb": 15485081
       }
     },
     {
@@ -99,10 +99,10 @@
       }
     },
     {
-      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
+      "query": "path:\"Bases\"",
       "color": {
         "a": 1,
-        "rgb": 15485081
+        "rgb": 7041664
       }
     },
     {
@@ -126,20 +126,20 @@
   "scale": 0.3823010968769544,
   "close": true,
   "cf-managed-queries": [
+    "path:\"00_Nucleo_Comportamento_Claude\"",
     "path:\"01_Nucleo_Geral_Vault\"",
     "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-    "path:\"00_Nucleo_Comportamento_Claude\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
+    "path:\"02_Nucleo_Engenharia_Repositorio\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
-    "path:\"02_Nucleo_Engenharia_Repositorio\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"Bases\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"07_Sistema_Relatorio_Devolucoes\"",
+    "path:\"Bases\"",
     "path:\"Claude outputs\""
   ]
 }
