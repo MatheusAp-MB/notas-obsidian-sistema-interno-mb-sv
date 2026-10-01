@@ -1,9 +1,9 @@
 ---
 tipo: checkpoint
 dominio: 
-status: em_andamento
+status: concluida
 criado: 27/09/2026
-atualizado_em: 27/09/2026 21:25
+atualizado_em: 27/09/2026 23:00
 relacionado: [Guia de Setup - Do Zero ao Primeiro Preco Calculado, Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada, Importacao de Frete ML Quebra com bulk_update Sem Primary Key Quando a Planilha Tem Chave Duplicada, Sistema Espelha Dado Bruto do ERP Mesmo Quando E Fisicamente Absurdo, Produto Nasce Exclusivamente do ERP, Redesenho do Popular Banco - Fontes de Dados e Escopo]
 ---
 
@@ -44,9 +44,37 @@ Rodar `sincronizar_categorias_ml` depois não corrige sozinho os registros já g
 
 Tempo bate com o esperado — este endpoint não tem multiget (`GET /users/{user_id}/shipping_options/free`), é 1 chamada por MLB, sequencial, mesmo perfil de performance documentado antes da reforma.
 
-## Em andamento agora (21:25)
+## Comissão Real (`buscar_comissao_real_ml`) — bug de arquivo corrompido, validado nas 2 empresas (23:00)
 
-`buscar_comissao_real_ml --empresa=magazine` / `--empresa=samvale` — próxima peça a validar (2 chamadas por MLB: `/items/{mlb}` + `/sites/MLB/listing_prices`, com cache de `/items` por execução). Última peça da reforma OOP ainda sem validação via Orquestrador completo neste rebuild.
+Última peça da reforma OOP a validar via Orquestrador completo neste rebuild (2 chamadas por MLB: `/items/{mlb}` + `/sites/MLB/listing_prices`, com cache de `/items` por execução).
+
+### Bug encontrado — arquivo local corrompido (não é regressão da reforma)
+
+Ao rodar pela 1ª vez, `IndentationError: unexpected indent` na linha 34 do `integracao_mercado_livre/servicos/buscar_comissao_real_ml.py` local do Matheus. Diagnóstico via `git fetch origin` (só fetch, sem merge/checkout — regra de sincronização do repo) + `git show origin/dev:<path>` pra inspecionar o conteúdo exato já commitado/pushado por ele: um colar de diff tinha colapsado numa única linha o fim do bloco de comentário original com o fim da assinatura de `buscar_comissao_real_ml(...)`, apagando no meio o resto do comentário, todos os imports, as constantes do módulo (`console`, `RAIZ_APP`, `NOME_PASTA_POR_EMPRESA`, `TAMANHO_GRUPO_EXIBICAO`) e as funções `_pasta_empresa`, `_caminho_pasta_logs`, `_montar_queryset` e `buscar_comissao_real_variacao` inteira. O corpo da função principal (linhas 34-129) estava intacto e já esperava exatamente essas peças. Reconstrução cruzada com `api_mercado_livre/comissao_real_ml.py` (Contexto) e o Facade (`api_mercado_livre/__init__.py`) já corretos em `origin/dev`, entregue como Localize/Substitua pro Matheus aplicar manualmente. Não é bug da reforma OOP em si — foi corrupção de cópia local, já corrigida e validada (ver resultado abaixo).
+
+### Magazine — validado (22:31)
+
+- **Com sucesso**: 3386/3388 (99,94%)
+- **Com erro**: 2/3388 — os mesmos 2 MLBs já 404 no frete real (`MLB3807429869`, `MLB5302943576`) — confirma que são anúncios de fato excluídos do ML, não falha do código.
+- **Tempo total**: 2803,4s (~46,7min)
+- **Cache de `/items` economizou**: 104 chamadas
+- **Comissão Média recalculada**: 903 produto(s) · 218 categoria(s)
+
+### Samvale — validado (23:00)
+
+- **Com sucesso**: 2155/2155 (100%)
+- **Com erro**: 0
+- **Tempo total**: 1723,6s (~28,7min)
+- **Cache de `/items` economizou**: 6 chamadas
+- **Comissão Média recalculada**: 638 produto(s) · 125 categoria(s)
+
+## Fechamento — projeto em pausa (23:00)
+
+Matheus vai pausar este projeto por tempo indeterminado a partir daqui. Estado em que fica, pra retomada futura:
+
+- **Rebuild completo validado de ponta a ponta nas 2 empresas** (MB e SV): `migrate` → `iniciar_banco` → `sincronizar_categorias_ml` → `popular_banco` → `buscar_frete_real_ml` → `buscar_comissao_real_ml`. Todas as 6 peças da reforma OOP do `api_mercado_livre`/`integracao_mercado_livre` (frete, mlbs, detalhes, dados_sku_completo, comissão real, categorias) estão migradas, testadas e agora também validadas via Orquestrador completo contra bancos recriados do zero — não só isoladamente.
+- **Único pendente conhecido, não bloqueante**: `buscar_dados_sku_completo --empresa=SAMVALE` não foi rodado nesta reconstrução (chamada real à API, ~1h30 de duração — decisão consciente do Matheus de não rodar agora por falta de tempo, não por bug). Enquanto não rodar, `popular_banco --empresa=samvale` continua pulando graciosamente as etapas QUALIDADE e COMPETIÇÃO (sem crash, só sem esses dados populados pra SV). Quando retomar: só rodar esse comando e, se quiser os dados já refletidos no banco, rodar `popular_banco --empresa=samvale` mais uma vez depois.
+- **Débito técnico registrado, sem ação**: ver observação abaixo sobre o Guia de Setup desatualizado (não mencionar `sincronizar_categorias_ml`/`buscar_frete_real_ml`/`buscar_comissao_real_ml`) — revisar quando o projeto for retomado.
 
 ## Observação — Guia de Setup pode estar desatualizado
 
