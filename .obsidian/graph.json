@@ -15,20 +15,6 @@
       }
     },
     {
-      "query": "path:\"01_Nucleo_Geral_Vault\"",
-      "color": {
-        "a": 1,
-        "rgb": 1357990
-      }
-    },
-    {
-      "query": "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-      "color": {
-        "a": 1,
-        "rgb": 1357989
-      }
-    },
-    {
       "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
       "color": {
         "a": 1,
@@ -61,6 +47,20 @@
       "color": {
         "a": 1,
         "rgb": 7877903
+      }
+    },
+    {
+      "query": "path:\"01_Nucleo_Geral_Vault\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357990
+      }
+    },
+    {
+      "query": "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357989
       }
     },
     {
@@ -127,13 +127,13 @@
   "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
-    "path:\"01_Nucleo_Geral_Vault\"",
-    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"02_Nucleo_Engenharia_Repositorio\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
+    "path:\"01_Nucleo_Geral_Vault\"",
+    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"04_Integracao_Sysemp\"",
     "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"05_Integracao_Mercado_Livre\"",

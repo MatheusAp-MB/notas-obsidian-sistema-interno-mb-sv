@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 27/09/2026 23:00
+atualizado_em: 01/10/2026 18:06
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -201,6 +201,16 @@ Contexto novo (aberto em 10/09/2026) — impostos de saída (ICMS, PIS/COFINS), 
 | [[Descoberta - Auditoria Fiscal de Impostos de Saida, Camadas A-D Planejadas]] | descoberta | em_andamento | 13/09/2026 | Matheus conferiu manualmente um produto e achou o ICMS de saída em branco sem nenhuma forma de saber o motivo (nem tela, nem log) — motivo real confirmado com dado do banco (NCM `84244100` rejeitado por divergência na UF AC, 42 EANs a 5,60% contra 2 a 8,80%). Revelou que o sistema calcula o motivo de toda rejeição e descarta, nunca persiste. Decidida camada de auditoria permanente em 4 partes (persistir rejeições / função de motivo reutilizável / mostrar na tela de produto / tela própria de Auditoria Fiscal), com garantias explícitas contra dado sujo (substituição total nas tabelas de rejeição, transação atômica, análise exaustiva de todas as UFs, 1 `timezone.now()` por rodada, tela nunca lê a planilha ao vivo). Mockup da tela de produto aprovado de primeira; mockup da tela de Auditoria Fiscal passou por 1 versão rejeitada por poluição visual antes da v2 aprovada (2 abas, ordenado por impacto). Mapa de execução em 7 etapas, 3 decisões em aberto antes de começar. |
 | [[Descoberta - Estrutura da Tela de Console de ICMS por NCM e Preencher Impostos de Saida]] | descoberta | confirmada | 13/09/2026 | Console dos 6 comandos (`importar_icms_por_ncm`, `importar_pis_cofins_por_ncm_cst`, `preencher_impostos_saida` × 2 empresas) redesenhado com Rich+pandas, documentado campo a campo; 3 bugs de renderização corrigidos e confirmados com rodadas reais. |
 | [[Duvida - Tabelas de Grupo Rejeitado do PIS-COFINS por NCM+CST Ainda Sem Validacao com Dado Real]] | duvida | aberta | 13/09/2026 | Tabelas novas de grupo rejeitado do PIS/COFINS (visão geral + detalhe por campo) sem validação real — 0 grupos rejeitados na rodada de 13/09; fica em aberto por decisão de Matheus, sem forçar dado de teste falso. |
+
+## Caracteristicas_ML
+
+Contexto novo (aberto em 01/10/2026) — leitura e, no futuro, correção das "Características principais" (atributos) dos anúncios do Mercado Livre via API. Fica em `03_Sistema_Interno/` porque usa o banco e o repositório do Sistema Interno V2.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Investigação da API de Atributos do Mercado Livre]] | checkpoint | em_andamento | 01/10/2026 | Bloco "Características principais" = grupo MAIN de `/categories/{id}/technical_specs/input`. Fase 1 só lê via API; Fase 2 corrigirá via API; escala acima de 4.000 anúncios. |
+| [[Checkpoint - Consolidação por SKU e Cobertura do ERP (01-10-2026)]] | checkpoint | em_andamento | 01/10/2026 | Ficha é do SKU, não da categoria. 3.993 MLBs elegíveis, 1.586 sem Produto no ERP (98,7% pausados); base 78% pausada. Fluxo por JSON depois superado. |
+| [[Checkpoint - Planilha Unica para a LLM e Primeira Rodada Completa da MB (01-10-2026)]] | checkpoint | em_andamento | 01/10/2026 | JSON abandonado; gerador monta Excel único por SKU. MB completa: 1.577 SKUs, 7.964 linhas, 24 s, 0 falhas. Marca do ERP é a fonte da verdade; escopo e regra de Modelo em aberto. |
 
 ## Relacionado
 

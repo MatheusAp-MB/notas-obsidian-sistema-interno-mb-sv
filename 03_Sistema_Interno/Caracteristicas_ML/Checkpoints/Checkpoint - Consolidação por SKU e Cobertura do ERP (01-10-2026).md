@@ -2,12 +2,15 @@
 tipo: checkpoint
 status: em andamento (fase Analisar)
 criado: 01/10/2026
-atualizado_em: 01/10/2026 16:20
+atualizado_em: 01/10/2026 18:06
 dominio: Sistema Interno V2 - Características/Atributos ML (novo)
 relacionado: ["[[Checkpoint - Investigação da API de Atributos do Mercado Livre]]"]
 ---
 
 # Checkpoint - Consolidação por SKU e Cobertura do ERP (01-10-2026)
+
+> [!warning] Parcialmente superado em 01/10/2026, 18:06
+> O fluxo por JSON por SKU (script `montar_contexto_llm_por_sku.py`, descrito abaixo) foi abandonado: a entrega passou a ser uma planilha Excel única, gerada por `gerar_planilha_llm_inventario.py`. A continuação do trabalho está em [[Checkpoint - Planilha Unica para a LLM e Primeira Rodada Completa da MB (01-10-2026)]]. As decisões de desenho (ficha por SKU, multi-categoria como estado normal, cada tamanho com SKU próprio) e a análise de cobertura do ERP e de status continuam valendo.
 
 ## Objetivo desta rodada
 
