@@ -1,6 +1,6 @@
 {
   "collapse-filter": true,
-  "search": "",
+  "search": "8000",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": true,
@@ -15,10 +15,38 @@
       }
     },
     {
+      "query": "path:\"01_Nucleo_Geral_Vault\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357990
+      }
+    },
+    {
+      "query": "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
+      "color": {
+        "a": 1,
+        "rgb": 1357989
+      }
+    },
+    {
       "query": "path:\"02_Nucleo_Engenharia_Repositorio\"",
       "color": {
         "a": 1,
         "rgb": 6322314
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp\"",
+      "color": {
+        "a": 1,
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp/Regras\"",
+      "color": {
+        "a": 1,
+        "rgb": 10424889
       }
     },
     {
@@ -50,45 +78,10 @@
       }
     },
     {
-      "query": "path:\"01_Nucleo_Geral_Vault\"",
-      "color": {
-        "a": 1,
-        "rgb": 1357990
-      }
-    },
-    {
-      "query": "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-      "color": {
-        "a": 1,
-        "rgb": 1357989
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp\"",
-      "color": {
-        "a": 1,
-        "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
-      }
-    },
-    {
       "query": "path:\"05_Integracao_Mercado_Livre\"",
       "color": {
         "a": 1,
         "rgb": 16498468
-      }
-    },
-    {
-      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
-      "color": {
-        "a": 1,
-        "rgb": 15485081
       }
     },
     {
@@ -99,17 +92,24 @@
       }
     },
     {
-      "query": "path:\"Bases\"",
-      "color": {
-        "a": 1,
-        "rgb": 7041664
-      }
-    },
-    {
       "query": "path:\"Claude outputs\"",
       "color": {
         "a": 1,
         "rgb": 13430271
+      }
+    },
+    {
+      "query": "path:\"06_Producao_de_Imagens_e_Videos\"",
+      "color": {
+        "a": 1,
+        "rgb": 15485081
+      }
+    },
+    {
+      "query": "path:\"Bases\"",
+      "color": {
+        "a": 1,
+        "rgb": 7041664
       }
     }
   ],
@@ -123,23 +123,23 @@
   "repelStrength": 15.1022619531356,
   "linkStrength": 1,
   "linkDistance": 179,
-  "scale": 0.3823010968769544,
+  "scale": 1.4769860980684852,
   "close": true,
   "cf-managed-queries": [
     "path:\"00_Nucleo_Comportamento_Claude\"",
+    "path:\"01_Nucleo_Geral_Vault\"",
+    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"02_Nucleo_Engenharia_Repositorio\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
-    "path:\"01_Nucleo_Geral_Vault\"",
-    "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"06_Producao_de_Imagens_e_Videos\"",
     "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"Bases\"",
-    "path:\"Claude outputs\""
+    "path:\"Claude outputs\"",
+    "path:\"06_Producao_de_Imagens_e_Videos\"",
+    "path:\"Bases\""
   ]
 }
