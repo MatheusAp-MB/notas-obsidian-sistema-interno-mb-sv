@@ -3,8 +3,8 @@ tipo: decisao
 dominio:
 status: ativa
 criado: 04/10/2026
-atualizado_em: 04/10/2026 00:13
-relacionado: [Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026), Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]
+atualizado_em: 04/10/2026 04:33
+relacionado: [Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026), Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026), Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]
 ---
 
 # Os 4 Problemas de Dados da Consultar Pedido — 3 São Manuais da Ana e o Tipo de Venda Vem do Envio de Ida
@@ -13,6 +13,9 @@ relacionado: [Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorga
 
 > [!info] ATIVA — decisão valendo; o tipo de venda já está implementado
 > O tipo de venda FULL/comum já é calculado e mostrado na tela (conferido no código em 04/10/2026, 00:13). Os 3 campos manuais já existem no modelo `Devolucao`; nenhum trabalho de API é necessário para eles, porque a decisão foi justamente **não** buscá-los na API.
+
+> [!warning] ACHADO DA VALIDAÇÃO EM LOTE (04/10/2026, 04:33) — 4 cadastros da MB com tipo de venda provavelmente errado
+> A tela sugere **FULL** para as devoluções MB de id 16 a 19 (pedidos 2000017987724282, 2000018157602904, 2000017930464724 e 2000018233922590), mas o cadastro diz **comum**. Os ids 20 e 21, criados depois, batem com a tela. Causa provável: antes da regra de 03/10 a tela não achava o tipo logístico do envio de ida e sugeria sempre "comum"; esses 4 cadastros teriam nascido nessa fase. **Não conferido**: a data de criação deles. Reforço: 2 dos 4 são do mesmo SKU da devolução de id 1, que está cadastrada como FULL. **Sem decisão** de como corrigir. Ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]].
 
 ## Contexto
 
@@ -56,6 +59,7 @@ Exemplo ilustrativo (valores inventados): um produto vendido por R$ 400,00 volta
 
 ## Relacionado
 
+- [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]
 - [[Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026)]]
 - [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]]
 - [[Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]]

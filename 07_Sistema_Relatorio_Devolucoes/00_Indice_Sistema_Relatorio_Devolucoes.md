@@ -3,7 +3,7 @@ tipo: regra
 dominio:
 status: ativa
 criado: 01/09/2026
-atualizado_em: 04/10/2026 00:13
+atualizado_em: 04/10/2026 06:16
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -31,7 +31,9 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 | [[Mockup de Melhorias em Mediações ML Aprovado para Testes — Painel Geral, Lista em Estilo Chat e Campo de Resposta com Anexo de Foto]] | decisao | em_andamento | 20/09/2026 | 6 melhorias da auditoria aprovadas em mockup (20/09 22:03) e depois implementadas. Em aberto: testar se ordenar por última mensagem esconde caso urgente-mas-parado. |
 | [[Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida]] | decisao | ativa | 04/10/2026 | Valor reembolsado, abertura da mediação e motivo da reclamação são manuais da Ana; o tipo de venda (FULL ou comum) vem do `logistic_type` do envio de ida, regra do Sistema Interno V2. |
 | [[Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]] | decisao | concluida | 04/10/2026 | Topo em 3 grupos (produto, venda, devolução), foto do anúncio e do cadastro lado a lado, copiar de 20 px e layout que reage à largura do cartão. |
-| [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]] | decisao | em_andamento | 04/10/2026 | Linha do tempo de 6 datas até o fim da mediação, com dias entre elas e aviso dos 7 dias; mediação aberta é manual. Falta validar 3 cenários reais. |
+| [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]] | decisao | em_andamento | 04/10/2026 | Linha do tempo até o fim da mediação, com dias entre as datas e aviso dos 7 dias; nasceu com 6 datas e passou a 7 com "Virou devolução"; mediação aberta é manual. Falta validar 3 cenários reais. |
+| [[Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna]] | decisao | implementada | 04/10/2026 | Chat da Consultar Pedido refeito: texto 100% original, logos por papel, miniaturas pelo proxy, grade de no máximo 5 fotos por linha, rolagem interna, abre no chat pela 1ª mensagem; acordeão com 3 camadas. |
+| [[Consultar Pedido em 3 Ondas Paralelas - De 6 Segundos Para 1 Segundo e Meio Sem Estourar a Cota Compartilhada do ML]] | decisao | implementada | 04/10/2026 | Busca em 3 ondas paralelas com pool de conexões: ~6,4 s para ~1,5 s no log real, sem 429 e com a cota do ML dividida com o Sistema Interno V2. Validada em lote nas 49 devoluções existentes: 0 erro, ~0,94 s por consulta. |
 
 ## Checkpoints
 
@@ -65,7 +67,8 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 | [[Validação da Documentação Oficial do Endpoint de Download de Anexos — post-purchase v1 Confirmado como Canônico e Contradição Interna Entre Versões EN e PT do Mercado Livre]] | checkpoint | concluido | 21/09/2026 | Endpoint `post-purchase/v1/claims/{id}/attachments/{file}/download` com Bearer confirmado como canônico em teste real e na doc oficial; as versões EN e PT da doc do ML se contradizem. |
 | [[Redesenho da Listagem de Devoluções — Grade de 5 Colunas com Badges e Anotações, Estendido às 5 Abas, Em Testes]] | checkpoint | em_teste | 28/09/2026 | Grade de 5 colunas com badges e anotações, estendida às 5 abas e em testes. Em aberto: comportamento em tela pequena (só rolagem horizontal) e feedback de Matheus e Ana. |
 | [[Validacao Mobile em Aparelho Real - Teste Real Liberado em 02-10-2026]] | checkpoint | em_andamento | 02/10/2026 | Até 28/09/2026 tudo que é mobile foi validado só de forma simulada. Em 02/10 Matheus passou a ter celular e o teste real ficou possível; nenhum teste real registrado ainda. |
-| [[Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026)]] | checkpoint | em_andamento | 04/10/2026 | Consultar Pedido vira o ponto único de consulta da Ana: topo reorganizado e linha do tempo aplicados e aprovados; faltam 3 cenários reais e o feedback da Ana. |
+| [[Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026)]] | checkpoint | em_andamento | 04/10/2026 | Consultar Pedido vira o ponto único de consulta da Ana: topo, linha do tempo de 7 datas, chat novo e busca em 3 ondas aplicados; o script em lote rodou nas 49 devoluções existentes sem erro; falta ver a tela com os olhos em 4 pedidos e ouvir a Ana. |
+| [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]] | checkpoint | em_andamento | 04/10/2026 | Consultar Pedido rodada sobre as 49 devoluções existentes: 0 erro, 0 instável, 0 429, ~0,94 s por consulta (tudo é espera do ML). Sobraram no cadastro 4 tipos de venda errados, 2 datas de reclamação com 1 mês a mais, 1 preço e uma decisão sobre "Mediação encerrada". |
 
 ## Produtos_e_Pecas
 
@@ -110,6 +113,7 @@ Nível do mundo, não de contexto — checkpoint que cobre o mundo inteiro (vár
 |---|---|---|---|---|
 | [[Arquitetura de Entrega do App de Devolução — PyInstaller Onedir, Loading HTML e Ícone de Bandeja]] | decisao | concluida | 01/09/2026 | App entregue como .exe (PyInstaller onedir+noconsole), tela HTML de carregamento instantânea e ícone de bandeja (pystray) — validado ponta a ponta. |
 | [[Tutorial - Como Compilar e Testar o Sistema de Devolução (Com e Sem o .exe)]] | tutorial | ativa | 02/09/2026 | Passo a passo pra testar em dev (`runserver` vs `python launcher.py`) e gerar o `.exe` (`gerar_exe`); banco e mídia compartilhados entre dev e `.exe` (mesmo `.env`). |
+| [[Tutorial - Como Importar os Dados Reais da Ana no PC de Casa (Voltar ao Original)]] | tutorial | ativa | 04/10/2026 | Como copiar os dados reais da Ana (os 2 bancos MySQL + a pasta `media` em `.rar`) para o PC de casa e como "voltar ao original" depois dos testes: `mysqldump` na produção, apagar/recriar os bancos, `migrate` e importação em casa, mais a extração das fotos no `DADOS_DIR`. |
 | [[Checkpoint - Empacotamento e Entrega do .exe]] | checkpoint | em_andamento | 05/09/2026 | Empacotamento fechado, incluindo abertura automática pelo IP da rede (acesso pelo celular). Falta reverter a tela de carregamento (hoje em diagnóstico) e criar o atalho do Windows. |
 | [[2 Bugs Reais no .exe Empacotado — Import Dinâmico do reportlab e Migração Não Chamada]] | descoberta | ativa | 05/09/2026 | `reportlab.graphics.barcode` e `django.core.management.commands` usam import dinâmico por string — PyInstaller não detecta sozinho, precisou flag explícita; migração do Django não era chamada pelo `launcher.py`, banco novo ficava sem tabela. |
 | [[PyInstaller — --hidden-import Resolve Import Dinâmico por String, --collect-submodules Não]] | descoberta | ativa | 05/09/2026 | `--collect-submodules=core` não funcionava pra módulo só referenciado por string única (`MIDDLEWARE`/`DATABASE_ROUTERS`) — a flag certa nesse caso é `--hidden-import` no módulo exato; `--collect-submodules` serve pra pacote tipo plugin. |

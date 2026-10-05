@@ -3,20 +3,27 @@ tipo: checkpoint
 dominio:
 status: em_andamento
 criado: 04/10/2026
-atualizado_em: 04/10/2026 00:13
-relacionado: [Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias, Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao, Validacao Mobile em Aparelho Real - Teste Real Liberado em 02-10-2026, De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]
+atualizado_em: 04/10/2026 04:33
+relacionado: [Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026), Consultar Pedido em 3 Ondas Paralelas - De 6 Segundos Para 1 Segundo e Meio Sem Estourar a Cota Compartilhada do ML, Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna, Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias, Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao, Validacao Mobile em Aparelho Real - Teste Real Liberado em 02-10-2026, De “Tela que Funciona” para “Tela que Entrega Valor” — Feedback da Ana Redireciona as Prioridades do Projeto]
 ---
 
 # Consultar Pedido como Ponto Único de Consulta da Ana — Topo Reorganizado Parte por Parte (02 a 04/10/2026)
 
 ## Última atualização
 
-04/10/2026, 00:13 — nota criada, registrando tudo o que foi feito na tela Consultar Pedido de 02/10/2026 até agora, com os motivos de cada escolha. Horários em Brasília.
+04/10/2026, 04:33 — acrescentado o passo 21: a validação em lote nas 49 devoluções existentes (ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]).
+
+04/10/2026, 03:47 — acrescentados os passos de depois das 00:13: melhorias do chat, acordeão em 3 camadas, linha do tempo de 7 datas e a busca em 3 ondas paralelas (de ~6,4 s para ~1,5 s). Às 00:13 a nota tinha sido criada, registrando tudo o que foi feito na tela de 02/10/2026 até aquele momento, com os motivos de cada escolha. Horários em Brasília.
 
 **Resumo do estado atual**: a tela Consultar Pedido deixou de ser só a "porta de entrada" do sistema e passou a ser o lugar onde a Ana vê, organizado e de uma vez, o máximo de dados de um pedido — em qualquer fase em que ele esteja. O topo foi reorganizado em 3 grupos por assunto, ganhou a foto do anúncio e a do cadastro interno, botões de copiar discretos e uma linha do tempo de 6 datas com o tempo entre elas. Está aplicado na pasta do projeto e Matheus, depois de testar, disse que "por enquanto está ótimo". Falta validar 3 cenários reais e ouvir a Ana (ver "Em aberto").
 
+**Atualização das 03:47**: depois do topo, a tela ganhou um chat refeito (ver [[Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna]]), perdeu o bloco "Reclamação" (acordeão de 3 camadas), passou a ter a linha do tempo com 7 datas e ficou ~4 vezes mais rápida (ver [[Consultar Pedido em 3 Ondas Paralelas - De 6 Segundos Para 1 Segundo e Meio Sem Estourar a Cota Compartilhada do ML]]). Matheus testou a velocidade e disse que está "bem rápida"; o que falta é provar que a versão nova mostra o mesmo que a antiga em outros tipos de pedido.
+
+**Atualização das 04:33**: a tela foi rodada sobre as 49 devoluções existentes sem nenhum erro, resultado instável ou 429, com ~0,94 s por consulta (ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]). As diferenças que sobraram são de cadastro (4 tipos de venda errados na MB, 2 datas de reclamação com 1 mês a mais, 1 preço) e há uma decisão em aberto sobre a data "Mediação encerrada". A análise concluiu que, tecnicamente, a tela pode ser considerada fechada para as devoluções existentes; Matheus ainda não declarou isso.
+
 > [!warning] EM ANDAMENTO
 > Aplicado e aprovado visualmente por Matheus. Ainda **não** validado em pedido com mediação real, em pedido encerrado sem mediação e em pedido ainda não cadastrado, e ainda não visto pela Ana no monitor dela.
+> A rodada em lote de 04/10 (49 devoluções cadastradas, sem erro) olhou só os dados, não a imagem: a conferência visual continua pendente.
 
 ## Contexto
 
@@ -69,6 +76,22 @@ Esta é uma sequência de verdade: cada passo nasceu da resposta de Matheus ao a
 10. **Linha do tempo completa** — Matheus desenhou numa captura a ideia de mostrar o **tempo entre as datas** nas linhas que as ligam, com aviso dos 7 dias; esclareceu que "MD" era mediação (abreviou por falta de espaço) e que a razão de tudo é a Consultar Pedido ser o ponto de entrada da Ana em **qualquer fase** do pedido; pediu que fosse **até o fim da mediação**. Mockup v2 aprovado ("esta correto implemente assim") e implementado com 6 pontos. Decisão completa em [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]].
 11. **Resultado**: Matheus enviou um print da tela com os 6 pontos preenchidos e disse "por enquanto está ótimo" (04/10/2026, 00:13).
 
+### De 00:13 até 03:47 de 04/10/2026 — chat, acordeão e velocidade
+
+12. **Chat do ML** — prioridade seguinte, escolhida por Matheus: logo do Mercado Livre nas mensagens do ML, logo da empresa ativa nas nossas, cliente com a inicial (as cores por papel já estavam certas), e fotos anexadas iguais às da tela Mediações ML (miniatura e modal). Regra dele: o conteúdo das mensagens fica **100% original**, só o layout muda. Detalhes em [[Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna]].
+13. **6 melhorias visuais do chat**, depois de ele testar: avatar de 36 px, anexo que falha vira quadro de 120×120 com "Abrir anexo", "Mercado Livre" em laranja mais escuro, teto de 900 px na largura das mensagens, fontes maiores, lupa e sombra nas miniaturas. Ele testou o modal de fotos: "100% funcional e correto".
+14. **Grade de fotos**: no máximo 5 por linha, com linhas balanceadas (6 → 3+3, 7 → 4+3...). "Ficou bom."
+15. **Rolagem interna do chat** (70% da janela, teto de 720 px) e **abertura direta no chat, começando pela primeira mensagem** — substituiu a ideia de abrir na última.
+16. **Limpeza do acordeão**: Matheus achou a grade de campos do chat "inútil e confusa" e mandou excluir; depois aprovou trazer de volta só o desfecho (quem a mediação favoreceu e se teve cobertura) numa linha pequena no topo. Achou também o bloco 2 (Reclamação) inútil — o campo "Motivo" era só um lembrete — e mandou remover; o acordeão ficou com 3 camadas (Compra e envio de ida, Devolução física, Chat do ML).
+17. **Linha do tempo de 7 datas**: a data "virou devolução", que só aparecia no bloco removido, entrou entre "Reclamação aberta" e "Recebido (nós)". Ver [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]].
+18. **Link "Ver cadastro"** no lado "No nosso cadastro interno" do topo (abre o produto em outra aba), no mesmo estilo do "Ver anúncio".
+19. **Fotos do cliente no topo descartadas**: Matheus pensou e concluiu que mostrá-las no grupo "Devolução e reclamação" "não vai ser útil, só vai poluir".
+20. **Velocidade**: retomou a ideia de paralelizar as chamadas ao Mercado Livre. Fluxo: analisar como o Sistema Interno V2 resolveu, testar com script de exploração, aplicar os 4 ciclos (pool de conexões, ID da conta pelo `.env`, espaçador desligado só nesta tela, 3 ondas). Resultado no log real: ~6,4 s → ~1,5 s, sem 429. Matheus: "pareceu mais rápido... mas nada instantâneo, mas tá bem melhor" e, depois de testar melhor, "tá bem rápido". Os ciclos de otimização que sobraram foram dispensados. Ver [[Consultar Pedido em 3 Ondas Paralelas - De 6 Segundos Para 1 Segundo e Meio Sem Estourar a Cota Compartilhada do ML]].
+
+### De 03:47 até 04:33 de 04/10/2026 — validação em lote
+
+21. **Validação em lote nas 49 devoluções existentes**: Matheus perguntou se a tela podia ser considerada fechada para as devoluções existentes; Claude criou o script `validar_consultar_pedido_em_lote.py`, Matheus rodou (04:22 a 04:24) e pediu para ler o log. Resultado: 49 de 49 abriram sem erro, 0 instável, 0 429, ~0,94 s por consulta (tudo espera do ML). Sobraram 4 tipos de venda errados no cadastro MB, 2 datas de reclamação com 1 mês a mais, 1 preço redondo, 3 nomes de outra pessoa, 4 vendas com 10 dias ou mais de diferença e uma decisão sobre "Mediação encerrada" (15 devoluções com "fora de ordem"). Matheus dispensou os 3 passos oferecidos ("não precisa") e pediu o registro no vault. Ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]].
+
 ## Problemas vistos nos testes de Matheus e como foram corrigidos
 
 | O que ele viu | Causa | Correção |
@@ -99,11 +122,19 @@ Estas são observações de Claude, **não** pedidos de Matheus:
 - [ ] Testar pedido **ainda não cadastrado** pela Ana (esperado: "ainda não cadastrada")
 - [ ] Mostrar a tela para a Ana, no monitor dela, e ouvir o feedback
 - [ ] Ideias possíveis, **nenhuma decidida nem pedida**: um resumo na parte Devolução e reclamação que responda as perguntas da Ana (motivo nas palavras do cliente com foto, janela de 7 dias, mediação sim ou não); refinar as 3 colunas em tela grande; incluir "Relatório impresso" na linha do tempo; texto de ajuda no campo `valor_reembolsado`
-- [ ] Verificar a hipótese da transportadora (pedidos sem "devolução física" no Mercado Livre)
+- [ ] Verificar a hipótese da transportadora (pedidos sem "devolução física" no Mercado Livre) — a validação em lote deu números: 14 devoluções SV sem data de chegada na tela (7 sem devolução física e 7 sem registro de entrega); confirmada só no pedido 2000017697078004 (ver [[Devolucao De Item Grande Feita Por Transportadora Contratada Em Vez Do Mercado Envios Fica Sem Confirmacao De Chegada No Sistema (Pedido 2000017697078004)]])
+- [x] Validar a versão **em 3 ondas** em pedido com mediação e 2 claims, devolução sem devolução física, número de Pack e pedidos da MB — feito em lote em 04/10/2026 (ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]])
+- [ ] Ainda sem validar a versão em 3 ondas: busca por ID do cliente e, olhando a tela, `MB_USER_ID` e as bolhas "Você" num pedido de mediação da MB
+- [x] Script de exploração que roda a Consultar Pedido sobre **todas** as devoluções do banco — feito e rodado por Matheus em 04/10/2026
+- [ ] Achados da validação em lote, todos **sem decisão**: revisar os pedidos com diferença de cadastro, corrigir os 4 tipos de venda da MB e decidir a prioridade da data "Mediação encerrada" (ML primeiro ou cadastro primeiro). Lista completa em [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]
+- [ ] Gerar o novo .exe antes de a Ana receber o chat novo e a busca rápida
 - [ ] Os resultados dos scripts de exploração de 02 e 03/10 (levantamento de campos e comparação manual × API) **não** foram registrados aqui — só as decisões que Matheus comunicou
 
 ## Relacionado
 
+- [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]
+- [[Consultar Pedido em 3 Ondas Paralelas - De 6 Segundos Para 1 Segundo e Meio Sem Estourar a Cota Compartilhada do ML]]
+- [[Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna]]
 - [[Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias]]
 - [[Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida]]
 - [[Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]]

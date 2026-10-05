@@ -3,8 +3,8 @@ tipo: decisao
 dominio:
 status: em_andamento
 criado: 04/10/2026
-atualizado_em: 04/10/2026 00:13
-relacionado: [Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026), Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao, Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição]
+atualizado_em: 04/10/2026 04:33
+relacionado: [Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026), Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026), Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida, Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao, Fuso Horário Errado no Relatório e nas Telas — TIME_ZONE em UTC Sem Conversão de Exibição]
 ---
 
 # Linha do Tempo do Caso na Consultar Pedido — 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias
@@ -13,6 +13,9 @@ relacionado: [Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorga
 
 > [!warning] EM ANDAMENTO — implementada e aprovada visualmente por Matheus
 > Em 04/10/2026, 00:13, Matheus viu a tela funcionando num print com os 6 pontos preenchidos e disse "por enquanto está ótimo". Falta validar em 3 situações reais: pedido com mediação de verdade, pedido encerrado sem mediação e pedido ainda não cadastrado pela Ana. O acompanhamento mora em [[Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026)]].
+
+> [!note] ATUALIZAÇÃO de 04/10/2026, 03:47 — agora são 7 pontos
+> Depois desta nota, Matheus removeu o bloco 2 (Reclamação) da tela e pediu que a data "virou devolução" fosse para a linha do tempo. A linha ganhou o ponto **"Virou devolução"** entre "Reclamação aberta" e "Recebido (nós)". Detalhes na seção "Atualização: 7 pontos". O nome desta nota continua dizendo "6 Datas" porque renomear seria mover o arquivo.
 
 ## Contexto
 
@@ -112,9 +115,29 @@ Exemplo hipotético para o lado vermelho: se o cliente tivesse recebido em 10/09
 - [ ] Pedido encerrado sem mediação (deve mostrar "sem mediação" e "—")
 - [ ] Pedido ainda não cadastrado (deve mostrar "ainda não cadastrada")
 
+## Atualização: 7 pontos (04/10/2026, 03:47)
+
+- **Novo ponto "Virou devolução"** (posição 4): vem do Mercado Livre, do campo `date_created` de `/returns` — o dia em que a reclamação virou devolução. Era o único lugar da tela que mostrava essa data (o bloco "Reclamação", removido). Sem devolução física no Mercado Livre ela não existe, e o ponto diz "sem devolução física".
+- **Nova ordem**: Venda, Recebido (cliente), Reclamação aberta, Virou devolução, Recebido (nós), Mediação aberta, Mediação encerrada. Os pontos 5 a 7 desta nota (de origem manual e de fechamento) continuam iguais, só mudaram de posição.
+- **A regra dos 7 dias não mudou**: continua entre "Recebido (cliente)" e "Reclamação aberta".
+- **Largura**: com 7 pontos, o limite em que o chip fica curto subiu de 1020 px para 1120 px.
+- Código: `_montar_datas_do_caso` em `integracao_mercado_livre/views.py` (agora com o parâmetro `dia_virou_devolucao`).
+
+## O que a validação em lote mostrou (04/10/2026, 04:33)
+
+A rodada sobre as 49 devoluções existentes (ver [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]) trouxe estes pontos sobre a linha do tempo:
+
+- **"Fora de ordem" em 15 das 49**: em 14 nasce em "Mediação aberta" (que vem do cadastro da Ana) e em 1 em "Recebido (nós)". A data "Mediação encerrada" vem do Mercado Livre e cai antes da abertura que a Ana registrou. A tela está fazendo o que foi desenhado (avisar e mandar conferir no ML); a dúvida é de **qual fonte** deve mandar na "Mediação encerrada" — ver a decisão em aberto na nota da validação.
+- **"Recebido (cliente)"**: 0 divergências com o cadastro nas 49.
+- **"Reclamação aberta"**: 2 divergências, as duas com o cadastro 1 mês depois do ML — provável erro de digitação do mês no cadastro.
+- **"Recebido (nós)"**: o ML não trouxe data em 14 devoluções SV (7 sem devolução física e 7 sem registro de entrega) e, nas 16 em que trouxe uma data diferente do cadastro, o cadastro costuma ser mais tarde (14 de 16, de 5 a 34 dias). Os pontos ficam como "sem devolução física" ou "sem registro de entrega", como desenhado.
+- **Os 3 cenários "ainda não validados" acima**: a rodada só olhou os dados, não a imagem, então continuam sem conferência visual. "Ainda não cadastrado" não pode ser coberto por ela, porque as 49 já estão cadastradas.
+
 ## Relacionado
 
+- [[Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026)]]
 - [[Consultar Pedido Como Ponto Unico de Consulta da Ana - Topo Reorganizado Parte por Parte (04-10-2026)]]
+- [[Chat do ML na Consultar Pedido - Mensagens Originais, Logos por Papel, Miniaturas pelo Proxy e Rolagem Interna]]
 - [[Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida]]
 - [[Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao]]
 - [[Consultar Pedido Vira o Centro do Sistema — Busca por Pedido, Cliente ou Pack, com Lista de Desambiguação Antes do Detalhe]]
