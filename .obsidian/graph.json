@@ -36,20 +36,6 @@
       }
     },
     {
-      "query": "path:\"04_Integracao_Sysemp\"",
-      "color": {
-        "a": 1,
-        "rgb": 6514417
-      }
-    },
-    {
-      "query": "path:\"04_Integracao_Sysemp/Regras\"",
-      "color": {
-        "a": 1,
-        "rgb": 10424889
-      }
-    },
-    {
       "query": "path:\"03_Sistema_Interno\"",
       "color": {
         "a": 1,
@@ -78,24 +64,24 @@
       }
     },
     {
+      "query": "path:\"04_Integracao_Sysemp\"",
+      "color": {
+        "a": 1,
+        "rgb": 6514417
+      }
+    },
+    {
+      "query": "path:\"04_Integracao_Sysemp/Regras\"",
+      "color": {
+        "a": 1,
+        "rgb": 10424889
+      }
+    },
+    {
       "query": "path:\"05_Integracao_Mercado_Livre\"",
       "color": {
         "a": 1,
         "rgb": 16498468
-      }
-    },
-    {
-      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
-      "color": {
-        "a": 1,
-        "rgb": 7355382
-      }
-    },
-    {
-      "query": "path:\"Claude outputs\"",
-      "color": {
-        "a": 1,
-        "rgb": 13430271
       }
     },
     {
@@ -106,10 +92,24 @@
       }
     },
     {
+      "query": "path:\"07_Sistema_Relatorio_Devolucoes\"",
+      "color": {
+        "a": 1,
+        "rgb": 7355382
+      }
+    },
+    {
       "query": "path:\"Bases\"",
       "color": {
         "a": 1,
         "rgb": 7041664
+      }
+    },
+    {
+      "query": "path:\"Claude outputs\"",
+      "color": {
+        "a": 1,
+        "rgb": 13430271
       }
     }
   ],
@@ -130,16 +130,16 @@
     "path:\"01_Nucleo_Geral_Vault\"",
     "path:\"01_Nucleo_Geral_Vault/Modelos_Referencia_de_Escrita\"",
     "path:\"02_Nucleo_Engenharia_Repositorio\"",
-    "path:\"04_Integracao_Sysemp\"",
-    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"03_Sistema_Interno\"",
     "path:\"03_Sistema_Interno/Conceitos\"",
     "path:\"03_Sistema_Interno/Decisoes\"",
     "path:\"03_Sistema_Interno/Tutoriais\"",
+    "path:\"04_Integracao_Sysemp\"",
+    "path:\"04_Integracao_Sysemp/Regras\"",
     "path:\"05_Integracao_Mercado_Livre\"",
-    "path:\"07_Sistema_Relatorio_Devolucoes\"",
-    "path:\"Claude outputs\"",
     "path:\"06_Producao_de_Imagens_e_Videos\"",
-    "path:\"Bases\""
+    "path:\"07_Sistema_Relatorio_Devolucoes\"",
+    "path:\"Bases\"",
+    "path:\"Claude outputs\""
   ]
 }

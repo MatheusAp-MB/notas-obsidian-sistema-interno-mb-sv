@@ -110,6 +110,7 @@ poetry run python manage.py buscar_detalhes --empresa samvale
 
   ```bash
   poetry run python manage.py buscar_dados_sku_completo --empresa magazine
+  poetry run python manage.py buscar_dados_sku_completo --empresa samvale
   ```
 
 - **Teste pontual** — roda só os SKUs informados, sem esperar a base inteira. Nunca apaga o resultado de uma execução de produção anterior — faz *merge*, atualizando só os SKUs testados e preservando o resto do arquivo.
@@ -127,7 +128,8 @@ poetry run python manage.py buscar_detalhes --empresa samvale
 **Comando**:
 
 ```bash
-poetry run python manage.py popular_banco --empresa MAGAZINE
+poetry run python manage.py popular_banco --empresa magazine
+poetry run python manage.py popular_banco --empresa samvale
 ```
 
 (Note que aqui a empresa vai em **maiúsculo** — `popular_banco` usa essa convenção, diferente dos 3 comandos novos, que usam minúsculo. Confira sempre a caixa certa pra cada comando.)

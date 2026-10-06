@@ -25,12 +25,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
+                "file": "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Gerencie seu Aplicativo na API do Mercado Livre"
+              "title": "Guia de Setup - Do Zero ao Primeiro Preco Calculado"
             }
           }
         ],
@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "8000",
+                "query": "primeiro preç",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -206,8 +206,12 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "f914a65732f4bee7",
+  "active": "831c5854f3b0a630",
   "lastOpenFiles": [
+    "Claude outputs/planejamento_full_tela_pc.png",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
+    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
     "Claude outputs/ed_andamento_cel_topo.png",
     "Claude outputs/tooltip_perto_barra.png",
     "Claude outputs/bar_aberta.png",
@@ -226,10 +230,8 @@
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias.md",
     "Claude outputs/Q_variacoes.png",
-    "Claude outputs/Q_T_full_ana.png",
     "Claude outputs/analisar_pedido.py",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validacao Mobile em Aparelho Real - Teste Real Liberado em 02-10-2026.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
     "03_Sistema_Interno/Caracteristicas_ML/Checkpoints/Checkpoint - Planilha Unica para a LLM e Primeira Rodada Completa da MB (01-10-2026).md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Descobertas/Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale).md",
     "06_Producao_de_Imagens_e_Videos/04_Produtos/Pistola de Pintura SGT-3011B 1,3mm Gravidade 600ml.md",
@@ -237,7 +239,6 @@
     "03_Sistema_Interno/Multi_Empresa/Checkpoints/Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao).md",
     "03_Sistema_Interno/00_Indice_Sistema_Interno.md",
     "02_Nucleo_Engenharia_Repositorio/Regras/Padrao de Robustez para Clientes de API Externa.md",
-    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
     "Claude outputs/Mockup_Planilha_Caracteristicas_LLM.xlsx",
     "03_Sistema_Interno/Caracteristicas_ML/Checkpoints/Checkpoint - Consolidação por SKU e Cobertura do ERP (01-10-2026).md",
     "03_Sistema_Interno/Caracteristicas_ML/Checkpoints/Checkpoint - Investigação da API de Atributos do Mercado Livre.md",
@@ -248,7 +249,6 @@
     "03_Sistema_Interno/Importacao_de_Dados/Checkpoints/Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026).md",
     "05_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada.md",
     "03_Sistema_Interno/Multi_Empresa/Duvida - Estender ExigirDatabaseExplicito aos Outros 10 Comandos Nativos do Django com Risco de --database Silencioso.md",
-    "03_Sistema_Interno/Multi_Empresa/Comando Nativo migrate Do Django Cai Silenciosamente no Banco Default Sem --database Obrigatorio.md",
     "Claude outputs/~$Tabela_Custos_Envios_Mercado_Livre.xlsx",
     "Claude outputs/47607600",
     "Claude outputs/2F407600",
