@@ -20,7 +20,7 @@
             }
           },
           {
-            "id": "f914a65732f4bee7",
+            "id": "830fdfd7561022d1",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -68,7 +68,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "primeiro preç",
+                "query": "primeiro preço",
                 "matchingCase": false,
                 "explainSearch": true,
                 "collapseAll": true,
@@ -206,11 +206,20 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "831c5854f3b0a630",
+  "active": "830fdfd7561022d1",
   "lastOpenFiles": [
-    "Claude outputs/planejamento_full_tela_pc.png",
-    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
+    "04_Integracao_Sysemp/Estoque_Full/listarAnaliseEstoqueFull - Estoque do ERP por local.md",
+    "04_Integracao_Sysemp/Estoque_Full",
     "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
+    "03_Sistema_Interno/Decisoes/Hospedagem em Nuvem - GCP vs AWS.md",
+    "05_Integracao_Mercado_Livre/Full_Planejamento_de_Envios/Conceitos/Niveis de Granularidade do Full e Como os Dados se Ligam.md",
+    "05_Integracao_Mercado_Livre/Full_Planejamento_de_Envios/Conceitos",
+    "05_Integracao_Mercado_Livre/Full_Planejamento_de_Envios",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Duvidas/Variacoes Extras no Banco Que Nao Estao no Arquivo de Detalhes.md",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Duvidas/Erros de Reposicao 404 e 500 nos Codigos ML do Full.md",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Duvidas",
+    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
+    "Claude outputs/planejamento_full_tela_pc.png",
     "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
     "Claude outputs/ed_andamento_cel_topo.png",
     "Claude outputs/tooltip_perto_barra.png",
@@ -229,7 +238,6 @@
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Topo da Consultar Pedido Agrupado por Assunto - Foto Dupla e Layout Adaptavel a Largura do Cartao.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Os 4 Problemas de Dados da Consultar Pedido - 3 Sao Manuais da Ana e o Tipo de Venda Vem do Envio de Ida.md",
     "07_Sistema_Relatorio_Devolucoes/Decisoes/Linha do Tempo do Caso na Consultar Pedido - 6 Datas e Tempo Entre Elas com Aviso dos 7 Dias.md",
-    "Claude outputs/Q_variacoes.png",
     "Claude outputs/analisar_pedido.py",
     "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validacao Mobile em Aparelho Real - Teste Real Liberado em 02-10-2026.md",
     "03_Sistema_Interno/Caracteristicas_ML/Checkpoints/Checkpoint - Planilha Unica para a LLM e Primeira Rodada Completa da MB (01-10-2026).md",
@@ -245,15 +253,7 @@
     "03_Sistema_Interno/Caracteristicas_ML/Checkpoints",
     "03_Sistema_Interno/Caracteristicas_ML",
     "Claude outputs/Mockup_Relatorio_WeStack_Sem_Custo.xlsx",
-    "02_Nucleo_Engenharia_Repositorio/Regras/Modelagem de Objeto e Encapsulamento.md",
-    "03_Sistema_Interno/Importacao_de_Dados/Checkpoints/Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026).md",
-    "05_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Camadas do Cliente Mercado Livre Transporte Contexto e Ponto de Entrada.md",
-    "03_Sistema_Interno/Multi_Empresa/Duvida - Estender ExigirDatabaseExplicito aos Outros 10 Comandos Nativos do Django com Risco de --database Silencioso.md",
     "Claude outputs/~$Tabela_Custos_Envios_Mercado_Livre.xlsx",
-    "Claude outputs/47607600",
-    "Claude outputs/2F407600",
-    "Claude outputs/07207600",
-    "Claude outputs/BC007600",
     "Sem título.canvas"
   ]
 }
