@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 01/10/2026 18:06
+atualizado_em: 09/10/2026 18:56
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -18,6 +18,7 @@ Nível do mundo, não de contexto — decisão de arquitetura que atravessa mais
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
 | [[Reducao de Comandos de Management e Rotina Vira Botao]] | decisao | em_andamento | 15/08/2026 | 18 comandos de management auditados e categorizados (setup único, rotina real, contingência, dev) em 15/08. **Retomado em 27/09**: nenhum item "em aberto" de agosto foi resolvido (`sincronizar_impostos_entrada` continua fora do `popular_banco`; os 6 `calcular_grade_precificacao_*` ganharam um 7º orquestrador por cima em vez de fundir; renomeios `DEV_` nunca aplicados) — só a limpeza de `scripts_exploracao_ERP/` foi executada como decidido. Mapeamento agora cobre o sistema inteiro: 30 comandos reais (12 novos desde agosto, nunca categorizados), a camada `servicos/`, e todo script solto fora do `manage.py` (scripts_dev, scripts_exploracao_ML, scripts_exploracao_ERP, agente_local, raiz) — com 8 duplicidades/inconsistências concretas identificadas. |
+| [[Pausa da Investigacao da API do TikTok Shop - Loja Magazine Sem Account Manager]] | decisao | ativa | 09/10/2026 | 09/10: acesso à API do TikTok Shop pausado. Brasil é suportado, mas o cadastro de desenvolvedor vendedor exige Account Manager, que a loja Magazine não tem. |
 
 ## Conceitos
 
