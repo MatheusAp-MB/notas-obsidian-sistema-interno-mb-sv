@@ -3,8 +3,8 @@ tipo: descoberta
 dominio: 
 status: ativa
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:35
-relacionado: [Onde Fica o Corte do Orders Search na Borda de 12 Meses e se Ele Muda Durante o Dia, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Checkpoint - Historico de Vendas e Calendario de Vendas]
+atualizado_em: 12/10/2026 02:41
+relacionado: [Onde Fica o Corte do Orders Search na Borda de 12 Meses e se Ele Muda Durante o Dia, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha, Checkpoint - Historico de Vendas e Calendario de Vendas]
 resumo: "Medido em 12/10/2026 01:14: o /orders/search devolve só PARTE do dia mais antigo (11/10/2025: ML 196 × banco 197; o pedido de 03:45:38 foi cortado; o 1º que vem é de 06:05:04); os dias 12/10 e 13/10/2025 vêm inteiros. O pedido que 'faltava' na coleta não foi perdido pela coleta: o ML cortou o começo do dia. Correção aplicada em 12/10/2026 01:35: FOLGA_DO_LIMITE_ML_DIAS = 1."
 ---
 
@@ -50,7 +50,10 @@ O `/orders/search` **corta o começo do dia mais antigo** do histórico de 12 me
 - O **primeiro dia** coletado pode ter **menos pedidos** do que ele realmente teve. Nas contas de **ritmo de venda** ele não pode ser tratado como dia inteiro.
 - A coleta que o **leu em outro momento** (quando o corte estava mais atrás) deixa no banco pedidos que as releituras novas não confirmam: não é falha da coleta.
 
-**Correção aplicada em 12/10/2026, 01:35:** `FOLGA_DO_LIMITE_ML_DIAS = 1` em `integracao_mercado_livre/servicos/cobertura_vendas_ml.py`. O primeiro dia coletado passa a ser o dia **seguinte** ao exato (12/10/2025 em 12/10/2026, que vem inteiro); a tela mostra sozinha o aviso **"limite do ML"** no período "Último ano" (como Matheus pediu em 11/10/2026); o coletor não pede mais o dia da borda; o comentário "MEDIDO em 11/10/2026" foi corrigido. O limite anda sozinho com a data (em 13/10/2026 o primeiro dia será 13/10/2025). **Não foi preciso recoletar nada:** o banco já tem de 12/10/2025 em diante; o pedido parcial de 11/10/2025 continua guardado, só não aparece mais na tela. Tratar o 1º dia como parcial nas contas de ritmo **não foi implementado**: só é necessário se o primeiro dia voltar a vir parcial (aí a folga sobe).
+**Correção aplicada em 12/10/2026, 01:35:** `FOLGA_DO_LIMITE_ML_DIAS = 1` em `integracao_mercado_livre/servicos/cobertura_vendas_ml.py`. O primeiro dia coletado passa a ser o dia **seguinte** ao exato: **13/10/2025** em 12/10/2026 (o 12/10/2025, que veio inteiro no teste, fica de fora por segurança); a tela mostra sozinha o aviso **"limite do ML"** no período "Último ano" (como Matheus pediu em 11/10/2026); o coletor não pede mais o dia da borda; o comentário "MEDIDO em 11/10/2026" foi corrigido. O limite anda sozinho com a data (em 13/10/2026 o primeiro dia será 14/10/2025). **Não foi preciso recoletar nada para a correção:** o banco já tinha os dias de 11/10/2025 em diante; os dias 11 e 12/10/2025 (400 linhas, entre elas o pedido parcial de 11/10) continuam guardados, só não aparecem mais na tela. Tratar o 1º dia como parcial nas contas de ritmo **não foi implementado**: só é necessário se o primeiro dia voltar a vir parcial (aí a folga sobe).
+
+> [!info] Correção e confirmação de 12/10/2026, 02:41
+> A versão de 01:35 desta nota dizia que o primeiro dia coletado em 12/10/2026 era 12/10/2025 e que em 13/10/2026 seria 13/10/2025. **Estava errado por 1 dia**: o certo é **13/10/2025** hoje e **14/10/2025** em 13/10/2026 (`primeiro_dia_do_ml` = 12 meses atrás + 1 dia). A recoleta do ano (02:10) começou em 13/10/2025: o dia veio **inteiro** (332 pedidos, os mesmos da foto das 02:07) e os 400 pedidos de 11 e 12/10/2025 ficaram fora da janela, preservados ([[Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha]]).
 
 ## Exemplo
 

@@ -3,9 +3,9 @@ tipo: descoberta
 dominio: 
 status: ativa
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:15
-relacionado: [Guardar o Total de Chamadas de Cada Clique em Tabela Propria no Banco, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses, Tres MLBs com Vendas do SKU de Teste Nao Estao na Tabela de Anuncios, Checkpoint - Historico de Vendas e Calendario de Vendas]
-resumo: "Medidas reais (conta MB, 11-12/10/2026): 1 ano da conta toda = 84.510 pedidos, 1.870 chamadas, 15 min 44 s; 1 semana = 1.226 pedidos, 29 chamadas, 14 s; 1 SKU de teste (20% da conta) = 16.876 pedidos, 364 chamadas, 60 s; 0 erros 429. Os dois caminhos (por produto e conta toda) concordam; a conta toda vê 121 pedidos do SKU em 3 MLBs fora do produto."
+atualizado_em: 12/10/2026 02:41
+relacionado: [Guardar o Total de Chamadas de Cada Clique em Tabela Propria no Banco, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses, Tres MLBs com Vendas do SKU de Teste Nao Estao na Tabela de Anuncios, Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate, Checkpoint - Historico de Vendas e Calendario de Vendas]
+resumo: "Medidas reais (conta MB, 11-12/10/2026): 1 ano da conta toda = 84.510 pedidos, 1.870 chamadas, 15 min 44 s; 1 semana = 1.226 pedidos, 29 chamadas, 14 s; 1 SKU de teste (20% da conta) = 16.876 pedidos, 364 chamadas, 60 s; 3 respostas 429 na coleta do ano de 11/10, absorvidas pela repetição (corrigido em 12/10/2026 02:41; a nota dizia 0). Os dois caminhos (por produto e conta toda) concordam; a conta toda vê 121 pedidos do SKU em 3 MLBs fora do produto. Depois da correção (12/10, 02:41): dia 08/07 = 4 chamadas, mês = 110, ano = 1.837 (83.049 pedidos, 15 min 27 s)."
 ---
 
 # Medidas da Coleta de Vendas e Comparação Entre os Dois Caminhos
@@ -39,8 +39,20 @@ Cada chamada devolve no máximo 50 pedidos (`limit=50`). O limite do Mercado Liv
 - **O SKU de teste é 20% da conta** (16.876 de 84.510 pedidos) e custou 364 de 1.870 chamadas.
 - **Média do ano:** ~231 pedidos por dia; **mediana** 207. Dias maiores: 26/11/2025 (560), 07/01/2026 (538), 25/11/2025 (526). Dias menores: 02/11/2025 (71), 01/11/2025 (76), 01/10/2026 (88; dia a conferir com o ERP).
 - **Última semana:** 153 pedidos por dia (cerca de 3,6 chamadas por dia).
-- **Ritmo do ano:** 1.870 chamadas em 944 s é cerca de 2 chamadas por segundo (~7.100 por hora), abaixo das 18.000 por hora do limite. **Nenhum erro 429** em nenhuma execução.
-- **Estimativas erradas, corrigidas:** o projetado para o ano era ~1.380 chamadas (real 1.870, os meses recentes são mais lentos); a estimativa do modal de "Coletar período da conta" deu 13 chamadas contra 29 reais (ela subestima enquanto os últimos 30 dias não foram coletados pela conta toda).
+- **Ritmo do ano:** 1.870 chamadas em 944 s é cerca de 2 chamadas por segundo (~7.100 por hora), abaixo das 18.000 por hora do limite. **Erros 429:** a coleta do ano teve **3 respostas 429** (11/10/2026 às 23:30:05, 23:30:07 e 23:30:11, esperas de 1,4 s, 1,1 s e 1,5 s, todas na tentativa 1 de 5); cada uma foi repetida 1 vez e **conta nas 1.870 chamadas**. A semana e o SKU de teste não têm 429 no log. *(Esta nota dizia "nenhum erro 429"; corrigido em 12/10/2026, 02:41, pelo log `integracao_mercado_livre/logs/Magazine/pedidos_ml.log`.)*
+- **Estimativas erradas, corrigidas:** o projetado para o ano era ~1.380 chamadas (real 1.870, os meses recentes são mais lentos); a estimativa do modal de "Coletar período da conta" deu 13 chamadas contra 29 reais (ela subestima enquanto os últimos 30 dias não foram coletados pela conta toda). Depois da correção: o modal estimou ~1.466 chamadas para o ano (real 1.837) e ~127 para o mês (real 110).
+
+## Depois da correção do `to` (12/10/2026, 02:41)
+
+Medidas **depois** da correção `to = fim − 1 hora` (conta MB, API real; análise completa em [[Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate]]):
+
+| Execução | Período | Pedidos lidos | Chamadas | Tempo |
+|---|---|---|---|---|
+| "Atualizar dia" | 08/07/2026 | 200 | 4 | — |
+| Último mês (com "Reler") | 12/09 a 12/10/2026 (31 dias) | 4.674 | 110 | 55 s |
+| Último ano (com "Reler") | 13/10/2025 a 12/10/2026 (365 dias) | 83.049 | 1.837 | 15 min 27 s |
+
+O custo é a soma de `ceil(pedidos do dia ÷ 50)` por dia (4, 110 e 1.835) mais as repetições por 429 (2 no ano). O ano novo tem **outro período** (365 dias, de 13/10/2025 a 12/10/2026): não dá para comparar chamada a chamada com a medida antiga de 1.870.
 
 ## Os dois caminhos concordam
 
@@ -67,7 +79,7 @@ O SKU de teste tem **121 pedidos (127 unidades)** em **3 MLBs que não estão li
 ## Limites
 
 - Só conta MB; só 1 SKU de teste; 1 ano de dados; 1 execução de cada tipo.
-- A medida do ano foi feita **com a hora 0 lida em dobro**; com a correção (`to = fim − 1 hora`) o custo cai cerca de 1,3% (~20 chamadas).
+- A medida do ano de 11/10 foi feita **com a hora 0 lida em dobro** (1.870 chamadas). Depois da correção, o ano de 12/10 custou 1.837, de um período diferente (365 dias).
 
 ## Relacionado
 

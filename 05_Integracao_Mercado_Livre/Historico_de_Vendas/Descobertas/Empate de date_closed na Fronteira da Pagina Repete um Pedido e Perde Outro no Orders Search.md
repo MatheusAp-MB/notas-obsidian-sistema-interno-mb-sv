@@ -3,9 +3,9 @@ tipo: descoberta
 dominio: 
 status: ativa
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:15
-relacionado: [O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Checkpoint - Historico de Vendas e Calendario de Vendas]
-resumo: "Reproduzido na API real: quando 2 pedidos têm o mesmo date_closed (precisão de 1 segundo) e caem na fronteira entre 2 páginas, o ML troca a ordem do par entre uma chamada e a outra; um pedido vem nas duas páginas e o outro não vem em nenhuma. Em 08/07/2026 (pedidos 99|100, fechados 16:13:21) isso aconteceu em 2 de 4 repetições; é o mecanismo do aviso 'anunciou 202, vieram 201'. Raro: 4 de 365 dias."
+atualizado_em: 12/10/2026 02:41
+relacionado: [O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao, O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes, Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha, Checkpoint - Historico de Vendas e Calendario de Vendas]
+resumo: "Reproduzido na API real: quando 2 pedidos têm o mesmo date_closed (precisão de 1 segundo) e caem na fronteira entre 2 páginas, o ML troca a ordem do par entre uma chamada e a outra; um pedido vem nas duas páginas e o outro não vem em nenhuma. Em 08/07/2026 (pedidos 99|100, fechados 16:13:21) isso aconteceu em 2 de 4 repetições; é o mecanismo do aviso 'anunciou 202, vieram 201'. Raro: 4 de 365 dias em risco pela simulação do banco. Atualização 12/10/2026 02:41: um 2º caso real, em 19/11/2025, foi encontrado e recuperado pela recoleta do ano (pedido fechado no mesmo segundo que outro); a coleta antiga perdeu 2 dias de 365, a nova 0."
 ---
 
 # Empate de `date_closed` na Fronteira da Página Repete um Pedido e Perde Outro no Orders Search
@@ -15,7 +15,7 @@ resumo: "Reproduzido na API real: quando 2 pedidos têm o mesmo date_closed (pre
 O aviso da coleta do ano ("De 08/07 00:00 a 09/07 00:00 o ML anunciou **202** pedidos e vieram **201**") ficou sem explicação por horas. Em 12/10/2026 o mecanismo foi **reproduzido na API real**: como o `/orders/search` ordena por `date_closed`, que tem precisão de **1 segundo** ([[O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao]]), dois pedidos fechados no mesmo segundo ficam **empatados**. Se esse par cai exatamente entre duas páginas (o último da página A e o primeiro da página B), o ML às vezes **troca a ordem do par entre uma chamada e a outra**: aí **um dos dois pedidos vem nas duas páginas** (o coletor descarta a repetição) e **o outro não vem em nenhuma**. A janela fecha com 1 pedido a menos que o ML anunciou.
 
 > [!info] Status: ativa
-> Mecanismo reproduzido em 2 de 4 repetições, **no mesmo par** que estava na fronteira em 08/07/2026. Não prova que foi esta a causa do aviso daquele dia (nunca saberemos o que o ML devolveu na hora), mas é **a explicação mais forte** e combina com os dados. O 2º aviso da coleta do ano perdeu o texto e **não foi identificado**.
+> Mecanismo reproduzido em 2 de 4 repetições, **no mesmo par** que estava na fronteira em 08/07/2026. Não prova que foi esta a causa do aviso daquele dia (nunca saberemos o que o ML devolveu na hora), mas é **a explicação mais forte** e combina com os dados. O 2º aviso da coleta do ano perdeu o texto; **o mais provável é 19/11/2025** (ver "Segundo caso real"), sem prova.
 
 ## Contexto
 
@@ -86,12 +86,28 @@ Resultado: 201 pedidos distintos; o ML anunciou 202.
 
 O "Atualizar dia" de 08/07/2026 (5 chamadas) leu o dia de novo e trouxe os 202 pedidos (o ML não trocou o par naquela vez), o que corrigiu o banco.
 
+## Segundo caso real: 19/11/2025 (atualização de 12/10/2026, 02:41)
+
+A recoleta do ano com foto do banco ([[Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha]]) achou **1 pedido de 19/11/2025** que a coleta antiga tinha perdido e que o banco não tinha: pedido `2000013898613648`, criado às 11:29:56 e fechado às 11:30:44, **no mesmo segundo que outro pedido**. Com a janela nova (só o dia, `to = fim − 1 hora`) ele veio. Entre os pedidos com `date_closed`, **586 de 83.449 (0,7%)** estão empatados com outro; o perdido estava empatado (**1 de 1**).
+
+| Conferência | Resultado |
+|---|---|
+| Coleta antiga do ano | **2 dias de 365** perderam 1 pedido cada (08/07 e 19/11) |
+| Coleta nova do ano (recoleta) | **0 de 365** janelas sem fechar; a releitura não chegou a rodar |
+| Dias candidatos da simulação só do banco (22/01, 11/04, 12/05/2026) | **Nenhum** ganhou pedido na recoleta |
+
+- **Por que a simulação do banco não via 19/11:** ela só enxerga empates entre pedidos que o banco **tem**; o pedido perdido não estava no banco.
+- **A conta antiga fecha:** a "sobra +1" do ano ([[O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes]]) é exatamente 2 pedidos perdidos na coleta antiga: lidos −2 e banco −1 dão −1.073 + 2 − 1 = −1.072, o observado.
+- **2º aviso da coleta antiga:** o texto não foi guardado, mas **19/11/2025 é o mais provável** (provável, não provado).
+- O empate de 19/11 **não foi reproduzido na API real**; a ligação com o empate é indício (100% de empate no perdido, contra 0,7% no geral).
+
 ## Limites
 
-- O **2º aviso** da coleta do ano **não foi identificado** (o texto não foi guardado; agora todos os avisos ficam gravados na coleta). Entre os 4 dias candidatos da janela antiga, os outros 3 são **hipóteses** para ele: 22/01, 11/04 e 12/05/2026; não foi verificado.
+- O **2º aviso** da coleta do ano teve o texto perdido (agora todos os avisos ficam gravados na coleta). O mais provável é **19/11/2025** (ver "Segundo caso real"): **provável, não provado**. Os outros 3 dias candidatos da janela antiga (22/01, 11/04 e 12/05/2026) **não** ganharam pedido na recoleta.
 - A reprodução foi num dia só e em 4 repetições; não diz com que frequência o ML troca o par.
 - Pedido sem `date_closed` (ainda não pago) pode mudar de posição por outro motivo: **não medido**.
-- A **sobra +1** do ano ([[O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes]]) é compatível com este pedido perdido em 08/07; plausível, não provado.
+- A **sobra +1** do ano ([[O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes]]) **fecha exatamente** com 2 pedidos perdidos na coleta antiga (08/07 e 19/11); conta em "Segundo caso real", feita sobre números já medidos, sem script novo.
+- A **releitura** (proteção aplicada) **nunca rodou na API real**: a coleta nova teve 0 janelas sem fechar. Ver [[O Que Falta para Considerar Fechada a Validacao da Coleta de Vendas]].
 
 ## Relacionado
 

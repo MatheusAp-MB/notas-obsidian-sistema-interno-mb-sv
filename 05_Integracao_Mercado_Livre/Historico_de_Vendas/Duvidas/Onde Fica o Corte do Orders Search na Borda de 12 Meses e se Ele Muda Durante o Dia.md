@@ -3,8 +3,8 @@ tipo: duvida
 dominio: 
 status: em_aberto
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:35
-relacionado: [O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Checkpoint - Historico de Vendas e Calendario de Vendas]
+atualizado_em: 12/10/2026 02:41
+relacionado: [O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha, Checkpoint - Historico de Vendas e Calendario de Vendas]
 resumo: "Em que horário o /orders/search corta o dia mais antigo (medido: entre 03:45:38 e 06:05:04 de 11/10/2025, às 01:14 de 12/10/2026) e se esse corte anda durante o dia? Hipótese não provada: corte fixo perto das 06:00 BRT. Resolver com 3 a 6 chamadas de 1 hora cada no dia mais antigo; não bloqueia a correção FOLGA_DO_LIMITE_ML_DIAS = 1."
 ---
 
@@ -41,6 +41,7 @@ Em que hora do dia mais antigo o ML começa a entregar pedidos, e esse horário 
 | Em 10/10/2026 22:12 o pedido das 03:45:38 ainda vinha | data de gravação do pedido no banco |
 | Em 11/10/2026 23:17 e em 12/10/2026 01:14 o primeiro pedido do dia era o das 06:05:04 | coleta do ano e script de borda |
 | Os dias 12/10 e 13/10/2025 vieram inteiros em 12/10/2026 01:14 | script de borda |
+| Em 12/10/2026, de 02:10 a 02:26, a recoleta do ano leu o dia 13/10/2025 inteiro: 332 pedidos, os mesmos da foto das 02:07 (nenhuma linha da janela ficou sem ser tocada) | [[Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha]] |
 
 ## O que NÃO sabemos
 
@@ -60,4 +61,5 @@ Em que hora do dia mais antigo o ML começa a entregar pedidos, e esse horário 
 
 - [[O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses]]
 - [[Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos]]
+- [[Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha]]
 - [[Checkpoint - Historico de Vendas e Calendario de Vendas]]

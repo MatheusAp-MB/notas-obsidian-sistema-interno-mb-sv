@@ -3,8 +3,8 @@ tipo: duvida
 dominio: 
 status: em_aberto
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:15
-relacionado: [Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Radar e Elasticidade da Magiic Confirmam as Unidades e os Pedidos do Historico de Vendas, Niveis de Granularidade do Full e Como os Dados se Ligam, Checkpoint - Historico de Vendas e Calendario de Vendas]
+atualizado_em: 12/10/2026 04:14
+relacionado: [Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Radar e Elasticidade da Magiic Confirmam as Unidades e os Pedidos do Historico de Vendas, Niveis de Granularidade do Full e Como os Dados se Ligam, Checkpoint - Historico de Vendas e Calendario de Vendas, Substituir a Tela Sem SKU de Vendas por uma Lista por Produto Anuncio e Codigo ML, Tutorial - Como Testar a Lista de Vendas e Conferir Contra a Tela do Produto]
 resumo: "121 pedidos (127 unidades) do SKU de teste estão em 3 MLBs (MLB3925238352, MLB5397573678, MLB4479267725) que não estão na tabela de anúncios, então não entram nos totais do produto na tela. Última venda deles: junho/2026 e março/2026. Falta saber se são anúncios encerrados ou nunca importados, e como a tela deve tratá-los."
 ---
 
@@ -51,9 +51,20 @@ Esses 3 MLBs são do produto de teste? Se são, a tela deve somá-los (ligando p
 2. Contar, **só no banco (zero chamada à API)**, quantos MLBs da conta têm pedidos e não estão na tabela de anúncios, para saber o tamanho do problema na conta inteira antes de massificar.
 3. Decidir com o Matheus: ligar a venda ao produto pelo `seller_sku` do pedido, ou importar os anúncios faltantes, ou mostrar "vendas sem anúncio ligado" à parte.
 
+## Atualização — 12/10/2026, 04:14
+
+> [!info] O que mudou e o que continua em aberto
+> A **lista nova de vendas** ([[Substituir a Tela Sem SKU de Vendas por uma Lista por Produto Anuncio e Codigo ML]]) trata esses casos assim, **pelo código**: um MLB que **não está** na tabela de anúncios mas cujo pedido traz o `seller_sku` de um SKU aparece **dentro desse SKU**, com o selo **"Fora do cadastro do SKU"** (na visão por MLB, o selo é "Sem cadastro"). Ou seja, a lista **mostra** essas vendas.
+>
+> **Atenção a uma contradição que eu não resolvi:** a seção "Contexto" acima (escrita às 01:15) diz que a tela do produto **não** soma esses MLBs. Pelo código de hoje, a tela do produto (`_carregar_linhas` em `vendas_ml.py`) junta as vendas pelo **`seller_sku` do pedido** (ou, sem `seller_sku`, pelos MLBs do cadastro do SKU), o que **incluiria** os 121 pedidos. **Não reconferi com os dados reais** qual das duas descrições vale, por isso **não corrigi** o texto acima e a dúvida **segue em aberto**.
+>
+> **Como tirar a dúvida (zero chamada ao ML):** rodar o script de conferência com o SKU de teste em `SKUS_EXTRAS` e comparar o total dele na lista e na tela do produto com a soma direta no banco (passo a passo em [[Tutorial - Como Testar a Lista de Vendas e Conferir Contra a Tela do Produto]]). A pergunta de fundo (o que são os 3 MLBs e como a tela deve tratá-los) **também continua sem resposta**.
+
 ## Relacionado
 
 - [[Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos]]
 - [[Radar e Elasticidade da Magiic Confirmam as Unidades e os Pedidos do Historico de Vendas]]
 - [[Niveis de Granularidade do Full e Como os Dados se Ligam]]
 - [[Checkpoint - Historico de Vendas e Calendario de Vendas]]
+- [[Substituir a Tela Sem SKU de Vendas por uma Lista por Produto Anuncio e Codigo ML]]
+- [[Tutorial - Como Testar a Lista de Vendas e Conferir Contra a Tela do Produto]]

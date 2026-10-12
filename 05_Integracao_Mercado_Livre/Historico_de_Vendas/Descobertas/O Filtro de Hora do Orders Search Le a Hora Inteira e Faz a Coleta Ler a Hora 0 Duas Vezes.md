@@ -3,8 +3,8 @@ tipo: descoberta
 dominio: 
 status: confirmada
 criado: 12/10/2026
-atualizado_em: 12/10/2026 01:15
-relacionado: [O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao, Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Checkpoint - Historico de Vendas e Calendario de Vendas]
+atualizado_em: 12/10/2026 02:41
+relacionado: [O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao, Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou, Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos, Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate, Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha, Checkpoint - Historico de Vendas e Calendario de Vendas]
 resumo: "O filtro order.date_created.to do /orders/search lê a hora inteira: com to = 00:00 do dia seguinte, a busca de um dia traz também os pedidos de 00:00 a 00:59 do dia seguinte, lidos 2 vezes pela coleta (ano: 1.072 a mais; semana: 19; SKU de teste: 7). Confirmado no banco e na API real (24/11/2025: 477 = 465 + 12; com to = 23:00, 465 exatos). O banco nunca ficou errado."
 ---
 
@@ -17,7 +17,7 @@ Em 12/10/2026 foi confirmado, por **duas vias independentes** (as contas do banc
 O efeito é só na **contagem de "pedidos lidos"** e em cerca de **1,3% de leituras repetidas** (uns 20 de 1.870 chamadas no ano). **O banco nunca ficou errado**: cada pedido ocupa 1 linha (chave única `order_id` + `posicao`), então a segunda leitura só regravou a mesma linha.
 
 > [!success] Status: confirmada (12/10/2026)
-> Hipótese testada no banco (as diferenças previstas bateram) e na API real (o total mudou exatamente como previsto). A correção (`to = fim − 1 hora`) está aplicada no código; a decisão e o estado dela estão em [[Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou]].
+> Hipótese testada no banco (as diferenças previstas bateram) e na API real (o total mudou exatamente como previsto). A correção (`to = fim − 1 hora`) está aplicada no código e foi **validada na API real** em 12/10/2026 (dia, mês e ano fecham com o banco: [[Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate]]); a decisão e o estado dela estão em [[Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou]].
 
 ## Contexto
 
@@ -85,7 +85,8 @@ Quando o dia 25/11 for lido, os mesmos 12 pedidos voltam na janela dele. Na cole
 ## Efeito e limites
 
 - **Banco:** não muda. **Pedidos lidos:** passa a ser exato (cerca de 1,3% menor). **Custo:** economiza cerca de 20 das 1.870 chamadas do ano.
-- **Sobra +1 no ano:** a previsão esperava 1 leitura a mais do que houve. É compatível com **1 pedido que o ML deixou de entregar em uma janela** (o aviso de 08/07/2026), explicado em [[Empate de date_closed na Fronteira da Pagina Repete um Pedido e Perde Outro no Orders Search]]. É plausível, **não está provado**.
+- **Validado em 12/10/2026 (02:41):** com a correção, a coleta fecha com o banco no dia 08/07 (200 pedidos), no mês (4.674) e no ano (83.049): [[Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate]].
+- **Sobra +1 no ano:** a previsão esperava 1 leitura a mais do que houve. **Explicada em 12/10/2026 (02:41):** a coleta antiga não recebeu **2 pedidos** que o ML deixou de entregar numa janela (08/07, refeito depois no banco, e 19/11/2025, recuperado pela recoleta): lidos −2 e banco −1 dão −1.073 + 2 − 1 = −1.072, exatamente o observado. Conta em [[Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha]] e mecanismo em [[Empate de date_closed na Fronteira da Pagina Repete um Pedido e Perde Outro no Orders Search]]; o texto do 2º aviso não foi guardado, então 19/11 é provável, não provado.
 - **Não medido:** janela de exatamente 1 hora (`from` = `to`) contra a API real; só importa se uma hora tiver mais de 10.000 pedidos (o coletor divide janelas grandes nas horas cheias).
 - Na chamada 2, o script comparou o "pedido mais novo" e estranhou; era erro do script, não do ML: a ordem da lista **não é** por data de criação ([[O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao]]). O veredito passou a usar só o total.
 

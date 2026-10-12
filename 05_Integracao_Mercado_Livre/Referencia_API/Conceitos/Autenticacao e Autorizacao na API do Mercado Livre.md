@@ -3,8 +3,8 @@ tipo: conceito
 dominio: 
 status: ativa
 criado: 26/08/2026
-atualizado_em: 26/08/2026 22:46
-relacionado: [Erro 403 (Forbidden) da API do Mercado Livre, Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Autorizacao Inicial Nao Segue o Padrao Multi-Conta (Sem Prefixo MB SV), Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale), Como Escrever Notas no Vault — Padrao Hiper-Didatico]
+atualizado_em: 12/10/2026 02:41
+relacionado: [Erro 403 (Forbidden) da API do Mercado Livre, Tratamento Detalhado e Relatorio Estruturado de Erros de Chamada a API do Mercado Livre, Migracao da API do Mercado Livre com Suporte a Multiplas Contas (MB e SV), Autorizacao Inicial Nao Segue o Padrao Multi-Conta (Sem Prefixo MB SV), Achados Reais na Configuracao dos Aplicativos Mercado Livre (Magazine e Samvale), Como Escrever Notas no Vault — Padrao Hiper-Didatico, Repetir a Renovacao do Token Quando o Mercado Livre Esta Instavel]
 ---
 
 # Autenticação e Autorização na API do Mercado Livre
@@ -58,6 +58,7 @@ sequenceDiagram
 | Quando renovar | Recomendação: só renovar quando perto de expirar, não à toa | `RENOVAR_ANTES_SEGUNDOS = 1800` (30 min de antecedência) — segue a recomendação, sem renovar cedo demais. |
 | `refresh_token` é de uso único | Cada renovação devolve um `refresh_token` NOVO — o antigo se torna inválido depois de usado | `_salvar_token_atomico()` grava `dados_novos["refresh_token"]` (o novo) a cada renovação — **confirmado correto**, nunca reaproveita o antigo. |
 | Expiração por inatividade | Access token pode invalidar cedo se o app não chamar a API por 4 meses; `refresh_token` expira sozinho depois de 6 meses sem uso | Risco baixo na prática — os 3 comandos (`buscar_mlbs`/`buscar_detalhes`/`buscar_dados_sku_completo`) rodam com frequência bem menor que esses prazos, e cada renovação bem-sucedida reinicia o relógio (gera token novo). |
+| Falha passageira na renovação (5xx, 408, 429, rede) | Esta nota ainda não tinha regra para isso; em 12/10/2026 o `/oauth/token` respondeu **503** na renovação da conta MB | `_renovar_token` repete até 3 vezes (espera de 10 s e 20 s), mantém o lock vivo e só manda reautorizar em 400/401 (recusa de verdade); ver [[Repetir a Renovacao do Token Quando o Mercado Livre Esta Instavel]]. |
 
 ## Referência de erros específicos de autenticação
 

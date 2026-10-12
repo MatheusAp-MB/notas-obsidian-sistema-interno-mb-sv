@@ -207,6 +207,16 @@
   },
   "active": "8efc4137a87f380b",
   "lastOpenFiles": [
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Tutoriais/Tutorial - Como Testar a Lista de Vendas e Conferir Contra a Tela do Produto.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Tutoriais",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Duvidas/MLB Compartilhado por Mais de um SKU e Vendido Sem seller_sku Pode Dar Numero Diferente na Lista e na Tela do Produto.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Decisoes/Substituir a Tela Sem SKU de Vendas por uma Lista por Produto Anuncio e Codigo ML.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Duvidas/O Que Falta para Considerar Fechada a Validacao da Coleta de Vendas.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Decisoes/Nao Mexer no Coletor de Vendas por Enquanto.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Decisoes/Nao Apagar o Banco Antes de Recoletar o Ano e Tirar uma Foto Dele Antes.md",
+    "05_Integracao_Mercado_Livre/Cliente_HTTP/Decisoes/Repetir a Renovacao do Token Quando o Mercado Livre Esta Instavel.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Descobertas/Recoleta do Ano com Foto do Banco Recuperou 1 Pedido Perdido por Empate e Nao Perdeu Nenhuma Linha.md",
+    "05_Integracao_Mercado_Livre/Historico_de_Vendas/Descobertas/Coleta Corrigida Validada na API Real Fecha com o Banco e a Conta de Chamadas Bate.md",
     "05_Integracao_Mercado_Livre/Historico_de_Vendas/Duvidas/Tres MLBs com Vendas do SKU de Teste Nao Estao na Tabela de Anuncios.md",
     "05_Integracao_Mercado_Livre/Historico_de_Vendas/Duvidas/Onde Fica o Corte do Orders Search na Borda de 12 Meses e se Ele Muda Durante o Dia.md",
     "05_Integracao_Mercado_Livre/Historico_de_Vendas/Decisoes/Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou.md",
@@ -243,16 +253,6 @@
     "Fontes/1Rate limit _ Erro 429.html",
     "Fontes/Rate limit _ Erro 429.html",
     "Fontes/Tipos de publicação.html",
-    "Fontes/Atributos.html",
-    "04_Integracao_Sysemp/Estoque_Full/API de Estoque do ERP Sysemp Precisa Ser Repensada e Alterada.md",
-    "04_Integracao_Sysemp/Estoque_Full/listarAnaliseEstoqueFull - Estoque do ERP por local.md",
-    "03_Sistema_Interno/Decisoes/Infraestrutura do Zero - Mudanca de Planos e Dominio.md",
-    "03_Sistema_Interno/Decisoes/Hospedagem em Nuvem - GCP vs AWS.md",
-    "05_Integracao_Mercado_Livre/Coleta_de_Dados/Tutoriais/Tutorial - Comandos de Coleta de Dados da API do Mercado Livre (buscar_mlbs, buscar_detalhes, buscar_dados_sku_completo).md",
-    "03_Sistema_Interno/Tutoriais/Guia de Setup - Do Zero ao Primeiro Preco Calculado.md",
-    "05_Integracao_Mercado_Livre/Referencia_API/Conceitos/Gerencie seu Aplicativo na API do Mercado Livre.md",
-    "07_Sistema_Relatorio_Devolucoes/Arquitetura_de_Entrega/Tutoriais/Tutorial - Como Importar os Dados Reais da Ana no PC de Casa (Voltar ao Original).md",
-    "07_Sistema_Relatorio_Devolucoes/Checkpoints/Validacao em Lote da Consultar Pedido nas 49 Devolucoes Existentes - Zero Erro na Tela e os Achados que Sobraram no Cadastro (04-10-2026).md",
     "Sem título.canvas"
   ]
 }
