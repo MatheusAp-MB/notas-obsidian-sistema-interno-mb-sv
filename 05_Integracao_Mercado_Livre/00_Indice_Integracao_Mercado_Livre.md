@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 07/10/2026 22:26
+atualizado_em: 12/10/2026 01:35
 relacionado: [Padrao de Robustez para Clientes de API Externa, Regra do Índice Obrigatório]
 ---
 
@@ -129,7 +129,31 @@ Frente aberta em 07/10/2026: tela "Full — Planejamento de envios" (por produto
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Niveis de Granularidade do Full e Como os Dados se Ligam]] | conceito | ativa | 07/10/2026 | 4 níveis do Full (Produto, Anúncio, Código ML, Envio) com identificadores, ligações e fontes; o elo envio↔Código ML está no PDF do envio; ligações restantes a confirmar. |
+| [[Niveis de Granularidade do Full e Como os Dados se Ligam]] | conceito | ativa | 07/10/2026 | 4 níveis do Full (Produto, Anúncio, Código ML, Envio) com identificadores, ligações e fontes; o elo envio↔Código ML está no PDF do envio; ligações restantes a confirmar. **Atualizada 10/10/2026, 20:04**: aviso de que o endpoint de operações do Full mostrou-se instável (429 e 404 de scroll). |
+
+## Historico_de_Vendas
+
+Frente aberta em 10/10/2026: acompanhar o ritmo de vendas de cada produto (1 SKU = 1 produto, com todos os seus MLBs e Códigos ML) numa tela com calendário de vendas — base para a previsão de ruptura de estoque e de pedidos de compra.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Historico de Vendas e Calendario de Vendas]] | checkpoint | em_andamento | 12/10/2026 | Histórico e calendário de vendas por produto (5 níveis). `/orders/search` é o caminho; coletor e tela em uso. Em 12/10/2026 a coleta foi medida e corrigida (hora 0, ordem por `date_closed`, borda de 12 meses); falta validar na API real e massificar. |
+| [[Abandonar o Endpoint de Operacoes do Full para o Historico de Vendas]] | decisao | ativa | 10/10/2026 | Matheus decidiu não usar mais o endpoint de operações do Full (429 já com 1 SKU; precisa rodar para mais de mil). Fonte passa a ser `/orders/search`; código antigo preservado e comentado. |
+| [[Endpoint de Operacoes do Full Falha com 429 e 404 de Scroll Mesmo com 1 SKU]] | descoberta | ativa | 10/10/2026 | 429 em 8 de 25 chamadas da sondagem e 34 de 51 nas rodadas reais; sem cabeçalho de espera; peso e espaçamento não mudam a taxa; scroll repetido vira 404. Lacunas e arquivos listados. |
+| [[Campo stock node_id do Pedido Separa Venda do Full de Venda Fora do Full]] | duvida | resolvida | 10/10/2026 | `node_id` do pedido separa Full de fora do Full, com ajuste: o nó próprio é BRP + código do vendedor (BRPE01 e BRPR01 são Full). Confirmado com 60 envios; resposta na decisão de 11/10/2026. |
+| [[Classificar Venda do Full e Fora do Full Pelo node_id do Pedido em 4 Passos]] | decisao | concluida | 11/10/2026 | Tela separa Full de fora do Full só com dados do banco: loja ou nó próprio = fora; outro nó = Full; sem nó nem loja = fora só se o anúncio hoje não é Full. |
+| [[Envios Reais Confirmam o node_id do Pedido Como Origem da Venda do Full e do Fora do Full]] | descoberta | ativa | 11/10/2026 | 60 envios: 30 de Full = fulfillment e 30 de fora = cross_docking, sem exceção. BRPE01 e BRPR01 são centros do Full; Coleta antiga veio sem stock. Flex não apareceu. |
+| [[Radar e Elasticidade da Magiic Confirmam as Unidades e os Pedidos do Historico de Vendas]] | descoberta | ativa | 11/10/2026 | Tela de vendas comparada com o Radar e o Elasticidade da Magiic (conta MB, SKU de teste): unidades e pedidos batem (no máximo 1 pedido por anúncio e janela); nosso faturamento = "Preço médio × un" da Magiic; só o "Vendas R$" dela passa, cerca de R$ 4.076 (0,36%). Full × fora do Full não dá para validar na Magiic. |
+| [[Origem do Acrescimo no Faturamento da Magiic Sobre o Preco do Item]] | duvida | aberta | 11/10/2026 | O que é o acréscimo do "Vendas R$" da Magiic sobre o preço do item (hipótese: juros de parcelamento ou frete pagos pelo comprador). Não afeta a tela; resolver com 1 pedido lido no Mercado Livre, sem pressa. |
+| [[O Filtro de Hora do Orders Search Le a Hora Inteira e Faz a Coleta Ler a Hora 0 Duas Vezes]] | descoberta | confirmada | 12/10/2026 | O `to` do `/orders/search` lê a hora inteira: a busca de um dia trazia também a hora 0 do dia seguinte, lida 2 vezes. Confirmado no banco e na API (477 = 465 + 12). Correção: `to = fim − 1 hora`. |
+| [[O sort date_desc do Orders Search Ordena por date_closed e Nao por Data de Criacao]] | descoberta | ativa | 12/10/2026 | `sort=date_desc` ordena por `date_closed` (precisão de 1 segundo), não por criação: 0 pares fora de ordem em 20 pedidos, contra 5 em `date_created`. |
+| [[Empate de date_closed na Fronteira da Pagina Repete um Pedido e Perde Outro no Orders Search]] | descoberta | ativa | 12/10/2026 | Pedidos fechados no mesmo segundo na fronteira de página: o ML troca a ordem, um pedido vem 2 vezes e outro some. Reproduzido em 2 de 4 repetições (08/07/2026); 4 de 365 dias em risco. |
+| [[O Orders Search Corta o Comeco do Dia Mais Antigo na Borda de 12 Meses]] | descoberta | ativa | 12/10/2026 | O ML corta o começo do dia mais antigo do histórico de 12 meses (11/10/2025: ML 196 × banco 197); a coleta não perdeu o pedido. Correção aplicada em 12/10/2026: `FOLGA_DO_LIMITE_ML_DIAS = 1`. |
+| [[Medidas da Coleta de Vendas e Comparacao Entre os Dois Caminhos]] | descoberta | ativa | 12/10/2026 | Ano da conta toda: 84.510 pedidos, 1.870 chamadas, 15 min 44 s; SKU de teste (20%): 364 chamadas; 0 erros 429. Os dois caminhos concordam; a conta toda vê 121 pedidos a mais. |
+| [[Guardar o Total de Chamadas de Cada Clique em Tabela Propria no Banco]] | decisao | concluida | 12/10/2026 | Total exato de chamadas de cada clique numa tabela própria (1 linha por clique), sem admin; para custo, somar só ela. Todos os avisos da coleta ficam guardados. |
+| [[Enviar o to do Orders Search Uma Hora Antes e Reler a Janela Que Nao Fechou]] | decisao | em_andamento | 12/10/2026 | Coletor envia `to = fim − 1 hora` e relê a janela que não fechou (páginas de 45 e 40). Testado só em simulação; falta validar na API real. |
+| [[Onde Fica o Corte do Orders Search na Borda de 12 Meses e se Ele Muda Durante o Dia]] | duvida | em_aberto | 12/10/2026 | Em que hora o ML corta o dia mais antigo (entre 03:45:38 e 06:05:04 de 11/10/2025) e se o corte anda durante o dia. Resolver com 3 a 6 chamadas de 1 hora. |
+| [[Tres MLBs com Vendas do SKU de Teste Nao Estao na Tabela de Anuncios]] | duvida | em_aberto | 12/10/2026 | 121 pedidos do SKU de teste, em 3 MLBs fora da tabela de anúncios, não entram nos totais do produto; falta saber se são anúncios encerrados e como a tela deve tratá-los. |
 
 ## Relacionado
 

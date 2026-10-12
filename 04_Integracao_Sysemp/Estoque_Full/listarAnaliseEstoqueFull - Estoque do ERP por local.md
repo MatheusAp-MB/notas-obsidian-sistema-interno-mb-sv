@@ -2,6 +2,7 @@
 tipo: investigação
 status: em investigação
 criado: 08/10/2026
+atualizado_em: 10/10/2026 13:22
 dominio: integração sysemp
 relacionado: ["[[00_Indice_Integracao_Sysemp]]", "[[00_Indice_Sistema_Interno]]"]
 ---
@@ -130,6 +131,9 @@ poetry run python scripts_exploracao_ERP/investigar_analise_estoque_full.py
 Arquivos gerados no teste de 08/10/2026: `analise_estoque_full_SV_20261008_103559.json`, `analise_estoque_full_MB_20261008_103557.txt` e o mapa de campos `..._mapa_campos.txt`.
 
 ## 10. Pendências e próximos passos
+
+> [!info] Atualização de 10/10/2026 às 13:22
+> O estoque da Samvale foi lido por inteiro (6 páginas, 534 linhas) e comparado com o Mercado Livre e com o arquivo do ERP. O resultado levou à decisão de repensar e alterar esta API — ver [[API de Estoque do ERP Sysemp Precisa Ser Repensada e Alterada]]. Em especial, a classificação dos locais 3, 7, 13, 14, 15 e 16 como "não relevantes" (seção 6) precisa ser revista: o local 3 pode ser o Full real.
 
 1. **Ler todas as páginas da Samvale** (`offset` 100, 200, ... até vir vazia): total real de linhas, total por local, produtos com estoque no Full e no Flex ao mesmo tempo, SKUs vazios ou repetidos, e se o offset avança sem repetir linhas.
 2. **Comparar com o banco** (script rodado por Matheus): ERP id 4 contra o Full do ML, e ERP ids 2 + 10 contra o Flex do ML, só para a Samvale.

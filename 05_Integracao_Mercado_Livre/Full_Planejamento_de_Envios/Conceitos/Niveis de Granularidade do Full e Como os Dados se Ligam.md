@@ -3,8 +3,8 @@ tipo: conceito
 dominio: 
 status: ativa
 criado: 07/10/2026
-atualizado_em: 07/10/2026 15:51
-relacionado: [MLBU Compartilhado Entre Base E Catalogo Pareado, Nomenclatura Base Catalogo Simples Pagina De Catalogo]
+atualizado_em: 10/10/2026 20:04
+relacionado: [MLBU Compartilhado Entre Base E Catalogo Pareado, Nomenclatura Base Catalogo Simples Pagina De Catalogo, Endpoint de Operacoes do Full Falha com 429 e 404 de Scroll Mesmo com 1 SKU, Checkpoint - Historico de Vendas e Calendario de Vendas]
 resumo: "O Full tem 4 níveis de dado (Produto, Anúncio, Código ML, Envio), cada um com identificador, fonte e pergunta próprios; Código ML e Envio se ligam por muitos-para-muitos, e o elo mora no PDF do envio."
 ---
 
@@ -147,6 +147,9 @@ Leitura do exemplo: o Código `QAVX18725` (nível 3) liga-se ao envio `78744456`
 > [!question] Próximo passo definido pelo usuário
 > Escolher, nível por nível, **quais perguntas importam** (UX flow) antes de desenhar telas — começando pelo nível Envio, que hoje não tem tela. Quais perguntas entram em quais telas continua decisão em aberto.
 
+> [!warning] Atualização de 10/10/2026, 20:04 — o endpoint de operações mostrou-se instável
+> O endpoint `GET /stock/fulfillment/operations/search`, citado acima para conferir o `inbound_id` depois do recebimento de um envio, respondeu **429** (cota estourada) em boa parte das chamadas nos testes de 10/10/2026, já com 1 SKU, e devolve **404** quando um scroll é repetido depois de um 429. Para o **histórico de vendas** ele foi abandonado. A conferência do `inbound_id` continua possível, mas pode esbarrar nos mesmos 429. Detalhes: [[Endpoint de Operacoes do Full Falha com 429 e 404 de Scroll Mesmo com 1 SKU]] e [[Abandonar o Endpoint de Operacoes do Full para o Historico de Vendas]].
+
 ## Fontes
 
 - Docs oficiais do Mercado Livre salvas em 06/10/2026: "Envios Fulfillment" e "Planejamento de reposição para Fulfillment".
@@ -159,3 +162,5 @@ Leitura do exemplo: o Código `QAVX18725` (nível 3) liga-se ao envio `78744456`
 
 - [[MLBU Compartilhado Entre Base E Catalogo Pareado]] — por que Base e Catálogo pareado caem no mesmo MLBU (e, na tela, no mesmo Código ML).
 - [[Nomenclatura Base Catalogo Simples Pagina De Catalogo]] — nomes dos tipos de anúncio usados na tabela do exemplo.
+- [[Checkpoint - Historico de Vendas e Calendario de Vendas]] — frente de histórico e calendário de vendas por produto, que usa estes níveis (Produto, Anúncio, Código ML).
+- [[Endpoint de Operacoes do Full Falha com 429 e 404 de Scroll Mesmo com 1 SKU]] — por que o endpoint de operações do Full foi abandonado para o histórico de vendas.

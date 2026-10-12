@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 06/08/2026
-atualizado_em: 30/08/2026 13:33
+atualizado_em: 10/10/2026 13:22
 relacionado: [Padrao de Robustez para Clientes de API Externa, Como Escrever Notas no Vault — Padrao Hiper-Didatico, Regra do Índice Obrigatório]
 ---
 
@@ -83,6 +83,13 @@ O padrão de segurança/estrutura de cliente de API (throttle, backoff, hierarqu
 | [[Conversao Para Decimal Sem Guarda de Nulo Quebrava Sincronizacao Sem Quantidade Nota]] | bug_conhecido | corrigido | 16/08/2026 | `_converter_para_decimal` em `sincronizacao_impostos_entrada.py` não checava `None` antes de converter — nota real sem `quantidade_nota` estourava `decimal.InvalidOperation`, crash não tratado. Achado ao replicar o cenário "crédito incompleto" nas 6 fórmulas de marketplace. Corrigido: `None` passa direto, sem tentar converter. |
 | [[Correcao de CST PIS e COFINS por NCM Fecha a Frente da Hidrolight e Outras Marcas]] | decisao | resolvida | 20/08/2026 | Outras marcas (além da HIDROLIGHT) com CST PIS/COFINS errado, corrigidas via tabela de referência (NCM Cadastro → CST PIS/COFINS) obtida com a contabilidade, aplicada por script de uso único em `openpyxl` (edição em-lugar, preserva formatação — versão anterior em `pandas.to_excel()` foi rejeitada pelo usuário por destruir formatação). Resultado real: 76 linhas corrigidas, 527 já corretas, 78 NCMs sem correspondência (incluindo NCM anômalo `'00000000'`). Em aberto: o que fazer com os 78 sem correspondência. Status: AGUARDANDO RETORNO DO ESCRITÓRIO DE CONTABILIDADE. |
 | [[Preenchimento de CEST na Planilha Samvale via Referencia EAN-NCM-CEST do JSON]] | decisao | ativa | 28/08/2026 | Campo CEST novo (só no JSON) precisa preencher a Coluna K de planilha pré-existente da Samvale, cruzando NCM (Coluna A)/EAN (Coluna C). Só Samvale por enquanto. 3 etapas: aba plana EAN_NCM_CEST; árvore NCM→CEST→EAN com células mescladas (indentação foi rejeitada) + coluna NF(s) com números reais de nota; cruzamento com regra de 3 cores (verde=EAN+NCM batem, amarelo=EAN bate/NCM diferente, cinza=EAN não encontrado). 2 bugs reais corrigidos (chave de JSON errada; CEST vazio "" tratado como grupo diferente de `None`). Etapas 1-2 validadas com dado real; Etapa 3 entregue, aguardando rodar contra a planilha real. |
+
+## Estoque_Full
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[API de Estoque do ERP Sysemp Precisa Ser Repensada e Alterada]] | decisao | ativa | 10/10/2026 | Decidido repensar a API de estoque do ERP: o Full da Sysemp (id 4) tem 153 unidades contra 3.797 no Mercado Livre; o Flex bate em 91,9% dos SKUs. |
+| [[listarAnaliseEstoqueFull - Estoque do ERP por local]] | investigação | em investigação | 08/10/2026 | Método novo da Sysemp (só Samvale) devolve estoque por produto e por local (ids 4, 2, 10, 1). Registra formato da resposta, significado dos locais e pendências com a Sysemp. |
 
 ## Relacionado
 
