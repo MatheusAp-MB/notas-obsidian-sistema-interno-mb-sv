@@ -137,20 +137,19 @@ poetry run python manage.py popular_banco --empresa samvale
 > [!info] Nem toda etapa de ML está ligada ainda
 > `popular_banco` tem 5 etapas relacionadas ao Mercado Livre. 4 delas (Anúncios ML, Dimensões Declaradas ML, Qualidade, Competição) já estão religadas e funcionando. A 5ª (Promoções ML) segue propositalmente desligada — é um assunto pausado à parte, sem relação com os 3 comandos deste tutorial.
 
-## Exemplo prático de ponta a ponta (dado real, Magazine, 26/08/2026)
+## Exemplo prático de coleta ponta a ponta
 
 ```bash
 poetry run python manage.py buscar_mlbs --empresa magazine
-# → 5.640 MLBs encontrados, 132,9s
-
 poetry run python manage.py buscar_detalhes --empresa magazine
-# → 5.906 registros (5.640 MLBs, 100%, 0 erros), 165,3s
-
-poetry run python manage.py buscar_dados_sku_completo --empresa magazine --skus F7908050719121.001
-# → 19 MLBs pro SKU testado (7 Base, 6 Simples, 6 Catálogo)
-
-poetry run python manage.py popular_banco --empresa MAGAZINE
-# → gauge de qualidade e status de competição aparecendo na tela do site, confirmado visualmente
+poetry run python manage.py buscar_dados_sku_completo --empresa magazine
+poetry run python manage.py popular_banco --empresa magazine
+```
+```bash
+poetry run python manage.py buscar_mlbs --empresa samvale
+poetry run python manage.py buscar_detalhes --empresa samvale
+poetry run python manage.py buscar_dados_sku_completo --empresa samvale
+poetry run python manage.py popular_banco --empresa samvale
 ```
 
 > [!success] Validação real, não só "o dado chegou"

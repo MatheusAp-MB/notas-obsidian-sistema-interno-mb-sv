@@ -3,7 +3,7 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 09/10/2026 18:56
+atualizado_em: 14/10/2026 08:56
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
@@ -40,6 +40,14 @@ Nível do mundo, não de contexto — assim como `Regras_de_Comportamento/`, nã
 |---|---|---|---|---|
 | [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] | tutorial | ativa | 17/08/2026 | Reescrito (17/08, 23h20) pra arquitetura permanente de 2 empresas: 2 bancos fixos (`sistema_interno_magazine`/`sistema_interno_samvale`), `migrate`/`createsuperuser` com `--database=`, e `iniciar_banco`/`popular_banco`/`sincronizar_impostos_entrada`/os 6 `calcular_grade_precificacao_*` com `--empresa=` obrigatório. **Atualizado 23h43:** Passo 11 ganhou o atalho `calcular_todas_as_grades_precificacao --empresa=X` (roda os 6 comandos de grade em sequência, validado nas 2 empresas), comandos individuais preservados. |
 | [[Tutorial - Gerar Relatorio de Impostos de Entrada da Samvale (SV) em Banco Temporario]] | tutorial | obsoleta | 17/08/2026 | **Aposentada em 17/08, 23h20**, movida pra `Tutoriais/Obsoletos/` (fora da pasta de tutoriais ativos) — substituída pela arquitetura permanente de 2 empresas (ver [[Checkpoint - Implementacao de Suporte Permanente a 2 Empresas (Roteamento por Sessao)]]). O processo manual descrito aqui (banco temporário, comentar/descomentar arquivo, token sobrescrito na mão) não deve mais ser seguido — usar `--empresa=SAMVALE` no [[Guia de Setup - Do Zero ao Primeiro Preco Calculado]] no lugar. Conteúdo mantido só como registro histórico. |
+
+## Checkpoints
+
+Nível do mundo, não de contexto — checkpoint que cobre várias frentes ao mesmo tempo mora direto na raiz do mundo (ver [[Estrutura de Pastas de um Mundo]]).
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Rotina Vira Botao - Auditoria Ponta a Ponta e Mapa de Execucao (14-10-2026)]] | checkpoint | em_andamento | 14/10/2026 | Auditoria ponta a ponta e mapa de 7 fases para as rotinas virarem botões (Registro de Execuções, Executor, dependências). Piloto: grade Magalu. Aguarda feedback de Matheus.|
 
 ## Agenda_Videos
 
