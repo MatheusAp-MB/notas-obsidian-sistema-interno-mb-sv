@@ -3,22 +3,43 @@ tipo: checkpoint
 dominio: 
 status: em_andamento
 criado: 14/10/2026
-atualizado_em: 14/10/2026 08:56
-relacionado: [Reducao de Comandos de Management e Rotina Vira Botao, Redesenho do Popular Banco - Fontes de Dados e Escopo, Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026), Barra de Progresso Real no Sincronizar com o Drive do Portal via Thread e Polling, Thread em Background Nao Herda a Empresa Ativa do EmpresaMiddleware (Threading Local), Decisao - Fluxo de Impostos de Saida Passa a 4 Comandos Auto-Suficientes, CST Isolado em Comando Proprio Como Fonte Unica, Decisao - Campo Frete do Fornecedor Sera Renomeado de frete_cif_fob para Frete Fornecedor e Vira Editavel na Tela, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Checkpoint - Frete Real da API Implementado (Tela, Banco de Dados e Comando de Coleta em Massa), Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre, Padrao de Robustez para Clientes de API Externa, Hospedagem em Nuvem - GCP vs AWS, Infraestrutura do Zero - Mudanca de Planos e Dominio, Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]
+atualizado_em: 16/10/2026 18:38
+relacionado: [Reducao de Comandos de Management e Rotina Vira Botao, Redesenho do Popular Banco - Fontes de Dados e Escopo, Reconstrucao Completa do Banco do Zero — Validacao de Ponta a Ponta Pos-Reforma OOP do Mercado Livre (27-09-2026), Barra de Progresso Real no Sincronizar com o Drive do Portal via Thread e Polling, Thread em Background Nao Herda a Empresa Ativa do EmpresaMiddleware (Threading Local), Decisao - Fluxo de Impostos de Saida Passa a 4 Comandos Auto-Suficientes, CST Isolado em Comando Proprio Como Fonte Unica, Decisao - Campo Frete do Fornecedor Sera Renomeado de frete_cif_fob para Frete Fornecedor e Vira Editavel na Tela, Orquestracao da Sincronizacao de Impostos de Entrada via XML, Sincronizacao Incremental com Watermark para Manifesto de Notas de Entrada, Checkpoint - Frete Real da API Implementado (Tela, Banco de Dados e Comando de Coleta em Massa), Checkpoint - Investigação da Comissão Real de Venda via API do Mercado Livre, Padrao de Robustez para Clientes de API Externa, Hospedagem em Nuvem - GCP vs AWS, Infraestrutura do Zero - Mudanca de Planos e Dominio, Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente, Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026), Checkpoint - Tela Arquivos de Referencia (14-10 a 16-10-2026), Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026), Checkpoint - Hub de Configuracoes (16-10-2026), Decisao - Fluxo em Duas Etapas e Uma Unica Copia no Drive, Decisao - Atualizar o Sistema Altera So a Empresa Ativa e o Frete Vira Espelho do Arquivo, Decisao - Busca Legal ao Atualizar - Expandir ou Substituir (Opcao B), Decisao - Gestao de APIs Mostra So a Empresa Ativa e Uma Conexao Por API, Decisao - Google Drive em Modo Testando e Renovacao de 7 Dias Por Botao, Decisao - Telas Mostram e Alteram So a Empresa Selecionada, Descoberta - Samvale Tinha 224 Linhas de Frete ML Que o Arquivo Nao Tem, Regra - O Maximo de Acoes Possiveis Sempre em Tela, Regra - Layout Fixo na Vertical e Fluido na Horizontal, Dois Computadores de Trabalho - Casa e Escritorio, Telas e Monitores dos Usuarios - Resolucoes de Referencia Para Desenhar o Sistema Interno V2]
 ---
 
 # Checkpoint - Rotina Vira Botão: Auditoria Ponta a Ponta e Mapa de Execução (14/10/2026)
 
 ## Última atualização
 
-**14/10/2026 08:56** — Auditoria ponta a ponta e mapa de execução entregues por Claude e registrados aqui, para não se perderem. **Nenhuma fase foi aprovada ainda**: Matheus vai dar feedback aos poucos e resolver por partes. **Nenhum código foi escrito para esta frente** até este momento (só leitura do código real, dos comandos, das URLs, das configurações e das notas do vault).
+**16/10/2026 18:38** — Registro retroativo no vault. Entre 14 e 16/10 foram construídas, **sem anotar aqui na hora**, partes desta frente por telas próprias e em ciclos pequenos: a tela **Arquivos de referência** (Grupo A, e o começo prático da Fase 3), a tela **Gestão de APIs** (Grupo F, conexões) e o **hub de Configurações**. Pelo que está registrado, a **Fase 0 (Registro de Execuções e Executor) e a Fase 1 (botões das grades) continuam sem código**, e o recálculo automático das grades afetadas ainda não foi feito. A **decisão 4 da seção 8 foi respondida** (Google Drive, sempre 1 cópia). As outras 7 decisões seguem sem resposta registrada. O resumo do que foi feito está na seção "Atualização de 16/10/2026" logo abaixo; a análise das seções 1 a 9 continua como foi escrita em 14/10 (não foi reescrita). A entrega original de 14/10 08:56 está na Linha do tempo.
 
 ## Resumo do estado atual
 
 O sistema ainda **não é autossuficiente sem o terminal**: a cadeia diária que abastece o banco e calcula as grades de precificação (ERP → Mercado Livre → impostos → grades) só roda por comandos de linha de comando, sem tela, sem ordem visível, sem memória do que já rodou e sem aviso de "está desatualizado". Esta nota guarda a análise completa (micro-problemas, soluções, visão macro, fluxo de uso, robustez) e o **mapa de execução em 7 fases**, para ser resolvido aos poucos, em ciclos curtos com confirmação antes de cada passo.
 
 > [!warning] Status: em_andamento
-> Análise entregue; **Fase 0 (fundação) ainda não iniciada**. Aguardando feedback de Matheus sobre as decisões listadas na seção "Decisões que são de Matheus". Sem código até a aprovação explícita dele.
+> Análise entregue; **Fase 0 (fundação) ainda não iniciada**. Em paralelo, partes do Grupo A, do Grupo F e da Fase 3 foram entregues por telas próprias (ver "Atualização de 16/10/2026"). Aguardando feedback de Matheus sobre as decisões restantes da seção "Decisões que são de Matheus".
+
+## Atualização de 16/10/2026: o que foi construído entre 14 e 16/10 (registro retroativo)
+
+**O QUÊ**: depois da auditoria de 14/10, Matheus e Claude não seguiram o mapa de 7 fases na ordem desenhada. Foram construindo, tela por tela e em ciclos pequenos (idealizar, entregar, ele testar de verdade), as partes que mais doíam. Isto aconteceu **sem anotar no vault**; esta seção conserta o buraco.
+
+**POR QUÊ importa**: quem ler só a análise acima vai achar que nada foi feito ("nenhuma fase iniciada"). Na prática, a entrada de arquivos e a gestão de conexões já viraram tela.
+
+| Parte do mapa | O que foi entregue | Estado em 16/10/2026 | Nota com o detalhe |
+|---|---|---|---|
+| Grupo A, começo da Fase 3 (entrada de arquivos) | Tela **Arquivos de referência**: os 6 arquivos (4 de frete, 2 da Busca Legal) ficam no Google Drive; auditoria completa antes do envio; envio ao Drive; "Ver arquivo"; "Baixar"; botão "Atualizar o sistema com o Drive", só da empresa selecionada | Frete validado nas 2 empresas; Busca Legal (Expandir e Substituir) entregue, **aguarda teste real** | [[Checkpoint - Tela Arquivos de Referencia (14-10 a 16-10-2026)]], [[Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026)]] |
+| Grupo F, começo da Fase 5 (conexões) | Tela **Gestão de APIs**: 7 conexões, teste de 1 chamada, resposta real em "Ver detalhes", Google Drive renovável por botão | Mercado Livre e Sysemp da Magazine, Claude e Agente testados ("Funcionando"); Drive renovado até 22/10/2026; faltam ML e Sysemp da Samvale e "Testar todas". O botão **Reconectar do Mercado Livre ainda não existe** (depende do domínio) | [[Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026)]] |
+| Navegação | **Hub de Configurações** na tela inicial (antes "Em breve"), de onde abrem as duas telas acima | Entregue, **aguarda conferência de Matheus** | [[Checkpoint - Hub de Configuracoes (16-10-2026)]] |
+
+**O que isto muda neste mapa (leitura rápida)**
+
+- **Decisão 4 (onde guardar os xlsx): respondida em 14/10.** Google Drive, sempre 1 cópia (cada envio substitui o anterior). Isto troca a recomendação original ("pasta fora do código na VM, últimas 5"). Ver [[Decisao - Fluxo em Duas Etapas e Uma Unica Copia no Drive]].
+- **Fase 3 começou na prática, só para a entrada de arquivos.** O botão "Atualizar" da Busca Legal já roda a cadeia de 4 passos dos impostos de saída, em dois modos: Expandir (nunca apaga) e Substituir (sistema igual à planilha, com prévia e confirmação). O arquivo de produtos do ERP **não** entrou: continua pela pasta, via `popular_banco`.
+- **Fases 0 e 1 não têm registro de código.** As telas novas têm histórico próprio (`AtualizacaoDoSistema` por empresa na tela de arquivos; `EventoIntegracao` na Gestão de APIs), não o Registro de Execuções nem o Executor desenhados aqui. Os botões de recálculo das grades (por produto, por marketplace, tudo) não existem. O ponto onde esta frente e a Fase 1 se encontram é o **recálculo automático das grades afetadas**, decidido em 15/10 e ainda não feito. Hoje o botão apenas **avisa** quando uma grade ficou com preço da tabela anterior.
+- **Decisão 3 (perfis de acesso)**: na Gestão de APIs, Matheus decidiu em 14/10 **não travar por usuário por ora**; permissões ficam para uma frente própria. Ver [[Decisao - Gestao de APIs Mostra So a Empresa Ativa e Uma Conexao Por API]].
+- **Regras novas de tela**, que valem para qualquer botão desta frente: [[Regra - O Maximo de Acoes Possiveis Sempre em Tela]] (a regra que originou os botões), [[Regra - Layout Fixo na Vertical e Fluido na Horizontal]] e [[Decisao - Telas Mostram e Alteram So a Empresa Selecionada]] (cada empresa age só no seu banco).
+- **Contexto de trabalho**: o desenvolvimento passou a ser no PC de casa, mas o código novo, pelo que foi observado, foi entregue na pasta do outro computador (**a confirmar com Matheus**). Ver [[Dois Computadores de Trabalho - Casa e Escritorio]].
 
 ## 1. Por que esta frente existe (o gatilho)
 
@@ -281,7 +302,7 @@ Um **cartão por assunto**, na linguagem do negócio (nunca nome de comando). Ca
 
 ## 7. Mapa de execução por fases (o que mudar e por quê)
 
-Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar → **confirmar** → Executar. **Nenhuma está iniciada.**
+Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar → **confirmar** → Executar. **Nenhuma está iniciada.** *(Atualização de 16/10/2026: partes da Fase 3, entrada de arquivos, e da Fase 5, status das conexões, foram entregues por telas próprias, fora deste desenho; ver "Atualização de 16/10/2026".)*
 
 | Fase | O que muda | Por quê |
 |---|---|---|
@@ -304,7 +325,7 @@ Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar
 | 1 | Motor: thread no servidor + estado no banco, ou processo worker separado | Thread + banco agora (worker separado é mais uma peça de infra para operar; revisar quando a VM apertar) | Aguardando |
 | 2 | Ao salvar o Frete Fornecedor: só avisar e oferecer o botão, ou recalcular sozinho | Só avisar + botão (o ML usa API; regra do clique explícito) | Aguardando |
 | 3 | Perfis: quem pode "Recalcular tudo" e "Conta inteira" | Restringir os globais; 1 produto aberto | Aguardando |
-| 4 | Onde guardar os xlsx enviados e quantas versões | Pasta fora do código na VM, últimas 5; cópia no Drive só se ele quiser | Aguardando |
+| 4 | Onde guardar os xlsx enviados e quantas versões | Pasta fora do código na VM, últimas 5; cópia no Drive só se ele quiser | **Respondida em 14/10:** Google Drive, 1 cópia (ver "Atualização de 16/10/2026") |
 | 5 | "Atualizar tudo" inclui as etapas de API? | Sim, sempre com estimativa e clique | Aguardando |
 | 6 | Nome e lugar da Central no menu | — (escolha dele) | Aguardando |
 | 7 | Aprovar o piloto com a Magalu | Sim, como primeiro ciclo | Aguardando |
@@ -326,6 +347,29 @@ Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar
 - Correção feita no caminho: o `popular_banco` tem **18 etapas ativas** (Claude havia dito 20 por engano durante a conversa).
 - **Divergência registrada**: o vault dizia que `popular_banco` "segue CLI"; a análise propõe "Atualizar tudo". Decisão fica com Matheus (item 8 das decisões).
 
+### 14/10/2026 — Grupo A decidido e Gestão de APIs nasce (registro retroativo, escrito em 16/10 18:38)
+
+- Matheus decidiu guardar os 6 arquivos de referência no Google Drive, sempre 1 cópia, em 2 etapas separadas (enviar, depois atualizar o sistema), com auditoria completa antes do envio. Isto respondeu a decisão 4 da seção 8. Ver [[Decisao - Fluxo em Duas Etapas e Uma Unica Copia no Drive]].
+- Depois do erro `invalid_grant` do Google Drive, pediu uma tela para reativar permissões sem terminal. Nasceu a **Gestão de APIs**, gerada direto no sistema ("chega de mockups soltos"). Ver [[Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026)]].
+- Da conversa saiu a regra "o máximo de ações possíveis sempre em tela" ([[Regra - O Maximo de Acoes Possiveis Sempre em Tela]]); o botão "Renovar autorização" do Drive foi o primeiro exemplo.
+
+### 15/10/2026 — Tela Arquivos de Referência: auditoria, envio e primeiro "Atualizar" (retroativo)
+
+- Matheus voltou a este plano (deixou a tela de Características de lado) e aprovou começar o Grupo A pela tela e pela auditoria do frete; depois a auditoria da Busca Legal; depois o envio ao Drive, validado nos 6 arquivos.
+- Primeiro botão "Atualizar o sistema com o Drive" (só frete, 2 empresas): as 4 tabelas "Já estavam em dia"; a Samvale tinha 224 linhas de frete ML que o arquivo não tem ([[Descoberta - Samvale Tinha 224 Linhas de Frete ML Que o Arquivo Nao Tem]]).
+- Decisões: o frete passa a espelhar o arquivo; datas nos cartões; as grades TikTok, Magalu e Amazon não mantêm preço antigo; as grades afetadas devem ser recalculadas automaticamente. Ver [[Decisao - Atualizar o Sistema Altera So a Empresa Ativa e o Frete Vira Espelho do Arquivo]]. O recálculo automático **ainda não foi feito**.
+
+### 16/10/2026 — Independência por empresa, Ver arquivo, Baixar, Busca Legal e hub de Configurações (retroativo)
+
+- Decidido que a tela mostra e altera só a empresa selecionada ([[Decisao - Telas Mostram e Alteram So a Empresa Selecionada]]). Entregues "Ver arquivo" e a independência; testados nas duas empresas (na Samvale saíram as 224 linhas).
+- Busca Legal no botão: Expandir (ciclo 1) e Substituir na opção B (ciclo 2, com prévia e confirmação), mais o botão "Baixar" como backup. Ver [[Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026)]] e [[Decisao - Busca Legal ao Atualizar - Expandir ou Substituir (Opcao B)]]. Aguardam teste real.
+- Hub de Configurações entregue ([[Checkpoint - Hub de Configuracoes (16-10-2026)]]).
+- Matheus passou a trabalhar com Claude no PC de casa, usando o do escritório só para consulta ([[Dois Computadores de Trabalho - Casa e Escritorio]]), e informou os monitores de referência ([[Telas e Monitores dos Usuarios - Resolucoes de Referencia Para Desenhar o Sistema Interno V2]]).
+
+### 16/10/2026 18:38 — Registro retroativo no vault
+
+Matheus notou que "fizemos muita coisa sem anotar nada" e pediu para voltar a registrar. Foram escritas 15 notas (checkpoints, decisões, regras, descoberta, conceitos), o índice foi atualizado e esta nota foi revista. O que foi escrito vem do histórico do que Matheus relatou e do código da pasta do V2; itens que não deu para conferir estão marcados como "a confirmar" nas notas de cada tela.
+
 ## Em aberto
 
 - [ ] Matheus dar feedback sobre as 8 decisões da seção 8.
@@ -335,6 +379,13 @@ Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar
 - [ ] Verificar como está o controle de perfis de acesso hoje (decisão 3).
 - [ ] Definir o domínio/endereço definitivo antes da Fase 5 (redirect do OAuth do ML).
 - [ ] Ligadas ao Frete Fornecedor (não são desta frente, mas dependem do terminal hoje): rodar `makemigrations` (responder `y` ao renomear `frete_cif_fob`) e `migrate` nos 2 bancos, e recalcular as grades das 2 empresas; remover depois o fallback de chave antiga em `precificacao/views/modal_comum.py`.
+- [x] Decisão 4 da seção 8 (onde guardar os xlsx): respondida em 14/10/2026, Google Drive, sempre 1 cópia.
+- [ ] Decisões 1, 2, 3, 5, 6, 7 e 8 da seção 8: sem resposta registrada (a 3 tem uma resposta parcial: sem trava por usuário na Gestão de APIs, por ora).
+- [ ] Matheus testar de verdade, Magazine primeiro e depois Samvale: o **Expandir** (impostos), o **Substituir** da Busca Legal (abrir a prévia, ler e cancelar na primeira vez) e o **hub de Configurações**. Ver [[Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026)]] e [[Checkpoint - Hub de Configuracoes (16-10-2026)]].
+- [ ] **Recálculo automático das grades afetadas**, só na empresa afetada (ciclos 3 e 4 do plano de 16/10). Decidido em 15/10, ainda não feito; é o encontro desta frente com a Fase 1.
+- [ ] Gestão de APIs: renovar o Drive antes de **22/10/2026**; testar ML e Sysemp da Samvale e o "Testar todas"; a chave do Claude vence em 13/11/2026. Ver [[Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026)]].
+- [ ] Levar o app `arquivos_referencia` para a pasta do V2 do PC de casa (commit e push no computador onde ele foi entregue, pull em casa; confirmar qual é). Ver [[Dois Computadores de Trabalho - Casa e Escritorio]].
+- [ ] Definir o destino do **arquivo de produtos do ERP** (upload com validação e prévia): hoje entra pela pasta, via `popular_banco`, fora dos 6 arquivos do Drive.
 - [ ] Quando uma fase for concluída, atualizar esta nota (linha do tempo + status) e a linha do índice.
 
 ## Relacionado
@@ -354,3 +405,18 @@ Cada fase é pequena, termina utilizável e segue o ciclo Idealizar → Planejar
 - [[Hospedagem em Nuvem - GCP vs AWS]]
 - [[Infraestrutura do Zero - Mudanca de Planos e Dominio]]
 - [[Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]]
+- [[Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026)]]
+- [[Checkpoint - Tela Arquivos de Referencia (14-10 a 16-10-2026)]]
+- [[Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026)]]
+- [[Checkpoint - Hub de Configuracoes (16-10-2026)]]
+- [[Decisao - Fluxo em Duas Etapas e Uma Unica Copia no Drive]]
+- [[Decisao - Atualizar o Sistema Altera So a Empresa Ativa e o Frete Vira Espelho do Arquivo]]
+- [[Decisao - Busca Legal ao Atualizar - Expandir ou Substituir (Opcao B)]]
+- [[Decisao - Gestao de APIs Mostra So a Empresa Ativa e Uma Conexao Por API]]
+- [[Decisao - Google Drive em Modo Testando e Renovacao de 7 Dias Por Botao]]
+- [[Decisao - Telas Mostram e Alteram So a Empresa Selecionada]]
+- [[Descoberta - Samvale Tinha 224 Linhas de Frete ML Que o Arquivo Nao Tem]]
+- [[Regra - O Maximo de Acoes Possiveis Sempre em Tela]]
+- [[Regra - Layout Fixo na Vertical e Fluido na Horizontal]]
+- [[Dois Computadores de Trabalho - Casa e Escritorio]]
+- [[Telas e Monitores dos Usuarios - Resolucoes de Referencia Para Desenhar o Sistema Interno V2]]

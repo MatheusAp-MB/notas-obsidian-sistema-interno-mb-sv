@@ -3,13 +3,22 @@ tipo: regra
 dominio: 
 status: ativa
 criado: 01/08/2026
-atualizado_em: 14/10/2026 08:56
+atualizado_em: 16/10/2026 18:38
 relacionado: [Regra do Índice Obrigatório, Estrutura de Pastas de um Mundo]
 ---
 
 # Índice — Sistema Interno
 
 Índice obrigatório deste mundo — 1 linha de resumo por nota, agrupado por contexto/área. Atualizado junto da autorização de escrita de cada nota (ver [[Regra do Índice Obrigatório]]).
+
+## Regras
+
+Nível do mundo, não de contexto — regra de design que vale para qualquer tela do V2 (ver [[Estrutura de Pastas de um Mundo]]).
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Regra - Layout Fixo na Vertical e Fluido na Horizontal]] | regra | ativa | 16/10/2026 | Toda tela do V2 tem layout fixo (nada muda de lugar ao abrir a barra lateral) e usa a largura toda: fluida na horizontal, rígida na vertical. |
+| [[Regra - O Maximo de Acoes Possiveis Sempre em Tela]] | regra | ativa | 16/10/2026 | Tudo o que o sistema consegue fazer vira botão em tela, sem terminal nem script; o que só o site de outro serviço faz vira botão-atalho. |
 
 ## Decisoes
 
@@ -31,6 +40,8 @@ Nível do mundo, não de contexto — mesma lógica de `Regras_de_Comportamento/
 | [[Preco Gera Margem x Margem Gera Preco - Direcoes Opostas Entre a Planilha do Superior e o Goal Seek do Sistema]] | conceito | ativa | 11/09/2026 | Planilha do superior calcula Preço→Margem (preço é entrada, margem é resultado); o sistema calcula Margem→Preço via Goal Seek (margem é entrada, preço é a incógnita resolvida). Coluna de preço "fixa" na planilha do superior pode já ser resultado de um Goal Seek dele, não necessariamente dado bruto de entrada. |
 | [[Sistema Interno V2 Sera a Fonte da Verdade - Papel, Motivo e Limitacao de Cada Fonte de Precificacao]] | conceito | ativa | 12/09/2026 | Papel de cada fonte de precificação: planilha do superior (referência limitada pelo Excel, será abandonada), Sistema Interno V2 (nasceu para resolver margem→preço, vai substituir 100% a planilha do superior), planilha da We Stack (não é cálculo paralelo, é documento de ensino para um 3º terceiro). DADO EXTREMAMENTE IMPORTANTE: uma vez validado pelo superior e pelo financeiro/tributário, o Sistema Interno V2 vira a fonte da verdade — dita se a We Stack está correta (não o contrário) e assume 100% a precificação. |
 | [[Sistema Interno V2 e Produto Real - Padrao Maximo de Qualidade, Documentacao, Validacao e Resolucao Real do Cliente]] | conceito | ativa | 27/09/2026 | DADO EXTREMAMENTE IMPORTANTE: por instrução direta do superior de Matheus ("pense que você é dono de uma empresa de tecnologia... e precisa fazer as pessoas pagarem por ele"), o sistema passa a ser tratado como produto real, não mais "projeto interno válido". 4 pilares valem sempre: qualidade extrema, documentação completa, validação real com dado real, resolução de verdade do problema do cliente. Matheus pediu explicitamente que Claude cobre os 2 lados (dele e de Claude) nesses 4 pontos, sem esperar ser provocado. **Atualizado 03h08:** método de trabalho confirmado — monólito está certo, monólito malcuidado não; polimento (remover ambiguidade/duplicata/código morto) acontece aos poucos, por frente tocada, nunca como reescrita única; 5 alvos concretos já listados (`importar_promocoes_ml` morto, scripts de origem do Frete/Comissão Real ainda soltos, `validar_classificacao` abandonado, renomeios `DEV_` não aplicados, convenção de nome inconsistente entre orquestradores). Chega junto com 3 mudanças estruturais em curso (nuvem ~2 semanas, webhook do ML, microsserviços) — microsserviços é decisão pedida a Matheus, não iniciativa dele, e fica deliberadamente fora de escopo por ora. |
+| [[Telas e Monitores dos Usuarios - Resolucoes de Referencia Para Desenhar o Sistema Interno V2]] | conceito | ativa | 16/10/2026 | Monitores de referência: casa 2560x1440 a 150% (útil ≈1707x960); escritório 1280x1024 e 1440x900 a 100%. Telas novas validadas nos 3 tamanhos; o menor manda. |
+| [[Dois Computadores de Trabalho - Casa e Escritorio]] | conceito | ativa | 16/10/2026 | Desde 16/10 o trabalho com Claude é no PC de casa; o do escritório (AnyDesk) só consulta ML e ERP. Código viaja por git; o V2 de casa ainda não tem o app `arquivos_referencia`. |
 
 ## Tutoriais
 
@@ -47,7 +58,7 @@ Nível do mundo, não de contexto — checkpoint que cobre várias frentes ao me
 
 | Nota | Tipo | Status | Data | Resumo |
 |---|---|---|---|---|
-| [[Checkpoint - Rotina Vira Botao - Auditoria Ponta a Ponta e Mapa de Execucao (14-10-2026)]] | checkpoint | em_andamento | 14/10/2026 | Auditoria ponta a ponta e mapa de 7 fases para as rotinas virarem botões (Registro de Execuções, Executor, dependências). Piloto: grade Magalu. Aguarda feedback de Matheus.|
+| [[Checkpoint - Rotina Vira Botao - Auditoria Ponta a Ponta e Mapa de Execucao (14-10-2026)]] | checkpoint | em_andamento | 14/10/2026 | Auditoria e mapa de 7 fases para as rotinas virarem botões; piloto: grade Magalu. **Atualizado 16/10 18h38:** Gestão de APIs, Arquivos de referência e hub de Configurações já entregues na prática (partes da Fase 3); Fases 0 e 1 não iniciadas; onde guardar os xlsx foi decidido (Drive, 1 cópia). |
 
 ## Agenda_Videos
 
@@ -115,6 +126,7 @@ Nível do mundo, não de contexto — checkpoint que cobre várias frentes ao me
 | [[Fim do Fallback Silencioso pro Banco Default e Padronizacao de --empresa em Minusculo em Todo Comando]] | decisao | concluida | 27/09/2026 | `obter_alias_banco_ativo()` levantava `None` (fallback silencioso pro banco da Magazine) quando nenhuma empresa ativa era definida — agora levanta `EmpresaNaoDefinidaError`. `--empresa` padronizado como minúsculo, obrigatório, sem a conveniência de "rodar as 2 empresas" — os 3 comandos do Mercado Livre (únicos ainda fora do padrão `ComandoComEmpresa`) migrados junto. Validado: suíte de teste (7/7), teste negativo do argumento, e os 2 bancos remontados do zero com o formato novo. |
 | [[Comando Nativo migrate Do Django Cai Silenciosamente no Banco Default Sem --database Obrigatorio]] | bug_conhecido | corrigido | 27/09/2026 | Mesmo depois da padronização de `--empresa`, o comando NATIVO `migrate` (fora do padrão `ComandoComEmpresa`) continuava rodando sem `--database` e caindo silenciosamente no alias `default` (== banco da Magazine, config idêntica). CORRIGIDO com override via mixin `ExigirDatabaseExplicito` que torna `--database` obrigatório — validado que não quebra o bootstrap de banco de teste do pytest-django (que sempre passa `database=` explícito). |
 | [[Duvida - Estender ExigirDatabaseExplicito aos Outros 10 Comandos Nativos do Django com Risco de --database Silencioso]] | duvida | em_aberto | 27/09/2026 | O fix do `migrate` resolve só esse comando — outros 10 comandos nativos do Django (`flush`, `dbshell`, `loaddata`, `dumpdata`, `showmigrations`, `sqlmigrate`, `createcachetable`, `sqlflush`, `sqlsequencereset`, `inspectdb`) aceitam `--database` com o mesmo risco de fallback silencioso. `flush` é o mais crítico — apaga todo o dado. Ainda não decidido se/quais estender. |
+| [[Decisao - Telas Mostram e Alteram So a Empresa Selecionada]] | decisao | concluida | 16/10/2026 | Gestão de APIs e Arquivos de referência mostram só a empresa selecionada, e o botão de atualizar altera só o banco dela; itens compartilhados aparecem nas duas. |
 
 ## Precificacao
 
@@ -220,6 +232,37 @@ Contexto novo (aberto em 01/10/2026) — leitura e, no futuro, correção das "C
 | [[Checkpoint - Investigação da API de Atributos do Mercado Livre]] | checkpoint | em_andamento | 01/10/2026 | Bloco "Características principais" = grupo MAIN de `/categories/{id}/technical_specs/input`. Fase 1 só lê via API; Fase 2 corrigirá via API; escala acima de 4.000 anúncios. |
 | [[Checkpoint - Consolidação por SKU e Cobertura do ERP (01-10-2026)]] | checkpoint | em_andamento | 01/10/2026 | Ficha é do SKU, não da categoria. 3.993 MLBs elegíveis, 1.586 sem Produto no ERP (98,7% pausados); base 78% pausada. Fluxo por JSON depois superado. |
 | [[Checkpoint - Planilha Unica para a LLM e Primeira Rodada Completa da MB (01-10-2026)]] | checkpoint | em_andamento | 01/10/2026 | JSON abandonado; gerador monta Excel único por SKU. MB completa: 1.577 SKUs, 7.964 linhas, 24 s, 0 falhas. Marca do ERP é a fonte da verdade; escopo e regra de Modelo em aberto. |
+
+## Gestao_de_APIs
+
+Contexto novo (aberto em 14/10/2026) — tela que mostra e testa as 7 conexões do sistema (Google Drive, Claude, Mercado Livre e Sysemp das 2 empresas, agente). Fica em `03_Sistema_Interno/` porque é uma tela do Sistema Interno V2.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Tela Gestao de APIs (14-10 a 16-10-2026)]] | checkpoint | em_andamento | 16/10/2026 | 7 conexões com teste de 1 chamada; Google Drive renovável por botão (válido até 22/10/2026). Faltam testar Mercado Livre e Sysemp da Samvale e o "Testar todas". |
+| [[Decisao - Gestao de APIs Mostra So a Empresa Ativa e Uma Conexao Por API]] | decisao | concluida | 16/10/2026 | Um cartão por API (Drive unificado), só a empresa ativa mais as compartilhadas, TikTok removido, resposta real da API em "Ver detalhes" sem segredos. |
+| [[Decisao - Google Drive em Modo Testando e Renovacao de 7 Dias Por Botao]] | decisao | ativa | 16/10/2026 | App do Google em modo Testando (autorização vence em 7 dias): não publicar agora; renovar por botão em janela pequena. Só o localhost funciona. |
+
+## Arquivos_de_Referencia
+
+Contexto novo (aberto em 14/10/2026) — tela que guarda no Google Drive os 6 arquivos de referência (4 de frete, 2 da Busca Legal) e atualiza o sistema a partir deles. Fica em `03_Sistema_Interno/` porque usa os bancos do Sistema Interno V2.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Tela Arquivos de Referencia (14-10 a 16-10-2026)]] | checkpoint | em_andamento | 16/10/2026 | Auditoria, envio, ver, baixar e atualizar o sistema só da empresa ativa. Frete validado nas duas empresas; Busca Legal aguarda teste real; falta recalcular as grades. |
+| [[Checkpoint - Busca Legal no Botao Atualizar - Expandir e Substituir (16-10-2026)]] | checkpoint | em_andamento | 16/10/2026 | Expandir (padrão, nunca apaga) e Substituir (sistema igual à planilha, com prévia, caixa de confirmação e trava de MD5) entregues em 16/10; aguardam teste real. |
+| [[Decisao - Fluxo em Duas Etapas e Uma Unica Copia no Drive]] | decisao | concluida | 16/10/2026 | Os 6 arquivos ficam no Drive, sempre 1 cópia; 2 etapas (conferir e enviar, depois atualizar o sistema); auditoria antes do envio; nada baixado para o servidor. |
+| [[Decisao - Atualizar o Sistema Altera So a Empresa Ativa e o Frete Vira Espelho do Arquivo]] | decisao | em_andamento | 16/10/2026 | O frete espelha o arquivo (o que ele não tem sai), cartões com datas, só a empresa selecionada muda. Falta o recálculo automático das grades afetadas. |
+| [[Decisao - Busca Legal ao Atualizar - Expandir ou Substituir (Opcao B)]] | decisao | em_andamento | 16/10/2026 | Expandir (padrão) ou Substituir na opção B: sistema literalmente igual à planilha, apagando o que ela não tem, com janela listando tudo que será afetado. |
+| [[Descoberta - Samvale Tinha 224 Linhas de Frete ML Que o Arquivo Nao Tem]] | descoberta | ativa | 16/10/2026 | Frete ML: Magazine bate com o arquivo (480 linhas); Samvale tinha 224 a mais. Removidas pelo espelho em 16/10; origem não investigada; grade ML da Samvale sem recálculo. |
+
+## Configuracoes
+
+Contexto novo (aberto em 16/10/2026) — página-hub de Configurações que reúne as telas de ajuste do sistema. Fica em `03_Sistema_Interno/` porque é parte do Sistema Interno V2.
+
+| Nota | Tipo | Status | Data | Resumo |
+|---|---|---|---|---|
+| [[Checkpoint - Hub de Configuracoes (16-10-2026)]] | checkpoint | em_andamento | 16/10/2026 | Card Configurações deixou de ser "Em breve": abre página com Gestão de APIs e Arquivos de Referência (Controle de Usuários em breve). Aguarda conferência de Matheus. |
 
 ## Relacionado
 
